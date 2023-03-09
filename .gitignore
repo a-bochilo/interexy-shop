@@ -1,0 +1,17 @@
+<<<<<<< HEAD
+# dependencies
+*/node_modules
+=======
+# testing
+/coverage
+
+# production
+/server/dist
+
+# misc
+server/.env
+server/.development.env
+server/.production.env
+
+npm-debug.log*
+========
