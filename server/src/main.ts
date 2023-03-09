@@ -9,7 +9,7 @@ const start = async () => {
     const swagger = new DocumentBuilder()
         .setTitle('Template Nest App')
         .setDescription('Some description')
-        .setVersion('1.0.0')
+        .setVersion('0.0.1')
         .build();
 
     const document = SwaggerModule.createDocument(app, swagger);
