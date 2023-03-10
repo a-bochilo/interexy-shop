@@ -1,6 +1,7 @@
 <<<<<<< HEAD
 # dependencies
 */node_modules
+node_modules
 =======
 # testing
 /coverage
@@ -12,6 +13,6 @@
 */.env
 */.development.env
 */.production.env
-
+*/package-lock.json
 npm-debug.log*
 ========
