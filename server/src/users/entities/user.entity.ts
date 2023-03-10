@@ -6,7 +6,6 @@ import { UUIDEntity } from "../../shared/entities/uuid.entity";
 
 // ========================== Enums ==========================
 import { UserRoles } from "../../shared/types/user-roles.enum";
-import { UserStatuses } from "../enums/user-statuses.enum";
 
 @Entity({ name: "users" })
 export class UserEntity extends UUIDEntity {
@@ -25,8 +24,8 @@ export class UserEntity extends UUIDEntity {
     @Column({ name: "role_type" })
     roleType!: UserRoles;
 
-    @Column({ name: "role_type", enum: UserStatuses })
-    status!: UserStatuses;
+    @Column({ name: "is_active" })
+    isActive!: boolean;
 
     @ManyToOne(() => RoleEntity)
     @JoinColumn({ name: "role_id", referencedColumnName: "id" })
