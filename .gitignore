@@ -12,6 +12,7 @@
 */.env
 */.development.env
 */.production.env
+*/package-lock.json
 
 npm-debug.log*
 ========

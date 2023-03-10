@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import { DataSourceOptions } from "typeorm";
-
+import { $npmConfigName1678367706850 } from '../../migrations/1678367706850-$npm_config_name';
+import { $npmConfigName1678370951605 } from '../../migrations/1678370951605-$npm_config_name';
 const databaseConfig: DataSourceOptions = {
     type: 'postgres',
     host: process.env.POSTGRES_HOST,
@@ -9,7 +10,10 @@ const databaseConfig: DataSourceOptions = {
     password: process.env.POSTGRES_PASSWORD,
     database: process.env.POSTGRES_DB,
     entities: [],
-    migrations: [],
+    migrations: [
+        $npmConfigName1678367706850, 
+        $npmConfigName1678370951605,
+    ],
     migrationsTableName: "migrations_history",
     migrationsRun: false,
 }
