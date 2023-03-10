@@ -1,6 +1,6 @@
 
 export class UserDetailsDto {
     firstname  !: string;
-    secondname !: string;
+    lastname !: string;
     middlename?: string;
 }

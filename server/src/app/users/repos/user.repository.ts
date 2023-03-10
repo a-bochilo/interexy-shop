@@ -15,13 +15,20 @@ export class UserRepository extends Repository<UserEntity> {
     }
     
     async createUser(dto: CreateUserDto) {
-        console.log(dto)
         const user = new UserEntity();
         Object.assign(user, dto);
-        console.log(user)
-        const newUser = await this.save(user);
-        console.log(newUser);
-        return newUser;
+        const newUser = await this.create({
+            created: new Date(),
+            updated: new Date(),
+            email: dto.email,
+            password: dto.password,
+            role: dto.role,
+            roleType: dto.role.type,
+            details: dto.details,
+            isActive: true,
+            phone: dto.phone
+        })
+        return this.save(newUser);
     }
 
     async getAll() {

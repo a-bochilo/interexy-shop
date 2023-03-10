@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne, } from "typeorm";
 
 // ========================== Entities ==========================
 //import { RoleEntity } from "../../roles/entities/user-role.entity";
@@ -6,8 +6,8 @@ import { UUIDEntity } from "../../../shared/entities/uuid.entity";
 
 // ========================== Enums ==========================
 import { UserRoles } from "../../../shared/types/user-roles.enum";
-import { RoleEntity } from "src/app/roles/entities/role.entity";
 import { UserDetailsEntity } from "./user-details.entity";
+import { RoleEntity } from "../../roles/entities/role.entity";
 
 @Entity({ name: "users" })
 export class UserEntity extends UUIDEntity {
@@ -31,7 +31,7 @@ export class UserEntity extends UUIDEntity {
     roleType!: UserRoles;
 
     @OneToOne(() => UserDetailsEntity)
-    @JoinColumn({name: "details_id"})
+    @JoinColumn({name: "details"})
     details: UserDetailsEntity;
 
     @ManyToOne(() => RoleEntity, (role) => role.users)

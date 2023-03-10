@@ -4,8 +4,7 @@ import { IsNotEmpty, IsEmail, IsString } from "class-validator";
 import { UserDetailsDto } from "./user-details.dto";
 
 // ========================== Entities ==========================
-import { RoleEntity } from "src/app/roles/entities/role.entity";
-import { UUIDDto } from "src/shared/dtos/uuid.dto";
+import { RoleEntity } from "../../roles/entities/role.entity";
 
 export class CreateUserDto {
     @IsNotEmpty()
@@ -16,7 +15,9 @@ export class CreateUserDto {
     @IsString()
     readonly password: string;
 
-    detailsId?: UserDetailsDto;
+    phone: string;
+
+    details: UserDetailsDto;
 
     role?: RoleEntity;
 

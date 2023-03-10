@@ -13,7 +13,7 @@ import { UserRoles } from "../../../shared/types/user-roles.enum";
 
 // ========================== Entities & DTO's ==========================
 import { UserEntity } from "../entities/user.entity";
-import { UUIDDto } from "src/shared/dtos/uuid.dto";
+import { UUIDDto } from "../../../shared/dtos/uuid.dto";
 import { ApiProperty } from "@nestjs/swagger";
 
 export class UserSessionDto extends UUIDDto {

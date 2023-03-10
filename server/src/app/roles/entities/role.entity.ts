@@ -1,14 +1,14 @@
-import { Column, Entity, JoinColumn, OneToMany } from "typeorm";
+import { Column, Entity, OneToMany, } from "typeorm";
 
 // ========================== Entities ==========================
-import { UserEntity } from "../../users/entities/user.entity";
 import { IDEntity } from "../../../shared/entities/id.entity";
 
 // ========================== Enums ==========================
 import { UserRoles } from "../../../shared/types/user-roles.enum";
 import { UserPermissions } from "../../../shared/types/user-permissions.enum";
+import { UserEntity } from "../../users/entities/user.entity";
 
-@Entity({ name: "role" })
+@Entity({ name: "user_roles" })
 export class RoleEntity extends IDEntity {
 
     @Column({ name: "type", enum: UserRoles })

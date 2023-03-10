@@ -7,6 +7,9 @@ import { UserEntity } from "./entities/user.entity";
 import { UserRepository } from "./repos/user.repository";
 import { UserController } from "./user.controller";
 import { UserService } from "./user.service";
+import { RoleService } from "../roles/role.service";
+import { RoleRepository } from "../roles/repos/role.repository";
+import { UserDetailsRepository } from "./repos/user-details.repository";
 
 @Module({
     imports: [
@@ -15,8 +18,11 @@ import { UserService } from "./user.service";
     ],
     controllers: [UserController],
     providers: [
+        RoleService,
+        RoleRepository,
         UserService,
         UserRepository,
+        UserDetailsRepository,
     ],
     exports: [UserService],
 })

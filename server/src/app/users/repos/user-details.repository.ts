@@ -14,14 +14,14 @@ export class UserDetailsRepository extends Repository<UserDetailsEntity> {
         super(userDetailsRepository.target, userDetailsRepository.manager, userDetailsRepository.queryRunner);
     }
 
-    
-
-    async createUserDetails(
-        userDetails: UserDetailsDto
-    ): Promise<UserDetailsEntity> {
-        const newUserDetails = new UserDetailsEntity();
-        Object.assign(newUserDetails, userDetails);
-
-        return await this.save(newUserDetails);
+    async createUserDetails(userDetails: UserDetailsDto) {
+        const newDetails = await this.create({
+            created: new Date(),
+            updated: new Date(),
+            firstname: userDetails.firstname,
+            lastname: userDetails.lastname,
+            middlename: userDetails.middlename,
+        })
+        return await this.save(newDetails);
     }
 }

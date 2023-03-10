@@ -8,6 +8,7 @@ import { CreateRoleDto } from "../dtos/create-role.dto";
 
 // ========================== Entities ==========================
 import { RoleEntity } from "../entities/role.entity";
+import { UserRoles } from "src/shared/types/user-roles.enum";
 
 @Injectable()
 export class RoleRepository extends Repository<RoleEntity> {
@@ -18,8 +19,23 @@ export class RoleRepository extends Repository<RoleEntity> {
     }
 
     async createRole(createRoleDto: CreateRoleDto): Promise<RoleEntity> {
-        const newRole = new RoleEntity();
-        Object.assign(newRole, createRoleDto);
-        return await this.save(newRole);
+        const role = this.create({
+            created: new Date(),
+            updated: new Date(),
+            name: createRoleDto.name,
+            type: createRoleDto.type,
+            permissions: createRoleDto.permissions,
+        })
+        return await this.save(role);
+    }
+
+    async getRoleByType(roleType: UserRoles) {
+        return await this.findOne({
+            where: { type: roleType },
+        })
+    }
+
+    async getAll() {
+        return await this.find();
     }
 }

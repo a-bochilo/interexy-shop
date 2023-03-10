@@ -2,12 +2,12 @@ import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 
 // ========================== Security ==========================
-import { SecurityModule } from "src/security/security.module";
+import { SecurityModule } from "../security/security.module";
 
 // ========================== Entities ==========================
-import { UserEntity } from "src/user/entities/user.entity";
-import { UserDetailsEntity } from "src/user/entities/user-details.entity";
-import { RoleEntity } from "./role.entity";
+import { UserDetailsEntity } from "../users/entities/user-details.entity";
+import { UserEntity } from "../users/entities/user.entity";
+import { RoleEntity } from "./entities/role.entity";
 
 // ========================== Repos ==========================
 import { RoleRepository } from "./repos/role.repository";
@@ -35,4 +35,4 @@ import { UserService } from "../users/user.service";
     ],
     exports: [RoleService],
 })
-export class RoleModule {}
+export class RoleModule { }
