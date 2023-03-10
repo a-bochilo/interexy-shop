@@ -8,8 +8,9 @@ import { IDEntity } from "../../../shared/entities/id.entity";
 import { UserRoles } from "../../../shared/types/user-roles.enum";
 import { UserPermissions } from "../../../shared/types/user-permissions.enum";
 
-@Entity({ name: "user_roles" })
+@Entity({ name: "role" })
 export class RoleEntity extends IDEntity {
+
     @Column({ name: "type", enum: UserRoles })
     type: UserRoles;
 
@@ -19,7 +20,6 @@ export class RoleEntity extends IDEntity {
     @Column("text", { name: "permissions", array: true })
     permissions: UserPermissions[];
 
-    @OneToMany(() => UserEntity, (user) => user.userRole)
-    @JoinColumn({ name: "id", referencedColumnName: "role_id" })
-    users?: UserEntity[];
+    @OneToMany(() => UserEntity, (user) => user.id)
+    users: UserEntity[];
 }

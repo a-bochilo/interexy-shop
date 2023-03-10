@@ -19,23 +19,23 @@ export class $npmConfigName1678357923542 implements MigrationInterface {
     public async down(queryRunner: QueryRunner): Promise<void> {}
 }
 
-// const getRoleColumnFromUsers = () => {
-//     return new TableColumn({
-//         name: 'user_id',
-//         type: 'uuid',
-//     })
-// }
+const getRoleColumnFromUsers = () => {
+    return new TableColumn({
+        name: 'user_id',
+        type: 'uuid',
+    })
+}
 
-// const getRoleFKFromUsers = () => {
-//     return new TableForeignKey({
-//         name: "FK_role_user_id",
-//         columnNames: ["user_id"],
-//         referencedTableName: "users",
-//         referencedColumnNames: ["id"],
-//         onDelete: "RESTRICT",
-//         onUpdate: "RESTRICT",
-//     })
-// }
+const getRoleFKFromUsers = () => {
+    return new TableForeignKey({
+        name: "FK_role_user_id",
+        columnNames: ["user_id"],
+        referencedTableName: "users",
+        referencedColumnNames: ["id"],
+        onDelete: "RESTRICT",
+        onUpdate: "RESTRICT",
+    })
+}
 
 const getUserDetails = () => {
     return new Table({

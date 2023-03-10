@@ -17,6 +17,7 @@ import { UUIDDto } from "src/shared/dtos/uuid.dto";
 import { ApiProperty } from "@nestjs/swagger";
 
 export class UserSessionDto extends UUIDDto {
+    
     @ApiProperty({
         description: "User email",
     })
@@ -58,7 +59,7 @@ export class UserSessionDto extends UUIDDto {
         dto.email = entity.email;
         dto.role_id = entity.roleId;
         dto.role_type = entity.roleType;
-        dto.permissions = entity.userRole.permissions;
+        //dto.permissions = entity.userRole.permissions;
 
         return dto;
     }
@@ -75,7 +76,7 @@ export class UserSessionDto extends UUIDDto {
         outputDto.email = dto.email;
         outputDto.role_id = dto.role_id;
         outputDto.role_type = dto.role_type;
-        outputDto.permissions = dto.permissions;
+        //outputDto.permissions = dto.permissions;
 
         return dto;
     }

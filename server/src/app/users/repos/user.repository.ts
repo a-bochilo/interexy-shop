@@ -4,18 +4,27 @@ import { Repository } from "typeorm";
 
 // ========================== Entities & DTO's ==========================
 import { UserEntity } from "../entities/user.entity";
+import { CreateUserDto } from "../dtos/create-user.dto";
 
 @Injectable()
-export class UserRepository {
+export class UserRepository extends Repository<UserEntity> {
     constructor(
-        @InjectRepository(UserEntity)
-        private readonly userRepository: Repository<UserEntity>
-    ) {}
+        @InjectRepository(UserEntity) userRepository: Repository<UserEntity>,
+    ) {
+        super(userRepository.target, userRepository.manager, userRepository.queryRunner);
+    }
+    
+    async createUser(dto: CreateUserDto) {
+        console.log(dto)
+        const user = new UserEntity();
+        Object.assign(user, dto);
+        console.log(user)
+        const newUser = await this.save(user);
+        console.log(newUser);
+        return newUser;
+    }
 
-    async getUserWithRoleById(id: string): Promise<UserEntity> {
-        return await this.userRepository.findOne({
-            where: { id },
-            relations: ["userRole"],
-        });
+    async getAll() {
+        return this.find();
     }
 }
