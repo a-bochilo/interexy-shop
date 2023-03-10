@@ -11,8 +11,8 @@ import { Reflector } from "@nestjs/core";
 import { SecurityService } from "../security.service";
 
 // ========================== Types ==========================
-import { UserPermissions } from "../../shared/types/user-permissions.enum";
-import { IRequest } from "../../shared/types/request.interface";
+import { UserPermissions } from "../../../shared/types/user-permissions.enum";
+import { IRequest } from "../../../shared/types/request.interface";
 
 @Injectable()
 export class RolesGuard implements CanActivate {

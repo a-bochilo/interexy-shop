@@ -8,8 +8,8 @@ import {
 } from "class-validator";
 
 // ========================== Types ==========================
-import { UserPermissions } from "../../shared/types/user-permissions.enum";
-import { UserRoles } from "../../shared/types/user-roles.enum";
+import { UserPermissions } from "../../../shared/types/user-permissions.enum";
+import { UserRoles } from "../../../shared/types/user-roles.enum";
 
 // ========================== Entities & DTO's ==========================
 import { UserEntity } from "../entities/user.entity";

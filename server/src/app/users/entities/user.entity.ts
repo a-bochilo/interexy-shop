@@ -2,10 +2,10 @@ import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
 
 // ========================== Entities ==========================
 import { RoleEntity } from "../../roles/entities/user-role.entity";
-import { UUIDEntity } from "../../shared/entities/uuid.entity";
+import { UUIDEntity } from "../../../shared/entities/uuid.entity";
 
 // ========================== Enums ==========================
-import { UserRoles } from "../../shared/types/user-roles.enum";
+import { UserRoles } from "../../../shared/types/user-roles.enum";
 
 @Entity({ name: "users" })
 export class UserEntity extends UUIDEntity {

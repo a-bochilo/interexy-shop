@@ -2,11 +2,11 @@ import { Column, Entity, JoinColumn, OneToMany } from "typeorm";
 
 // ========================== Entities ==========================
 import { UserEntity } from "../../users/entities/user.entity";
-import { IDEntity } from "src/shared/entities/id.entity";
+import { IDEntity } from "../../../shared/entities/id.entity";
 
 // ========================== Enums ==========================
-import { UserRoles } from "../../shared/types/user-roles.enum";
-import { UserPermissions } from "src/shared/types/user-permissions.enum";
+import { UserRoles } from "../../../shared/types/user-roles.enum";
+import { UserPermissions } from "../../../shared/types/user-permissions.enum";
 
 @Entity({ name: "user_roles" })
 export class RoleEntity extends IDEntity {
