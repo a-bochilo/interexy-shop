@@ -4,6 +4,7 @@ import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { ProductsRepository } from "./repos/products.repository";
 import { ProductsDetailsRepository } from "./repos/product-details.repository";
 import { ProudctEntity } from "./entities/product.entity";
+import { ProudctDetailsEntity } from "./entities/product-details.entity";
 
 // ========================== Services ==========================
 
@@ -46,5 +47,13 @@ export class ProductsService {
 
     async getAllProducts(): Promise<ProudctEntity[]> {
         return await this.productsRepository.getAllProducts();
+    }
+
+    async getProductDetails(productId: string): Promise<ProudctDetailsEntity> {
+        const product = await this.productsRepository.getProductById(productId);
+
+        return await this.productsDetailsRepository.getProductDetailsById(
+            product.productsDetailsId
+        );
     }
 }

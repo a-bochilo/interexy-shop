@@ -25,15 +25,11 @@ export class ProductsDetailsRepository {
         return await this.productDetailsRepository.save(newProductsDetails);
     }
 
-    async getProductDetails(
-        productDetails: ProductDetailsDto | ProudctDetailsEntity
+    async getProductDetailsById(
+        detailsId: string
     ): Promise<ProudctDetailsEntity> {
-        const newProductsDetails = new ProudctDetailsEntity();
-
-        Object.assign(newProductsDetails, productDetails);
-        newProductsDetails.created = new Date();
-        newProductsDetails.updated = new Date();
-
-        return await this.productDetailsRepository.save(newProductsDetails);
+        return await this.productDetailsRepository.findOne({
+            where: { id: detailsId },
+        });
     }
 }

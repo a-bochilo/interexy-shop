@@ -13,6 +13,12 @@ export class ProductsRepository {
         private readonly productsRepository: Repository<ProudctEntity>
     ) {}
 
+    async getProductById(productId: string): Promise<ProudctEntity> {
+        return await this.productsRepository.findOne({
+            where: { id: productId },
+        });
+    }
+
     async createProduct(product: ProductDto): Promise<ProudctEntity> {
         const newProduct = new ProudctEntity();
 

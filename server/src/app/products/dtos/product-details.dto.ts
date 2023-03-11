@@ -3,6 +3,7 @@ import { ApiProperty } from "@nestjs/swagger";
 
 // ========================== Entities & DTO's ==========================
 import { UUIDDto } from "src/shared/dtos/uuid.dto";
+import { ProudctDetailsEntity } from "../entities/product-details.entity";
 
 export class ProductDetailsDto extends UUIDDto {
     @ApiProperty({
@@ -32,4 +33,15 @@ export class ProductDetailsDto extends UUIDDto {
     @IsNotEmpty()
     @IsString()
     description!: string;
+
+    public static fromEntity(entity: ProudctDetailsEntity): ProductDetailsDto {
+        const dto = new ProductDetailsDto();
+        dto.id = entity.id;
+        dto.color = entity.color;
+        dto.material = entity.material;
+        dto.size = entity.size;
+        dto.description = entity.description;
+
+        return dto;
+    }
 }

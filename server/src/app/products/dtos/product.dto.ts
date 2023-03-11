@@ -4,6 +4,8 @@ import {
     IsNumber,
     IsEnum,
     IsBoolean,
+    IsPositive,
+    IsUrl,
 } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
 
@@ -46,6 +48,7 @@ export class ProductDto extends UUIDDto {
     })
     @IsNotEmpty()
     @IsNumber()
+    @IsPositive()
     price!: number;
 
     @ApiProperty({
@@ -53,6 +56,7 @@ export class ProductDto extends UUIDDto {
     })
     @IsNotEmpty()
     @IsString()
+    @IsUrl()
     image!: string;
 
     @ApiProperty({
@@ -65,6 +69,7 @@ export class ProductDto extends UUIDDto {
     })
     @IsNotEmpty()
     @IsNumber()
+    @IsPositive()
     quantity!: number;
 
     productDetails: ProductDetailsDto | ProudctDetailsEntity;

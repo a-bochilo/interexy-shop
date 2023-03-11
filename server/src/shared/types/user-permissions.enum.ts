@@ -7,4 +7,5 @@ export enum UserPermissions {
     getAllUsers = "getAllUsers",
     createProduct = "createProduct",
     getAllProducts = "getAllProducts",
+    getProductDetials = "getProductDetials",
 }
