@@ -34,4 +34,9 @@ export class RoleController {
     async getAll() {
         return await this.roleService.getAll();
     }
+
+    @Get('/:id')
+    async getRoleById(@Param("id") id: number) {
+        return await this.roleService.getRoleById(id);
+    }
 }

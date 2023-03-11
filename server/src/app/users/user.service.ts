@@ -5,6 +5,7 @@ import { UserRoles } from "src/shared/types/user-roles.enum";
 import { UserEntity } from "./entities/user.entity";
 import { RoleService } from "../roles/role.service";
 import { UserDetailsRepository } from "./repos/user-details.repository";
+import { AssignUserRoleDto } from "./dtos/assign-role-user.dto";
 
 @Injectable()
 export class UserService {
@@ -31,5 +32,23 @@ export class UserService {
 
     async getAll() {
         return this.userRepository.getAll();
+    }
+
+    async getById(userId: 'uuid') {
+        return await this.userRepository.getById(userId);
+    }
+
+    async assignUserRole(assignUserRoleDto: AssignUserRoleDto, userId: 'uuid') {
+        const user = await this.userRepository.getUserWithRoleById(userId);
+        const newRole = await this.roleService.getRoleById(
+            assignUserRoleDto.newRole
+        );
+
+        user.role = newRole;
+
+        return await this.userRepository.updateUser(user);
+    };
+    async getUserDetails(userId: 'uuid') {
+        return await this.userDetailsRepository.getUserDetailsByUserId(userId);
     }
 }

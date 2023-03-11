@@ -11,6 +11,7 @@ import { UserRoles } from "src/shared/types/user-roles.enum";
 
 @Injectable()
 export class RoleService {
+
     constructor(private readonly roleRepository: RoleRepository) {}
 
     async createRole(createRoleDto: CreateRoleDto): Promise<RoleEntity> {
@@ -23,5 +24,9 @@ export class RoleService {
 
     async getAll() {
         return await this.roleRepository.getAll();
+    }
+
+    async getRoleById(id: number) {
+        return await this.roleRepository.getById(id);
     }
 }

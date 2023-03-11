@@ -7,9 +7,10 @@ import { UserPermissions } from "../../../shared/types/user-permissions.enum";
 import { JwtAuthGuard } from "../guards/jwt-auth.guard";
 import { RolesGuard } from "../guards/roles.guard";
 
-export function AuthPermissionsGuard(permission: UserPermissions) {
+
+export function GuardPermissions(permission: UserPermissions) {
     return applyDecorators(
         SetMetadata("permission", permission),
-        UseGuards(/*JwtAuthGuard,*/ RolesGuard)
+        UseGuards(JwtAuthGuard, RolesGuard)
     );
 }

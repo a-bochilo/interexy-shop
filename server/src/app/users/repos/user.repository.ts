@@ -13,7 +13,7 @@ export class UserRepository extends Repository<UserEntity> {
     ) {
         super(userRepository.target, userRepository.manager, userRepository.queryRunner);
     }
-    
+
     async createUser(dto: CreateUserDto) {
         const user = new UserEntity();
         Object.assign(user, dto);
@@ -32,8 +32,28 @@ export class UserRepository extends Repository<UserEntity> {
     }
 
     async getAll() {
-        return this.find({
-            relations: ["role", "details"]
+        return await this.find({
+            relations: ["role"]
         });
+    }
+
+    async getById(userId: 'uuid') {
+        return await this.findOne({ 
+            where: { 
+                id: userId 
+            }, 
+            relations: ["role", "details"] },)
+    }
+
+    async getUserWithRoleById(userId: 'uuid'){
+        return await this.findOne({ 
+            where: { 
+                id: userId 
+            }, 
+            relations: ["role"] },)
+    }
+
+    async updateUser(user: UserEntity) {
+        return await this.save(user);
     }
 }

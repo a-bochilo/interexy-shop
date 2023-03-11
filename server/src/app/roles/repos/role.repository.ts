@@ -38,4 +38,8 @@ export class RoleRepository extends Repository<RoleEntity> {
     async getAll() {
         return await this.find();
     }
+
+    async getById(id: number) {
+        return await this.findOneBy({ id: id })
+    }
 }
