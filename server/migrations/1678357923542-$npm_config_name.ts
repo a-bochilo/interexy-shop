@@ -12,30 +12,26 @@ export class $npmConfigName1678357923542 implements MigrationInterface {
         await queryRunner.createTable(getUserRolesTable(), false);
         await queryRunner.createTable(getUserDetails(), false);
         await queryRunner.createTable(getUsersTable(), false);
-        // await queryRunner.addColumn('user_roles', getRoleColumnFromUsers());
-        // await queryRunner.createForeignKey('user_roles', getRoleFKFromUsers());
+        //await queryRunner.addColumn('user_details', getDetailsColumnFromUsers());
+        //await queryRunner.createForeignKey('user_details', getDetailsFKFromUsers());
     }
 
-    public async down(queryRunner: QueryRunner): Promise<void> {}
+    public async down(queryRunner: QueryRunner): Promise<void> { }
 }
 
-// const getRoleColumnFromUsers = () => {
-//     return new TableColumn({
-//         name: 'user_id',
-//         type: 'uuid',
-//     })
-// }
+const getDetailsColumnFromUsers = () => new TableColumn({
+    name: 'user_id',
+    type: 'uuid',
+})
 
-// const getRoleFKFromUsers = () => {
-//     return new TableForeignKey({
-//         name: "FK_role_user_id",
-//         columnNames: ["user_id"],
-//         referencedTableName: "users",
-//         referencedColumnNames: ["id"],
-//         onDelete: "RESTRICT",
-//         onUpdate: "RESTRICT",
-//     })
-// }
+const getDetailsFKFromUsers = () => new TableForeignKey({
+    name: "FK_details_user",
+    columnNames: ["user_id"],
+    referencedTableName: "users",
+    referencedColumnNames: ["id"],
+    onDelete: "RESTRICT",
+    onUpdate: "CASCADE"
+})
 
 const getUserDetails = () => {
     return new Table({
@@ -168,7 +164,7 @@ const getUsersTable = () => {
                 columnNames: ["role_id", "role_type"],
                 referencedTableName: "user_roles",
                 referencedColumnNames: ["id", "type"],
-                onDelete: "RESTRICT",
+                onDelete: "CASCADE",
                 onUpdate: "CASCADE",
             },
             {
@@ -176,7 +172,7 @@ const getUsersTable = () => {
                 columnNames: ["details"],
                 referencedTableName: "user_details",
                 referencedColumnNames: ["id"],
-                onDelete: "RESTRICT",
+                onDelete: "CASCADE",
                 onUpdate: "CASCADE",
             },
         ],

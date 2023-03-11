@@ -23,26 +23,21 @@ export class UserController {
     }
 
     //GET ALL
-    @Get()
+    @Get('/all')
+   // @GuardPermissions(UserPermissions.getAllUsers)
     @UsePipes(new ValidationPipe())
-    async getAllUsers(): Promise<UserEntity[]> {
-        return await this.userService.getAll();
+    async getAllUsers(): Promise<UserSessionDto[]> {
+        const userFromDB = await this.userService.getAll()
+        return userFromDB.map(users => UserSessionDto.fromEntity(users));
     }
 
     //GET ONE BY ID
     @Get("/:userId")
+    //@GuardPermissions(UserPermissions.getUserById)
     @UsePipes(new ValidationPipe())
-    async getUserById(@Param("userId") userId: 'uuid'): Promise<UserEntity> {
-        return await this.userService.getById(userId);
-    }
-
-    @Get(":userId/details")
-    @GuardPermissions(UserPermissions.getUserDetailsByUserId)
-    @UsePipes(new ValidationPipe())
-    async getUserDetailsByUserId(
-        @Param("userId") userId: 'uuid'
-    ): Promise<UserDetailsEntity> {
-        return await this.userService.getUserDetails(userId);
+    async getUserById(@Param("userId") userId: 'uuid'): Promise<UserSessionDto> {
+        const userFromDB = await this.userService.getById(userId);
+        return await UserSessionDto.fromEntity(userFromDB);
     }
 
     @Put("/newDetails/:userId")    
@@ -51,11 +46,7 @@ export class UserController {
     async updateDetails(
         @Body() details: UserDetailsDto,
         @Param("userid") userId: 'uuid'
-    ) {
-        // const userFromDB = await this.userService.updateUserDetails(
-        //     details,
-        //     userId
-        // );
+    ): Promise<UserEntity>{
         return await this.userService.updateUserDetails(details, userId);
     }
     
@@ -68,20 +59,14 @@ export class UserController {
     ): Promise<UserEntity> {
         return await this.userService.deleteUserById(userId);
     }
-/*
     //ASSIGNE ROLE BY ID
     @Post("/assignRole/:userId")    
-    @GuardPermissions(UserPermissions.assignRole)
+    //@GuardPermissions(UserPermissions.assignRole)
     @UsePipes(new ValidationPipe())
     async assignRole(
         @Body() assignUserRoleDto: AssignUserRoleDto,
         @Param("userid") userId: 'uuid'
-    ): Promise<UserSessionDto> {
-        // const userFromDB = await this.userService.assignUserRole(
-        //     assignUserRoleDto,
-        //     userId
-        // );
-        // return await UserSessionDto.fromEntity(userFromDB);
+    ):Promise <UserEntity> {
+        return await this.userService.assignUserRole(assignUserRoleDto, userId);
     }
-    */
 }

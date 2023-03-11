@@ -10,7 +10,7 @@ import { Reflector } from "@nestjs/core";
 // ========================== Services ==========================
 import { SecurityService } from "../security.service";
 
-// ========================== Types ==========================
+// ========================== Types =============================
 import { UserPermissions } from "../../../shared/types/user-permissions.enum";
 import { IRequest } from "../../../shared/types/request.interface";
 

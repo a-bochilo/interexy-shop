@@ -1,6 +1,16 @@
+import { IsNotEmpty, IsString } from "class-validator";
+import { UserEntity } from "../entities/user.entity";
 
 export class UserDetailsDto {
-    firstname  !: string;
-    lastname !: string;
-    middlename?: string;
+
+    @IsNotEmpty()
+    @IsString()
+    readonly firstname  !: string;
+
+    @IsNotEmpty()
+    @IsString()
+    readonly lastname !: string;
+
+    @IsString()
+    readonly middlename?: string;
 }

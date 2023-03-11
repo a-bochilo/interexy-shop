@@ -15,10 +15,13 @@ export class CreateUserDto {
     @IsString()
     readonly password: string;
 
+    @IsNotEmpty()
+    @IsString()
     phone: string;
 
+    @IsNotEmpty()
     details: UserDetailsDto;
-
+    
     role?: RoleEntity;
 
     roleId?: number;

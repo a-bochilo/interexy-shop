@@ -15,6 +15,7 @@ import { UserRoles } from "../../../shared/types/user-roles.enum";
 import { UserEntity } from "../entities/user.entity";
 import { UUIDDto } from "../../../shared/dtos/uuid.dto";
 import { ApiProperty } from "@nestjs/swagger";
+import { UserDetailsEntity } from "../entities/user-details.entity";
 
 export class UserSessionDto extends UUIDDto {
     
@@ -59,8 +60,7 @@ export class UserSessionDto extends UUIDDto {
         dto.email = entity.email;
         dto.role_id = entity.roleId;
         dto.role_type = entity.roleType;
-        //dto.permissions = entity.userRole.permissions;
-
+        dto.permissions = entity.role.permissions;
         return dto;
     }
 
@@ -76,7 +76,7 @@ export class UserSessionDto extends UUIDDto {
         outputDto.email = dto.email;
         outputDto.role_id = dto.role_id;
         outputDto.role_type = dto.role_type;
-        //outputDto.permissions = dto.permissions;
+        outputDto.permissions = dto.permissions;
 
         return dto;
     }

@@ -42,6 +42,14 @@ export class UserRepository extends Repository<UserEntity> {
             where: {
                 id: userId
             },
+        },)
+    }
+
+    async getFullUserById(userId: 'uuid') {
+        return await this.findOne({
+            where: {
+                id: userId
+            },
             relations: ["role", "details"]
         },)
     }
@@ -52,6 +60,15 @@ export class UserRepository extends Repository<UserEntity> {
                 id: userId
             },
             relations: ["role"]
+        },)
+    }
+
+    async getUserWithDetails(userId: 'uuid') {
+        return await this.findOne({
+            where: {
+                id: userId
+            },
+            relations: ["details"]
         },)
     }
 

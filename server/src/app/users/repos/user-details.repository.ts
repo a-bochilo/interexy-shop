@@ -25,11 +25,7 @@ export class UserDetailsRepository extends Repository<UserDetailsEntity> {
         return await this.save(newDetails);
     }
 
-    async getUserDetailsByUserId(userId: 'uuid') {
-        return await this.findOne({
-            where: {
-                id: userId,
-            },
-        });
+    async deleteDetails(detailsId: 'uuid') {
+        return await this.delete({id: detailsId})
     }
 }
