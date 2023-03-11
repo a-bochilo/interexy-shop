@@ -7,6 +7,7 @@ import { UserSessionDto } from "./dtos/user-session.dto";
 import { GuardPermissions } from "../security/decorators/permissions-guard.decorator";
 import { AssignUserRoleDto } from "./dtos/assign-role-user.dto";
 import { UserDetailsEntity } from "./entities/user-details.entity";
+import { UserDetailsDto } from "./dtos/user-details.dto";
 
 @Controller("users")
 export class UserController {
@@ -17,22 +18,22 @@ export class UserController {
     //CREATE
     @Post()
     @UsePipes(new ValidationPipe())
-    create(@Body() userDto: CreateUserDto): Promise<UserEntity> {
-        return this.userService.createUser(userDto);
+    async create(@Body() userDto: CreateUserDto): Promise<UserEntity> {
+        return await this.userService.createUser(userDto);
     }
 
     //GET ALL
     @Get()
     @UsePipes(new ValidationPipe())
-    getAllUsers(): Promise<UserEntity[]> {
-        return this.userService.getAll();
+    async getAllUsers(): Promise<UserEntity[]> {
+        return await this.userService.getAll();
     }
 
     //GET ONE BY ID
     @Get("/:userId")
     @UsePipes(new ValidationPipe())
-    getUserById(@Param("userId") userId: 'uuid'): Promise<UserEntity> {
-        return this.userService.getById(userId);
+    async getUserById(@Param("userId") userId: 'uuid'): Promise<UserEntity> {
+        return await this.userService.getById(userId);
     }
 
     @Get(":userId/details")
@@ -44,12 +45,30 @@ export class UserController {
         return await this.userService.getUserDetails(userId);
     }
 
-    //UPDATE ONE BY ID
-    // @Put("/:userId")
+    @Put("/newDetails/:userId")    
+    //@GuardPermissions(UserPermissions.assignRole)
+    @UsePipes(new ValidationPipe())
+    async updateDetails(
+        @Body() details: UserDetailsDto,
+        @Param("userid") userId: 'uuid'
+    ) {
+        // const userFromDB = await this.userService.updateUserDetails(
+        //     details,
+        //     userId
+        // );
+        return await this.userService.updateUserDetails(details, userId);
+    }
     
-    // //DELETE ONE BY ID
-    // @Delete("/:userId")
-
+    //DELETE ONE BY ID
+    @Post("/delete/:userId")
+    //@GuardPermissions(UserPermissions.deleteUser)
+    @UsePipes(new ValidationPipe())
+    async deleteUserById(
+        @Param('userId') userId: 'uuid'
+    ): Promise<UserEntity> {
+        return await this.userService.deleteUserById(userId);
+    }
+/*
     //ASSIGNE ROLE BY ID
     @Post("/assignRole/:userId")    
     @GuardPermissions(UserPermissions.assignRole)
@@ -58,11 +77,11 @@ export class UserController {
         @Body() assignUserRoleDto: AssignUserRoleDto,
         @Param("userid") userId: 'uuid'
     ): Promise<UserSessionDto> {
-        const userFromDB = await this.userService.assignUserRole(
-            assignUserRoleDto,
-            userId
-        );
-        return await UserSessionDto.fromEntity(userFromDB);
+        // const userFromDB = await this.userService.assignUserRole(
+        //     assignUserRoleDto,
+        //     userId
+        // );
+        // return await UserSessionDto.fromEntity(userFromDB);
     }
-
+    */
 }

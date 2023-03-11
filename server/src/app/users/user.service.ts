@@ -6,6 +6,7 @@ import { UserEntity } from "./entities/user.entity";
 import { RoleService } from "../roles/role.service";
 import { UserDetailsRepository } from "./repos/user-details.repository";
 import { AssignUserRoleDto } from "./dtos/assign-role-user.dto";
+import { UserDetailsDto } from "./dtos/user-details.dto";
 
 @Injectable()
 export class UserService {
@@ -31,7 +32,7 @@ export class UserService {
     }
 
     async getAll() {
-        return this.userRepository.getAll();
+        return await this.userRepository.getAll();
     }
 
     async getById(userId: 'uuid') {
@@ -48,7 +49,23 @@ export class UserService {
 
         return await this.userRepository.updateUser(user);
     };
+
     async getUserDetails(userId: 'uuid') {
         return await this.userDetailsRepository.getUserDetailsByUserId(userId);
+    }
+
+    async deleteUserById(userId: 'uuid') {
+        return await this.userRepository.deleteUser(userId);
+    }
+
+    async updateUserDetails(newDetails: UserDetailsDto, userId: 'uuid') {
+        const user = await this.userRepository.getById(userId);
+        const details = await this.userDetailsRepository.createUserDetails({
+            firstname: newDetails.firstname,
+            lastname: newDetails.lastname,
+            middlename: newDetails?.middlename || null
+        });
+        user.details = details;
+       return await this.userRepository.updateUser(user);
     }
 }

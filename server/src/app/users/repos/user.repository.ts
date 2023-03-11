@@ -38,22 +38,32 @@ export class UserRepository extends Repository<UserEntity> {
     }
 
     async getById(userId: 'uuid') {
-        return await this.findOne({ 
-            where: { 
-                id: userId 
-            }, 
-            relations: ["role", "details"] },)
+        return await this.findOne({
+            where: {
+                id: userId
+            },
+            relations: ["role", "details"]
+        },)
     }
 
-    async getUserWithRoleById(userId: 'uuid'){
-        return await this.findOne({ 
-            where: { 
-                id: userId 
-            }, 
-            relations: ["role"] },)
+    async getUserWithRoleById(userId: 'uuid') {
+        return await this.findOne({
+            where: {
+                id: userId
+            },
+            relations: ["role"]
+        },)
     }
 
     async updateUser(user: UserEntity) {
         return await this.save(user);
+    }
+
+    async deleteUser(userId: 'uuid') {
+       const user = await this.findOneBy({ id: userId });
+        return await this.save({
+            ...user,
+            isActive: false
+        })
     }
 }
