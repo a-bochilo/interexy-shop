@@ -13,7 +13,11 @@ import { UserDetailsRepository } from "./repos/user-details.repository";
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([UserEntity, RoleEntity, UserDetailsEntity]),
+        TypeOrmModule.forFeature([
+            UserEntity, 
+            RoleEntity, 
+            UserDetailsEntity,
+        ]),
         SecurityModule,
     ],
     controllers: [UserController],

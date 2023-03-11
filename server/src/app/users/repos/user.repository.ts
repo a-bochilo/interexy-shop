@@ -22,16 +22,18 @@ export class UserRepository extends Repository<UserEntity> {
             updated: new Date(),
             email: dto.email,
             password: dto.password,
+            phone: dto.phone,
             role: dto.role,
             roleType: dto.role.type,
             details: dto.details,
             isActive: true,
-            phone: dto.phone
         })
         return this.save(newUser);
     }
 
     async getAll() {
-        return this.find();
+        return this.find({
+            relations: ["role", "details"]
+        });
     }
 }

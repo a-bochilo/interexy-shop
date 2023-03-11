@@ -22,7 +22,11 @@ import { UserService } from "../users/user.service";
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([RoleEntity, UserEntity, UserDetailsEntity]),
+        TypeOrmModule.forFeature([
+            RoleEntity,
+            UserEntity,
+            UserDetailsEntity,
+        ]),
         SecurityModule,
     ],
     controllers: [RoleController],
