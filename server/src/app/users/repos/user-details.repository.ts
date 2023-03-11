@@ -28,4 +28,8 @@ export class UserDetailsRepository extends Repository<UserDetailsEntity> {
     async deleteDetails(detailsId: 'uuid') {
         return await this.delete({id: detailsId})
     }
+
+    async getDetails(detailsId: 'uuid') {
+        return await this.findOneBy({id: detailsId})
+    }
 }

@@ -31,10 +31,14 @@ export class UserRepository extends Repository<UserEntity> {
         return this.save(newUser);
     }
 
-    async getAll() {
+    async getFullUser(userId: 'uuid') {
         return await this.find({
-            relations: ["role"]
+            relations: ["details"]
         });
+    }
+
+    async getAll() {
+        return await this.find();
     }
 
     async getById(userId: 'uuid') {
@@ -45,35 +49,20 @@ export class UserRepository extends Repository<UserEntity> {
         },)
     }
 
-    async getFullUserById(userId: 'uuid') {
-        return await this.findOne({
-            where: {
-                id: userId
-            },
-            relations: ["role", "details"]
-        },)
-    }
-
-    async getUserWithRoleById(userId: 'uuid') {
-        return await this.findOne({
-            where: {
-                id: userId
-            },
-            relations: ["role"]
-        },)
-    }
-
-    async getUserWithDetails(userId: 'uuid') {
-        return await this.findOne({
+    async getDetailsId(userId: 'uuid') {
+        const user =  await this.findOne({
             where: {
                 id: userId
             },
             relations: ["details"]
         },)
+        return user.details.id
     }
 
     async updateUser(user: UserEntity) {
-        return await this.save(user);
+        const newUser = new UserEntity();
+        Object.assign(newUser, user)
+        return await this.save(newUser);
     }
 
     async deleteUser(userId: 'uuid') {

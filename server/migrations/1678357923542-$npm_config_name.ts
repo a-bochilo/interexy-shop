@@ -12,26 +12,10 @@ export class $npmConfigName1678357923542 implements MigrationInterface {
         await queryRunner.createTable(getUserRolesTable(), false);
         await queryRunner.createTable(getUserDetails(), false);
         await queryRunner.createTable(getUsersTable(), false);
-        //await queryRunner.addColumn('user_details', getDetailsColumnFromUsers());
-        //await queryRunner.createForeignKey('user_details', getDetailsFKFromUsers());
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> { }
 }
-
-const getDetailsColumnFromUsers = () => new TableColumn({
-    name: 'user_id',
-    type: 'uuid',
-})
-
-const getDetailsFKFromUsers = () => new TableForeignKey({
-    name: "FK_details_user",
-    columnNames: ["user_id"],
-    referencedTableName: "users",
-    referencedColumnNames: ["id"],
-    onDelete: "RESTRICT",
-    onUpdate: "CASCADE"
-})
 
 const getUserDetails = () => {
     return new Table({

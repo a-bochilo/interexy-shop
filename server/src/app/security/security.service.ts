@@ -22,7 +22,7 @@ export class SecurityService {
         return { access_token };
     }
 
-    async getUserWithRoleById(id: 'uuid'): Promise<UserEntity> {
-        return this.userRepository.getUserWithRoleById(id)
+    async getUser(id: 'uuid'): Promise<UserEntity> {
+        return await this.userRepository.getById(id)
     }
 }

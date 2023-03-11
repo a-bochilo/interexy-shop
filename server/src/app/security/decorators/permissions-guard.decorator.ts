@@ -8,9 +8,9 @@ import { JwtAuthGuard } from "../guards/jwt-auth.guard";
 import { RolesGuard } from "../guards/roles.guard";
 
 
-export function GuardPermissions(permission: UserPermissions) {
+export function GuardPermissions(permissions: UserPermissions) {
     return applyDecorators(
-        SetMetadata("permission", permission),
+        SetMetadata("permissions", permissions),
         UseGuards(JwtAuthGuard, RolesGuard)
     );
 }
