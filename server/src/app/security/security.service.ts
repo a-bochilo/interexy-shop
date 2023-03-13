@@ -23,6 +23,6 @@ export class SecurityService {
     }
 
     async getUserWithRoleById(id: string): Promise<UserEntity> {
-        return this.userRepository.getUserWithRoleById(id);
+        return await this.userRepository.getUserWithRoleById(id);
     }
 }
