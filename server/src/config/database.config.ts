@@ -3,7 +3,7 @@ import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConne
 
 // ========================== Entities ==========================
 import { UserEntity } from "../app/users/entities/user.entity";
-import { RoleEntity } from "../app/roles/entities/user-role.entity";
+import { RoleEntity } from "../app/roles/entities/role.entity";
 import { ProudctEntity } from "../app/products/entities/product.entity";
 import { ProudctDetailsEntity } from "../app/products/entities/product-details.entity";
 import { ProductActiveViewEntity } from "../app/products/entities/product-active-view.entity";

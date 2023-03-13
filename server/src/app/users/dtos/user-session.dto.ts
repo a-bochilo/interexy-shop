@@ -7,16 +7,17 @@ import {
     IsEnum,
 } from "class-validator";
 
-// ========================== Types ==========================
+// ========================== Enums ==========================
 import { UserPermissions } from "../../../shared/types/user-permissions.enum";
 import { UserRoles } from "../../../shared/types/user-roles.enum";
 
 // ========================== Entities & DTO's ==========================
 import { UserEntity } from "../entities/user.entity";
-import { UUIDDto } from "src/shared/dtos/uuid.dto";
+import { UUIDDto } from "../../../shared/dtos/uuid.dto";
 import { ApiProperty } from "@nestjs/swagger";
 
 export class UserSessionDto extends UUIDDto {
+    
     @ApiProperty({
         description: "User email",
     })
@@ -58,8 +59,7 @@ export class UserSessionDto extends UUIDDto {
         dto.email = entity.email;
         dto.role_id = entity.roleId;
         dto.role_type = entity.roleType;
-        dto.permissions = entity.userRole.permissions;
-
+        dto.permissions = entity.role.permissions;
         return dto;
     }
 

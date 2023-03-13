@@ -10,7 +10,7 @@ import { Reflector } from "@nestjs/core";
 // ========================== Services ==========================
 import { SecurityService } from "../security.service";
 
-// ========================== Types ==========================
+// ========================== Types ==============================
 import { UserPermissions } from "../../../shared/types/user-permissions.enum";
 import { IRequest } from "../../../shared/types/request.interface";
 
@@ -22,16 +22,16 @@ export class RolesGuard implements CanActivate {
     ) {}
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
-        const permission = this.reflector.get<UserPermissions>(
-            "permission",
+        const permissions = this.reflector.get<UserPermissions>(
+            "permissions",
             context.getHandler()
         );
 
-        if (!permission) return true;
+        if (!permissions) return true;
 
         const request = context.switchToHttp().getRequest<IRequest>();
-        const user = await this.securityService.getUserWithRoleById(
-            request.user.id
+        const user = await this.securityService.getUser(
+           request.user.id as 'uuid'
         );
 
         if (!user) {
@@ -41,15 +41,15 @@ export class RolesGuard implements CanActivate {
             );
         }
 
-        if (user.userRole.type === "superadmin") return true;
+        if (user.role.type === "superadmin") return true;
 
-        const userPermissions = user.userRole.permissions;
+        const userPermissions = user.role.permissions;
 
         if (!userPermissions.length) {
             throw new HttpException("Not authorized", HttpStatus.UNAUTHORIZED);
         }
 
-        if (userPermissions.includes(permission)) return true;
+        if (userPermissions.includes(permissions)) return true;
 
         if (userPermissions.includes(UserPermissions.all)) return true;
 

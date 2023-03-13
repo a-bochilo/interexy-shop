@@ -1,11 +1,11 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { ConfigModule, ConfigService } from "@nestjs/config";
-import { I18nModule } from "nestjs-i18n";
-
-import data_config from "./config/data-source";
+import { ConfigModule } from "@nestjs/config";
 import databaseConfig from "./config/database.config";
 import { ProductsModule } from "./app/products/products.module";
+import { SecurityModule } from "./app/security/security.module";
+import { UserModule } from "./app/users/user.module";
+import { RoleModule } from "./app/roles/role.module";
 import { CartModule } from "./app/cart/cart.module";
 
 @Module({
@@ -16,9 +16,13 @@ import { CartModule } from "./app/cart/cart.module";
         }),
         TypeOrmModule.forRoot(databaseConfig),
         ProductsModule,
+        RoleModule,
+        UserModule,
+        SecurityModule,
+        ProductsModule,
         CartModule,
     ],
     controllers: [],
     providers: [],
 })
-export class AppModule {}
+export class AppModule { }
