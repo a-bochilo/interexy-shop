@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UsePipes, ValidationPipe } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, UsePipes, ValidationPipe } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { CreateUserDto } from "./dtos/create-user.dto";
 import { UserEntity } from "./entities/user.entity";
@@ -22,9 +22,9 @@ export class UserController {
         return await this.userService.createUser(userDto);
     }
 
-    //GET ALL USERS WITHOUT RELATIONS
-    @Get('/all')
-   // @GuardPermissions(UserPermissions.getAllUsers)
+    //GET ALL ACTIVE USERS 
+    @Get()
+    //@GuardPermissions(UserPermissions.getAllUsers)
     //@UsePipes(new ValidationPipe())
     async getAllUsers()/*: Promise<UserSessionDto[]> */{
         // const userFromDB = await this.userService.getAll()
@@ -32,13 +32,22 @@ export class UserController {
         return this.userService.getAll()
     }
 
+    //GET ALL INACTIVE USERS 
+    @Get('/active?')
+    //@GuardPermissions(UserPermissions.getAllUsers)
+    //@UsePipes(new ValidationPipe())
+    async getInActiveUsers(
+        @Query('isActive') isActive: boolean
+    ) {
+        return this.userService.getInActiveUsers(isActive)
+    }
+
     //GET ONE USER BY ID
     @Get("/:userId")
     //@GuardPermissions(UserPermissions.getUserById)
     @UsePipes(new ValidationPipe())
-    async getUserById(@Param("userId") userId: 'uuid'): Promise<UserSessionDto> {
-        const userFromDB = await this.userService.getById(userId);
-        return await UserSessionDto.fromEntity(userFromDB);
+    async getUserById(@Param("userId") userId: 'uuid'): Promise<UserDetailsEntity> {
+        return await this.userService.getById(userId);
     }
 
     //UPDATE DETAILS BY USER ID
@@ -53,7 +62,7 @@ export class UserController {
     }
     
     //DELETE ONE BY ID
-    @Post("/delete/:userId")
+    @Delete("/:userId")
     //@GuardPermissions(UserPermissions.deleteUser)
     @UsePipes(new ValidationPipe())
     async deleteUserById(
@@ -72,47 +81,27 @@ export class UserController {
     ):Promise <UserEntity> {
         return await this.userService.assignUserRole(assignUserRoleDto, userId);
     }
-
-    //GET USER DETAILS BY USER ID
-    @Get('/details/:userId')
-    @UsePipes(new ValidationPipe())
-    async getDetailsByUserId(@Param("userId") userId: 'uuid') {
-        return await this.userService.getDetailsByUserId(userId)
-    }
-
-    //GET USER ROLE BY USER ID
-    @Get('/role/:userId')
-    @UsePipes(new ValidationPipe())
-    async getRoleByUserId(@Param("userId") userId: 'uuid' ) {
-        return await this.userService.getRoleByUserId(userId);
-    }
-
 }
 
 /*
-//CREATE
+// + CREATE
 @Post()
 
-//GET ALL USERS WITHOUT RELATIONS
+// + GET ALL ACTIVE USERS 
 @Get('/all')
 
-//GET ONE USER BY ID WITHOUT RELATIONS
-@Get("/:userId")
+// + GET INACTIVE USERS ???????????????????
+@Get('/active?')
 
 //GET USER DETAILS BY USER ID
-@Get('/details/:userId')
-
-//GET USER ROLE BY USER ID
-@Get('/role/:userId')
+@Get('/:userId')
 
 //UPDATE USER INFO ID
 @Put("/:userId")    
 
 //DELETE ONE USER BY ID
-@Post("/delete/:userId")
+@Delete("/:userId")
 
 //ASSIGNE ROLE BY ID
 @Post("/assignRole/:userId")    
-
-
 */

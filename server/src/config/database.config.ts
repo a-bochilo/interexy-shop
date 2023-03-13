@@ -9,6 +9,7 @@ import { $npmConfigName1678373196143 } from "../../migrations/1678373196143-$npm
 import { UserEntity } from "../app/users/entities/user.entity";
 import { RoleEntity } from "../app/roles/entities/role.entity";
 import { UserDetailsEntity } from "../app/users/entities/user-details.entity";
+import { UserViewEntity } from "../app/users/entities/user-view.entity";
 
 const databaseConfig: DataSourceOptions = {
     type: "postgres",
@@ -21,13 +22,14 @@ const databaseConfig: DataSourceOptions = {
         UserEntity, 
         UserDetailsEntity, 
         RoleEntity, 
+        UserViewEntity,
     ],
     migrations: [
         $npmConfigName1678357923542,
         //$npmConfigName1678362416266,
         //$npmConfigName1678367706850,
         //$npmConfigName1678370951605,
-        //$npmConfigName1678373196143,
+        $npmConfigName1678373196143,
     ],
     synchronize: false,
     migrationsTableName: "migrations_history",

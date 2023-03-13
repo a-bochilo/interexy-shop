@@ -31,14 +31,14 @@ export class UserRepository extends Repository<UserEntity> {
         return this.save(newUser);
     }
 
-    async getFullUser(userId: 'uuid') {
-        return await this.find({
-            relations: ["details"]
-        });
-    }
-
     async getAll() {
         return await this.find();
+    }
+
+    async getInActiveUsers(active: boolean) {
+        return await this.find({where: {
+            isActive: active
+        }})
     }
 
     async getById(userId: 'uuid') {
@@ -50,13 +50,8 @@ export class UserRepository extends Repository<UserEntity> {
     }
 
     async getDetailsId(userId: 'uuid') {
-        const user =  await this.findOne({
-            where: {
-                id: userId
-            },
-            relations: ["details"]
-        },)
-        return user.details.id
+        const user =  await this.findOneBy({ id: userId })
+        return user.details_id;
     }
 
     async updateUser(user: UserEntity) {

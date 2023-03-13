@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne, } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne, ViewColumn, ViewEntity, } from "typeorm";
 
 // ========================== Entities ==========================
 //import { RoleEntity } from "../../roles/entities/user-role.entity";
@@ -9,32 +9,29 @@ import { UserRoles } from "../../../shared/types/user-roles.enum";
 import { UserDetailsEntity } from "./user-details.entity";
 import { RoleEntity } from "../../roles/entities/role.entity";
 
-@Entity({ name: "users" })
-export class UserEntity extends UUIDEntity {
+@ViewEntity({ name: "active_user_view" })
+export class UserViewEntity extends UUIDEntity {
 
-    @Column({ name: "is_active", default: true })
+    @ViewColumn({ name: "is_active"})
     isActive!: boolean;
 
-    @Column({ name: "email" })
+    @ViewColumn({ name: "email" })
     email!: string;
 
-    @Column({ name: "phone" })
+    @ViewColumn({ name: "phone" })
     phone?: string;
 
-    @Column({ name: "password", select: false })
+    @ViewColumn({ name: "password"})
     password!: string;
 
-    @Column({ name: "role_id" })
+    @ViewColumn({ name: "role_id" })
     roleId!: number;
 
-    @Column({ name: "role_type" })
+    @ViewColumn({ name: "role_type" })
     roleType!: UserRoles;
 
-    @Column({name: 'details_id'})
-    details_id: string
-
     @OneToOne(() => UserDetailsEntity)
-    @JoinColumn({name: "details_id"})
+    @JoinColumn({name: "details"})
     details: UserDetailsEntity;
 
     @ManyToOne(() => RoleEntity, (role) => role.users)

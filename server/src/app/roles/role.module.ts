@@ -18,6 +18,8 @@ import { UserRepository } from "../users/repos/user.repository";
 import { RoleService } from "./role.service";
 import { RoleController } from "./role.controller";
 import { UserService } from "../users/user.service";
+import { UserViewEntity } from "../users/entities/user-view.entity";
+import { UserViewRepository } from "../users/repos/user-view.repository";
 
 
 @Module({
@@ -26,6 +28,7 @@ import { UserService } from "../users/user.service";
             RoleEntity,
             UserEntity,
             UserDetailsEntity,
+            UserViewEntity,
         ]),
         SecurityModule,
     ],
@@ -36,6 +39,7 @@ import { UserService } from "../users/user.service";
         UserService,
         UserRepository,
         UserDetailsRepository,
+        UserViewRepository,
     ],
     exports: [RoleService],
 })

@@ -7,12 +7,14 @@ import { RoleService } from "../roles/role.service";
 import { UserDetailsRepository } from "./repos/user-details.repository";
 import { AssignUserRoleDto } from "./dtos/assign-role-user.dto";
 import { UserDetailsDto } from "./dtos/user-details.dto";
+import { UserViewRepository } from "./repos/user-view.repository";
 
 @Injectable()
 export class UserService {
     constructor(
         private readonly userDetailsRepository: UserDetailsRepository,
         private readonly userRepository: UserRepository,
+        private readonly userViewRepository: UserViewRepository,
         private readonly roleService: RoleService
     ) { }
 
@@ -30,11 +32,16 @@ export class UserService {
     }
 
     async getAll() {
-        return await this.userRepository.getAll();
+        return await this.userViewRepository.getAll();
+    }
+
+    async getInActiveUsers(isActive: boolean) {
+        return await this.userRepository.getInActiveUsers(isActive);
     }
 
     async getById(userId: 'uuid') {
-        return await this.userRepository.getById(userId);
+        const user = await this.userRepository.getById(userId);
+        return await this.userDetailsRepository.getDetails(user.details_id as 'uuid')
     }
 
     async assignUserRole(assignUserRoleDto: AssignUserRoleDto, userId: 'uuid') {
@@ -49,15 +56,13 @@ export class UserService {
     };
 
     async deleteUserById(userId: 'uuid') {
-        const detailsId = await this.userRepository.getDetailsId(userId);
-        await this.userDetailsRepository.deleteDetails(detailsId);
         return await this.userRepository.deleteUser(userId);
     }
 
     async updateUserDetails(info: CreateUserDto, userId: 'uuid') {
         const user = await this.userRepository.getById(userId);
         const detailsId = await this.userRepository.getDetailsId(userId);
-        let details = await this.userDetailsRepository.getDetails(detailsId);
+        let details = await this.userDetailsRepository.getDetails(detailsId as 'uuid');
         const newDetails = await this.userDetailsRepository.createUserDetails(
             Object.assign(details, info.details)
         );
@@ -65,22 +70,11 @@ export class UserService {
         delete(info.details);
         Object.assign(user, info);
         details = newDetails;
-        await this.userDetailsRepository.deleteDetails(detailsId);
+        await this.userDetailsRepository.deleteDetails(detailsId as 'uuid');
         return await this.userRepository.updateUser({
             ...user,
             details,
             role
         })
     }
-
-    async getDetailsByUserId(userId: 'uuid') {
-        const detailsId = await this.userRepository.getDetailsId(userId);
-        return await this.userDetailsRepository.getDetails(detailsId);
-    }
-
-    async getRoleByUserId(userId: 'uuid') {
-        const user = await this.userRepository.getById(userId);
-        return await this.roleService.getRoleById(user.roleId);
-    }
-
 }

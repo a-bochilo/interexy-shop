@@ -153,7 +153,7 @@ const getUsersTable = () => {
             },
             {
                 name: "FK_user_details",
-                columnNames: ["details"],
+                columnNames: ["details_id"],
                 referencedTableName: "user_details",
                 referencedColumnNames: ["id"],
                 onDelete: "CASCADE",
@@ -212,7 +212,7 @@ const getUsersTable = () => {
             },
             // ======== details =============
             {
-                name: "details",
+                name: "details_id",
                 type: "uuid",
                 isNullable: false,
             },
