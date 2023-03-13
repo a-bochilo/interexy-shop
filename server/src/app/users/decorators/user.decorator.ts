@@ -8,7 +8,6 @@ export const User = createParamDecorator(
     (data: unknown, ctx: ExecutionContext) => {
         const request = ctx.switchToHttp().getRequest<IRequest>();
         if (!request.user) return null;
-
         return UserSessionDto.fromJwt(request.user);
     }
 );

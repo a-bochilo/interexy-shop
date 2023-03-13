@@ -12,30 +12,10 @@ export class $npmConfigName1678357923542 implements MigrationInterface {
         await queryRunner.createTable(getUserRolesTable(), false);
         await queryRunner.createTable(getUserDetails(), false);
         await queryRunner.createTable(getUsersTable(), false);
-        // await queryRunner.addColumn('user_roles', getRoleColumnFromUsers());
-        // await queryRunner.createForeignKey('user_roles', getRoleFKFromUsers());
     }
 
-    public async down(queryRunner: QueryRunner): Promise<void> {}
+    public async down(queryRunner: QueryRunner): Promise<void> { }
 }
-
-// const getRoleColumnFromUsers = () => {
-//     return new TableColumn({
-//         name: 'user_id',
-//         type: 'uuid',
-//     })
-// }
-
-// const getRoleFKFromUsers = () => {
-//     return new TableForeignKey({
-//         name: "FK_role_user_id",
-//         columnNames: ["user_id"],
-//         referencedTableName: "users",
-//         referencedColumnNames: ["id"],
-//         onDelete: "RESTRICT",
-//         onUpdate: "RESTRICT",
-//     })
-// }
 
 const getUserDetails = () => {
     return new Table({
@@ -106,9 +86,12 @@ const getUserRolesTable = () => {
         columns: [
             {
                 name: "id",
-                type: "bigint",
+                type: "int",
                 isNullable: false,
+                isGenerated: true,
                 isPrimary: true,
+                generationStrategy: 'increment',
+
             },
             {
                 name: "created",
@@ -165,15 +148,15 @@ const getUsersTable = () => {
                 columnNames: ["role_id", "role_type"],
                 referencedTableName: "user_roles",
                 referencedColumnNames: ["id", "type"],
-                onDelete: "RESTRICT",
+                onDelete: "CASCADE",
                 onUpdate: "CASCADE",
             },
             {
-                name: "FK_users_details",
+                name: "FK_user_details",
                 columnNames: ["details_id"],
                 referencedTableName: "user_details",
                 referencedColumnNames: ["id"],
-                onDelete: "RESTRICT",
+                onDelete: "CASCADE",
                 onUpdate: "CASCADE",
             },
         ],
@@ -219,7 +202,7 @@ const getUsersTable = () => {
             // ======== role =============
             {
                 name: "role_id",
-                type: "smallint",
+                type: "int",
                 isNullable: false,
             },
             {
