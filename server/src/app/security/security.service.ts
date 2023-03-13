@@ -18,11 +18,10 @@ export class SecurityService {
 
     async generateJwt(dto: UserSessionDto): Promise<TokenDto> {
         const access_token = this.jwtService.sign(dto);
-
         return { access_token };
     }
 
-    async getUserWithRoleById(id: string): Promise<UserEntity> {
-        return this.userRepository.getUserWithRoleById(id);
+    async getUser(id: 'uuid'): Promise<UserEntity> {
+        return await this.userRepository.getById(id)
     }
 }
