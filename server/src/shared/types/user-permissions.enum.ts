@@ -11,4 +11,5 @@ export enum UserPermissions {
     updateProduct = "updateProduct",
     deleteProduct = "deleteProduct",
     getFiltredProducts = "getFiltredProducts",
+    createCart = "createCart",
 }

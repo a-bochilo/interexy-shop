@@ -7,6 +7,8 @@ import { RoleEntity } from "../app/roles/entities/user-role.entity";
 import { ProudctEntity } from "../app/products/entities/product.entity";
 import { ProudctDetailsEntity } from "../app/products/entities/product-details.entity";
 import { ProductActiveViewEntity } from "../app/products/entities/product-active-view.entity";
+import { CartEntity } from "../app/cart/entities/cart.entity";
+import { CartItemEntity } from "../app/cart/entities/cart-item.entity";
 
 // ========================== Migrations ==========================
 import { $npmConfigName1678357923542 } from "../../migrations/1678357923542-$npm_config_name";
@@ -19,6 +21,7 @@ import { $npmConfigName1678456092937 } from "../../migrations/1678456092937-$npm
 import { $npmConfigName1678456561878 } from "../../migrations/1678456561878-$npm_config_name";
 import { $npmConfigName1678456993069 } from "../../migrations/1678456993069-$npm_config_name";
 import { $npmConfigName1678544710047 } from "../../migrations/1678544710047-$npm_config_name";
+import { $npmConfigName1678709145463 } from "../../migrations/1678709145463-$npm_config_name";
 
 const databaseConfig: PostgresConnectionOptions = {
     type: "postgres",
@@ -33,6 +36,8 @@ const databaseConfig: PostgresConnectionOptions = {
         ProudctEntity,
         ProudctDetailsEntity,
         ProductActiveViewEntity,
+        CartEntity,
+        CartItemEntity,
     ],
     synchronize: false,
     migrations: [
@@ -46,6 +51,7 @@ const databaseConfig: PostgresConnectionOptions = {
         $npmConfigName1678456561878,
         $npmConfigName1678456993069,
         $npmConfigName1678544710047,
+        $npmConfigName1678709145463,
     ],
 };
 

@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, OneToOne } from "typeorm";
+import { Column, Entity, Index, JoinColumn, OneToOne } from "typeorm";
 
 // ========================== Entities ==========================
 import { UUIDEntity } from "../../../shared/entities/uuid.entity";
@@ -9,6 +9,7 @@ import { ProductsCategory } from "../enums/products-category.enum";
 
 @Entity({ name: "products" })
 export class ProudctEntity extends UUIDEntity {
+    @Index()
     @Column({ name: "category", enum: ProductsCategory })
     category!: ProductsCategory;
 
