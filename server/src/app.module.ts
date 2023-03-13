@@ -1,7 +1,12 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConfigModule, ConfigService } from "@nestjs/config";
-import { I18nModule } from "nestjs-i18n";
+import { AuthModule } from "./app/auth/auth.module";
+import { AuthController } from "./app/auth/auth.controller";
+import { AuthService } from "./app/auth/auth.service";
+import { OrderService } from "./app/order/order.service";
+import { OrderModule } from "./app/order/order.module";
+import { OrderController } from "./app/order/order.controller";
 
 import data_config from "./config/data-source";
 import database_config from "./config/database.config";
@@ -19,8 +24,10 @@ import database_config from "./config/database.config";
       useFactory: (config: ConfigService) => config.get("database"),
       inject: [ConfigService],
     }),
+    AuthModule,
+    OrderModule,
   ],
-  controllers: [],
-  providers: [],
+  controllers: [AuthController, OrderController],
+  providers: [AuthService, OrderService],
 })
 export class AppModule {}
