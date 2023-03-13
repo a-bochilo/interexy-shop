@@ -4,9 +4,7 @@ import { FindOptionsWhere, Repository } from "typeorm";
 
 // ========================== Entities & DTO's ==========================
 import { ProudctEntity } from "../entities/product.entity";
-import { ProudctDetailsEntity } from "../entities/product-details.entity";
 import { ProductWithDetailsDto } from "../dtos/product-with-details.dto";
-import { ProductDetailsDto } from "../dtos/product-details.dto";
 
 @Injectable()
 export class ProductsRepository {

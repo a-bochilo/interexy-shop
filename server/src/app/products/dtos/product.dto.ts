@@ -15,11 +15,8 @@ import { ProductsCategory } from "../enums/products-category.enum";
 
 // ========================== DTO's ==========================
 import { UUIDDto } from "src/shared/dtos/uuid.dto";
-import { ProductDetailsDto } from "src/app/products/dtos/product-details.dto";
 
 // ========================== Entities ==========================
-// import { ProudctEntity } from "../entities/product.entity";
-import { ProudctDetailsEntity } from "../entities/product-details.entity";
 import { ProudctEntity } from "../entities/product.entity";
 import { ProductActiveViewEntity } from "../entities/product-active-view.entity";
 
