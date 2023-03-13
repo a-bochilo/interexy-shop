@@ -6,18 +6,22 @@ import {
     IsBoolean,
     IsPositive,
     IsUrl,
+    IsOptional,
 } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
 
 // ========================== Types ==========================
 import { ProductsCategory } from "../enums/products-category.enum";
 
-// ========================== Entities & DTO's ==========================
-// import { ProudctEntity } from "../entities/product.entity";
-import { ProudctDetailsEntity } from "../entities/product-details.entity";
+// ========================== DTO's ==========================
 import { UUIDDto } from "src/shared/dtos/uuid.dto";
 import { ProductDetailsDto } from "src/app/products/dtos/product-details.dto";
+
+// ========================== Entities ==========================
+// import { ProudctEntity } from "../entities/product.entity";
+import { ProudctDetailsEntity } from "../entities/product-details.entity";
 import { ProudctEntity } from "../entities/product.entity";
+import { ProductActiveViewEntity } from "../entities/product-active-view.entity";
 
 export class ProductDto extends UUIDDto {
     @ApiProperty({
@@ -62,6 +66,8 @@ export class ProductDto extends UUIDDto {
     @ApiProperty({
         description: "Product status",
     })
+    @IsOptional()
+    @IsBoolean()
     isActive?: boolean;
 
     @ApiProperty({
@@ -72,9 +78,9 @@ export class ProductDto extends UUIDDto {
     @IsPositive()
     quantity!: number;
 
-    productDetails: ProductDetailsDto | ProudctDetailsEntity;
-
-    public static fromEntity(entity: ProudctEntity): ProductDto {
+    public static fromEntity(
+        entity: ProudctEntity | ProductActiveViewEntity
+    ): ProductDto {
         const dto = new ProductDto();
         dto.id = entity.id;
         dto.created = entity.created.valueOf();
@@ -85,6 +91,7 @@ export class ProductDto extends UUIDDto {
         dto.price = entity.price;
         dto.image = entity.image;
         dto.quantity = entity.quantity;
+        dto.isActive = entity.isActive;
 
         return dto;
     }

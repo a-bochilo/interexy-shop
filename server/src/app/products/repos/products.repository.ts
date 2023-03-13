@@ -1,10 +1,12 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { FindOptionsWhere, Repository } from "typeorm";
 
 // ========================== Entities & DTO's ==========================
 import { ProudctEntity } from "../entities/product.entity";
-import { ProductDto } from "../dtos/product.dto";
+import { ProudctDetailsEntity } from "../entities/product-details.entity";
+import { ProductWithDetailsDto } from "../dtos/product-with-details.dto";
+import { ProductDetailsDto } from "../dtos/product-details.dto";
 
 @Injectable()
 export class ProductsRepository {
@@ -19,10 +21,12 @@ export class ProductsRepository {
         });
     }
 
-    async createProduct(product: ProductDto): Promise<ProudctEntity> {
+    async createProduct(
+        productCreateDto: ProductWithDetailsDto
+    ): Promise<ProudctEntity> {
         const newProduct = new ProudctEntity();
 
-        Object.assign(newProduct, product);
+        Object.assign(newProduct, productCreateDto);
         newProduct.created = new Date();
         newProduct.updated = new Date();
 
@@ -33,7 +37,26 @@ export class ProductsRepository {
         return await this.productsRepository.find();
     }
 
-    async getProductByName(name: string): Promise<ProudctEntity> {
-        return await this.productsRepository.findOne({ where: { name } });
+    async getInactiveProducts(): Promise<ProudctEntity[]> {
+        return await this.productsRepository.find({
+            where: { isActive: false },
+        });
+    }
+
+    async getFiltredProducts(
+        productFilter: FindOptionsWhere<ProudctEntity>
+    ): Promise<ProudctEntity[]> {
+        return await this.productsRepository.find({
+            where: productFilter,
+        });
+    }
+
+    async getProductsByName(name: string): Promise<ProudctEntity[]> {
+        return await this.productsRepository.find({ where: { name } });
+    }
+
+    async updateProduct(product: ProudctEntity): Promise<ProudctEntity> {
+        product.updated = new Date();
+        return await this.productsRepository.save(product);
     }
 }

@@ -32,4 +32,11 @@ export class ProductsDetailsRepository {
             where: { id: detailsId },
         });
     }
+
+    async updateProductDetails(
+        productDetails: ProudctDetailsEntity
+    ): Promise<ProudctDetailsEntity> {
+        productDetails.updated = new Date();
+        return await this.productDetailsRepository.save(productDetails);
+    }
 }
