@@ -13,9 +13,6 @@ import {
 } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
-// ========================== Entities ==========================
-import { ProductActiveViewEntity } from "./entities/product-active-view.entity";
-
 // ========================== DTO's ==========================
 import { ProductDto } from "./dtos/product.dto";
 import { ProductWithDetailsDto } from "./dtos/product-with-details.dto";
