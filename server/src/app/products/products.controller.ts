@@ -86,22 +86,21 @@ export class ProductsController {
         return products.map((product) => ProductDto.fromEntity(product));
     }
 
-    //? Или по productId и возвращать весь продукт
-    @ApiOperation({ summary: "Get product details by details id" })
+    @ApiOperation({ summary: "Get product details by product id" })
     @ApiResponse({
         status: HttpStatus.OK,
         description: "HttpStatus:200:OK",
         type: ProductDetailsDto,
         isArray: false,
     })
-    @Get("/:productDetailsId")
+    @Get("/:productId")
     // @AuthPermissionsGuard(UserPermissions.getProductDetials)
     @UsePipes(new ValidationPipe())
     async getProductDetials(
-        @Param("productDetailsId") productDetailsId: string
+        @Param("productId") productId: string
     ): Promise<ProductDetailsDto> {
         const productDetails = await this.productsService.getProductDetails(
-            productDetailsId
+            productId
         );
 
         return ProductDetailsDto.fromEntity(productDetails);

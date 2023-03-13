@@ -67,11 +67,13 @@ export class ProductsService {
         return await this.productsActiveViewRepository.getAllProducts();
     }
 
-    async getProductDetails(
-        productDetailsId: string
-    ): Promise<ProudctDetailsEntity> {
+    async getProductDetails(productId: string): Promise<ProudctDetailsEntity> {
+        const product = await this.productsActiveViewRepository.getProductById(
+            productId
+        );
+
         return await this.productsDetailsRepository.getProductDetailsById(
-            productDetailsId
+            product.productsDetailsId
         );
     }
 
