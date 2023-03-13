@@ -1,6 +1,7 @@
 // ========================== common ==========================
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { ProudctEntity } from "app/products/entities/product.entity";
 import { Repository } from "typeorm/repository/Repository";
 
 // ========================== entities, dtos ==========================
@@ -14,18 +15,18 @@ export class OrderItemsRepo {
   ) {}
 
   async createOrderItem(item: {
-    product: ProductEntity;
+    product: ProudctEntity;
     quantity: number;
   }): Promise<OrderItemsEntity> {
     const newOrderItem = new OrderItemsEntity();
 
-    (newOrderItem.created = new Date()),
-      (newOrderItem.updated = new Date()),
-      (newOrderItem.productId = item.product.productId),
-      (newOrderItem.productName = item.product.productName),
-      (newOrderItem.productPrice = item.product.productPrice),
-      (newOrderItem.productQuantity = item.product.productQuantity),
-      (newOrderItem.product = item.product);
+    newOrderItem.created = new Date();
+      newOrderItem.updated = new Date();
+      newOrderItem.productId = item.product.id;
+      newOrderItem.productName = item.product.name;
+      newOrderItem.productPrice = item.product.price;
+      newOrderItem.productQuantity = item.product.quantity;
+      newOrderItem.product = item.product;
 
     return await this.orderItemsRepository.save(newOrderItem);
   }

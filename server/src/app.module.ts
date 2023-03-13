@@ -9,25 +9,19 @@ import { OrderModule } from "./app/order/order.module";
 import { OrderController } from "./app/order/order.controller";
 
 import data_config from "./config/data-source";
-import database_config from "./config/database.config";
+import databaseConfig from "./config/database.config";
+import { ProductsModule } from "./app/products/products.module";
 
 @Module({
-  imports: [
-    ConfigModule.forRoot({
-      envFilePath: ".development.env",
-      load: [data_config, database_config],
-      isGlobal: true,
-    }),
-
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: (config: ConfigService) => config.get("database"),
-      inject: [ConfigService],
-    }),
-    AuthModule,
-    OrderModule,
-  ],
-  controllers: [AuthController, OrderController],
-  providers: [AuthService, OrderService],
+    imports: [
+        ConfigModule.forRoot({
+            envFilePath: ".development.env",
+            isGlobal: true,
+        }),
+        TypeOrmModule.forRoot(databaseConfig),
+        ProductsModule,
+    ],
+    controllers: [],
+    providers: [],
 })
 export class AppModule {}
