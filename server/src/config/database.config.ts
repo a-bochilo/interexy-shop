@@ -9,6 +9,7 @@ import { ProudctDetailsEntity } from "../app/products/entities/product-details.e
 import { ProductActiveViewEntity } from "../app/products/entities/product-active-view.entity";
 import { CartEntity } from "../app/cart/entities/cart.entity";
 import { CartItemEntity } from "../app/cart/entities/cart-item.entity";
+import { UserDetailsEntity } from "../app/users/entities/user-details.entity";
 
 // ========================== Migrations ==========================
 import { $npmConfigName1678357923542 } from "../../migrations/1678357923542-$npm_config_name";
@@ -32,6 +33,7 @@ const databaseConfig: PostgresConnectionOptions = {
     database: process.env.POSTGRES_DB,
     entities: [
         UserEntity,
+        UserDetailsEntity,
         RoleEntity,
         ProudctEntity,
         ProudctDetailsEntity,
