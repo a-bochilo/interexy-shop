@@ -5,4 +5,10 @@ export enum UserPermissions {
     updateRole = "updateRole",
     deleteRole = "deleteRole",
     getAllUsers = "getAllUsers",
+    createProduct = "createProduct",
+    getAllProducts = "getAllProducts",
+    getProductDetials = "getProductDetials",
+    updateProduct = "updateProduct",
+    deleteProduct = "deleteProduct",
+    getFiltredProducts = "getFiltredProducts",
 }
