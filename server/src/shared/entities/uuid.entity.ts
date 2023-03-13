@@ -1,8 +1,7 @@
 import { Column, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 export abstract class UUIDEntity {
-    
-    @PrimaryGeneratedColumn({ name: "id"})
+    @PrimaryColumn({ name: "id", type: "uuid" })
     id!: 'uuid';
 
     @UpdateDateColumn({
