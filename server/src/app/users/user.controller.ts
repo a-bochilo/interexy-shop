@@ -1,4 +1,16 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put, Query, UsePipes, ValidationPipe } from "@nestjs/common";
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    HttpStatus,
+    Param,
+    Post,
+    Put,
+    Query,
+    UsePipes,
+    ValidationPipe,
+} from "@nestjs/common";
 import { AuthPermissionsGuard } from "../security/decorators/auth-permissions-guard.decorator";
 import { User } from "./decorators/user.decorator";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
@@ -12,19 +24,17 @@ import { UserDetailsDto } from "./dtos/user-details.dto";
 import { UserSessionDto } from "./dtos/user-session.dto";
 
 // ========================== Enums =====================================
-import { UserPermissions } from "src/shared/types/user-permissions.enum";
+import { UserPermissions } from "../../shared/types/user-permissions.enum";
 
 // ========================== Services & Controllers ====================
 import { UserService } from "./user.service";
 import { UpdateUserDto } from "./dtos/update-user.dto";
 
-@ApiTags('Users controller')
+@ApiTags("Users controller")
 @Controller("users")
 export class UserController {
-    constructor(
-        private readonly userService: UserService,
-    ) { }
-    
+    constructor(private readonly userService: UserService) {}
+
     //CREATE
     @Post()
     @ApiOperation({ summary: "Create new user" })
@@ -35,14 +45,12 @@ export class UserController {
         isArray: false,
     })
     @UsePipes(new ValidationPipe())
-    async create(
-        @Body() userDto: CreateUserDto
-    ): Promise<UserEntity> {
+    async create(@Body() userDto: CreateUserDto): Promise<UserEntity> {
         return await this.userService.createUser(userDto);
     }
 
     //GET ALL INACTIVE USERS
-    @Get('')
+    @Get("")
     //@AuthPermissionsGuard(UserPermissions.getAllUsers)
     @ApiOperation({ summary: "Get all users" })
     @ApiResponse({
@@ -53,9 +61,9 @@ export class UserController {
     })
     @UsePipes(new ValidationPipe())
     async getInActiveUsers(
-        @Query('isActive') isActive: boolean
+        @Query("isActive") isActive: boolean
     ): Promise<UserEntity[]> {
-        return this.userService.getUsers(isActive)
+        return this.userService.getUsers(isActive);
     }
 
     //GET ONE USER BY ID ----------------------------------------------ADMIN
@@ -70,7 +78,7 @@ export class UserController {
     })
     @UsePipes(new ValidationPipe())
     async getUserById(
-        @Param("userId") userId: 'uuid'
+        @Param("userId") userId: "uuid"
     ): Promise<UserDetailsEntity> {
         return await this.userService.getById(userId);
     }
@@ -88,7 +96,7 @@ export class UserController {
     @UsePipes(new ValidationPipe())
     async updateDetails(
         @Body() info: UpdateUserDto,
-        @Param("userid") userId: 'uuid'
+        @Param("userid") userId: "uuid"
     ): Promise<UserEntity> {
         return await this.userService.updateUserDetails(info, userId);
     }
@@ -104,9 +112,7 @@ export class UserController {
         isArray: false,
     })
     @UsePipes(new ValidationPipe())
-    async deleteUserById(
-        @Param('userId') userId: 'uuid'
-    ): Promise<UserEntity> {
+    async deleteUserById(@Param("userId") userId: "uuid"): Promise<UserEntity> {
         return await this.userService.deleteUserById(userId);
     }
 
@@ -123,13 +129,13 @@ export class UserController {
     @UsePipes(new ValidationPipe())
     async assignRole(
         @Body() assignUserRoleDto: AssignUserRoleDto,
-        @Param("userId") userId: 'uuid'
+        @Param("userId") userId: "uuid"
     ): Promise<UserEntity> {
         return await this.userService.assignUserRole(assignUserRoleDto, userId);
     }
 
     //GET ONE USER BY ID ---------------------------------------USER
-    @Get('/profile')
+    @Get("/profile")
     //@AuthPermissionsGuard(UserPermissions.getProfile)
     @ApiOperation({ summary: "Get user by id (user)" })
     @ApiResponse({
@@ -139,15 +145,12 @@ export class UserController {
         isArray: false,
     })
     @UsePipes(new ValidationPipe())
-    async getProfile(
-        @User() user: UserSessionDto
-    ): Promise<UserDetailsEntity> {
-        return await this.userService.getById(user.id as 'uuid');
+    async getProfile(@User() user: UserSessionDto): Promise<UserDetailsEntity> {
+        return await this.userService.getById(user.id as "uuid");
     }
 
-
     //UPDATE DETAILS BY USER ID ---------------------------------------USER
-    @Put('/profile')
+    @Put("/profile")
     //@AuthPermissionsGuard(UserPermissions.updateProfile)
     @ApiOperation({ summary: "Update user details (user)" })
     @ApiResponse({
@@ -159,8 +162,11 @@ export class UserController {
     @UsePipes(new ValidationPipe())
     async updateProfile(
         @Body() info: CreateUserDto,
-        @User() user: UserSessionDto,
+        @User() user: UserSessionDto
     ): Promise<UserEntity> {
-        return await this.userService.updateUserDetails(info, user.id as 'uuid');
+        return await this.userService.updateUserDetails(
+            info,
+            user.id as "uuid"
+        );
     }
 }

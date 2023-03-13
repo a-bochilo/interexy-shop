@@ -14,7 +14,7 @@ import { ApiProperty } from "@nestjs/swagger";
 import { ProductsCategory } from "../enums/products-category.enum";
 
 // ========================== DTO's ==========================
-import { UUIDDto } from "src/shared/dtos/uuid.dto";
+import { UUIDDto } from "../../../shared/dtos/uuid.dto";
 
 // ========================== Entities ==========================
 import { ProudctEntity } from "../entities/product.entity";

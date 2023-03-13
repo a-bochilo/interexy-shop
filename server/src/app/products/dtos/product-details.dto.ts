@@ -2,7 +2,7 @@ import { IsNotEmpty, IsString } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
 
 // ========================== Entities & DTO's ==========================
-import { UUIDDto } from "src/shared/dtos/uuid.dto";
+import { UUIDDto } from "../../../shared/dtos/uuid.dto";
 import { ProudctDetailsEntity } from "../entities/product-details.entity";
 
 export class ProductDetailsDto extends UUIDDto {

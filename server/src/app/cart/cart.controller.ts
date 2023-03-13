@@ -9,7 +9,8 @@ import {
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
 // ========================== DTO's ==========================
-import { CartDto } from "./dtos/cart.dto";
+import { CartCreateDto } from "./dtos/cart-create.dto";
+import { CartEntity } from "./entities/cart.entity";
 
 // ========================== Enums ==========================
 
@@ -28,13 +29,15 @@ export class CartController {
     @ApiResponse({
         status: HttpStatus.OK,
         description: "HttpStatus:200:OK",
-        type: CartDto,
+        type: CartCreateDto,
         isArray: false,
     })
     @Post()
     // @AuthPermissionsGuard(UserPermissions.createCart)
     @UsePipes(new ValidationPipe())
-    async createProduct(@Body() cartCreateDto: CartDto): Promise<string> {
-        return await "hello";
+    async createProduct(
+        @Body() cartCreateDto: CartCreateDto
+    ): Promise<CartEntity> {
+        return await this.cartService.createCart(cartCreateDto);
     }
 }

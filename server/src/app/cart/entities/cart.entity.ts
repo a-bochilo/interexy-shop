@@ -9,7 +9,7 @@ import { CartItemEntity } from "./cart-item.entity";
 
 @Entity({ name: "carts" })
 export class CartEntity extends UUIDEntity {
-    @Column({ name: "user_id" })
+    @Column({ name: "user_id", type: "uuid" })
     userId!: string;
 
     @Column({ name: "cart_item_ids" })

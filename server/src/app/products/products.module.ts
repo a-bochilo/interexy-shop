@@ -2,7 +2,7 @@ import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 
 // ========================== Security ==========================
-import { SecurityModule } from "src/app/security/security.module";
+import { SecurityModule } from "../../app/security/security.module";
 
 // ========================== Controllers & Services ==========================
 import { ProductsController } from "./products.controller";

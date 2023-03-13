@@ -1,8 +1,8 @@
-import { Column, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 export abstract class UUIDEntity {
-    @PrimaryColumn({ name: "id", type: "uuid" })
-    id!: 'uuid';
+    @PrimaryGeneratedColumn("uuid")
+    id!: string;
 
     @UpdateDateColumn({
         name: "created",

@@ -11,4 +11,8 @@ export class CartRepository {
         @InjectRepository(CartEntity)
         private readonly cartRepository: Repository<CartEntity>
     ) {}
+
+    async saveCart(cart: CartEntity) {
+        return await this.cartRepository.save(cart);
+    }
 }
