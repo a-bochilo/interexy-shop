@@ -1,6 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEnum, IsNotEmpty, IsNumber } from "class-validator";
-import { UserPermissions } from "src/shared/types/user-permissions.enum";
+import { IsNotEmpty, IsNumber } from "class-validator";
 
 export class AssignUserRoleDto {
 
@@ -11,12 +10,4 @@ export class AssignUserRoleDto {
     @IsNotEmpty()
     @IsNumber()
     readonly newRole: number;
-
-    @ApiProperty({
-        description: "Product category",
-        enum: UserPermissions,
-    })
-    @IsNotEmpty()
-    @IsEnum(UserPermissions)
-    readonly permissions: UserPermissions
 }

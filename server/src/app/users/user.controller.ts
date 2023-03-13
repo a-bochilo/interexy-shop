@@ -42,7 +42,7 @@ export class UserController {
     }
 
     //GET ALL INACTIVE USERS
-    @Get('/?')
+    @Get('')
     //@AuthPermissionsGuard(UserPermissions.getAllUsers)
     @ApiOperation({ summary: "Get all users" })
     @ApiResponse({

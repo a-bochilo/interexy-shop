@@ -68,24 +68,16 @@ export class UserService {
     }
 
     async getUsers(isActive: boolean) {
-        if (isActive.toString() === 'true') {
+        if (isActive === undefined) {
             return await this.userViewRepository.getAll();
         }
-        return await this.userRepository.getInActiveUsers(isActive);
+        return await this.userRepository.getInActiveUsers(false);
     }
 
     async getById(userId: 'uuid') {
         try {
             const user = await this.userRepository.getById(userId);
-            if(user.isActive !== false) {
-                return await this.userDetailsRepository.getDetails(user.details_id as 'uuid');
-            } else {
-                throw new HttpException(
-                    `User deleted`,
-                    HttpStatus.FORBIDDEN
-                )
-            }
-            
+            return await this.userDetailsRepository.getDetails(user.details_id as 'uuid');
         } catch (error) {
             throw new HttpException(
                 error,
@@ -119,27 +111,20 @@ export class UserService {
     async updateUserDetails(info: UpdateUserDto, userId: 'uuid') {
         try {
             const user = await this.userRepository.getById(userId);
-            if(user.isActive !== false) {
-                let details = await this.userDetailsRepository.getDetails(user.details_id as 'uuid');
-                const newDetails = await this.userDetailsRepository.createUserDetails(
-                    Object.assign(details, info.details)
-                );
-                const role = await this.roleService.getRoleById(user.roleId);
-                delete (info.details);
-                Object.assign(user, info);
-                details = newDetails;
-                await this.userDetailsRepository.deleteDetails(user.details_id as 'uuid');
-                return await this.userRepository.updateUser({
-                    ...user,
-                    details,
-                    role
-                })
-            } else {
-                throw new HttpException(
-                    `User deleted`,
-                    HttpStatus.FORBIDDEN
-                )
-            }
+            let details = await this.userDetailsRepository.getDetails(user.details_id as 'uuid');
+            const newDetails = await this.userDetailsRepository.createUserDetails(
+                Object.assign(details, info.details)
+            );
+            const role = await this.roleService.getRoleById(user.roleId);
+            delete (info.details);
+            Object.assign(user, info);
+            details = newDetails;
+            await this.userDetailsRepository.deleteDetails(user.details_id as 'uuid');
+            return await this.userRepository.updateUser({
+                ...user,
+                details,
+                role
+            })
         } catch (error) {
             throw new HttpException(
                 error,
