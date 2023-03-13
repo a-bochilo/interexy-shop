@@ -42,4 +42,12 @@ export class RoleRepository extends Repository<RoleEntity> {
     async getById(id: number) {
         return await this.findOneBy({ id: id })
     }
+
+    async deleteRole(id: number) {
+        return await this.delete({id: id});
+    }
+
+    async updateRole(role: RoleEntity) {
+        return await this.save(role);
+    }
 }

@@ -55,9 +55,7 @@ export class UserRepository extends Repository<UserEntity> {
     }
 
     async updateUser(user: UserEntity) {
-        const newUser = new UserEntity();
-        Object.assign(newUser, user)
-        return await this.save(newUser);
+        return await this.save(user);
     }
 
     async deleteUser(userId: 'uuid') {
@@ -66,5 +64,13 @@ export class UserRepository extends Repository<UserEntity> {
             ...user,
             isActive: false
         })
+    }
+
+    async getUserByEmail(email: string) {
+        return await this.findOneBy({email: email})
+    }
+
+    async getUserByPhone(phone: string) {
+        return await this.findOneBy({phone: phone})
     }
 }

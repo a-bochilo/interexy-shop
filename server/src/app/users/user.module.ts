@@ -1,17 +1,25 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
+
+// ========================== Entities & DTO's ==========================
 import { RoleEntity } from "../roles/entities/role.entity";
-import { SecurityModule } from "../security/security.module";
 import { UserDetailsEntity } from "./entities/user-details.entity";
 import { UserEntity } from "./entities/user.entity";
+import { UserViewEntity } from "./entities/user-view.entity";
+
+// ========================== Repositories ==============================
 import { UserRepository } from "./repos/user.repository";
+import { RoleRepository } from "../roles/repos/role.repository";
+import { UserDetailsRepository } from "./repos/user-details.repository";
+import { UserViewRepository } from "./repos/user-view.repository";
+
+// ========================== Services & Controllers ====================
 import { UserController } from "./user.controller";
 import { UserService } from "./user.service";
 import { RoleService } from "../roles/role.service";
-import { RoleRepository } from "../roles/repos/role.repository";
-import { UserDetailsRepository } from "./repos/user-details.repository";
-import { UserViewEntity } from "./entities/user-view.entity";
-import { UserViewRepository } from "./repos/user-view.repository";
+
+// ========================== Modules ===================================
+import { SecurityModule } from "../security/security.module";
 
 @Module({
     imports: [

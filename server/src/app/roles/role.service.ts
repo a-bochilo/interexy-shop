@@ -12,7 +12,7 @@ import { UserRoles } from "src/shared/types/user-roles.enum";
 @Injectable()
 export class RoleService {
 
-    constructor(private readonly roleRepository: RoleRepository) {}
+    constructor(private readonly roleRepository: RoleRepository) { }
 
     async createRole(createRoleDto: CreateRoleDto): Promise<RoleEntity> {
         return this.roleRepository.createRole(createRoleDto);
@@ -28,5 +28,15 @@ export class RoleService {
 
     async getRoleById(id: number) {
         return await this.roleRepository.getById(id);
+    }
+
+    async deleteRole(id: number) {
+        return await this.roleRepository.deleteRole(id);
+    }
+
+    async updateRole(id: number, createRoleDto: CreateRoleDto) {
+        const role = await this.roleRepository.getById(id);
+        Object.assign(role, createRoleDto);
+        return await this.roleRepository.updateRole(role)
     }
 }

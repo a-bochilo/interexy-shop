@@ -18,7 +18,6 @@ export class SecurityService {
 
     async generateJwt(dto: UserSessionDto): Promise<TokenDto> {
         const access_token = this.jwtService.sign(dto);
-
         return { access_token };
     }
 

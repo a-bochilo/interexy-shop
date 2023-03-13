@@ -7,7 +7,7 @@ import {
     IsEnum,
 } from "class-validator";
 
-// ========================== Types ==========================
+// ========================== Enums ==========================
 import { UserPermissions } from "../../../shared/types/user-permissions.enum";
 import { UserRoles } from "../../../shared/types/user-roles.enum";
 

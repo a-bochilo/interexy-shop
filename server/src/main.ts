@@ -8,8 +8,9 @@ const start = async () => {
 
     const swagger = new DocumentBuilder()
         .setTitle('Template Nest App')
-        .setDescription('Some description')
+        .setDescription('Fullstack test task')
         .setVersion('0.0.1')
+        .addTag('Test task')
         .build();
 
     const document = SwaggerModule.createDocument(app, swagger);
