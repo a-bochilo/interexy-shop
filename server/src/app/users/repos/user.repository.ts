@@ -12,7 +12,7 @@ export class UserRepository extends Repository<UserEntity> {
         @InjectRepository(UserEntity) userRepository: Repository<UserEntity>,
     ) {
         super(userRepository.target, userRepository.manager, userRepository.queryRunner);
-    }
+    }  
 
     async createUser(dto: CreateUserDto) {
         const user = new UserEntity();
@@ -28,7 +28,7 @@ export class UserRepository extends Repository<UserEntity> {
             details: dto.details,
             isActive: true,
         })
-        return this.save(newUser);
+        return await this.save(newUser);
     }
 
     async getAll() {
@@ -73,4 +73,26 @@ export class UserRepository extends Repository<UserEntity> {
     async getUserByPhone(phone: string) {
         return await this.findOneBy({phone: phone})
     }
+
+    async getOrdersById(userId: string) {
+        const user =  await this.findOne({
+            where: { 
+                id: userId 
+            },
+            relations: ['order']
+        })
+        return user.order;
+    }
+
+    async getFullUserByEmail(emailUser: string) {
+        return await this.findOne({
+            where: {
+                email: emailUser
+            },
+            relations: [
+                'role'
+            ]
+        })
+    }
+
 }

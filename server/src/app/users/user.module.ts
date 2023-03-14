@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { Module, forwardRef } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 
 // ========================== Entities & DTO's ==========================
@@ -20,6 +20,7 @@ import { RoleService } from "../roles/role.service";
 
 // ========================== Modules ===================================
 import { SecurityModule } from "../security/security.module";
+import { OrderEntity } from "../orders/entities/order.entity";
 
 @Module({
     imports: [
@@ -27,7 +28,8 @@ import { SecurityModule } from "../security/security.module";
             UserEntity, 
             RoleEntity, 
             UserDetailsEntity,
-            UserViewEntity
+            UserViewEntity,
+            OrderEntity
         ]),
         SecurityModule,
     ],

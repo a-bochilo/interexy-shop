@@ -7,8 +7,8 @@ export class $npmConfigName1678362416266 implements MigrationInterface {
         await queryRunner.createTable(getCart(), false);
         await queryRunner.addColumn('users', getCartColumnFromUsers());
         await queryRunner.createForeignKey('users', getCartFKFromUsers());
-        await queryRunner.createTable(getCartItems(), false);
-        await queryRunner.createForeignKey('cart', getCartItemFKFromCart());
+        //await queryRunner.createTable(getCartItems(), false);
+        //await queryRunner.createForeignKey('cart', getCartItemFKFromCart());
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
@@ -70,11 +70,11 @@ const getCart = () => {
                 type: 'uuid',
                 isNullable: false
             },
-            {
-                name: 'cart_item_id',
-                type: 'uuid',
-                isNullable: false
-            }
+            // {
+            //     name: 'cart_item_id',
+            //     type: 'uuid',
+            //     isNullable: false
+            // }
         ],
         foreignKeys: [
             {
@@ -82,8 +82,8 @@ const getCart = () => {
                 columnNames: ["user_id"],
                 referencedTableName: "users",
                 referencedColumnNames: ["id"],
-                onDelete: "RESTRICT",
-                onUpdate: "RESTRICT",
+                onDelete: "CASCADE",
+                onUpdate: "CASCADE",
             },
         ]
     })

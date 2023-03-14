@@ -18,6 +18,7 @@ import { UserPermissions } from "src/shared/types/user-permissions.enum";
 import { UserService } from "./user.service";
 import { UpdateUserDto } from "./dtos/update-user.dto";
 import { UserViewEntity } from "./entities/user-view.entity";
+import { OrderEntity } from "../orders/entities/order.entity";
 
 @ApiTags('Users controller')
 @Controller("users")
@@ -27,20 +28,20 @@ export class UserController {
     ) { }
     
     //CREATE
-    @Post()
-    @ApiOperation({ summary: "Create new user" })
-    @ApiResponse({
-        status: HttpStatus.OK,
-        description: "HttpStatus:200:OK",
-        type: UserEntity,
-        isArray: false,
-    })
-    @UsePipes(new ValidationPipe())
-    async create(
-        @Body() userDto: CreateUserDto
-    ): Promise<UserEntity> {
-        return await this.userService.createUser(userDto);
-    }
+    // @Post()
+    // @ApiOperation({ summary: "Create new user" })
+    // @ApiResponse({
+    //     status: HttpStatus.OK,
+    //     description: "HttpStatus:200:OK",
+    //     type: UserEntity,
+    //     isArray: false,
+    // })
+    // @UsePipes(new ValidationPipe())
+    // async create(
+    //     @Body() userDto: CreateUserDto
+    // ): Promise<UserEntity> {
+    //     return await this.userService.createUser(userDto);
+    // }
 
     //GET ALL INACTIVE USERS
     @Get('')
@@ -73,7 +74,7 @@ export class UserController {
     async getUserById(
         @Param("userId") userId: string
     ): Promise<UserDetailsEntity> {
-        return await this.userService.getById(userId);
+        return await this.userService.getDetailsById(userId);
     }
 
     //UPDATE DETAILS BY USER ID ---------------------------------------ADMIN
@@ -129,7 +130,24 @@ export class UserController {
         return await this.userService.assignUserRole(assignUserRoleDto, userId);
     }
 
-    //GET ONE USER BY ID ---------------------------------------USER
+    //GET ONE USER ORDER BY ID ---------------------------------------ADMIN
+    @Get('/orders/:userId')
+    //@AuthPermissionsGuard(UserPermissions.getProfile)
+    @ApiOperation({ summary: "Get user order by id (admin)" })
+    @ApiResponse({
+        status: HttpStatus.OK,
+        description: "HttpStatus:200:OK",
+        type: UserDetailsEntity,
+        isArray: false,
+    })
+    @UsePipes(new ValidationPipe())
+    async getUserOrders(
+       @Param("userId") userId: string
+    ): Promise<OrderEntity[]> {
+        return await this.userService.getOrdersById(userId);
+    }
+
+    //GET ONE USER DETAILS BY ID ---------------------------------------USER
     @Get('/profile')
     //@AuthPermissionsGuard(UserPermissions.getProfile)
     @ApiOperation({ summary: "Get user by id (user)" })
@@ -143,9 +161,8 @@ export class UserController {
     async getProfile(
         @User() user: UserSessionDto
     ): Promise<UserDetailsEntity> {
-        return await this.userService.getById(user.id as string);
+        return await this.userService.getDetailsById(user.id);
     }
-
 
     //UPDATE DETAILS BY USER ID ---------------------------------------USER
     @Put('/profile')
@@ -164,4 +181,23 @@ export class UserController {
     ): Promise<UserEntity> {
         return await this.userService.updateUserDetails(info, user.id as string);
     }
+
+    //GET ONE USER ORDER BY ID ---------------------------------------USER
+    @Get('/orders')
+    //@AuthPermissionsGuard(UserPermissions.getProfile)
+    @ApiOperation({ summary: "Get user order by id (user)" })
+    @ApiResponse({
+        status: HttpStatus.OK,
+        description: "HttpStatus:200:OK",
+        type: UserDetailsEntity,
+        isArray: false,
+    })
+    @UsePipes(new ValidationPipe())
+    async getOrders(
+        @User() user: UserSessionDto
+    ): Promise<OrderEntity[]> {
+        console.log(user)
+        return await this.userService.getOrdersById(user.id as string);
+    }
+
 }

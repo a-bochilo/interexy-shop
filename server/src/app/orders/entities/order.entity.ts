@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { UserEntity } from "src/app/users/entities/user.entity";
-import { UUIDEntity } from "src/shared/entities/uuid.entity";
+import { UserEntity } from "../../users/entities/user.entity";
+import { UUIDEntity } from "../../../shared/entities/uuid.entity";
 import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
 
 @Entity({ name: "order" })
@@ -10,10 +10,10 @@ export class OrderEntity extends UUIDEntity {
     @Column({ name: "total"})
     total: number;
 
-    @Column({ name: "user_id"})
+    @Column({ name: "user_id", default: null})
     user_id: string;
 
-    @ManyToOne(() => UserEntity, (user) => user.id)
+    @ManyToOne(() => UserEntity, (user) => user.order)
     @JoinColumn({ name: "user_id" })
-    user: UserEntity[];
+    user: UserEntity;
 }

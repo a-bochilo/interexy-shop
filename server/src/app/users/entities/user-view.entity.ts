@@ -1,4 +1,4 @@
-import { JoinColumn, ManyToOne, OneToOne, ViewColumn, ViewEntity, } from "typeorm";
+import { JoinColumn, ManyToOne, OneToMany, OneToOne, ViewColumn, ViewEntity, } from "typeorm";
 import { ApiProperty } from "@nestjs/swagger";
 
 // ========================== Entities ==========================
@@ -8,6 +8,7 @@ import { RoleEntity } from "../../roles/entities/role.entity";
 
 // ========================== Enums ==========================
 import { UserRoles } from "../../../shared/types/user-roles.enum";
+import { OrderEntity } from "src/app/orders/entities/order.entity";
 
 
 
@@ -48,5 +49,9 @@ export class UserViewEntity extends UUIDEntity {
     @ManyToOne(() => RoleEntity, (role) => role.users)
     @JoinColumn({ name: "role_id" })
     role: RoleEntity;
+
+    @OneToMany(() => OrderEntity, (order) => order.user)
+    @JoinColumn({ name: "order_id" })
+    order: OrderEntity[];
 
 }

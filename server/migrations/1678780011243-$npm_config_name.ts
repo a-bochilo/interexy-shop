@@ -20,6 +20,7 @@ const getOrderColumnFromUsers = () => {
     return new TableColumn({
         name: 'user_id',
         type: 'uuid',
+        isNullable: true,
     })
 }
 
@@ -38,6 +39,7 @@ const getUsersColumnFromOrder = () => {
     return new TableColumn({
         name: 'order_id',
         type: 'uuid',
+        isNullable: true,
     })
 }
 

@@ -9,7 +9,7 @@ import { UserRoles } from "../../../shared/types/user-roles.enum";
 import { UserDetailsEntity } from "./user-details.entity";
 import { RoleEntity } from "../../roles/entities/role.entity";
 import { ApiProperty } from "@nestjs/swagger";
-import { OrderEntity } from "src/app/orders/entities/order.entity";
+import { OrderEntity } from "../../orders/entities/order.entity";
 
 @Entity({ name: "users" })
 export class UserEntity extends UUIDEntity {
@@ -50,11 +50,7 @@ export class UserEntity extends UUIDEntity {
     @JoinColumn({ name: "role_id" })
     role: RoleEntity;
 
-    @ApiProperty({ example: '1qwe-21-3', description: 'Details id', required: true })
-    @Column({ name: 'orders_id' })
-    orders_id: string
-
-    @OneToMany(() => OrderEntity, (order) => order.id)
-    @JoinColumn({ name: "orders_id" })
+    @OneToMany(() => OrderEntity, (order) => order.user)
+    @JoinColumn({ name: "order_id" })
     order: OrderEntity[];
 }

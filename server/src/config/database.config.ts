@@ -8,6 +8,9 @@ import { ProudctEntity } from "../app/products/entities/product.entity";
 import { ProudctDetailsEntity } from "../app/products/entities/product-details.entity";
 import { ProductActiveViewEntity } from "../app/products/entities/product-active-view.entity";
 import { UserDetailsEntity } from "../app/users/entities/user-details.entity";
+import { OrderEntity } from "../app/orders/entities/order.entity";
+import { UserViewEntity } from "../app/users/entities/user-view.entity";
+
 
 // ========================== Migrations ==========================
 import { $npmConfigName1678357923542 } from "../../migrations/1678357923542-$npm_config_name";
@@ -21,7 +24,7 @@ import { $npmConfigName1678456561878 } from "../../migrations/1678456561878-$npm
 import { $npmConfigName1678456993069 } from "../../migrations/1678456993069-$npm_config_name";
 import { $npmConfigName1678544710047 } from "../../migrations/1678544710047-$npm_config_name";
 import { $npmConfigName1678780011243 } from "../../migrations/1678780011243-$npm_config_name";
-import { OrderEntity } from "src/app/orders/entities/order.entity";
+
 
 
 const databaseConfig: PostgresConnectionOptions = {
@@ -33,17 +36,18 @@ const databaseConfig: PostgresConnectionOptions = {
     database: process.env.POSTGRES_DB,
     entities: [
         UserEntity,
+        OrderEntity,
         UserDetailsEntity,
+        UserViewEntity,
         RoleEntity,
         ProudctEntity,
         ProudctDetailsEntity,
         ProductActiveViewEntity,
-        OrderEntity,
     ],
     synchronize: false,
     migrations: [
         $npmConfigName1678357923542,
-        $npmConfigName1678362416266,
+        //$npmConfigName1678362416266,
         $npmConfigName1678370951605,
         $npmConfigName1678367706850,
         $npmConfigName1678373196143,

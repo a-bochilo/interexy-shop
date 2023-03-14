@@ -17,8 +17,9 @@ export class SecurityService {
     ) {}
 
     async generateJwt(dto: UserSessionDto): Promise<TokenDto> {
-        const access_token = this.jwtService.sign(dto);
-        return { access_token };
+        const payload = {email: dto.email, id: dto.id, role_type: dto.role_type, permissons: dto.permissions};
+        const token = this.jwtService.sign(payload);
+        return { token };
     }
 
     async getUser(id: string): Promise<UserEntity> {

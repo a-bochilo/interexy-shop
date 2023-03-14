@@ -20,6 +20,8 @@ import { RoleController } from "./role.controller";
 import { UserService } from "../users/user.service";
 import { UserViewEntity } from "../users/entities/user-view.entity";
 import { UserViewRepository } from "../users/repos/user-view.repository";
+import { AuthService } from "../auth/auth.service";
+import { JwtService } from "@nestjs/jwt";
 
 
 @Module({

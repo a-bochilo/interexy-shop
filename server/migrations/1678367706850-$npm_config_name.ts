@@ -3,11 +3,11 @@ import { MigrationInterface, QueryRunner, Table, TableColumn, TableForeignKey } 
 export class $npmConfigName1678367706850 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.addColumn('cart_item', getProductsColumnFromCartItem());
+        //await queryRunner.addColumn('cart_item', getProductsColumnFromCartItem());
         await queryRunner.createTable(getProductsTable(), false);
         await queryRunner.createTable(getProductsDetailsTable(), false);
-        await queryRunner.createForeignKey('cart_item', getProductsFKFromCartItem());
-        await queryRunner.createForeignKey('products', getProductsDetailsFKFromProducts());
+        //await queryRunner.createForeignKey('cart_item', getProductsFKFromCartItem());
+        //await queryRunner.createForeignKey('products', getProductsDetailsFKFromProducts());
 
     }
 
