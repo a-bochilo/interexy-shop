@@ -21,7 +21,7 @@ export class SecurityService {
         return { access_token };
     }
 
-    async getUser(id: 'uuid'): Promise<UserEntity> {
+    async getUser(id: string): Promise<UserEntity> {
         return await this.userRepository.getById(id)
     }
 }

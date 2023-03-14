@@ -74,10 +74,10 @@ export class UserService {
         return await this.userRepository.getInActiveUsers(false);
     }
 
-    async getById(userId: 'uuid') {
+    async getById(userId: string) {
         try {
             const user = await this.userRepository.getById(userId);
-            return await this.userDetailsRepository.getDetails(user.details_id as 'uuid');
+            return await this.userDetailsRepository.getDetails(user.details_id as string);
         } catch (error) {
             throw new HttpException(
                 error,
@@ -86,7 +86,7 @@ export class UserService {
         }
     }
 
-    async assignUserRole(assignUserRoleDto: AssignUserRoleDto, userId: 'uuid') {
+    async assignUserRole(assignUserRoleDto: AssignUserRoleDto, userId: string) {
         try {
             const user = await this.userRepository.getById(userId);
             const newRole = await this.roleService.getRoleById(
@@ -104,14 +104,14 @@ export class UserService {
         }
     };
 
-    async deleteUserById(userId: 'uuid') {
+    async deleteUserById(userId: string) {
         return await this.userRepository.deleteUser(userId);
     }
 
-    async updateUserDetails(info: UpdateUserDto, userId: 'uuid') {
+    async updateUserDetails(info: UpdateUserDto, userId: string) {
         try {
             const user = await this.userRepository.getById(userId);
-            let details = await this.userDetailsRepository.getDetails(user.details_id as 'uuid');
+            let details = await this.userDetailsRepository.getDetails(user.details_id as string);
             const newDetails = await this.userDetailsRepository.createUserDetails(
                 Object.assign(details, info.details)
             );
@@ -119,7 +119,7 @@ export class UserService {
             delete (info.details);
             Object.assign(user, info);
             details = newDetails;
-            await this.userDetailsRepository.deleteDetails(user.details_id as 'uuid');
+            await this.userDetailsRepository.deleteDetails(user.details_id as string);
             return await this.userRepository.updateUser({
                 ...user,
                 details,

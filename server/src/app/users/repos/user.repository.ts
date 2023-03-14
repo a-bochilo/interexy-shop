@@ -41,7 +41,7 @@ export class UserRepository extends Repository<UserEntity> {
         }})
     }
 
-    async getById(userId: 'uuid') {
+    async getById(userId: string) {
         return await this.findOne({
             where: {
                 id: userId
@@ -49,7 +49,7 @@ export class UserRepository extends Repository<UserEntity> {
         },)
     }
 
-    async getDetailsId(userId: 'uuid') {
+    async getDetailsId(userId: string) {
         const user =  await this.findOneBy({ id: userId })
         return user.details_id;
     }
@@ -58,7 +58,7 @@ export class UserRepository extends Repository<UserEntity> {
         return await this.save(user);
     }
 
-    async deleteUser(userId: 'uuid') {
+    async deleteUser(userId: string) {
        const user = await this.findOneBy({ id: userId });
         return await this.save({
             ...user,

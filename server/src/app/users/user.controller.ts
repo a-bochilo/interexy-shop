@@ -17,6 +17,7 @@ import { UserPermissions } from "src/shared/types/user-permissions.enum";
 // ========================== Services & Controllers ====================
 import { UserService } from "./user.service";
 import { UpdateUserDto } from "./dtos/update-user.dto";
+import { UserViewEntity } from "./entities/user-view.entity";
 
 @ApiTags('Users controller')
 @Controller("users")
@@ -54,7 +55,7 @@ export class UserController {
     @UsePipes(new ValidationPipe())
     async getInActiveUsers(
         @Query('isActive') isActive: boolean
-    ): Promise<UserEntity[]> {
+    ): Promise<UserEntity[] | UserViewEntity[]> {
         return this.userService.getUsers(isActive)
     }
 
@@ -70,7 +71,7 @@ export class UserController {
     })
     @UsePipes(new ValidationPipe())
     async getUserById(
-        @Param("userId") userId: 'uuid'
+        @Param("userId") userId: string
     ): Promise<UserDetailsEntity> {
         return await this.userService.getById(userId);
     }
@@ -88,7 +89,7 @@ export class UserController {
     @UsePipes(new ValidationPipe())
     async updateDetails(
         @Body() info: UpdateUserDto,
-        @Param("userid") userId: 'uuid'
+        @Param("userid") userId: string
     ): Promise<UserEntity> {
         return await this.userService.updateUserDetails(info, userId);
     }
@@ -105,7 +106,7 @@ export class UserController {
     })
     @UsePipes(new ValidationPipe())
     async deleteUserById(
-        @Param('userId') userId: 'uuid'
+        @Param('userId') userId: string
     ): Promise<UserEntity> {
         return await this.userService.deleteUserById(userId);
     }
@@ -123,7 +124,7 @@ export class UserController {
     @UsePipes(new ValidationPipe())
     async assignRole(
         @Body() assignUserRoleDto: AssignUserRoleDto,
-        @Param("userId") userId: 'uuid'
+        @Param("userId") userId: string
     ): Promise<UserEntity> {
         return await this.userService.assignUserRole(assignUserRoleDto, userId);
     }
@@ -142,7 +143,7 @@ export class UserController {
     async getProfile(
         @User() user: UserSessionDto
     ): Promise<UserDetailsEntity> {
-        return await this.userService.getById(user.id as 'uuid');
+        return await this.userService.getById(user.id as string);
     }
 
 
@@ -161,6 +162,6 @@ export class UserController {
         @Body() info: CreateUserDto,
         @User() user: UserSessionDto,
     ): Promise<UserEntity> {
-        return await this.userService.updateUserDetails(info, user.id as 'uuid');
+        return await this.userService.updateUserDetails(info, user.id as string);
     }
 }
