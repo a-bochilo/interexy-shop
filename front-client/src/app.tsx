@@ -4,6 +4,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 // import AppRoutes from "app.routes";
 
 import "./app.css";
+import PageAsideComp from "./components/aside.comp";
 import ErrorBoundaryComp from "./components/error-boundary.comp";
 import PageNavBarComp from "./components/navbar.comp";
 import store from "./store";
@@ -14,7 +15,7 @@ function App() {
       <Provider store={store}>
         <Router>
           {/* <AppRoutes /> */}
-          <PageNavBarComp />
+          <PageAsideComp />
         </Router>
       </Provider>
     </ErrorBoundaryComp>
