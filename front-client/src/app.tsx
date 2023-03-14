@@ -5,6 +5,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 
 import "./app.css";
 import ErrorBoundaryComp from "./components/error-boundary.comp";
+import PageFooterComp from "./components/page-footer.comp";
 import PageHeaderComp from "./components/page-header.comp";
 import store from "./store";
 
@@ -15,6 +16,7 @@ function App() {
         <Router>
           {/* <AppRoutes /> */}
           <PageHeaderComp />
+          <PageFooterComp />
         </Router>
       </Provider>
     </ErrorBoundaryComp>
