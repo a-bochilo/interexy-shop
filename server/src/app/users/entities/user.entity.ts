@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne, } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, } from "typeorm";
 
 // ========================== Entities ==========================
 //import { RoleEntity } from "../../roles/entities/user-role.entity";
@@ -9,6 +9,7 @@ import { UserRoles } from "../../../shared/types/user-roles.enum";
 import { UserDetailsEntity } from "./user-details.entity";
 import { RoleEntity } from "../../roles/entities/role.entity";
 import { ApiProperty } from "@nestjs/swagger";
+import { OrderEntity } from "src/app/orders/entities/order.entity";
 
 @Entity({ name: "users" })
 export class UserEntity extends UUIDEntity {
@@ -48,4 +49,12 @@ export class UserEntity extends UUIDEntity {
     @ManyToOne(() => RoleEntity, (role) => role.users)
     @JoinColumn({ name: "role_id" })
     role: RoleEntity;
+
+    @ApiProperty({ example: '1qwe-21-3', description: 'Details id', required: true })
+    @Column({ name: 'orders_id' })
+    orders_id: string
+
+    @OneToMany(() => OrderEntity, (order) => order.id)
+    @JoinColumn({ name: "orders_id" })
+    order: OrderEntity[];
 }

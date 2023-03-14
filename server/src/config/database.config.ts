@@ -21,6 +21,7 @@ import { $npmConfigName1678456561878 } from "../../migrations/1678456561878-$npm
 import { $npmConfigName1678456993069 } from "../../migrations/1678456993069-$npm_config_name";
 import { $npmConfigName1678544710047 } from "../../migrations/1678544710047-$npm_config_name";
 import { $npmConfigName1678780011243 } from "../../migrations/1678780011243-$npm_config_name";
+import { OrderEntity } from "src/app/orders/entities/order.entity";
 
 
 const databaseConfig: PostgresConnectionOptions = {
@@ -37,6 +38,7 @@ const databaseConfig: PostgresConnectionOptions = {
         ProudctEntity,
         ProudctDetailsEntity,
         ProductActiveViewEntity,
+        OrderEntity,
     ],
     synchronize: false,
     migrations: [
