@@ -8,31 +8,35 @@ import PageNavBarComp from "../../components/navbar.comp";
 import PageAsideComp from "../../components/aside.comp";
 
 // ========================== mui ==========================
-import Container from "@mui/material/Container";
+import styled from "@emotion/styled";
+import { Grid } from "@mui/material";
+
+const MainGrid = styled(Grid)`
+  display: flex;
+`;
+
+const ContentGrid = styled(Grid)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 const ProductsPage: FC = () => {
   return (
-    <>
-      <Container>
-        <PageNavBarComp />
+    <MainGrid>
+      <PageNavBarComp />
+      <Grid>
         <PageHeaderComp />
-      </Container>
-      <Container sx={{ display: "flex" }}>
-        <Container
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            background: "lightcoral",
-          }}
-        >
-          Container for Products
-        </Container>
-        <PageAsideComp />
-      </Container>
 
-      <PageFooterComp />
-    </>
+        <ContentGrid>
+          <div>Container for Products</div>
+
+          <PageAsideComp />
+        </ContentGrid>
+
+        <PageFooterComp />
+      </Grid>
+    </MainGrid>
   );
 };
 

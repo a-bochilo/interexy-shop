@@ -47,7 +47,7 @@ const PageNavBarComp: FC = () => {
     <Box
       component={"nav"}
       sx={{
-        display: "flex",      
+        display: "flex",
         minWidth: width,
         bgcolor: "yellow",
       }}
