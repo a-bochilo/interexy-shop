@@ -1,9 +1,10 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
+
+// ========================== Entities & DTO's ==========================
 import { OrderEntity } from "../entities/order.entity";
 import { CreateOrderDto } from "../dtos/create-order.dto";
-import { UserSessionDto } from "src/app/users/dtos/user-session.dto";
 
 @Injectable()
 export class OrderRepository extends Repository<OrderEntity> {

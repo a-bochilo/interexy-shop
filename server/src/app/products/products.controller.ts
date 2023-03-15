@@ -21,7 +21,7 @@ import { ProductsQueryDto } from "./dtos/products-query.dto";
 import { ProductOptionalDto } from "./dtos/products-optional.dto";
 
 // ========================== Enums ==========================
-import { UserPermissions } from "src/shared/types/user-permissions.enum";
+import { UserPermissions } from "../../shared/types/user-permissions.enum";
 
 // ========================== Services ==========================
 import { ProductsService } from "./products.service";

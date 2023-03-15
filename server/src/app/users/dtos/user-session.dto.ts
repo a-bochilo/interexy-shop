@@ -76,7 +76,6 @@ export class UserSessionDto extends UUIDDto {
         outputDto.role_id = dto.role_id;
         outputDto.role_type = dto.role_type;
         outputDto.permissions = dto.permissions;
-
         return dto;
     }
 }

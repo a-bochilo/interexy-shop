@@ -54,14 +54,28 @@ export class UserService {
     }
 
     async getAll() {
-        return await this.userViewRepository.getAll();
+        try {
+            return await this.userViewRepository.getAll();
+        } catch (error) {
+            throw new HttpException(
+                `${error}`,
+                HttpStatus.BAD_REQUEST
+            )
+        }
     }
 
     async getUsers(isActive: boolean) {
-        if (isActive === undefined) {
-            return await this.userViewRepository.getAll();
+        try {
+            if (isActive === undefined) {
+                return await this.userViewRepository.getAll();
+            }
+            return await this.userRepository.getInActiveUsers(false);
+        } catch (error) {
+            throw new HttpException(
+                `${error}`,
+                HttpStatus.BAD_REQUEST
+            )
         }
-        return await this.userRepository.getInActiveUsers(false);
     }
 
     async getDetailsById(userId: string) {
@@ -139,17 +153,38 @@ export class UserService {
     }
 
     async updateUserOrder(user: UserEntity) {
-        const newUser = await this.userRepository.getById(user.id);
-        Object.assign(newUser, user)
-        return await this.userRepository.updateUser(user);
+        try {
+            const newUser = await this.userRepository.getById(user.id);
+            Object.assign(newUser, user)
+            return await this.userRepository.updateUser(user);
+        } catch (error) {
+            throw new HttpException(
+                `${error}`,
+                HttpStatus.BAD_REQUEST
+            )
+        }
     }
 
     async getOrdersById(id: string) {
-        return await this.userRepository.getOrdersById(id);
+        try {
+            return await this.userRepository.getOrdersById(id);
+        } catch (error) {
+            throw new HttpException(
+                `${error}`,
+                HttpStatus.BAD_REQUEST
+            )
+        }
     }
 
     async getUserByEmail(email: string) {
-        return await this.userRepository.getUserByEmail(email);
+        try {
+            return await this.userRepository.getUserByEmail(email);
+        } catch (error) {
+            throw new HttpException(
+                `${error}`,
+                HttpStatus.BAD_REQUEST
+            )
+        }
     }
 
 }

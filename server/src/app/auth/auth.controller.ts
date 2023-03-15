@@ -1,4 +1,4 @@
-// ========================== nest ==========================
+// ========================== Nest ==========================
 import {
   Body,
   Controller,
@@ -9,13 +9,13 @@ import {
 } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
-// ========================== Service ==========================
-import { AuthService } from "./auth.service";
-
-// ========================== dtos ==========================
+// ========================== Entities & DTO's ==========================
 import { UserSignInDto } from "./dtos/user-sign-in.dto";
 import { TokenDto } from "../security/dtos/token.dto";
 import { CreateUserDto } from "../users/dtos/create-user.dto";
+
+// ========================== Services & Controllers ====================
+import { AuthService } from "./auth.service";
 
 ApiTags("Authentication");
 @Controller("auth")
@@ -29,10 +29,10 @@ export class AuthController {
     description: "HttpStatus:200:OK",
     type: TokenDto,
   })
-  //@UsePipes(new ValidationPipe())
+  @UsePipes(new ValidationPipe())
   async signUp(
     @Body() userDto: CreateUserDto
-    )/*: Promise<TokenDto> */
+    ): Promise<TokenDto> 
     {
     return await this.authService.signUp(userDto);
   }
@@ -44,7 +44,7 @@ export class AuthController {
     description: "HttpStatus:200:OK",
     type: TokenDto,
   })
-  //@UsePipes(new ValidationPipe())
+  @UsePipes(new ValidationPipe())
   async signIn(
     @Body() userSignIn: UserSignInDto
     )/*: Promise<TokenDto> */

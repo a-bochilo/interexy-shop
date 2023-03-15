@@ -1,9 +1,7 @@
-import { Column, Entity, JoinColumn, OneToOne } from "typeorm";
+import { Column, Entity, OneToOne } from "typeorm";
 
 // ========================== Entities ==========================
 import { UUIDEntity } from "../../../shared/entities/uuid.entity";
-
-// ========================== Enums ==========================
 
 @Entity({ name: "order_items" })
 export class ProudctEntity extends UUIDEntity {

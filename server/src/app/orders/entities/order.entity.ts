@@ -1,7 +1,9 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
+
+// ========================== Entities ==========================
 import { UserEntity } from "../../users/entities/user.entity";
 import { UUIDEntity } from "../../../shared/entities/uuid.entity";
-import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
 
 @Entity({ name: "order" })
 export class OrderEntity extends UUIDEntity {
