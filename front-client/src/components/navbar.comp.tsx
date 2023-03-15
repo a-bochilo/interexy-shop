@@ -1,5 +1,5 @@
 // ========================== react ==========================
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 
 // ========================== mui ==========================
 import { styled, useTheme } from "@mui/material/styles";
@@ -28,7 +28,9 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 
 const PageNavBarComp: FC = () => {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [width, setWidth] = useState("8%");
+  const [height, setHeight] = useState("100%");
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -37,6 +39,13 @@ const PageNavBarComp: FC = () => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  useEffect(() => {
+    open ? setWidth("20%") : setWidth("8%");
+
+    open ? setHeight("100%") : setHeight("10px");
+  }, [open]);
+
   return (
     <div>
       <Box sx={{ display: "flex" }}>
@@ -45,7 +54,12 @@ const PageNavBarComp: FC = () => {
           aria-label="open drawer"
           onClick={handleDrawerOpen}
           edge="start"
-          sx={{ mr: 2, ...(open && { display: "none" }), padding: 2 }}
+          sx={{
+            mr: 2,
+            ...(open && { display: "none" }),
+            padding: 2,
+            minWidth: width,
+          }}
         >
           <MenuIcon onClick={handleDrawerOpen} />
         </IconButton>
