@@ -1,4 +1,11 @@
-import { Column, Entity, JoinColumn, OneToMany, OneToOne } from "typeorm";
+import {
+    Column,
+    Entity,
+    Index,
+    JoinColumn,
+    OneToMany,
+    OneToOne,
+} from "typeorm";
 
 // ========================== Entities ==========================
 import { UUIDEntity } from "../../../shared/entities/uuid.entity";
@@ -9,17 +16,14 @@ import { CartItemEntity } from "./cart-item.entity";
 
 @Entity({ name: "carts" })
 export class CartEntity extends UUIDEntity {
+    @Index()
     @Column({ name: "user_id", type: "uuid" })
     userId!: string;
 
-    @Column({ name: "cart_item_ids" })
-    cartItemIds!: string;
-
-    @OneToOne(() => UserEntity)
+    @OneToOne(() => UserEntity, (user) => user.cart)
     @JoinColumn({ name: "user_id", referencedColumnName: "id" })
     user: UserEntity;
 
-    @OneToMany(() => CartItemEntity, (item) => item.id)
-    @JoinColumn({ name: "cart_item_ids", referencedColumnName: "id" })
+    @OneToMany(() => CartItemEntity, (item) => item.cart)
     items: CartItemEntity[];
 }

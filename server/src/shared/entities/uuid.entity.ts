@@ -1,10 +1,10 @@
-import { Column, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, PrimaryGeneratedColumn } from "typeorm";
 
 export abstract class UUIDEntity {
     @PrimaryGeneratedColumn("uuid")
     id!: string;
 
-    @UpdateDateColumn({
+    @Column({
         name: "created",
         type: "timestamp",
         default: () => "CURRENT_TIMESTAMP(6)",

@@ -31,22 +31,12 @@ export class UserService {
             const email = await this.userRepository.getUserByEmail(
                 createUserDto.email
             );
+
             if (email) {
                 throw new HttpException(
                     `User with ${createUserDto.email} already exist`,
                     HttpStatus.BAD_REQUEST
                 );
-            }
-            if (createUserDto.phone !== null) {
-                const phone = await this.userRepository.getUserByEmail(
-                    createUserDto.phone
-                );
-                if (phone) {
-                    throw new HttpException(
-                        `User with ${createUserDto.email} already exist`,
-                        HttpStatus.BAD_REQUEST
-                    );
-                }
             }
 
             const role = await this.roleService.getRoleByType(UserRoles.user);
@@ -60,7 +50,7 @@ export class UserService {
                 role,
             });
         } catch (error) {
-            throw new HttpException(error, HttpStatus.BAD_REQUEST);
+            throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
         }
     }
 

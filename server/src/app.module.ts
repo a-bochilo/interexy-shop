@@ -7,6 +7,7 @@ import { SecurityModule } from "./app/security/security.module";
 import { UserModule } from "./app/users/user.module";
 import { RoleModule } from "./app/roles/role.module";
 import { CartModule } from "./app/cart/cart.module";
+import { ScheduleModule } from "@nestjs/schedule";
 
 @Module({
     imports: [
@@ -15,6 +16,7 @@ import { CartModule } from "./app/cart/cart.module";
             isGlobal: true,
         }),
         TypeOrmModule.forRoot(databaseConfig),
+        ScheduleModule.forRoot(),
         ProductsModule,
         RoleModule,
         UserModule,
@@ -25,4 +27,4 @@ import { CartModule } from "./app/cart/cart.module";
     controllers: [],
     providers: [],
 })
-export class AppModule { }
+export class AppModule {}

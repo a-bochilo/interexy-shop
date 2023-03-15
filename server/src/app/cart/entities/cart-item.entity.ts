@@ -17,11 +17,11 @@ export class CartItemEntity extends UUIDEntity {
     @Column({ name: "quantity" })
     quantity!: number;
 
-    @ManyToOne(() => ProudctEntity)
+    @ManyToOne(() => ProudctEntity, (product) => product.id)
     @JoinColumn({ name: "product_id", referencedColumnName: "id" })
     product: ProudctEntity;
 
-    @ManyToOne(() => CartEntity)
+    @ManyToOne(() => CartEntity, (cart) => cart.items)
     @JoinColumn({ name: "cart_id", referencedColumnName: "id" })
-    cart: CartEntity;
+    cart!: CartEntity;
 }

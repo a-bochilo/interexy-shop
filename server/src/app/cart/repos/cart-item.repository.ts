@@ -11,4 +11,14 @@ export class CartItemRepository {
         @InjectRepository(CartItemEntity)
         private readonly cartItemRepository: Repository<CartItemEntity>
     ) {}
+
+    async saveCartItem(cartItem: CartItemEntity): Promise<CartItemEntity> {
+        cartItem.updated = new Date();
+
+        return await this.cartItemRepository.save(cartItem);
+    }
+
+    async deleteCartItem(id: string) {
+        return await this.cartItemRepository.delete(id);
+    }
 }

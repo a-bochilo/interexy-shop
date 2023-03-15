@@ -29,6 +29,7 @@ import { UserPermissions } from "../../shared/types/user-permissions.enum";
 // ========================== Services & Controllers ====================
 import { UserService } from "./user.service";
 import { UpdateUserDto } from "./dtos/update-user.dto";
+import { UserViewEntity } from "./entities/user-view.entity";
 
 @ApiTags("Users controller")
 @Controller("users")
@@ -62,7 +63,7 @@ export class UserController {
     @UsePipes(new ValidationPipe())
     async getInActiveUsers(
         @Query("isActive") isActive: boolean
-    ): Promise<UserEntity[]> {
+    ): Promise<UserEntity[] | UserViewEntity[]> {
         return this.userService.getUsers(isActive);
     }
 

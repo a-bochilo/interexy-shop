@@ -5,7 +5,7 @@ import { omit } from "lodash";
 // ========================== Entities ==========================
 import { ProudctEntity } from "./entities/product.entity";
 import { ProductActiveViewEntity } from "./entities/product-active-view.entity";
-import { ProudctDetailsEntity } from "./entities/product-details.entity";
+import { ProductDetailsEntity } from "./entities/product-details.entity";
 
 // ========================== Entities ==========================
 import { ProductsRepository } from "./repos/products.repository";
@@ -67,7 +67,7 @@ export class ProductsService {
         return await this.productsActiveViewRepository.getAllProducts();
     }
 
-    async getProductDetails(productId: string): Promise<ProudctDetailsEntity> {
+    async getProductDetails(productId: string): Promise<ProductDetailsEntity> {
         const product = await this.productsActiveViewRepository.getProductById(
             productId
         );

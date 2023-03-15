@@ -5,7 +5,7 @@ import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConne
 import { UserEntity } from "../app/users/entities/user.entity";
 import { RoleEntity } from "../app/roles/entities/role.entity";
 import { ProudctEntity } from "../app/products/entities/product.entity";
-import { ProudctDetailsEntity } from "../app/products/entities/product-details.entity";
+import { ProductDetailsEntity } from "../app/products/entities/product-details.entity";
 import { ProductActiveViewEntity } from "../app/products/entities/product-active-view.entity";
 import { CartEntity } from "../app/cart/entities/cart.entity";
 import { CartItemEntity } from "../app/cart/entities/cart-item.entity";
@@ -23,6 +23,9 @@ import { $npmConfigName1678456561878 } from "../../migrations/1678456561878-$npm
 import { $npmConfigName1678456993069 } from "../../migrations/1678456993069-$npm_config_name";
 import { $npmConfigName1678544710047 } from "../../migrations/1678544710047-$npm_config_name";
 import { $npmConfigName1678709145463 } from "../../migrations/1678709145463-$npm_config_name";
+import { $npmConfigName1678772644221 } from "../../migrations/1678772644221-$npm_config_name";
+import { $npmConfigName1678776000248 } from "../../migrations/1678776000248-$npm_config_name";
+import { $npmConfigName1678781909510 } from "../../migrations/1678781909510-$npm_config_name";
 
 const databaseConfig: PostgresConnectionOptions = {
     type: "postgres",
@@ -36,7 +39,7 @@ const databaseConfig: PostgresConnectionOptions = {
         UserDetailsEntity,
         RoleEntity,
         ProudctEntity,
-        ProudctDetailsEntity,
+        ProductDetailsEntity,
         ProductActiveViewEntity,
         CartEntity,
         CartItemEntity,
@@ -54,6 +57,9 @@ const databaseConfig: PostgresConnectionOptions = {
         $npmConfigName1678456993069,
         $npmConfigName1678544710047,
         $npmConfigName1678709145463,
+        $npmConfigName1678772644221,
+        $npmConfigName1678776000248,
+        $npmConfigName1678781909510,
     ],
 };
 
