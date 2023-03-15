@@ -30,7 +30,6 @@ const PageNavBarComp: FC = () => {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const [width, setWidth] = useState("8%");
-  const [height, setHeight] = useState("100%");
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -42,73 +41,76 @@ const PageNavBarComp: FC = () => {
 
   useEffect(() => {
     open ? setWidth("20%") : setWidth("8%");
-
-    open ? setHeight("100%") : setHeight("10px");
   }, [open]);
 
   return (
-    <div>
-      <Box sx={{ display: "flex" }}>
-        <IconButton
-          color="inherit"
-          aria-label="open drawer"
-          onClick={handleDrawerOpen}
-          edge="start"
-          sx={{
-            mr: 2,
-            ...(open && { display: "none" }),
-            padding: 2,
-            minWidth: width,
-          }}
-        >
-          <MenuIcon onClick={handleDrawerOpen} />
-        </IconButton>
+    <Box
+      component={"nav"}
+      sx={{
+        display: "flex",      
+        minWidth: width,
+        bgcolor: "yellow",
+      }}
+    >
+      <IconButton
+        color="inherit"
+        aria-label="open drawer"
+        onClick={handleDrawerOpen}
+        edge="start"
+        sx={{
+          mr: 2,
+          ...(open && { display: "none" }),
+          padding: 2,
+          minWidth: width,
+        }}
+      >
+        <MenuIcon onClick={handleDrawerOpen} />
+      </IconButton>
 
-        <Drawer
-          sx={{
+      <Drawer
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          "& .MuiDrawer-paper": {
             width: drawerWidth,
-            flexShrink: 0,
-            "& .MuiDrawer-paper": {
-              width: drawerWidth,
-              boxSizing: "border-box",
-            },
-          }}
-          variant="persistent"
-          anchor="left"
-          open={open}
-        >
-          <DrawerHeader>
-            <IconButton onClick={handleDrawerClose}>
-              {theme.direction === "ltr" ? (
-                <ChevronLeftIcon />
-              ) : (
-                <ChevronRightIcon />
-              )}
-            </IconButton>
-          </DrawerHeader>
-          <Divider />
-          <List>
-            {["All Products", "Select Category"].map((text) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-          <Divider />
-          <List>
-            {["Material", "Color", "Size"].map((text) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-        </Drawer>
-      </Box>
-    </div>
+            boxSizing: "border-box",
+          },
+        }}
+        variant="persistent"
+        anchor="left"
+        open={open}
+      >
+        <DrawerHeader>
+          <IconButton onClick={handleDrawerClose}>
+            {theme.direction === "ltr" ? (
+              <ChevronLeftIcon />
+            ) : (
+              <ChevronRightIcon />
+            )}
+          </IconButton>
+        </DrawerHeader>
+        <Divider />
+        <List>
+          {["All Products", "Select Category"].map((text) => (
+            <ListItem key={text} disablePadding>
+              <ListItemButton>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+        <Divider />
+        <List>
+          {["Material", "Color", "Size"].map((text) => (
+            <ListItem key={text} disablePadding>
+              <ListItemButton>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+      </Drawer>
+    </Box>
   );
 };
 
