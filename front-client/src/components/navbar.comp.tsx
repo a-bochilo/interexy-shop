@@ -30,6 +30,7 @@ const PageNavBarComp: FC = () => {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const [width, setWidth] = useState("8%");
+  // const [drawerWidth, setDrawerWidth] = useState("1%");
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -47,9 +48,7 @@ const PageNavBarComp: FC = () => {
     <Box
       component={"nav"}
       sx={{
-        display: "flex",
-        minWidth: width,
-        bgcolor: "yellow",
+        minHeight: "0.25rem",
       }}
     >
       <IconButton
@@ -58,7 +57,6 @@ const PageNavBarComp: FC = () => {
         onClick={handleDrawerOpen}
         edge="start"
         sx={{
-          mr: 2,
           ...(open && { display: "none" }),
           padding: 2,
           minWidth: width,
@@ -69,7 +67,7 @@ const PageNavBarComp: FC = () => {
 
       <Drawer
         sx={{
-          width: drawerWidth,
+          ...(open && { width: drawerWidth }),
           flexShrink: 0,
           "& .MuiDrawer-paper": {
             width: drawerWidth,

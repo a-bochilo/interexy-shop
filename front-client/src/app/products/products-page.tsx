@@ -12,7 +12,7 @@ import styled from "@emotion/styled";
 import { Grid } from "@mui/material";
 
 const MainGrid = styled(Grid)`
-  display: flex;
+  flex: 1 1 0;
 `;
 
 const ContentGrid = styled(Grid)`
@@ -27,13 +27,10 @@ const ProductsPage: FC = () => {
       <PageNavBarComp />
       <Grid>
         <PageHeaderComp />
-
         <ContentGrid>
           <div>Container for Products</div>
-
           <PageAsideComp />
         </ContentGrid>
-
         <PageFooterComp />
       </Grid>
     </MainGrid>
