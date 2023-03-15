@@ -1,14 +1,15 @@
+// ========================== react ==========================
 import React from "react";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
-// import AppRoutes from "app.routes";
 
-import "./app.css";
-import PageAsideComp from "./components/aside.comp";
+// ========================== components ==========================
 import ErrorBoundaryComp from "./components/error-boundary.comp";
-import PageFooterComp from "./components/page-footer.comp";
-import PageNavBarComp from "./components/navbar.comp";
+
+// import AppRoutes from "app.routes";
+import "./app.css";
 import store from "./store";
+import ProductsPage from "./app/products/products-page";
 
 function App() {
   return (
@@ -16,8 +17,7 @@ function App() {
       <Provider store={store}>
         <Router>
           {/* <AppRoutes /> */}
-          <PageAsideComp />
-          <PageFooterComp />
+          <ProductsPage />
         </Router>
       </Provider>
     </ErrorBoundaryComp>
