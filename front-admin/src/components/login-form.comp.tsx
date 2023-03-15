@@ -6,6 +6,8 @@ import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
+import { Typography } from "@mui/material";
+import { red } from "@mui/material/colors";
 
 interface IFormInput {
   email: string;
@@ -28,7 +30,7 @@ const LoginForm: FC = () => {
           <Box
             sx={{
               width: 500,
-              height: 500,
+              height: 400,
               backgroundColor: "lightgray",
               display: "flex",
               flexDirection: "column",
@@ -37,7 +39,9 @@ const LoginForm: FC = () => {
               gap: 2,
             }}
           >
-            <h1>Login</h1>
+            <Typography variant="h5" fontWeight={"bold"}>
+              Login
+            </Typography>
             <label htmlFor="email">email</label>
             <Controller
               name="email"
@@ -57,10 +61,12 @@ const LoginForm: FC = () => {
             />
 
             {errors?.email?.type === "required" && (
-              <p>This field is required</p>
+              <Typography color={"red"}>⚠ This field is required</Typography>
             )}
             {errors?.email?.type === "pattern" && (
-              <p>Entered value does not match email format</p>
+              <Typography color={"red"}>
+                ⚠ Entered value does not match email format
+              </Typography>
             )}
             <label htmlFor="password">password</label>
 
@@ -85,9 +91,11 @@ const LoginForm: FC = () => {
             />
 
             {errors?.password?.type === "required" && (
-              <p>This field is required</p>
+              <Typography color={"red"}>⚠ This field is required</Typography>
             )}
-            {errors?.password?.type === "minLength" && <p>Min length is 5</p>}
+            {errors?.password?.type === "minLength" && (
+              <Typography color={"red"}>⚠ Min length is 5</Typography>
+            )}
             <Button type="submit" variant="contained">
               SUBMIT
             </Button>
