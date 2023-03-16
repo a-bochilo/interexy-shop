@@ -5,21 +5,13 @@ import { FC } from "react";
 import LoginForm from "../../components/login-form.comp";
 
 // ========================== mui ==========================
-import styled from "@emotion/styled";
-import { Grid } from "@mui/material";
-
-const MainGrid = styled(Grid)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-top: 60px;
-`;
+import Box from "@mui/material/Box";
 
 const LoginPage: FC = () => {
   return (
-    <MainGrid>
+    <Box>
       <LoginForm />
-    </MainGrid>
+    </Box>
   );
 };
 
