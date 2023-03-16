@@ -107,14 +107,7 @@ export class CartService {
     }
 
     async getUserCart(user: UserSessionDto): Promise<CartEntity> {
-        // const userFromDB = await this.userRepository.getById(
-        //     user.id
-        // );
-
-        //! code below must be deleted in case auth module implemented
-        const userFromDB = await this.userRepository.getById(
-            "38390597-a971-4c90-b06d-dcc5796abeb7"
-        );
+        const userFromDB = await this.userRepository.getById(user.id);
 
         if (!userFromDB) {
             throw new HttpException(
