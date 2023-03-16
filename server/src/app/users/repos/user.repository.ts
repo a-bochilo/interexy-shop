@@ -32,8 +32,7 @@ export class UserRepository extends Repository<UserEntity> {
             roleType: dto.role.type,
             details: dto.details,
             isActive: true,
-        });
-
+        })
         return await this.save(newUser);
     }
 
@@ -49,7 +48,6 @@ export class UserRepository extends Repository<UserEntity> {
         });
     }
 
-    //? Что за тип данных 'uuid' в js?
     async getById(userId: string) {
         return await this.findOne({
             where: {
@@ -58,17 +56,12 @@ export class UserRepository extends Repository<UserEntity> {
         });
     }
 
-    async getDetailsId(userId: "uuid") {
-        const user = await this.findOneBy({ id: userId });
-        return user.details_id;
-    }
-
     async updateUser(user: UserEntity) {
         return await this.save(user);
     }
 
-    async deleteUser(userId: "uuid") {
-        const user = await this.findOneBy({ id: userId });
+    async deleteUser(userId: string) {
+       const user = await this.findOneBy({ id: userId });
         return await this.save({
             ...user,
             isActive: false,

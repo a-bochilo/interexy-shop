@@ -16,10 +16,12 @@ import { SecurityService } from "./security.service";
 // ========================== Repos + Entities ==========================
 import { UserEntity } from "../users/entities/user.entity";
 import { UserRepository } from "../users/repos/user.repository";
+import { RoleRepository } from "../roles/repos/role.repository";
+import { RoleEntity } from "../roles/entities/role.entity";
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([UserEntity]),
+        TypeOrmModule.forFeature([UserEntity, RoleEntity]),
         PassportModule.register({ defaultStrategy: "jwt" }),
         JwtModule.register({
             secret: process.env.PRIVATE_KEY,
@@ -27,7 +29,7 @@ import { UserRepository } from "../users/repos/user.repository";
         }),
     ],
     controllers: [],
-    providers: [SecurityService, JwtStrategy, UserRepository],
+    providers: [SecurityService, JwtStrategy, UserRepository, RoleRepository],
     exports: [SecurityService],
 })
 export class SecurityModule {}

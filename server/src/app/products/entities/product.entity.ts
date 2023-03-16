@@ -8,7 +8,7 @@ import { ProductDetailsEntity } from "./product-details.entity";
 import { ProductsCategory } from "../enums/products-category.enum";
 
 @Entity({ name: "products" })
-export class ProudctEntity extends UUIDEntity {
+export class ProductEntity extends UUIDEntity {
     @Index()
     @Column({ name: "category", enum: ProductsCategory })
     category!: ProductsCategory;

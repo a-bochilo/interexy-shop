@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { FindOptionsWhere, Between } from "typeorm";
 
 // ========================== Entities ==========================
-import { ProudctEntity } from "./entities/product.entity";
+import { ProductEntity } from "./entities/product.entity";
 import { ProductActiveViewEntity } from "./entities/product-active-view.entity";
 import { ProductDetailsEntity } from "./entities/product-details.entity";
 
@@ -25,11 +25,11 @@ export class ProductsService {
         private readonly productsRepository: ProductsRepository,
         private readonly productsActiveViewRepository: ProductsActiveViewRepository,
         private readonly productsDetailsRepository: ProductsDetailsRepository
-    ) {}
+    ) { }
 
     async createProduct(
         productCreateDto: ProductWithDetailsDto
-    ): Promise<ProudctEntity> {
+    ): Promise<ProductEntity> {
         const productByName = await this.productsRepository.getProductsByName(
             productCreateDto.name
         );
@@ -80,10 +80,10 @@ export class ProductsService {
 
     async getFiltredProducts(
         filter: ProductsFilterDto
-    ): Promise<(ProudctEntity | ProductActiveViewEntity)[]> {
+    ): Promise<(ProductEntity | ProductActiveViewEntity)[]> {
         const productFilter = this.removeEmptyAndExtraFields(
             filter
-        ) as FindOptionsWhere<ProudctEntity>;
+        ) as FindOptionsWhere<ProductEntity>;
 
         productFilter.price =
             productFilter.price ||
@@ -166,7 +166,7 @@ export class ProductsService {
         return updatedDto;
     }
 
-    async deleteProduct(productId: string): Promise<ProudctEntity> {
+    async deleteProduct(productId: string): Promise<ProductEntity> {
         const productFromDB = await this.productsRepository.getProductById(
             productId
         );
