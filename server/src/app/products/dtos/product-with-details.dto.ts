@@ -1,7 +1,3 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, ValidateNested } from "class-validator";
-import { Type } from "class-transformer";
-
 // ========================== Entities ==========================
 import { ProudctEntity } from "../entities/product.entity";
 import { ProductDetailsEntity } from "../entities/product-details.entity";
@@ -9,16 +5,12 @@ import { ProductDetailsEntity } from "../entities/product-details.entity";
 // ========================== DTO's ==========================
 import { ProductDto } from "./product.dto";
 import { ProductDetailsDto } from "./product-details.dto";
+import { IntersectionType } from "@nestjs/mapped-types";
 
-export class ProductWithDetailsDto extends ProductDto {
-    @ApiProperty({
-        description: "Product details",
-    })
-    @IsNotEmpty()
-    @ValidateNested({ each: true })
-    @Type(() => ProductDetailsDto)
-    productDetails: ProductDetailsDto | ProductDetailsEntity;
-
+export class ProductWithDetailsDto extends IntersectionType(
+    ProductDto,
+    ProductDetailsDto
+) {
     public static fromProductAndDetailsEntities({
         product,
         productDetails,
@@ -26,13 +18,22 @@ export class ProductWithDetailsDto extends ProductDto {
         product: ProudctEntity;
         productDetails: ProductDetailsEntity;
     }): ProductWithDetailsDto {
-        const detailsDto = ProductDetailsDto.fromEntity(productDetails);
-
         const dto = new ProductWithDetailsDto();
-        const productDto = this.fromEntity(product);
-        Object.assign(dto, productDto);
 
-        dto.productDetails = detailsDto;
+        dto.id = product.id;
+        dto.created = product.created.valueOf();
+        dto.updated = product.updated.valueOf();
+        dto.category = product.category;
+        dto.name = product.name;
+        dto.brand = product.brand;
+        dto.price = product.price;
+        dto.image = product.image;
+        dto.quantity = product.quantity;
+        dto.isActive = product.isActive;
+        dto.color = productDetails.color;
+        dto.material = productDetails.material;
+        dto.size = productDetails.size;
+        dto.description = productDetails.description;
 
         return dto;
     }

@@ -1,6 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { FindOptionsWhere, Between } from "typeorm";
-import { omit } from "lodash";
 
 // ========================== Entities ==========================
 import { ProudctEntity } from "./entities/product.entity";
@@ -12,11 +11,13 @@ import { ProductsRepository } from "./repos/products.repository";
 import { ProductsActiveViewRepository } from "./repos/products-active-view.repository";
 import { ProductsDetailsRepository } from "./repos/product-details.repository";
 
-// ========================== DTO's & Enums ==========================
+// ========================== DTO's ==========================
 import { ProductWithDetailsDto } from "./dtos/product-with-details.dto";
 import { ProductsQueryDto } from "./dtos/products-query.dto";
 import { ProductsFilterDto } from "./dtos/products-filter.dto";
 import { ProductOptionalDto } from "./dtos/products-optional.dto";
+import { ProductDetailsDto } from "./dtos/product-details.dto";
+import { ProductDto } from "./dtos/product.dto";
 
 @Injectable()
 export class ProductsService {
@@ -46,13 +47,13 @@ export class ProductsService {
 
         const details =
             await this.productsDetailsRepository.createProductDetails(
-                productCreateDto.productDetails
+                ProductDetailsDto.fromDto(productCreateDto)
             );
 
-        return await this.productsRepository.createProduct({
-            ...productCreateDto,
-            productDetails: details,
-        });
+        return await this.productsRepository.createProduct(
+            ProductDto.fromDto(productCreateDto),
+            details
+        );
     }
 
     async getActiveProducts(
@@ -136,17 +137,25 @@ export class ProductsService {
                 productFromDB.productsDetailsId
             );
 
-        Object.assign(productDetailsFromDB, productUpdateDto.productDetails);
+        Object.assign(
+            productDetailsFromDB,
+            ProductDetailsDto.fromDto(productUpdateDto)
+        );
+        await this.productsDetailsRepository.updateProductDetails(
+            productDetailsFromDB
+        );
+
         const updatedProductDetails =
-            await this.productsDetailsRepository.updateProductDetails(
-                productDetailsFromDB
+            await this.productsDetailsRepository.getProductDetailsById(
+                productDetailsFromDB.id
             );
 
-        delete productUpdateDto.productDetails;
+        Object.assign(productFromDB, ProductDto.fromDto(productUpdateDto));
 
-        Object.assign(productFromDB, productUpdateDto);
-        const updatedProduct = await this.productsRepository.updateProduct(
-            productFromDB
+        await this.productsRepository.updateProduct(productFromDB);
+
+        const updatedProduct = await this.productsRepository.getProductById(
+            productFromDB.id
         );
 
         const updatedDto = ProductWithDetailsDto.fromProductAndDetailsEntities({
@@ -161,24 +170,30 @@ export class ProductsService {
         const productFromDB = await this.productsRepository.getProductById(
             productId
         );
+
+        if (!productFromDB) {
+            throw new HttpException(
+                "Product does not eixst",
+                HttpStatus.BAD_REQUEST
+            );
+        }
+
         productFromDB.isActive = false;
         return await this.productsRepository.updateProduct(productFromDB);
     }
 
     private removeEmptyAndExtraFields(obj: ProductsFilterDto) {
+        const dto = ProductsFilterDto.fromDto(obj);
+
         const filterObj = Object.fromEntries(
-            Object.entries(obj)
+            Object.entries(dto)
                 .filter(([_, v]) => v !== (null || undefined))
                 .map(([k, v]) => [
                     k,
                     v === Object(v) ? this.removeEmptyAndExtraFields(v) : v,
                 ])
         );
-        return omit(filterObj, [
-            "minPrice",
-            "maxPrice",
-            "minQuantity",
-            "maxQuantity",
-        ]);
+
+        return filterObj;
     }
 }
