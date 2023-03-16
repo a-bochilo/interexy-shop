@@ -21,8 +21,6 @@ interface IFormInput {
   confirmPassword: string;
 }
 
-const phoneRegExp = /^(\+375|80)(29|25|44|33)(\d{3})(\d{2})(\d{2})$/;
-
 const SignUpForm: FC = () => {
   const {
     register,
@@ -75,7 +73,7 @@ const SignUpForm: FC = () => {
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        style={{ display: "flex", flexDirection: "column", gap: 20 }}
+        style={{ display: "flex", flexDirection: "column", gap: 5 }}
       >
         <Controller
           name="firstName"
@@ -85,19 +83,15 @@ const SignUpForm: FC = () => {
               id="outlined-basic"
               label="first name"
               variant="outlined"
-              {...register("firstName", {
-                required: true,
-              })}
+              {...register("firstName")}
               placeholder="Elvis"
             />
           )}
         />
 
-        {errors?.firstName?.type === "required" && (
-          <Typography variant="caption" color={"red"}>
-            ⚠ This field is required
-          </Typography>
-        )}
+        <Typography variant="caption" color={"red"}>
+          {errors.firstName?.message}
+        </Typography>
 
         <Controller
           name="middleName"
@@ -107,9 +101,7 @@ const SignUpForm: FC = () => {
               id="outlined-basic"
               label="middle name"
               variant="outlined"
-              {...register("middleName", {
-                required: false,
-              })}
+              {...register("middleName")}
               placeholder="Aaron"
             />
           )}
@@ -123,19 +115,15 @@ const SignUpForm: FC = () => {
               id="outlined-basic"
               label="last name"
               variant="outlined"
-              {...register("lastName", {
-                required: true,
-              })}
+              {...register("lastName")}
               placeholder="Presley"
             />
           )}
         />
 
-        {errors?.lastName?.type === "required" && (
-          <Typography variant="caption" color={"red"}>
-            ⚠ This field is required
-          </Typography>
-        )}
+        <Typography variant="caption" color={"red"}>
+          {errors.lastName?.message}
+        </Typography>
 
         <Controller
           name="email"
@@ -145,25 +133,15 @@ const SignUpForm: FC = () => {
               id="outlined-basic"
               label="email"
               variant="outlined"
-              {...register("email", {
-                required: true,
-                pattern: /\S+@\S+\.\S+/,
-              })}
+              {...register("email")}
               placeholder="example@gmail.com"
             />
           )}
         />
 
-        {errors?.email?.type === "required" && (
-          <Typography variant="caption" color={"red"}>
-            ⚠ This field is required
-          </Typography>
-        )}
-        {errors?.email?.type === "pattern" && (
-          <Typography variant="caption" color={"red"}>
-            ⚠ Entered value does not match email format
-          </Typography>
-        )}
+        <Typography variant="caption" color={"red"}>
+          {errors.email?.message}
+        </Typography>
 
         <Controller
           name="phone"
@@ -173,25 +151,15 @@ const SignUpForm: FC = () => {
               id="outlined-basic"
               label="phone"
               variant="outlined"
-              {...register("phone", {
-                required: true,
-                pattern: phoneRegExp,
-              })}
+              {...register("phone")}
               placeholder="+375 XX XXX XX XX"
             />
           )}
         />
 
-        {errors?.phone?.type === "required" && (
-          <Typography variant="caption" color={"red"}>
-            ⚠ This field is required
-          </Typography>
-        )}
-        {errors?.phone?.type === "pattern" && (
-          <Typography variant="caption" color={"red"}>
-            ⚠ Entered value does not match phone format
-          </Typography>
-        )}
+        <Typography variant="caption" color={"red"}>
+          {errors.phone?.message}
+        </Typography>
 
         <Controller
           name="password"
@@ -201,28 +169,15 @@ const SignUpForm: FC = () => {
               id="outlined-basic"
               label="password"
               variant="outlined"
-              {...register("password", {
-                required: true,
-                minLength: {
-                  value: 5,
-                  message: "min length is 5",
-                },
-              })}
+              {...register("password")}
               placeholder="password"
             />
           )}
         />
 
-        {/* {errors?.password?.type === "required" && (
-          <Typography variant="caption" color={"red"}>
-            ⚠ This field is required
-          </Typography>
-        )}
-        {errors?.password?.type === "minLength" && (
-          <Typography variant="caption" color={"red"}>
-            ⚠ Min length is 5
-          </Typography>
-        )} */}
+        <Typography variant="caption" color={"red"}>
+          {errors.password?.message}
+        </Typography>
 
         <Controller
           name="confirmPassword"
@@ -232,28 +187,15 @@ const SignUpForm: FC = () => {
               id="outlined-basic"
               label="confirm password"
               variant="outlined"
-              {...register("confirmPassword", {
-                required: true,
-                minLength: {
-                  value: 5,
-                  message: "min length is 5",
-                },
-              })}
+              {...register("confirmPassword")}
               placeholder="password"
             />
           )}
         />
 
-        {errors?.confirmPassword?.type === "required" && (
-          <Typography variant="caption" color={"red"}>
-            ⚠ This field is required
-          </Typography>
-        )}
-        {errors?.confirmPassword?.type === "minLength" && (
-          <Typography variant="caption" color={"red"}>
-            ⚠ Your passwords do not match
-          </Typography>
-        )}
+        <Typography variant="caption" color={"red"}>
+          {errors.confirmPassword?.message}
+        </Typography>
 
         <Button type="submit" disabled={!isValid} variant="contained">
           Sign Up
