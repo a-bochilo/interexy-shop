@@ -2,13 +2,13 @@ import { Column, Entity, JoinColumn, OneToOne } from "typeorm";
 
 // ========================== Entities ==========================
 import { UUIDEntity } from "../../../shared/entities/uuid.entity";
-import { ProudctDetailsEntity } from "./product-details.entity";
+import { ProductDetailsEntity } from "./product-details.entity";
 
 // ========================== Enums ==========================
 import { ProductsCategory } from "../enums/products-category.enum";
 
 @Entity({ name: "products" })
-export class ProudctEntity extends UUIDEntity {
+export class ProductEntity extends UUIDEntity {
     @Column({ name: "category", enum: ProductsCategory })
     category!: ProductsCategory;
 
@@ -33,7 +33,7 @@ export class ProudctEntity extends UUIDEntity {
     @Column({ name: "product_details_id", type: "uuid" })
     productsDetailsId?: string;
 
-    @OneToOne(() => ProudctDetailsEntity)
+    @OneToOne(() => ProductDetailsEntity)
     @JoinColumn({ name: "product_details_id", referencedColumnName: "id" })
-    productDetails: ProudctDetailsEntity;
+    productDetails: ProductDetailsEntity;
 }

@@ -1,60 +1,72 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { FindOptionsWhere, Repository } from "typeorm";
+import { FindOptionsWhere, In, Repository } from "typeorm";
 
 // ========================== Entities & DTO's ==========================
-import { ProudctEntity } from "../entities/product.entity";
+import { ProductEntity } from "../entities/product.entity";
 import { ProductWithDetailsDto } from "../dtos/product-with-details.dto";
 
 @Injectable()
 export class ProductsRepository {
-    constructor(
-        @InjectRepository(ProudctEntity)
-        private readonly productsRepository: Repository<ProudctEntity>
-    ) {}
+  constructor(
+    @InjectRepository(ProductEntity)
+    private readonly productsRepository: Repository<ProductEntity>
+  ) {}
 
-    async getProductById(productId: string): Promise<ProudctEntity> {
-        return await this.productsRepository.findOne({
-            where: { id: productId },
-        });
-    }
+  async getProductById(productId: string): Promise<ProductEntity> {
+    return await this.productsRepository.findOne({
+      where: { id: productId },
+    });
+  }
 
-    async createProduct(
-        productCreateDto: ProductWithDetailsDto
-    ): Promise<ProudctEntity> {
-        const newProduct = new ProudctEntity();
+  async createProduct(
+    productCreateDto: ProductWithDetailsDto
+  ): Promise<ProductEntity> {
+    const newProduct = new ProductEntity();
 
-        Object.assign(newProduct, productCreateDto);
-        newProduct.created = new Date();
-        newProduct.updated = new Date();
+    Object.assign(newProduct, productCreateDto);
+    newProduct.created = new Date();
+    newProduct.updated = new Date();
 
-        return await this.productsRepository.save(newProduct);
-    }
+    return await this.productsRepository.save(newProduct);
+  }
 
-    async getAllProducts(): Promise<ProudctEntity[]> {
-        return await this.productsRepository.find();
-    }
+  async getAllProducts(): Promise<ProductEntity[]> {
+    return await this.productsRepository.find();
+  }
 
-    async getInactiveProducts(): Promise<ProudctEntity[]> {
-        return await this.productsRepository.find({
-            where: { isActive: false },
-        });
-    }
+  async getInactiveProducts(): Promise<ProductEntity[]> {
+    return await this.productsRepository.find({
+      where: { isActive: false },
+    });
+  }
 
-    async getFiltredProducts(
-        productFilter: FindOptionsWhere<ProudctEntity>
-    ): Promise<ProudctEntity[]> {
-        return await this.productsRepository.find({
-            where: productFilter,
-        });
-    }
+  async getFiltredProducts(
+    productFilter: FindOptionsWhere<ProductEntity>
+  ): Promise<ProductEntity[]> {
+    return await this.productsRepository.find({
+      where: productFilter,
+    });
+  }
 
-    async getProductsByName(name: string): Promise<ProudctEntity[]> {
-        return await this.productsRepository.find({ where: { name } });
-    }
+  async getProductsByName(name: string): Promise<ProductEntity[]> {
+    return await this.productsRepository.find({ where: { name } });
+  }
 
-    async updateProduct(product: ProudctEntity): Promise<ProudctEntity> {
-        product.updated = new Date();
-        return await this.productsRepository.save(product);
-    }
+  async updateProduct(product: ProductEntity): Promise<ProductEntity> {
+    product.updated = new Date();
+    return await this.productsRepository.save(product);
+  }
+
+  async getProductsArrayByIds(ids: string[]): Promise<ProductEntity[]> {
+    return await this.productsRepository.find({
+      where: {
+        id: In(ids),
+      },
+    });
+  }
+
+  async saveProductsArray(products: ProductEntity[]): Promise<ProductEntity[]> {
+    return await this.productsRepository.save(products);
+  }
 }

@@ -17,7 +17,7 @@ import { CreateUserDto } from "../users/dtos/create-user.dto";
 // ========================== Services & Controllers ====================
 import { AuthService } from "./auth.service";
 
-ApiTags("Authentication");
+@ApiTags("Authentication")
 @Controller("auth")
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -47,7 +47,7 @@ export class AuthController {
   @UsePipes(new ValidationPipe())
   async signIn(
     @Body() userSignIn: UserSignInDto
-    )/*: Promise<TokenDto> */
+    ): Promise<TokenDto> 
     {
     return await this.authService.signIn(userSignIn);
   }

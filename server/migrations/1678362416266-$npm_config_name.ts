@@ -7,8 +7,8 @@ export class $npmConfigName1678362416266 implements MigrationInterface {
         await queryRunner.createTable(getCart(), false);
         await queryRunner.addColumn('users', getCartColumnFromUsers());
         await queryRunner.createForeignKey('users', getCartFKFromUsers());
-        //await queryRunner.createTable(getCartItems(), false);
-        //await queryRunner.createForeignKey('cart', getCartItemFKFromCart());
+        await queryRunner.createTable(getCartItems(), false);
+        await queryRunner.createForeignKey('cart', getCartItemFKFromCart());
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

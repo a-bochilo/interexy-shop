@@ -89,9 +89,7 @@ export class UserRepository extends Repository<UserEntity> {
             where: {
                 email: emailUser
             },
-            relations: [
-                'role'
-            ]
+            relations: [ 'role' ]
         })
     }
 

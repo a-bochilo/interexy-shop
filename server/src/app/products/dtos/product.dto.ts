@@ -17,7 +17,7 @@ import { ProductsCategory } from "../enums/products-category.enum";
 import { UUIDDto } from "src/shared/dtos/uuid.dto";
 
 // ========================== Entities ==========================
-import { ProudctEntity } from "../entities/product.entity";
+import { ProductEntity } from "../entities/product.entity";
 import { ProductActiveViewEntity } from "../entities/product-active-view.entity";
 
 export class ProductDto extends UUIDDto {
@@ -76,7 +76,7 @@ export class ProductDto extends UUIDDto {
     quantity!: number;
 
     public static fromEntity(
-        entity: ProudctEntity | ProductActiveViewEntity
+        entity: ProductEntity | ProductActiveViewEntity
     ): ProductDto {
         const dto = new ProductDto();
         dto.id = entity.id;

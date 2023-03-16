@@ -6,7 +6,7 @@ import { UUIDEntity } from "../../../shared/entities/uuid.entity";
 // ========================== Enums ==========================
 
 @Entity({ name: "product_details" })
-export class ProudctDetailsEntity extends UUIDEntity {
+export class ProductDetailsEntity extends UUIDEntity {
     @Column({ name: "color" })
     color!: string;
 

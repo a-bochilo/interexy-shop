@@ -8,11 +8,10 @@ import { CreateUserDto } from "./dtos/create-user.dto";
 import { UserEntity } from "./entities/user.entity";
 import { AssignUserRoleDto } from "./dtos/assign-role-user.dto";
 import { UserDetailsEntity } from "./entities/user-details.entity";
-import { UserDetailsDto } from "./dtos/user-details.dto";
 import { UserSessionDto } from "./dtos/user-session.dto";
 
 // ========================== Enums =====================================
-import { UserPermissions } from "src/shared/types/user-permissions.enum";
+import { UserPermissions } from "../../shared/types/user-permissions.enum";
 
 // ========================== Services & Controllers ====================
 import { UserService } from "./user.service";
@@ -26,22 +25,6 @@ export class UserController {
     constructor(
         private readonly userService: UserService,
     ) { }
-    
-    //CREATE
-    // @Post()
-    // @ApiOperation({ summary: "Create new user" })
-    // @ApiResponse({
-    //     status: HttpStatus.OK,
-    //     description: "HttpStatus:200:OK",
-    //     type: UserEntity,
-    //     isArray: false,
-    // })
-    // @UsePipes(new ValidationPipe())
-    // async create(
-    //     @Body() userDto: CreateUserDto
-    // ): Promise<UserEntity> {
-    //     return await this.userService.createUser(userDto);
-    // }
 
     //GET ALL INACTIVE USERS
     @Get('')
@@ -142,27 +125,12 @@ export class UserController {
     })
     @UsePipes(new ValidationPipe())
     async getUserOrders(
-       @Param("userId") userId: string
+        @Param("userId") userId: string
     ): Promise<OrderEntity[]> {
         return await this.userService.getOrdersById(userId);
     }
 
-    //GET ONE USER DETAILS BY ID ---------------------------------------USER
-    @Get('/profile')
-    //@AuthPermissionsGuard(UserPermissions.getProfile)
-    @ApiOperation({ summary: "Get user by id (user)" })
-    @ApiResponse({
-        status: HttpStatus.OK,
-        description: "HttpStatus:200:OK",
-        type: UserDetailsEntity,
-        isArray: false,
-    })
-    @UsePipes(new ValidationPipe())
-    async getProfile(
-        @User() user: UserSessionDto
-    ): Promise<UserDetailsEntity> {
-        return await this.userService.getDetailsById(user.id);
-    }
+
 
     //UPDATE DETAILS BY USER ID ---------------------------------------USER
     @Put('/profile')
@@ -196,8 +164,24 @@ export class UserController {
     async getOrders(
         @User() user: UserSessionDto
     ): Promise<OrderEntity[]> {
-        console.log(user)
         return await this.userService.getOrdersById(user.id as string);
+    }
+
+    //GET ONE USER DETAILS BY ID ---------------------------------------USER
+    @Get('profile')
+    @AuthPermissionsGuard(UserPermissions.all)
+    @ApiOperation({ summary: "Get user by id (user)" })
+    @ApiResponse({
+        status: HttpStatus.OK,
+        description: "HttpStatus:200:OK",
+        type: UserDetailsEntity,
+        isArray: false,
+    })
+    @UsePipes(new ValidationPipe())
+    async getProfile(
+        @User() user: UserSessionDto
+    ): Promise<UserDetailsEntity> {
+        return await this.userService.getDetailsById(user.id);
     }
 
 }

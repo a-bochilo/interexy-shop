@@ -3,7 +3,7 @@ import { MigrationInterface, QueryRunner, Table } from "typeorm"
 export class $npmConfigName1678370951605 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        //await queryRunner.createTable(getOrderItemsTable(), false);
+        await queryRunner.createTable(getOrderItemsTable(), false);
         await queryRunner.createTable(getOrderTable(), false);
     }
 
@@ -48,19 +48,19 @@ const getOrderTable = () => new Table({
             type: 'int',
             isNullable: false,
         },
-        // {
-        //     name: "order_item_id",
-        //     type: 'uuid'
-        // }
+        {
+            name: "order_item_id",
+            type: 'uuid'
+        }
     ],
-    // foreignKeys: [{
-    //     name: "FK_users_details",
-    //     columnNames: ["order_item_id"],
-    //     referencedTableName: "order_items",
-    //     referencedColumnNames: ["id"],
-    //     onDelete: "CASCADE",
-    //     onUpdate: "CASCADE",
-    // }]
+    foreignKeys: [{
+        name: "FK_users_details",
+        columnNames: ["order_item_id"],
+        referencedTableName: "order_items",
+        referencedColumnNames: ["id"],
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+    }]
 })
 
 const getOrderItemsTable = () => new Table({

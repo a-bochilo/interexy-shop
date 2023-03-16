@@ -3,14 +3,14 @@ import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConne
 
 // ========================== Entities ==========================
 import { UserEntity } from "../app/users/entities/user.entity";
+import { UserViewEntity } from "../app/users/entities/user-view.entity";
 import { RoleEntity } from "../app/roles/entities/role.entity";
-import { ProudctEntity } from "../app/products/entities/product.entity";
-import { ProudctDetailsEntity } from "../app/products/entities/product-details.entity";
+import { ProductEntity } from "../app/products/entities/product.entity";
+import { ProductDetailsEntity } from "../app/products/entities/product-details.entity";
 import { ProductActiveViewEntity } from "../app/products/entities/product-active-view.entity";
 import { UserDetailsEntity } from "../app/users/entities/user-details.entity";
 import { OrderEntity } from "../app/orders/entities/order.entity";
-import { UserViewEntity } from "../app/users/entities/user-view.entity";
-
+import { OrderItemEntity } from "../app/orders/entities/order-item.entity";
 
 // ========================== Migrations ==========================
 import { $npmConfigName1678357923542 } from "../../migrations/1678357923542-$npm_config_name";
@@ -24,6 +24,7 @@ import { $npmConfigName1678456561878 } from "../../migrations/1678456561878-$npm
 import { $npmConfigName1678456993069 } from "../../migrations/1678456993069-$npm_config_name";
 import { $npmConfigName1678544710047 } from "../../migrations/1678544710047-$npm_config_name";
 import { $npmConfigName1678780011243 } from "../../migrations/1678780011243-$npm_config_name";
+import { $npmConfigName1678960944968 } from "../../migrations/1678960944968-$npm_config_name";
 
 
 
@@ -36,13 +37,14 @@ const databaseConfig: PostgresConnectionOptions = {
     database: process.env.POSTGRES_DB,
     entities: [
         UserEntity,
-        OrderEntity,
         UserDetailsEntity,
         UserViewEntity,
         RoleEntity,
-        ProudctEntity,
-        ProudctDetailsEntity,
+        ProductEntity,
         ProductActiveViewEntity,
+        ProductDetailsEntity,
+        OrderEntity,
+        OrderItemEntity,
     ],
     synchronize: false,
     migrations: [
@@ -57,6 +59,7 @@ const databaseConfig: PostgresConnectionOptions = {
         $npmConfigName1678456993069,
         $npmConfigName1678544710047,
         $npmConfigName1678780011243,
+        $npmConfigName1678960944968, 
     ],
 };
 

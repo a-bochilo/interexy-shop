@@ -1,9 +1,10 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from "typeorm";
 
 // ========================== Entities ==========================
 import { UserEntity } from "../../users/entities/user.entity";
 import { UUIDEntity } from "../../../shared/entities/uuid.entity";
+import { OrderItemEntity } from "./order-item.entity";
 
 @Entity({ name: "order" })
 export class OrderEntity extends UUIDEntity {
@@ -18,4 +19,13 @@ export class OrderEntity extends UUIDEntity {
     @ManyToOne(() => UserEntity, (user) => user.order)
     @JoinColumn({ name: "user_id" })
     user: UserEntity;
+
+    @Column({ name: "order_item_id"})
+    order_item_id: string
+    
+    @OneToMany(() => OrderItemEntity, (item) => item.id)
+    @JoinColumn({name: "order_item_id"})
+    order_items: OrderItemEntity[];
+
+    
 }

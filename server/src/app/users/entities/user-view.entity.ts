@@ -8,7 +8,7 @@ import { RoleEntity } from "../../roles/entities/role.entity";
 
 // ========================== Enums ==========================
 import { UserRoles } from "../../../shared/types/user-roles.enum";
-import { OrderEntity } from "src/app/orders/entities/order.entity";
+import { OrderEntity } from "../../orders/entities/order.entity";
 
 
 

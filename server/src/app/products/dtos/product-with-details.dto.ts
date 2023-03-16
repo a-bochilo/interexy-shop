@@ -3,8 +3,8 @@ import { IsNotEmpty, ValidateNested } from "class-validator";
 import { Type } from "class-transformer";
 
 // ========================== Entities ==========================
-import { ProudctEntity } from "../entities/product.entity";
-import { ProudctDetailsEntity } from "../entities/product-details.entity";
+import { ProductEntity } from "../entities/product.entity";
+import { ProductDetailsEntity } from "../entities/product-details.entity";
 
 // ========================== DTO's ==========================
 import { ProductDto } from "./product.dto";
@@ -17,14 +17,14 @@ export class ProductWithDetailsDto extends ProductDto {
     @IsNotEmpty()
     @ValidateNested({ each: true })
     @Type(() => ProductDetailsDto)
-    productDetails: ProductDetailsDto | ProudctDetailsEntity;
+    productDetails: ProductDetailsDto | ProductDetailsEntity;
 
     public static fromProductAndDetailsEntities({
         product,
         productDetails,
     }: {
-        product: ProudctEntity;
-        productDetails: ProudctDetailsEntity;
+        product: ProductEntity;
+        productDetails: ProductDetailsEntity;
     }): ProductWithDetailsDto {
         const detailsDto = ProductDetailsDto.fromEntity(productDetails);
 
