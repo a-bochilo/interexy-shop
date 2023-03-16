@@ -49,13 +49,13 @@ const getOrderTable = () => new Table({
             isNullable: false,
         },
         {
-            name: "order_item_id",
+            name: "item_id",
             type: 'uuid'
         }
     ],
     foreignKeys: [{
-        name: "FK_users_details",
-        columnNames: ["order_item_id"],
+        name: "FK_order_item",
+        columnNames: ["item_id"],
         referencedTableName: "order_items",
         referencedColumnNames: ["id"],
         onDelete: "CASCADE",

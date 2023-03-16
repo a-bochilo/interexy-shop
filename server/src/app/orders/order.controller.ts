@@ -19,7 +19,7 @@ import { AuthPermissionsGuard } from "../security/decorators/auth-permissions-gu
 import { UserPermissions } from "../../shared/types/user-permissions.enum";
 
 @ApiTags('Order controller')
-@Controller("order")
+@Controller("orders")
 export class OrderController {
     constructor(
         private readonly orderService: OrderService,
@@ -42,8 +42,24 @@ export class OrderController {
         return await this.orderService.createOrder(/*cart, user.id*/user.id);
     }
 
+    @Get('/profile')
+    @AuthPermissionsGuard(UserPermissions.all)
+    @ApiOperation({ summary: "Get orders by user_id (user)" })
+    @ApiResponse({
+        status: HttpStatus.OK,
+        description: "HttpStatus:200:OK",
+        type: OrderEntity,
+        isArray: true,
+    })
+    @UsePipes(new ValidationPipe())
+    async getProfile(
+        @User() user: UserSessionDto
+    ): Promise<OrderEntity[]> {
+        return await this.orderService.getOrderById(user.id)
+    }
 
     @Get()
+    @AuthPermissionsGuard(UserPermissions.all)
     @ApiOperation({ summary: "Get all orders" })
     @ApiResponse({
         status: HttpStatus.OK,
@@ -57,34 +73,19 @@ export class OrderController {
     }
 
 
-    // @Get(':userId')
-    // @ApiOperation({ summary: "Get orders by user_id (admin)" })
-    // @ApiResponse({
-    //     status: HttpStatus.OK,
-    //     description: "HttpStatus:200:OK",
-    //     type: OrderEntity,
-    //     isArray: true,
-    // })
-    // @UsePipes(new ValidationPipe())
-    // async getOrdersByUserId(
-    //     @Param("userId") userId: string
-    // ): Promise<OrderEntity[]> {
-    //     return await this.orderService.getOrderById(userId)
-    // }
-
-    // @Get('/profile')
-    // //@AuthPermissionsGuard(UserPermissions.getOrder)
-    // @ApiOperation({ summary: "Get orders by user_id (user)" })
-    // @ApiResponse({
-    //     status: HttpStatus.OK,
-    //     description: "HttpStatus:200:OK",
-    //     type: OrderEntity,
-    //     isArray: true,
-    // })
-    // @UsePipes(new ValidationPipe())
-    // async getProfile(
-    //     @User() user: UserSessionDto
-    // ): Promise<OrderEntity[]> {
-    //     return await this.orderService.getOrderById(user.id)
-    // }
+    @Get(':userId')
+    @AuthPermissionsGuard(UserPermissions.all)
+    @ApiOperation({ summary: "Get orders by user_id (admin)" })
+    @ApiResponse({
+        status: HttpStatus.OK,
+        description: "HttpStatus:200:OK",
+        type: OrderEntity,
+        isArray: true,
+    })
+    @UsePipes(new ValidationPipe())
+    async getOrdersByUserId(
+        @Param("userId") userId: string
+    ): Promise<OrderEntity[]> {
+        return await this.orderService.getOrderById(userId)
+    }
 }

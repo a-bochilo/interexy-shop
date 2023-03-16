@@ -19,7 +19,6 @@ import { UserRepository } from "../users/repos/user.repository";
 import { OrderRepository } from "./repos/order.repository";
 import { ProductsActiveViewRepository } from "../products/repos/products-active-view.repository";
 import { ProductsRepository } from "../products/repos/products.repository";
-import { OrderItemRepository } from "./repos/order-item.repository";
 
 // ========================== Services & Controllers ====================
 import { RoleService } from "../roles/role.service";
@@ -61,7 +60,6 @@ import { SecurityModule } from "../security/security.module";
 
         OrderService,
         OrderRepository,
-        OrderItemRepository,
 
         ProductsRepository,
     ],

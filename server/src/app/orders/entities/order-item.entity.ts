@@ -24,8 +24,11 @@ export class OrderItemEntity extends UUIDEntity {
     @JoinColumn({ name: "product_id" })
     product: ProductEntity;
 
-    @ManyToOne(() => OrderEntity, (item) => item.order_items)
-    @JoinColumn({name: "order_id"})
-    order: OrderEntity
+    @Column()
+    order_id: string;
+
+    @ManyToOne(() => OrderEntity, (item) => item.items)
+    @JoinColumn({name: "order_id", referencedColumnName: "id"})
+    order!: OrderEntity
 
 }

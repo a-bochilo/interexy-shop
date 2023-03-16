@@ -12,7 +12,6 @@ import { ProductDto } from "../products/dtos/product.dto";
 import { OrderItemEntity } from "./entities/order-item.entity";
 import { ProductEntity } from "../products/entities/product.entity";
 import { createOrderItemDto } from "./dtos/create-order-item.dto";
-import { OrderItemRepository } from "./repos/order-item.repository";
 import { ProductsRepository } from "../products/repos/products.repository";
 import { CartDto } from "./dtos/cart-dto";
 import { OrderEntity } from "./entities/order.entity";
@@ -21,7 +20,6 @@ import { OrderEntity } from "./entities/order.entity";
 export class OrderService {
     constructor(
         private readonly orderRepository: OrderRepository,
-        private readonly orderItemRepository: OrderItemRepository,
         private readonly productRepository: ProductsRepository,
         private readonly userService: UserService,
     ) { }
@@ -39,9 +37,8 @@ export class OrderService {
 
         //const ids = cart.items.map((id) => id); //get [ids, ids, ids...]
         const ids = [
-            "cfafa00a-463e-4750-a1df-645696788838",
-            "135522af-fdf6-4ed2-88f2-adad4e8f77d5",
-            "e457054e-07d4-4588-bfca-b2493ea6f418",
+            "c4fee739-539b-4dcf-89bb-e343733db35d",
+            "de6f8cb4-c12a-4f28-b3f6-545918821dbc",
         ]
         // get all products
         const prodEntities = await this.productRepository.getProductsArrayByIds(ids)
@@ -71,20 +68,20 @@ export class OrderService {
             );
         } else {
             const orderItems = prodEntities.map((item) => {
-                const {id, price, quantity} = item;
+                const { id, price } = item;
                 const obj = {
                     id: id,
                     price: price,
-                    quantity: quantity,
+                    quantity: 1,
                 }
                 return obj;
             })
-
             await this.productRepository.saveProductsArray(prodEntities);
-            return await this.orderRepository.createOrder(orderItems, userId)
+            
+            const total = orderItems.reduce((acccumulator: number, currValue) => acccumulator + currValue.price, 0);
+
+            return await this.orderRepository.createOrder(orderItems, userId, total)
         }
-
-
     }
 
     async getAllOrders() {
@@ -94,37 +91,4 @@ export class OrderService {
     async getOrderById(id: string) {
         return await this.orderRepository.getById(id);
     }
-
-    async createOrderItem(product: ProductDto) {
-        const newProduct = new createOrderItemDto();
-        const rootProduct = await this.productRepository.getProductById(product.id)
-        if(rootProduct.quantity - product.quantity >= 0) {
-            const prod = new ProductEntity();
-            prod.quantity = rootProduct.quantity - product.quantity;
-            Object.assign(rootProduct, prod)
-            Object.assign(newProduct, product);
-            await this.productRepository.updateProduct(rootProduct);
-            return await this.orderItemRepository.createOrderItem(newProduct);
-        } else {
-            throw new HttpException(
-                `Product '${rootProduct.name}' is ended`,
-                HttpStatus.UNPROCESSABLE_ENTITY
-            );
-        }
-    }
 }
-
-//id, quantity - cart_item
-//cart - [cart_item]
-
-//cart
-/*
-id
-created
-updated
-items: [
-    cart_item,
-    cart_item,
-    cart_item,
-]
-*/

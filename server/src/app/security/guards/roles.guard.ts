@@ -22,7 +22,7 @@ export class RolesGuard implements CanActivate {
         private reflector: Reflector
     ) {}
     async canActivate(context: ExecutionContext): Promise<boolean> {
-
+        
         const permissions = this.reflector.get<UserPermissions>(
             "permissions",
             context.getHandler()
@@ -38,10 +38,10 @@ export class RolesGuard implements CanActivate {
         }
 
         request.user = await this.securityService.verifyJwt(token);
+        
         const user = await this.securityService.getUser(
            request.user.id
         );
-
         if (!user) {
             throw new HttpException(
                 "User does not exist",
@@ -59,7 +59,7 @@ export class RolesGuard implements CanActivate {
         if (userPermissions.includes(permissions)) return true;
 
         if(userPermissions.includes(UserPermissions.all)) return true;
-
+        
         throw new HttpException("Not authorized", HttpStatus.UNAUTHORIZED);
     }
 }

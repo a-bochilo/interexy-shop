@@ -19,17 +19,13 @@ export class OrderRepository extends Repository<OrderEntity> {
         return await this.findOneBy({id: orderId});
     }
 
-    async createOrder(orderItems: any, userId: string) {
+    async createOrder(orderItems: any, userId: string, total: number) {
         const newOrder = new OrderEntity();
-        const initValue = 0;
-        const total = orderItems.reduce((acccumulator: number, currValue) => acccumulator + currValue.price, initValue);
-
-        newOrder.order_items = orderItems;
-        newOrder.order_item_id = '135522af-fdf6-4ed2-88f2-adad4e8f7725'
-        newOrder.total = total;
-        newOrder.user_id = userId;
         newOrder.created = new Date();
         newOrder.updated = new Date();
+        newOrder.user_id = userId;
+        newOrder.total = total;
+        newOrder.items = orderItems;
         return await this.save(newOrder);
     }
 
