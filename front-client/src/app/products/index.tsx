@@ -1,15 +1,18 @@
-// ========================== react ==========================
-import { FC } from "react";
-
-// ========================== components ==========================
-import PageHeaderComp from "../../components/page-header.comp";
-import PageFooterComp from "../../components/page-footer.comp";
-import PageNavBarComp from "../../components/navbar.comp";
-import PageAsideComp from "../../components/aside.comp";
+// ======== react ============
+import React, { FC } from "react";
 
 // ========================== mui ==========================
 import styled from "@emotion/styled";
 import { Grid } from "@mui/material";
+
+// ======== components ============
+import PageHeaderComp from "../../components/page-header.comp";
+import PageAsideComp from "../../components/aside.comp";
+import PageFooterComp from "../../components/page-footer.comp";
+import PageNavBarComp from "../../components/navbar.comp";
+
+// ======== routes ============
+import ProductsRoutes from "./products.routes";
 
 const MainGrid = styled(Grid)`
   flex: 1 1 0;
@@ -24,11 +27,11 @@ const ContentGrid = styled(Grid)`
 const ProductsPage: FC = () => {
   return (
     <MainGrid>
-      <PageNavBarComp />
+      
       <Grid>
         <PageHeaderComp />
         <ContentGrid>
-          <div>Container for Products</div>
+          <ProductsRoutes />
           <PageAsideComp />
         </ContentGrid>
         <PageFooterComp />
