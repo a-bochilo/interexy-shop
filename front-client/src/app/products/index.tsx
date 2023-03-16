@@ -6,7 +6,6 @@ import styled from "@emotion/styled";
 import { Grid } from "@mui/material";
 
 // ======== components ============
-import PageHeaderComp from "../../components/page-header.comp";
 import PageAsideComp from "../../components/aside.comp";
 import PageFooterComp from "../../components/page-footer.comp";
 import PageNavBarComp from "../../components/navbar.comp";
@@ -29,7 +28,7 @@ const ProductsPage: FC = () => {
     <MainGrid>
       
       <Grid>
-        <PageHeaderComp />
+        <PageNavBarComp />
         <ContentGrid>
           <ProductsRoutes />
           <PageAsideComp />

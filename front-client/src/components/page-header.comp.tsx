@@ -87,7 +87,7 @@ const PageHeaderComp: FC = () => {
   };
 
   return (
-    <Box component={"header"} sx={{ flexGrow: 1 }}>
+    <Box component={"header"}>
       <AppBar position="static">
         <Container maxWidth={false}>
           <Toolbar disableGutters>

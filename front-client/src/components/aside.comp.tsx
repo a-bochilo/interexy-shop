@@ -10,7 +10,7 @@ const PageAsideComp: FC = () => {
       <Box
         sx={{
           width: 300,
-          height: 600,
+          height: 685,
           backgroundColor: "yellow",
           "&:hover": {
             backgroundColor: "lightyellow",
