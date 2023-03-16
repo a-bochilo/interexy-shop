@@ -30,7 +30,7 @@ import { ProductsService } from "./products.service";
 // ========================== Security ==========================
 import { AuthPermissionsGuard } from "../security/decorators/auth-permissions-guard.decorator";
 
-@ApiTags("products")
+@ApiTags("Products controller")
 @Controller("products")
 export class ProductsController {
     constructor(private readonly productsService: ProductsService) {}

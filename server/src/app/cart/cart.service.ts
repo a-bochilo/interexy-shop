@@ -13,6 +13,7 @@ import { CartItemRepository } from "./repos/cart-item.repository";
 // ========================== DTO's ==========================
 import { CartItemDto } from "./dtos/cart-item.dto";
 import { UserSessionDto } from "../users/dtos/user-session.dto";
+import { ProductEntity } from "../products/entities/product.entity";
 
 @Injectable()
 export class CartService {
@@ -49,6 +50,8 @@ export class CartService {
         user: UserSessionDto,
         cartItemDto: CartItemDto
     ): Promise<CartEntity> {
+        await this.getProductIfEnough(cartItemDto);
+
         const cart = await this.getUserCart(user);
 
         const item = cart.items.find(
@@ -96,14 +99,10 @@ export class CartService {
     }
 
     async getUserCart(user: UserSessionDto): Promise<CartEntity> {
-        // const userFromDB = await this.userRepository.getById(
-        //     user.id
-        // );
-
-        //! code below must be deleted in case auth module implemented
         const userFromDB = await this.userRepository.getById(
-            "4e4d6aeb-ba9b-4394-b9e2-2d0f5b06c3b2"
+            user.id
         );
+
 
         if (!userFromDB) {
             throw new HttpException(
@@ -127,6 +126,19 @@ export class CartService {
         cart: CartEntity,
         cartItemDto: CartItemDto
     ): Promise<CartItemEntity> {
+        const product = await this.getProductIfEnough(cartItemDto);
+
+        const item = new CartItemEntity();
+        item.created = new Date();
+        item.quantity = cartItemDto.quantity;
+        item.cart = cart;
+        item.quantity = cartItemDto.quantity;
+        item.product_id = product.id;
+
+        return await this.cartItemRepository.saveCartItem(item);
+    }
+
+    async getProductIfEnough(cartItemDto: CartItemDto): Promise<ProductEntity> {
         const product = await this.productsRepository.getProductById(
             cartItemDto.productId
         );
@@ -145,13 +157,6 @@ export class CartService {
             );
         }
 
-        const item = new CartItemEntity();
-        item.created = new Date();
-        item.quantity = cartItemDto.quantity;
-        item.cart = cart;
-        item.quantity = cartItemDto.quantity;
-        item.product_id = product.id;
-
-        return await this.cartItemRepository.saveCartItem(item);
+        return product;
     }
 }

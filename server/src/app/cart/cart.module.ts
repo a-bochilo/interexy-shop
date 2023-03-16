@@ -12,7 +12,7 @@ import { CartService } from "./cart.service";
 import { CartItemEntity } from "./entities/cart-item.entity";
 import { CartEntity } from "./entities/cart.entity";
 import { UserEntity } from "../users/entities/user.entity";
-import { ProudctEntity } from "../products/entities/product.entity";
+import { ProductEntity } from "../products/entities/product.entity";
 import { UserViewEntity } from "../users/entities/user-view.entity";
 
 // ========================== Repos ==========================
@@ -29,7 +29,7 @@ import { UserViewRepository } from "../users/repos/user-view.repository";
             CartItemEntity,
             UserEntity,
             UserViewEntity,
-            ProudctEntity,
+            ProductEntity,
         ]),
         SecurityModule,
     ],

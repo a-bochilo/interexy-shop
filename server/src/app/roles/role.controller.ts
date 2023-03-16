@@ -19,6 +19,8 @@ import { CreateRoleDto } from "./dtos/create-role.dto";
 import { RoleEntity } from "./entities/role.entity";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { UserDetailsEntity } from "../users/entities/user-details.entity";
+import { UserPermissions } from "../../shared/types/user-permissions.enum";
+import { AuthPermissionsGuard } from "../security/decorators/auth-permissions-guard.decorator";
 
 
 @ApiTags('Roles controller')
@@ -27,7 +29,7 @@ export class RoleController {
     constructor(private readonly roleService: RoleService) { }
 
     @Post()
-    //@AuthPermissionsGuard(UserPermissions.createRole)
+    //@AuthPermissionsGuard(UserPermissions.assignRole)
     @ApiOperation({ summary: "Create role" })
     @ApiResponse({
         status: HttpStatus.OK,
@@ -43,7 +45,7 @@ export class RoleController {
     }
 
     @Get()
-    //@AuthPermissionsGuard(UserPermissions.getAllRoles)
+    @AuthPermissionsGuard(UserPermissions.assignRole)
     @ApiOperation({ summary: "Get all roles" })
     @ApiResponse({
         status: HttpStatus.OK,

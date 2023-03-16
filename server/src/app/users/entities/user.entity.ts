@@ -1,5 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from "typeorm";
-import { ApiProperty } from "@nestjs/swagger";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, } from "typeorm";
 
 // ========================== Entities ==========================
 import { UUIDEntity } from "../../../shared/entities/uuid.entity";
@@ -9,6 +8,8 @@ import { RoleEntity } from "../../roles/entities/role.entity";
 
 // ========================== Enums ==========================
 import { UserRoles } from "../../../shared/types/user-roles.enum";
+import { ApiProperty } from "@nestjs/swagger";
+import { OrderEntity } from "../../orders/entities/order.entity";
 
 @Entity({ name: "users" })
 export class UserEntity extends UUIDEntity {
@@ -71,6 +72,10 @@ export class UserEntity extends UUIDEntity {
     @ManyToOne(() => RoleEntity, (role) => role.users)
     @JoinColumn({ name: "role_id" })
     role: RoleEntity;
+
+
+    @OneToMany(() => OrderEntity, (order) => order.user)
+    order: OrderEntity[];
 
     @OneToOne(() => CartEntity, (cart) => cart.user)
     @JoinColumn({ name: "cart_id", referencedColumnName: "id" })
