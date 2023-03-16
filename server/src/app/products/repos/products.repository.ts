@@ -1,10 +1,11 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { FindOptionsWhere, Repository } from "typeorm";
+import { FindOptionsWhere, In, Repository } from "typeorm";
 
 // ========================== Entities & DTO's ==========================
 import { ProudctEntity } from "../entities/product.entity";
-import { ProductWithDetailsDto } from "../dtos/product-with-details.dto";
+import { ProductDetailsEntity } from "../entities/product-details.entity";
+import { ProductDto } from "../dtos/product.dto";
 
 @Injectable()
 export class ProductsRepository {
@@ -20,11 +21,13 @@ export class ProductsRepository {
     }
 
     async createProduct(
-        productCreateDto: ProductWithDetailsDto
+        productDto: ProductDto,
+        details: ProductDetailsEntity
     ): Promise<ProudctEntity> {
         const newProduct = new ProudctEntity();
 
-        Object.assign(newProduct, productCreateDto);
+        Object.assign(newProduct, productDto);
+        newProduct.productDetails = details;
         newProduct.created = new Date();
         newProduct.updated = new Date();
 
@@ -56,5 +59,19 @@ export class ProductsRepository {
     async updateProduct(product: ProudctEntity): Promise<ProudctEntity> {
         product.updated = new Date();
         return await this.productsRepository.save(product);
+    }
+
+    async getProductsArrayByIds(ids: string[]): Promise<ProudctEntity[]> {
+        return await this.productsRepository.find({
+            where: {
+                id: In(ids),
+            },
+        });
+    }
+
+    async saveProductsArray(
+        products: ProudctEntity[]
+    ): Promise<ProudctEntity[]> {
+        return await this.productsRepository.save(products);
     }
 }

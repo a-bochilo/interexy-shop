@@ -7,12 +7,11 @@ import { CreateRoleDto } from "./dtos/create-role.dto";
 
 // ========================== Entities & Repos ==========================
 import { RoleEntity } from "./entities/role.entity";
-import { UserRoles } from "src/shared/types/user-roles.enum";
+import { UserRoles } from "../../shared/types/user-roles.enum";
 
 @Injectable()
 export class RoleService {
-
-    constructor(private readonly roleRepository: RoleRepository) { }
+    constructor(private readonly roleRepository: RoleRepository) {}
 
     async createRole(createRoleDto: CreateRoleDto): Promise<RoleEntity> {
         return this.roleRepository.createRole(createRoleDto);
@@ -37,6 +36,6 @@ export class RoleService {
     async updateRole(id: number, createRoleDto: CreateRoleDto) {
         const role = await this.roleRepository.getById(id);
         Object.assign(role, createRoleDto);
-        return await this.roleRepository.updateRole(role)
+        return await this.roleRepository.updateRole(role);
     }
 }

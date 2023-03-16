@@ -11,7 +11,7 @@ import { UserDetailsRepository } from "./repos/user-details.repository";
 import { UserViewRepository } from "./repos/user-view.repository";
 
 // ========================== Enums =====================================
-import { UserRoles } from "src/shared/types/user-roles.enum";
+import { UserRoles } from "../../shared/types/user-roles.enum";
 
 // ========================== Services & Controllers ====================
 import { RoleService } from "../roles/role.service";
@@ -24,25 +24,19 @@ export class UserService {
         private readonly userRepository: UserRepository,
         private readonly userViewRepository: UserViewRepository,
         private readonly roleService: RoleService
-    ) { }
+    ) {}
 
     async createUser(createUserDto: CreateUserDto): Promise<UserEntity> {
         try {
-            const email = await this.userRepository.getUserByEmail(createUserDto.email);
+            const email = await this.userRepository.getUserByEmail(
+                createUserDto.email
+            );
+
             if (email) {
                 throw new HttpException(
                     `User with ${createUserDto.email} already exist`,
                     HttpStatus.BAD_REQUEST
-                )
-            }
-            if (createUserDto.phone !== null) {
-                const phone = await this.userRepository.getUserByEmail(createUserDto.phone);
-                if (phone) {
-                    throw new HttpException(
-                        `User with ${createUserDto.email} already exist`,
-                        HttpStatus.BAD_REQUEST
-                    )
-                }
+                );
             }
 
             const role = await this.roleService.getRoleByType(UserRoles.user);
@@ -56,10 +50,7 @@ export class UserService {
                 role,
             });
         } catch (error) {
-            throw new HttpException(
-                error,
-                HttpStatus.BAD_REQUEST
-            )
+            throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -74,19 +65,18 @@ export class UserService {
         return await this.userRepository.getInActiveUsers(false);
     }
 
-    async getById(userId: 'uuid') {
+    async getById(userId: "uuid") {
         try {
             const user = await this.userRepository.getById(userId);
-            return await this.userDetailsRepository.getDetails(user.details_id as 'uuid');
+            return await this.userDetailsRepository.getDetails(
+                user.details_id as "uuid"
+            );
         } catch (error) {
-            throw new HttpException(
-                error,
-                HttpStatus.BAD_REQUEST
-            )
+            throw new HttpException(error, HttpStatus.BAD_REQUEST);
         }
     }
 
-    async assignUserRole(assignUserRoleDto: AssignUserRoleDto, userId: 'uuid') {
+    async assignUserRole(assignUserRoleDto: AssignUserRoleDto, userId: "uuid") {
         try {
             const user = await this.userRepository.getById(userId);
             const newRole = await this.roleService.getRoleById(
@@ -97,39 +87,38 @@ export class UserService {
             user.roleType = newRole.type;
             return await this.userRepository.updateUser(user);
         } catch (error) {
-            throw new HttpException(
-                error,
-                HttpStatus.BAD_REQUEST
-            )
+            throw new HttpException(error, HttpStatus.BAD_REQUEST);
         }
-    };
+    }
 
-    async deleteUserById(userId: 'uuid') {
+    async deleteUserById(userId: "uuid") {
         return await this.userRepository.deleteUser(userId);
     }
 
-    async updateUserDetails(info: UpdateUserDto, userId: 'uuid') {
+    async updateUserDetails(info: UpdateUserDto, userId: "uuid") {
         try {
             const user = await this.userRepository.getById(userId);
-            let details = await this.userDetailsRepository.getDetails(user.details_id as 'uuid');
-            const newDetails = await this.userDetailsRepository.createUserDetails(
-                Object.assign(details, info.details)
+            let details = await this.userDetailsRepository.getDetails(
+                user.details_id as "uuid"
             );
+            const newDetails =
+                await this.userDetailsRepository.createUserDetails(
+                    Object.assign(details, info.details)
+                );
             const role = await this.roleService.getRoleById(user.roleId);
-            delete (info.details);
+            delete info.details;
             Object.assign(user, info);
             details = newDetails;
-            await this.userDetailsRepository.deleteDetails(user.details_id as 'uuid');
+            await this.userDetailsRepository.deleteDetails(
+                user.details_id as "uuid"
+            );
             return await this.userRepository.updateUser({
                 ...user,
                 details,
-                role
-            })
+                role,
+            });
         } catch (error) {
-            throw new HttpException(
-                error,
-                HttpStatus.BAD_REQUEST
-            )
+            throw new HttpException(error, HttpStatus.BAD_REQUEST);
         }
     }
 }

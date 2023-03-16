@@ -14,7 +14,9 @@ import { ApiProperty } from "@nestjs/swagger";
 import { ProductsCategory } from "../enums/products-category.enum";
 
 // ========================== DTO's ==========================
-import { UUIDDto } from "src/shared/dtos/uuid.dto";
+import { UUIDDto } from "../../../shared/dtos/uuid.dto";
+import { ProductWithDetailsDto } from "./product-with-details.dto";
+import { ProductOptionalDto } from "./products-optional.dto";
 
 // ========================== Entities ==========================
 import { ProudctEntity } from "../entities/product.entity";
@@ -89,6 +91,21 @@ export class ProductDto extends UUIDDto {
         dto.image = entity.image;
         dto.quantity = entity.quantity;
         dto.isActive = entity.isActive;
+
+        return dto;
+    }
+
+    public static fromDto(
+        incomingDto: ProductWithDetailsDto | ProductOptionalDto
+    ): ProductDto {
+        const dto = new ProductDto();
+        dto.category = incomingDto.category;
+        dto.name = incomingDto.name;
+        dto.brand = incomingDto.brand;
+        dto.price = incomingDto.price;
+        dto.image = incomingDto.image;
+        dto.quantity = incomingDto.quantity;
+        dto.isActive = incomingDto.isActive;
 
         return dto;
     }

@@ -24,10 +24,10 @@ import { SecurityModule } from "../security/security.module";
 @Module({
     imports: [
         TypeOrmModule.forFeature([
-            UserEntity, 
-            RoleEntity, 
+            UserEntity,
+            RoleEntity,
             UserDetailsEntity,
-            UserViewEntity
+            UserViewEntity,
         ]),
         SecurityModule,
     ],
