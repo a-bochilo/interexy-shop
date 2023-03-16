@@ -12,9 +12,11 @@ import {
 } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
-// ========================== Entities & DTO's ==========================
+// ========================== Entities ==========================
 import { CartItemDto } from "./dtos/cart-item.dto";
 import { CartEntity } from "./entities/cart.entity";
+
+// ========================== DTO's ==========================
 import { UserSessionDto } from "../users/dtos/user-session.dto";
 import { CartSessionDto } from "./dtos/cart-session.dto";
 

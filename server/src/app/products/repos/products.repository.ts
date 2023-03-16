@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { FindOptionsWhere, Repository } from "typeorm";
+import { FindOptionsWhere, In, Repository } from "typeorm";
 
 // ========================== Entities & DTO's ==========================
 import { ProudctEntity } from "../entities/product.entity";
@@ -56,5 +56,19 @@ export class ProductsRepository {
     async updateProduct(product: ProudctEntity): Promise<ProudctEntity> {
         product.updated = new Date();
         return await this.productsRepository.save(product);
+    }
+
+    async getProductsArrayByIds(ids: string[]): Promise<ProudctEntity[]> {
+        return await this.productsRepository.find({
+            where: {
+                id: In(ids),
+            },
+        });
+    }
+
+    async saveProductsArray(
+        products: ProudctEntity[]
+    ): Promise<ProudctEntity[]> {
+        return await this.productsRepository.save(products);
     }
 }

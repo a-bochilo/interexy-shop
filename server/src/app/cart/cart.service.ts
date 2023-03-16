@@ -1,5 +1,4 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
-import { SchedulerRegistry } from "@nestjs/schedule";
 
 // ========================== Entities ==========================
 import { CartEntity } from "./entities/cart.entity";
@@ -31,6 +30,16 @@ export class CartService {
         const cart = await this.getUserCart(user);
         const item = await this.createCartItem(cart, cartItemDto);
 
+        const isProductExist = !!cart.items.find(
+            (item) => item.product_id === cartItemDto.productId
+        );
+
+        if (isProductExist) {
+            throw new HttpException(
+                "Product already exists in users cart",
+                HttpStatus.BAD_REQUEST
+            );
+        }
         cart.items = [...cart.items, item];
 
         return await this.cartRepository.saveCart(cart);
@@ -45,6 +54,14 @@ export class CartService {
         const item = cart.items.find(
             (item) => item.product_id === cartItemDto.productId
         );
+
+        if (!item) {
+            throw new HttpException(
+                "Product does not exist it users cart",
+                HttpStatus.BAD_REQUEST
+            );
+        }
+
         item.quantity = cartItemDto.quantity;
 
         await this.cartItemRepository.saveCartItem(item);
@@ -60,7 +77,6 @@ export class CartService {
         const existedItem = cart.items.find((item) => {
             return item.product_id === productId;
         });
-
         if (!existedItem) {
             throw new HttpException(
                 "Cart item does not exist",
@@ -72,9 +88,10 @@ export class CartService {
             (item) => item.product_id !== productId
         );
 
+        await this.cartItemRepository.deleteCartItem(existedItem.id);
+
         cart.items = items;
 
-        await this.cartItemRepository.deleteCartItem(existedItem.id);
         return await this.cartRepository.saveCart(cart);
     }
 

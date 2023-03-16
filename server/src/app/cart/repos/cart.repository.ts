@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository, DataSource } from "typeorm";
+import { Repository } from "typeorm";
 
-// ========================== Entities & DTO's ==========================
+// ========================== Entities ==========================
 import { CartEntity } from "../entities/cart.entity";
 import { UserEntity } from "src/app/users/entities/user.entity";
 
@@ -10,8 +10,7 @@ import { UserEntity } from "src/app/users/entities/user.entity";
 export class CartRepository {
     constructor(
         @InjectRepository(CartEntity)
-        private readonly cartRepository: Repository<CartEntity>,
-        private dataSource: DataSource
+        private readonly cartRepository: Repository<CartEntity>
     ) {}
 
     async saveCart(cart: CartEntity): Promise<CartEntity> {

@@ -15,7 +15,7 @@ export class TasksService {
         const usersIds = carts.map((cart) => cart.userId);
         if (usersIds.length) {
             console.log(
-                `User(s) '${usersIds}' abandoned carts for more then ${minutes} minutes`
+                `User(s) '${usersIds}' abandoned cart(s) for more then ${minutes} minutes`
             );
         }
     }

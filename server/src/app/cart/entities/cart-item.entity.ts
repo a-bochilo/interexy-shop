@@ -2,8 +2,8 @@ import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
 
 // ========================== Entities ==========================
 import { UUIDEntity } from "../../../shared/entities/uuid.entity";
-import { ProudctEntity } from "../../../app/products/entities/product.entity";
 import { CartEntity } from "./cart.entity";
+import { ProudctEntity } from "../../../app/products/entities/product.entity";
 
 @Entity({ name: "cart_items" })
 export class CartItemEntity extends UUIDEntity {
