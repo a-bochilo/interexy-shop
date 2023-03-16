@@ -11,7 +11,7 @@ import { UserDetailsRepository } from "./repos/user-details.repository";
 import { UserViewRepository } from "./repos/user-view.repository";
 
 // ========================== Enums =====================================
-import { UserRoles } from "src/shared/types/user-roles.enum";
+import { UserRoles } from "../../shared/types/user-roles.enum";
 
 // ========================== Services & Controllers ====================
 import { RoleService } from "../roles/role.service";
@@ -26,6 +26,23 @@ export class UserService {
     private readonly roleService: RoleService
   ) {}
 
+    async createUser(createUserDto: CreateUserDto): Promise<UserEntity> {
+        try {
+            const email = await this.userRepository.getUserByEmail(
+                createUserDto.email
+            );
+
+            if (email) {
+                throw new HttpException(
+                    `User with ${createUserDto.email} already exist`,
+                    HttpStatus.BAD_REQUEST
+                );
+            }
+
+            const role = await this.roleService.getRoleByType(UserRoles.user);
+            const details = await this.userDetailsRepository.createUserDetails(
+                createUserDto.details
+            );
   async createUser(createUserDto: CreateUserDto): Promise<UserEntity> {
     const email = await this.userRepository.getUserByEmail(createUserDto.email);
     if (email) {
@@ -39,6 +56,15 @@ export class UserService {
       createUserDto.details
     );
 
+            return await this.userRepository.createUser({
+                ...createUserDto,
+                details,
+                role,
+            });
+        } catch (error) {
+            throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+        }
+    }
     return await this.userRepository.createUser({
       ...createUserDto,
       details,
@@ -123,3 +149,4 @@ export class UserService {
     return await this.userRepository.getUserByEmail(email);
   }
 }
+

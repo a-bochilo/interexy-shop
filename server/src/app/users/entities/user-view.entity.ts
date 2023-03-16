@@ -1,4 +1,10 @@
-import { JoinColumn, ManyToOne, OneToMany, OneToOne, ViewColumn, ViewEntity, } from "typeorm";
+import {
+    JoinColumn,
+    ManyToOne,
+    OneToOne,
+    ViewColumn,
+    ViewEntity,
+} from "typeorm";
 import { ApiProperty } from "@nestjs/swagger";
 
 // ========================== Entities ==========================
@@ -14,33 +20,49 @@ import { OrderEntity } from "../../orders/entities/order.entity";
 
 @ViewEntity({ name: "active_user_view" })
 export class UserViewEntity extends UUIDEntity {
-    @ApiProperty({ example: true, description: 'User status' })
+    @ApiProperty({ example: true, description: "User status" })
     @ViewColumn({ name: "is_active" })
     isActive!: boolean;
 
-    @ApiProperty({ example: 'test@test.com', description: 'Email', required: true })
+    @ApiProperty({
+        example: "test@test.com",
+        description: "Email",
+        required: true,
+    })
     @ViewColumn({ name: "email" })
     email!: string;
 
-    @ApiProperty({ example: '+375 (29) 111 11 11', description: 'Phone', required: false })
+    @ApiProperty({
+        example: "+375 (29) 111 11 11",
+        description: "Phone",
+        required: false,
+    })
     @ViewColumn({ name: "phone" })
     phone?: string;
 
-    @ApiProperty({ example: 'qwerty123', description: 'Password', required: true })
-    @ViewColumn({ name: "password"})
+    @ApiProperty({
+        example: "qwerty123",
+        description: "Password",
+        required: true,
+    })
+    @ViewColumn({ name: "password" })
     password!: string;
 
-    @ApiProperty({ example: '1', description: 'Role id', required: true })
+    @ApiProperty({ example: "1", description: "Role id", required: true })
     @ViewColumn({ name: "role_id" })
     roleId: number;
 
-    @ApiProperty({ example: 'user', description: 'Role type', required: true })
+    @ApiProperty({ example: "user", description: "Role type", required: true })
     @ViewColumn({ name: "role_type" })
     roleType: UserRoles;
 
-    @ApiProperty({ example: '1qwe-21-3', description: 'Details id', required: true })
-    @ViewColumn({ name: 'details_id' })
-    details_id: string
+    @ApiProperty({
+        example: "1qwe-21-3",
+        description: "Details id",
+        required: true,
+    })
+    @ViewColumn({ name: "details_id" })
+    details_id: string;
 
     @OneToOne(() => UserDetailsEntity)
     @JoinColumn({ name: "details_id" })

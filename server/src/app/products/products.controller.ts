@@ -19,6 +19,7 @@ import { ProductWithDetailsDto } from "./dtos/product-with-details.dto";
 import { ProductDetailsDto } from "./dtos/product-details.dto";
 import { ProductsQueryDto } from "./dtos/products-query.dto";
 import { ProductOptionalDto } from "./dtos/products-optional.dto";
+import { ProductsFilterDto } from "./dtos/products-filter.dto";
 
 // ========================== Enums ==========================
 import { UserPermissions } from "../../shared/types/user-permissions.enum";
@@ -76,7 +77,7 @@ export class ProductsController {
     // @AuthPermissionsGuard(UserPermissions.getFiltredProducts)
     @UsePipes(new ValidationPipe())
     async getFiltredProducts(
-        @Body() filter: ProductOptionalDto
+        @Body() filter: ProductsFilterDto
     ): Promise<ProductDto[]> {
         const products = await this.productsService.getFiltredProducts(filter);
 

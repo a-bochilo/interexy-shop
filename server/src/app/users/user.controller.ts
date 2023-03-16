@@ -1,4 +1,16 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put, Query, UsePipes, ValidationPipe } from "@nestjs/common";
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    HttpStatus,
+    Param,
+    Post,
+    Put,
+    Query,
+    UsePipes,
+    ValidationPipe,
+} from "@nestjs/common";
 import { AuthPermissionsGuard } from "../security/decorators/auth-permissions-guard.decorator";
 import { User } from "./decorators/user.decorator";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
@@ -12,6 +24,7 @@ import { UserSessionDto } from "./dtos/user-session.dto";
 
 // ========================== Enums =====================================
 import { UserPermissions } from "../../shared/types/user-permissions.enum";
+import { UserPermissions } from "../../shared/types/user-permissions.enum";
 
 // ========================== Services & Controllers ====================
 import { UserService } from "./user.service";
@@ -19,7 +32,7 @@ import { UpdateUserDto } from "./dtos/update-user.dto";
 import { UserViewEntity } from "./entities/user-view.entity";
 import { OrderEntity } from "../orders/entities/order.entity";
 
-@ApiTags('Users controller')
+@ApiTags("Users controller")
 @Controller("users")
 export class UserController {
     constructor(
@@ -27,7 +40,7 @@ export class UserController {
     ) { }
 
     //GET ALL INACTIVE USERS
-    @Get('')
+    @Get("")
     //@AuthPermissionsGuard(UserPermissions.getAllUsers)
     @ApiOperation({ summary: "Get all users" })
     @ApiResponse({
@@ -38,9 +51,9 @@ export class UserController {
     })
     @UsePipes(new ValidationPipe())
     async getInActiveUsers(
-        @Query('isActive') isActive: boolean
+        @Query("isActive") isActive: boolean
     ): Promise<UserEntity[] | UserViewEntity[]> {
-        return this.userService.getUsers(isActive)
+        return this.userService.getUsers(isActive);
     }
 
     //GET ONE USER BY ID ----------------------------------------------ADMIN
@@ -113,8 +126,8 @@ export class UserController {
         return await this.userService.assignUserRole(assignUserRoleDto, userId);
     }
 
-    //GET ONE USER ORDER BY ID ---------------------------------------ADMIN
-    @Get('/orders/:userId')
+    //GET ONE USER BY ID ---------------------------------------USER
+    @Get("/profile")
     //@AuthPermissionsGuard(UserPermissions.getProfile)
     @ApiOperation({ summary: "Get user order by id (admin)" })
     @ApiResponse({
@@ -124,16 +137,14 @@ export class UserController {
         isArray: false,
     })
     @UsePipes(new ValidationPipe())
-    async getUserOrders(
-        @Param("userId") userId: string
-    ): Promise<OrderEntity[]> {
-        return await this.userService.getOrdersById(userId);
+    async getProfile(@User() user: UserSessionDto): Promise<UserDetailsEntity> {
+        return await this.userService.getById(user.id as "uuid");
     }
 
 
 
     //UPDATE DETAILS BY USER ID ---------------------------------------USER
-    @Put('/profile')
+    @Put("/profile")
     //@AuthPermissionsGuard(UserPermissions.updateProfile)
     @ApiOperation({ summary: "Update user details (user)" })
     @ApiResponse({
@@ -145,27 +156,12 @@ export class UserController {
     @UsePipes(new ValidationPipe())
     async updateProfile(
         @Body() info: CreateUserDto,
-        @User() user: UserSessionDto,
+        @User() user: UserSessionDto
     ): Promise<UserEntity> {
         return await this.userService.updateUserDetails(info, user.id as string);
     }
 
-    //GET ONE USER ORDER BY ID ---------------------------------------USER
-    @Get('/orders')
-    //@AuthPermissionsGuard(UserPermissions.getProfile)
-    @ApiOperation({ summary: "Get user order by id (user)" })
-    @ApiResponse({
-        status: HttpStatus.OK,
-        description: "HttpStatus:200:OK",
-        type: UserDetailsEntity,
-        isArray: false,
-    })
-    @UsePipes(new ValidationPipe())
-    async getOrders(
-        @User() user: UserSessionDto
-    ): Promise<OrderEntity[]> {
-        return await this.userService.getOrdersById(user.id as string);
-    }
+
 
     //GET ONE USER DETAILS BY ID ---------------------------------------USER
     @Get('profile')

@@ -25,8 +25,8 @@ import { OrderEntity } from "../orders/entities/order.entity";
 @Module({
     imports: [
         TypeOrmModule.forFeature([
-            UserEntity, 
-            RoleEntity, 
+            UserEntity,
+            RoleEntity,
             UserDetailsEntity,
             UserViewEntity,
             OrderEntity
