@@ -73,6 +73,6 @@ export class UserRepository extends Repository<UserEntity> {
     }
 
     async getUserByPhone(phone: string) {
-        return await this.findOneBy({phone: phone})
+        return await this.findOneBy({ phone: phone });
     }
 }
