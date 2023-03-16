@@ -14,9 +14,10 @@ import { OrderService } from "./order.service";
 import { ProductDto } from "../products/dtos/product.dto";
 import { OrderItemEntity } from "./entities/order-item.entity";
 import { ProductEntity } from "../products/entities/product.entity";
-import { CartDto } from "./dtos/cart-dto";
 import { AuthPermissionsGuard } from "../security/decorators/auth-permissions-guard.decorator";
 import { UserPermissions } from "../../shared/types/user-permissions.enum";
+import { CartSessionDto } from "../cart/dtos/cart-session.dto";
+import { OrderDto } from "./dtos/order.dto";
 
 @ApiTags('Order controller')
 @Controller("orders")
@@ -37,9 +38,9 @@ export class OrderController {
     @UsePipes(new ValidationPipe())
     async createOrder(
         @User() user: UserSessionDto,
-        /*@Body() cart: CartDto,*/
-    )/*: Promise<OrderEntity>*/ {
-        return await this.orderService.createOrder(/*cart, user.id*/user.id);
+        @Body() cart: CartSessionDto,
+    ): Promise<OrderDto> {
+        return await this.orderService.createOrder(cart, user.id);
     }
 
     @Get('/profile')

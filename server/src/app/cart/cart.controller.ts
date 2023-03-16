@@ -45,7 +45,8 @@ export class CartController {
         isArray: false,
     })
     @Get()
-    // @AuthPermissionsGuard(UserPermissions.getCart)
+    //@AuthPermissionsGuard(UserPermissions.getCart)
+    @AuthPermissionsGuard(UserPermissions.assignRole)
     @UsePipes(new ValidationPipe())
     async getCart(@User() user: UserSessionDto): Promise<CartSessionDto> {
         const cart = await this.cartService.getUserCart(user);
@@ -61,7 +62,7 @@ export class CartController {
         isArray: false,
     })
     @Post()
-    // @AuthPermissionsGuard(UserPermissions.addCartItem)
+    @AuthPermissionsGuard(UserPermissions.addCartItem)
     @UsePipes(new ValidationPipe())
     async addCartItem(
         @User() user: UserSessionDto,
@@ -80,7 +81,7 @@ export class CartController {
         isArray: false,
     })
     @Put()
-    // @AuthPermissionsGuard(UserPermissions.updateCartItem)
+    @AuthPermissionsGuard(UserPermissions.updateCartItem)
     @UsePipes(new ValidationPipe())
     async updateCartItem(
         @User() user: UserSessionDto,
@@ -99,7 +100,7 @@ export class CartController {
         isArray: false,
     })
     @Delete(":productId")
-    // @AuthPermissionsGuard(UserPermissions.deleteCartItem)
+    @AuthPermissionsGuard(UserPermissions.deleteCartItem)
     @UsePipes(new ValidationPipe())
     async deleteCartItem(
         @User() user: UserSessionDto,

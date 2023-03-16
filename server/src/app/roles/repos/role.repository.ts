@@ -53,4 +53,8 @@ export class RoleRepository extends Repository<RoleEntity> {
     async updateRole(role: RoleEntity) {
         return await this.save(role);
     }
+
+    async getRoleByName(roleName: string) {
+        return await this.findOneBy({name: roleName})
+    }
 }

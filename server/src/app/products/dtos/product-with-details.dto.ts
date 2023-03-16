@@ -1,5 +1,5 @@
 // ========================== Entities ==========================
-import { ProudctEntity } from "../entities/product.entity";
+import { ProductEntity } from "../entities/product.entity";
 import { ProductDetailsEntity } from "../entities/product-details.entity";
 
 // ========================== DTO's ==========================
@@ -15,7 +15,7 @@ export class ProductWithDetailsDto extends IntersectionType(
         product,
         productDetails,
     }: {
-        product: ProudctEntity;
+        product: ProductEntity;
         productDetails: ProductDetailsEntity;
     }): ProductWithDetailsDto {
         const dto = new ProductWithDetailsDto();

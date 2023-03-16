@@ -3,7 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { FindOptionsWhere, In, Repository } from "typeorm";
 
 // ========================== Entities & DTO's ==========================
-import { ProudctEntity } from "../entities/product.entity";
+import { ProductEntity } from "../entities/product.entity";
 import { ProductDetailsEntity } from "../entities/product-details.entity";
 import { ProductDto } from "../dtos/product.dto";
 
@@ -23,8 +23,8 @@ export class ProductsRepository {
     async createProduct(
         productDto: ProductDto,
         details: ProductDetailsEntity
-    ): Promise<ProudctEntity> {
-        const newProduct = new ProudctEntity();
+    ): Promise<ProductEntity> {
+        const newProduct = new ProductEntity();
 
         Object.assign(newProduct, productDto);
         newProduct.productDetails = details;

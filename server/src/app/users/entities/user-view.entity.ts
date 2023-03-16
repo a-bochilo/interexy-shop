@@ -14,9 +14,6 @@ import { RoleEntity } from "../../roles/entities/role.entity";
 
 // ========================== Enums ==========================
 import { UserRoles } from "../../../shared/types/user-roles.enum";
-import { OrderEntity } from "../../orders/entities/order.entity";
-
-
 
 @ViewEntity({ name: "active_user_view" })
 export class UserViewEntity extends UUIDEntity {
@@ -64,16 +61,16 @@ export class UserViewEntity extends UUIDEntity {
     @ViewColumn({ name: "details_id" })
     details_id: string;
 
-    @OneToOne(() => UserDetailsEntity)
-    @JoinColumn({ name: "details_id" })
-    details: UserDetailsEntity;
+    // @OneToOne(() => UserDetailsEntity)
+    // @JoinColumn({ name: "details_id" })
+    // details: UserDetailsEntity;
 
-    @ManyToOne(() => RoleEntity, (role) => role.users)
-    @JoinColumn({ name: "role_id" })
-    role: RoleEntity;
+    // @ManyToOne(() => RoleEntity, (role) => role.users)
+    // @JoinColumn({ name: "role_id" })
+    // role: RoleEntity;
 
-    @OneToMany(() => OrderEntity, (order) => order.user)
-    @JoinColumn({ name: "order_id" })
-    order: OrderEntity[];
+    // @OneToMany(() => OrderEntity, (order) => order.user)
+    // @JoinColumn({ name: "order_id" })
+    // order: OrderEntity[];
 
 }

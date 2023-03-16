@@ -12,8 +12,6 @@ export class $npmConfigName1678960944968 implements MigrationInterface {
       "order_items",
       getOrderFKFromOrderItems()
     );
-
-    await queryRunner.dropColumn('order', 'item_id')
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {}

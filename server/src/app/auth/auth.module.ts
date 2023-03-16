@@ -18,19 +18,23 @@ import { AuthService } from "./auth.service";
 
 // ========================== Modules ===================================
 import { SecurityModule } from "../security/security.module";
+import { CartRepository } from "../cart/repos/cart.repository";
+import { CartEntity } from "../cart/entities/cart.entity";
 
 @Module({
   imports: [TypeOrmModule.forFeature([
     UserEntity,
     RoleEntity,
     UserDetailsEntity,
+    CartEntity,
   ]), 
   SecurityModule],
   providers: [
     AuthService, 
     UserRepository, 
     RoleRepository, 
-    UserDetailsRepository
+    UserDetailsRepository,
+    CartRepository,
   ],
   exports: [AuthService],
   controllers: [AuthController],

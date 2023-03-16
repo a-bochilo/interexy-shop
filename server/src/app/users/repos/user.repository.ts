@@ -56,11 +56,6 @@ export class UserRepository extends Repository<UserEntity> {
         });
     }
 
-    async getDetailsId(userId: string) {
-        const user =  await this.findOneBy({ id: userId })
-        return user.details_id;
-    }
-
     async updateUser(user: UserEntity) {
         return await this.save(user);
     }

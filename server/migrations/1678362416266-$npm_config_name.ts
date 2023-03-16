@@ -71,11 +71,11 @@ const getCart = () => {
                 type: 'uuid',
                 isNullable: false
             },
-            // {
-            //     name: 'cart_item_id',
-            //     type: 'uuid',
-            //     isNullable: false
-            // }
+            {
+                name: 'cart_item_id',
+                type: 'uuid',
+                isNullable: false
+            }
         ],
         foreignKeys: [
             {
@@ -83,8 +83,8 @@ const getCart = () => {
                 columnNames: ["user_id"],
                 referencedTableName: "users",
                 referencedColumnNames: ["id"],
-                onDelete: "CASCADE",
-                onUpdate: "CASCADE",
+                onDelete: "RESTRICT",
+                onUpdate: "RESTRICT",
             },
         ]
     })

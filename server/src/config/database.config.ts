@@ -11,7 +11,6 @@ import { ProductActiveViewEntity } from "../app/products/entities/product-active
 import { CartEntity } from "../app/cart/entities/cart.entity";
 import { CartItemEntity } from "../app/cart/entities/cart-item.entity";
 import { UserDetailsEntity } from "../app/users/entities/user-details.entity";
-import { UserDetailsEntity } from "../app/users/entities/user-details.entity";
 import { OrderEntity } from "../app/orders/entities/order.entity";
 import { OrderItemEntity } from "../app/orders/entities/order-item.entity";
 
@@ -33,6 +32,7 @@ import { $npmConfigName1678781909510 } from "../../migrations/1678781909510-$npm
 import { $npmConfigName1678963447150 } from "../../migrations/1678963447150-$npm_config_name";
 import { $npmConfigName1678780011243 } from "../../migrations/1678780011243-$npm_config_name";
 import { $npmConfigName1678960944968 } from "../../migrations/1678960944968-$npm_config_name";
+import { $npmConfigName1678980320744 } from "../../migrations/1678980320744-$npm_config_name";
 
 
 
@@ -49,7 +49,7 @@ const databaseConfig: PostgresConnectionOptions = {
         UserDetailsEntity,
         UserViewEntity,
         RoleEntity,
-        ProudctEntity,
+        ProductEntity,
         ProductDetailsEntity,
         ProductActiveViewEntity,
         ProductDetailsEntity,
@@ -61,22 +61,32 @@ const databaseConfig: PostgresConnectionOptions = {
     synchronize: false,
     migrations: [
         $npmConfigName1678357923542,
-        //$npmConfigName1678362416266,
+
+        $npmConfigName1678362416266,
         $npmConfigName1678370951605,
+
         $npmConfigName1678367706850,
         $npmConfigName1678373196143,
+
         $npmConfigName1678450911295,
         $npmConfigName1678456092937,
+
         $npmConfigName1678456561878,
         $npmConfigName1678456993069,
+
         $npmConfigName1678544710047,
         $npmConfigName1678709145463,
+
         $npmConfigName1678772644221,
         $npmConfigName1678776000248,
+
         $npmConfigName1678781909510,
         $npmConfigName1678963447150,
+
         $npmConfigName1678780011243,
-        $npmConfigName1678960944968, 
+        $npmConfigName1678960944968,
+
+        $npmConfigName1678980320744,
     ],
 };
 

@@ -2,6 +2,8 @@ import {
     MigrationInterface,
     QueryRunner,
     Table,
+    TableColumn,
+    TableForeignKey,
 } from "typeorm";
 
 export class $npmConfigName1678357923542 implements MigrationInterface {

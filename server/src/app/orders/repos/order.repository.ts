@@ -6,6 +6,7 @@ import { Repository } from "typeorm";
 import { OrderEntity } from "../entities/order.entity";
 import { CreateOrderDto } from "../dtos/create-order.dto";
 import { createOrderItemDto } from "../dtos/create-order-item.dto";
+import { UserEntity } from "src/app/users/entities/user.entity";
 
 @Injectable()
 export class OrderRepository extends Repository<OrderEntity> {
@@ -19,13 +20,13 @@ export class OrderRepository extends Repository<OrderEntity> {
         return await this.findOneBy({id: orderId});
     }
 
-    async createOrder(orderItems: any, userId: string, total: number) {
+    async createOrder(user: UserEntity): Promise<OrderEntity> {
         const newOrder = new OrderEntity();
         newOrder.created = new Date();
         newOrder.updated = new Date();
-        newOrder.user_id = userId;
-        newOrder.total = total;
-        newOrder.items = orderItems;
+        newOrder.total = 0;
+        newOrder.user = user;
+        newOrder.items = [];
         return await this.save(newOrder);
     }
 

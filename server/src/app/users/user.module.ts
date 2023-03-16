@@ -12,15 +12,16 @@ import { UserRepository } from "./repos/user.repository";
 import { RoleRepository } from "../roles/repos/role.repository";
 import { UserDetailsRepository } from "./repos/user-details.repository";
 import { UserViewRepository } from "./repos/user-view.repository";
+import { CartRepository } from "../cart/repos/cart.repository";
 
 // ========================== Services & Controllers ====================
 import { UserController } from "./user.controller";
 import { UserService } from "./user.service";
-import { RoleService } from "../roles/role.service";
 
 // ========================== Modules ===================================
 import { SecurityModule } from "../security/security.module";
 import { OrderEntity } from "../orders/entities/order.entity";
+import { CartEntity } from "../cart/entities/cart.entity";
 
 @Module({
     imports: [
@@ -29,13 +30,12 @@ import { OrderEntity } from "../orders/entities/order.entity";
             RoleEntity,
             UserDetailsEntity,
             UserViewEntity,
-            OrderEntity
+            OrderEntity,
         ]),
         SecurityModule,
     ],
     controllers: [UserController],
     providers: [
-        RoleService,
         RoleRepository,
         UserService,
         UserRepository,

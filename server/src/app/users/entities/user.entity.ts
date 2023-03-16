@@ -8,8 +8,6 @@ import { RoleEntity } from "../../roles/entities/role.entity";
 
 // ========================== Enums ==========================
 import { UserRoles } from "../../../shared/types/user-roles.enum";
-import { UserDetailsEntity } from "./user-details.entity";
-import { RoleEntity } from "../../roles/entities/role.entity";
 import { ApiProperty } from "@nestjs/swagger";
 import { OrderEntity } from "../../orders/entities/order.entity";
 
@@ -75,7 +73,11 @@ export class UserEntity extends UUIDEntity {
     @JoinColumn({ name: "role_id" })
     role: RoleEntity;
 
+
     @OneToMany(() => OrderEntity, (order) => order.user)
-    @JoinColumn({ name: "order_id" })
     order: OrderEntity[];
+
+    @OneToOne(() => CartEntity, (cart) => cart.user)
+    @JoinColumn({ name: "cart_id", referencedColumnName: "id" })
+    cart: CartEntity;
 }

@@ -14,8 +14,8 @@ import { UserViewRepository } from "./repos/user-view.repository";
 import { UserRoles } from "../../shared/types/user-roles.enum";
 
 // ========================== Services & Controllers ====================
-import { RoleService } from "../roles/role.service";
 import { UpdateUserDto } from "./dtos/update-user.dto";
+import { RoleRepository } from "../roles/repos/role.repository";
 
 @Injectable()
 export class UserService {
@@ -23,61 +23,11 @@ export class UserService {
     private readonly userDetailsRepository: UserDetailsRepository,
     private readonly userRepository: UserRepository,
     private readonly userViewRepository: UserViewRepository,
-    private readonly roleService: RoleService
+    private readonly roleRepository: RoleRepository,
   ) {}
 
-    async createUser(createUserDto: CreateUserDto): Promise<UserEntity> {
-        try {
-            const email = await this.userRepository.getUserByEmail(
-                createUserDto.email
-            );
-
-            if (email) {
-                throw new HttpException(
-                    `User with ${createUserDto.email} already exist`,
-                    HttpStatus.BAD_REQUEST
-                );
-            }
-
-            const role = await this.roleService.getRoleByType(UserRoles.user);
-            const details = await this.userDetailsRepository.createUserDetails(
-                createUserDto.details
-            );
-  async createUser(createUserDto: CreateUserDto): Promise<UserEntity> {
-    const email = await this.userRepository.getUserByEmail(createUserDto.email);
-    if (email) {
-      throw new HttpException(
-        `User with ${createUserDto.email} already exist`,
-        HttpStatus.BAD_REQUEST
-      );
-    }
-    const role = await this.roleService.getRoleByType(UserRoles.user);
-    const details = await this.userDetailsRepository.createUserDetails(
-      createUserDto.details
-    );
-
-            return await this.userRepository.createUser({
-                ...createUserDto,
-                details,
-                role,
-            });
-        } catch (error) {
-            throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
-        }
-    }
-    return await this.userRepository.createUser({
-      ...createUserDto,
-      details,
-      role,
-    });
-  }
-
   async getAll() {
-    try {
-      return await this.userViewRepository.getAll();
-    } catch (error) {
-      throw new HttpException(`${error}`, HttpStatus.BAD_REQUEST);
-    }
+    return await this.userViewRepository.getAll();
   }
 
   async getUsers(isActive: boolean) {
@@ -98,7 +48,7 @@ export class UserService {
 
   async assignUserRole(assignUserRoleDto: AssignUserRoleDto, userId: string) {
     const user = await this.userRepository.getById(userId);
-    const newRole = await this.roleService.getRoleById(
+    const newRole = await this.roleRepository.getById(
       assignUserRoleDto.newRole
     );
     user.updated = new Date();
@@ -117,36 +67,29 @@ export class UserService {
     let details = await this.userDetailsRepository.getDetails(
       user.details_id as string
     );
-    const newDetails = await this.userDetailsRepository.createUserDetails(
+    const newDetails = await this.userDetailsRepository.save(
       Object.assign(details, info.details)
     );
-    const role = await this.roleService.getRoleById(user.roleId);
+  
     delete info.details;
     Object.assign(user, info);
 
     user.updated = new Date();
     details = newDetails;
 
-    await this.userDetailsRepository.deleteDetails(user.details_id as string);
     return await this.userRepository.updateUser({
       ...user,
       details,
-      role,
     });
   }
-
+  
   async updateUserOrder(user: UserEntity) {
     const newUser = await this.userRepository.getById(user.id);
     Object.assign(newUser, user);
     return await this.userRepository.updateUser(user);
   }
 
-  async getOrdersById(id: string) {
-    return await this.userRepository.getOrdersById(id);
-  }
-
   async getUserByEmail(email: string) {
     return await this.userRepository.getUserByEmail(email);
   }
 }
-

@@ -19,6 +19,7 @@ import { UserRoles } from "../../shared/types/user-roles.enum";
 
 // ========================== Services & Controllers ====================
 import { SecurityService } from "../security/security.service";
+import { CartRepository } from "../cart/repos/cart.repository";
 
 @Injectable()
 export class AuthService {
@@ -26,7 +27,8 @@ export class AuthService {
     private readonly userRepository: UserRepository,
     private readonly roleRepository: RoleRepository,
     private readonly securityService: SecurityService,
-    private readonly userDetailsRepository: UserDetailsRepository
+    private readonly userDetailsRepository: UserDetailsRepository,
+    private readonly cartRepository: CartRepository
   ) {}
 
   async signUp(dto: CreateUserDto): Promise<TokenDto> {
@@ -48,17 +50,26 @@ export class AuthService {
       role,
     });
 
+    const cart = await this.cartRepository.createCart(newUser);
+
+    
+    newUser.cart = cart;
+    await this.userRepository.save(newUser)
+
+    console.log(await this.userRepository.getById(newUser.id))
     const access_token = await this.securityService.generateJwt(newUser);
     return access_token;
   }
 
   async signIn(dto: UserSignInDto): Promise<TokenDto> {
     const userFromDB = await this.userRepository.getUserByEmail(dto.email);
+
+    if (!userFromDB) {
+      throw new HttpException("User not found", HttpStatus.BAD_REQUEST);
+    }
+
     const role = await this.roleRepository.getById(userFromDB.roleId);
     userFromDB.role = role;
-
-    if (!userFromDB)
-      throw new HttpException("User not found", HttpStatus.BAD_REQUEST);
 
     const isPasswordCorrect = await compare(dto.password, userFromDB.password);
 

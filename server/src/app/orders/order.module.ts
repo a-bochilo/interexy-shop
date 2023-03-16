@@ -29,6 +29,7 @@ import { ProductsService } from "../products/products.service";
 
 // ========================== Modules ===================================
 import { SecurityModule } from "../security/security.module";
+import { OrderItemRepository } from "./repos/order-item.repository";
 
 
 @Module({
@@ -37,7 +38,6 @@ import { SecurityModule } from "../security/security.module";
             UserEntity,
             UserDetailsEntity,
             UserViewEntity,
-
             RoleEntity, 
            
             OrderEntity,
@@ -50,18 +50,11 @@ import { SecurityModule } from "../security/security.module";
     ],
     controllers: [OrderController],
     providers: [
-        UserService,
         UserRepository,
-        UserDetailsRepository,
-        UserViewRepository,
-
-        RoleService,
-        RoleRepository,
-
-        OrderService,
         OrderRepository,
-
+        OrderItemRepository,
         ProductsRepository,
+        OrderService,
     ],
     exports: [OrderService],
 })
