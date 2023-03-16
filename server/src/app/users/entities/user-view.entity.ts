@@ -5,13 +5,6 @@ import {
     ViewColumn,
     ViewEntity,
 } from "typeorm";
-import {
-    JoinColumn,
-    ManyToOne,
-    OneToOne,
-    ViewColumn,
-    ViewEntity,
-} from "typeorm";
 import { ApiProperty } from "@nestjs/swagger";
 
 // ========================== Entities ==========================
@@ -98,5 +91,4 @@ export class UserViewEntity extends UUIDEntity {
     // @OneToMany(() => OrderEntity, (order) => order.user)
     // @JoinColumn({ name: "order_id" })
     // order: OrderEntity[];
-
 }
