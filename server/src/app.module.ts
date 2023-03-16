@@ -8,6 +8,7 @@ import { UserModule } from "./app/users/user.module";
 import { RoleModule } from "./app/roles/role.module";
 import { CartModule } from "./app/cart/cart.module";
 import { ScheduleModule } from "@nestjs/schedule";
+import { TasksModule } from "./app/tasks/tasks.module";
 
 @Module({
     imports: [
@@ -17,6 +18,7 @@ import { ScheduleModule } from "@nestjs/schedule";
         }),
         TypeOrmModule.forRoot(databaseConfig),
         ScheduleModule.forRoot(),
+        TasksModule,
         ProductsModule,
         RoleModule,
         UserModule,

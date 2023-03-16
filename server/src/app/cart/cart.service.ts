@@ -1,4 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { SchedulerRegistry } from "@nestjs/schedule";
 
 // ========================== Entities ==========================
 import { CartEntity } from "./entities/cart.entity";
@@ -84,7 +85,7 @@ export class CartService {
 
         //! code below must be deleted in case auth module implemented
         const userFromDB = await this.userRepository.getById(
-            "073252c5-742b-4861-adbe-2ab06fb2a9a9"
+            "4e4d6aeb-ba9b-4394-b9e2-2d0f5b06c3b2"
         );
 
         if (!userFromDB) {

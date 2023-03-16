@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { DeleteResult, Repository } from "typeorm";
+import { Repository, DataSource } from "typeorm";
 
 // ========================== Entities & DTO's ==========================
 import { CartEntity } from "../entities/cart.entity";
@@ -10,7 +10,8 @@ import { UserEntity } from "src/app/users/entities/user.entity";
 export class CartRepository {
     constructor(
         @InjectRepository(CartEntity)
-        private readonly cartRepository: Repository<CartEntity>
+        private readonly cartRepository: Repository<CartEntity>,
+        private dataSource: DataSource
     ) {}
 
     async saveCart(cart: CartEntity): Promise<CartEntity> {
@@ -26,10 +27,6 @@ export class CartRepository {
         return await this.saveCart(newCart);
     }
 
-    async deleteCart(cartId: string): Promise<DeleteResult> {
-        return await this.cartRepository.delete(cartId);
-    }
-
     async getCartByUserId(userId: string): Promise<CartEntity> {
         return await this.cartRepository.findOne({ where: { userId } });
     }
@@ -39,5 +36,23 @@ export class CartRepository {
             where: { id },
             relations: ["items"],
         });
+    }
+
+    async getAbandonedCarts(minutesInterval: number): Promise<CartEntity[]> {
+        const carts = await this.cartRepository
+            .createQueryBuilder("cart")
+            .leftJoinAndSelect("cart.items", "items")
+            // string below could be added in case some user info is needed
+            // .leftJoinAndSelect("cart.user", "user")
+            .where("cart.updated < :date1", {
+                date1: new Date(Date.now() - minutesInterval * 60 * 1000),
+            })
+            .andWhere("cart.updated > :date2", {
+                date2: new Date(Date.now() - minutesInterval * 2 * 60 * 1000),
+            })
+            .andWhere("items.id IS NOT NULL")
+            .getMany();
+
+        return carts;
     }
 }
