@@ -15,23 +15,11 @@ const MainGrid = styled(Grid)`
   flex: 1 1 0;
 `;
 
-const ContentGrid = styled(Grid)`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  max-width: 100%;
-  max-height: 80%;
-`;
-
 const LoginPage: FC = () => {
   return (
     <MainGrid>
-      <Grid>
-        <PageHeaderComp />
-        <ContentGrid>
-          <LoginRoutes />
-        </ContentGrid>
-      </Grid>
+      <PageHeaderComp />
+      <LoginRoutes />
     </MainGrid>
   );
 };

@@ -15,7 +15,7 @@ const PageHeaderComp: FC = () => {
         <Container maxWidth={false}>
           <Toolbar disableGutters>
             <Typography
-              variant="h4"
+              variant="h5"
               noWrap
               component="a"
               href="/"
