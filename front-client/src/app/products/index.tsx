@@ -20,16 +20,19 @@ const MainGrid = styled(Grid)`
 const ContentGrid = styled(Grid)`
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
+  max-width: 100%;
+  max-height: 80%;
 `;
 
 const ProductsPage: FC = () => {
   return (
     <MainGrid>
-      
       <Grid>
         <PageNavBarComp />
-        <ContentGrid>
+        <ContentGrid
+          sx={{ flexDirection: { xs: "column-reverse", md: "row" } }}
+        >
           <ProductsRoutes />
           <PageAsideComp />
         </ContentGrid>
