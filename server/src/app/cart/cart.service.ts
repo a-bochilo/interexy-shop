@@ -30,11 +30,11 @@ export class CartService {
         const cart = await this.getUserCart(user);
         const item = await this.createCartItem(cart, cartItemDto);
 
-        const isProductExist = !!cart.items.find(
+        const isProductInCart = !!cart.items.find(
             (item) => item.product_id === cartItemDto.productId
         );
 
-        if (isProductExist) {
+        if (isProductInCart) {
             throw new HttpException(
                 "Product already exists in users cart",
                 HttpStatus.BAD_REQUEST
@@ -140,7 +140,7 @@ export class CartService {
 
         if (product.quantity < cartItemDto.quantity) {
             throw new HttpException(
-                "Product quantity less then required in request",
+                `Product quantity less then required in request. Aviliable count ${product.quantity}`,
                 HttpStatus.BAD_REQUEST
             );
         }
@@ -150,7 +150,7 @@ export class CartService {
         item.quantity = cartItemDto.quantity;
         item.cart = cart;
         item.quantity = cartItemDto.quantity;
-        item.product = product;
+        item.product_id = product.id;
 
         return await this.cartItemRepository.saveCartItem(item);
     }
