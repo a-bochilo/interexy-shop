@@ -12,11 +12,12 @@ export class TasksService {
     async logAbandonedCart() {
         const minutes = 5;
         const carts = await this.cartRepository.getAbandonedCarts(minutes);
+
+        if (!carts.length) return;
+
         const usersIds = carts.map((cart) => cart.userId);
-        if (usersIds.length) {
-            console.log(
-                `User(s) '${usersIds}' abandoned cart(s) for more then ${minutes} minutes`
-            );
-        }
+        console.log(
+            `User(s) '${usersIds}' abandoned cart(s) for more than ${minutes} minutes`
+        );
     }
 }

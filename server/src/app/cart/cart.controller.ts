@@ -91,6 +91,22 @@ export class CartController {
         return CartSessionDto.fromEntity(cart);
     }
 
+    @ApiOperation({ summary: "Clean current user cart" })
+    @ApiResponse({
+        status: HttpStatus.OK,
+        description: "HttpStatus:200:OK",
+        type: CartEntity,
+        isArray: false,
+    })
+    @Delete("")
+    // @AuthPermissionsGuard(UserPermissions.deleteCartItem)
+    @UsePipes(new ValidationPipe())
+    async cleanCart(@User() user: UserSessionDto): Promise<CartSessionDto> {
+        const cart = await this.cartService.cleanCart(user);
+
+        return CartSessionDto.fromEntity(cart);
+    }
+
     @ApiOperation({ summary: "Delete item from cart" })
     @ApiResponse({
         status: HttpStatus.OK,

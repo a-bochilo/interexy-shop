@@ -95,6 +95,17 @@ export class CartService {
         return await this.cartRepository.saveCart(cart);
     }
 
+    async cleanCart(user: UserSessionDto): Promise<CartEntity> {
+        const cart = await this.getUserCart(user);
+
+        const itemIds = cart.items.map((item) => item.id);
+        await this.cartItemRepository.deleteCartItems(itemIds);
+
+        cart.items = [];
+
+        return await this.cartRepository.saveCart(cart);
+    }
+
     async getUserCart(user: UserSessionDto): Promise<CartEntity> {
         // const userFromDB = await this.userRepository.getById(
         //     user.id
@@ -102,7 +113,7 @@ export class CartService {
 
         //! code below must be deleted in case auth module implemented
         const userFromDB = await this.userRepository.getById(
-            "4e4d6aeb-ba9b-4394-b9e2-2d0f5b06c3b2"
+            "38390597-a971-4c90-b06d-dcc5796abeb7"
         );
 
         if (!userFromDB) {
