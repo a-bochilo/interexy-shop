@@ -100,6 +100,7 @@ export class CartController {
     })
     @Delete("")
     @AuthPermissionsGuard(UserPermissions.cleanCart)
+    @AuthPermissionsGuard(UserPermissions.cleanCart)
     @UsePipes(new ValidationPipe())
     async cleanCart(@User() user: UserSessionDto): Promise<CartSessionDto> {
         const cart = await this.cartService.cleanCart(user);

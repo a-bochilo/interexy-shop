@@ -30,6 +30,12 @@ import { $npmConfigName1678960944968 } from "../../migrations/1678960944968-$npm
 import { $npmConfigName1678980320744 } from "../../migrations/1678980320744-$npm_config_name";
 import { $npmConfigName1679035791091 } from "../../migrations/1679035791091-$npm_config_name";
 import { $npmConfigName1679041536118 } from "../../migrations/1679041536118-$npm_config_name";
+import { $npmConfigName1679044066865 } from "../../migrations/1679044066865-$npm_config_name";
+import { $npmConfigName1678709145463 } from "../../migrations/1678709145463-$npm_config_name";
+import { $npmConfigName1678772644221 } from "../../migrations/1678772644221-$npm_config_name";
+import { $npmConfigName1678776000248 } from "../../migrations/1678776000248-$npm_config_name";
+import { $npmConfigName1678781909510 } from "../../migrations/1678781909510-$npm_config_name";
+import { $npmConfigName1678963447150 } from "../../migrations/1678963447150-$npm_config_name";
 
 const databaseConfig: PostgresConnectionOptions = {
     type: "postgres",
@@ -69,14 +75,22 @@ const databaseConfig: PostgresConnectionOptions = {
 
         $npmConfigName1678456993069,
         $npmConfigName1678544710047,
+        $npmConfigName1678709145463,
+
+        $npmConfigName1678772644221,
+        $npmConfigName1678776000248,
 
         $npmConfigName1678780011243,
+        $npmConfigName1678781909510,
+
         $npmConfigName1678960944968,
+        $npmConfigName1678963447150,
 
         $npmConfigName1678980320744,
         $npmConfigName1679035791091,
         
         $npmConfigName1679041536118,
+        $npmConfigName1679044066865,
     ],
 };
 
