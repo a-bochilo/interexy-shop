@@ -99,7 +99,7 @@ export class CartController {
         isArray: false,
     })
     @Delete("")
-    @AuthPermissionsGuard(UserPermissions.deleteCartItem)
+    @AuthPermissionsGuard(UserPermissions.cleanCart)
     @UsePipes(new ValidationPipe())
     async cleanCart(@User() user: UserSessionDto): Promise<CartSessionDto> {
         const cart = await this.cartService.cleanCart(user);
@@ -115,7 +115,7 @@ export class CartController {
         isArray: false,
     })
     @Delete(":productId")
-    @AuthPermissionsGuard(UserPermissions.cleanCartItem)
+    @AuthPermissionsGuard(UserPermissions.deleteCartItem)
     @UsePipes(new ValidationPipe())
     async deleteCartItem(
         @User() user: UserSessionDto,
