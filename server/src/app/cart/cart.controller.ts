@@ -1,14 +1,14 @@
 import {
-    Body,
-    Controller,
-    Delete,
-    Get,
-    HttpStatus,
-    Param,
-    Post,
-    Put,
-    UsePipes,
-    ValidationPipe,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpStatus,
+  Param,
+  Post,
+  Put,
+  UsePipes,
+  ValidationPipe,
 } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
@@ -35,58 +35,58 @@ import { AuthPermissionsGuard } from "../security/decorators/auth-permissions-gu
 @ApiTags("cart")
 @Controller("cart")
 export class CartController {
-    constructor(private readonly cartService: CartService) {}
+  constructor(private readonly cartService: CartService) {}
 
-    @ApiOperation({ summary: "Get current user cart" })
-    @ApiResponse({
-        status: HttpStatus.OK,
-        description: "HttpStatus:200:OK",
-        type: CartEntity,
-        isArray: false,
-    })
-    @Get()
-    @AuthPermissionsGuard(UserPermissions.getCart)
-    @UsePipes(new ValidationPipe())
-    async getCart(@User() user: UserSessionDto): Promise<CartSessionDto> {
-        const cart = await this.cartService.getUserCart(user);
+  @ApiOperation({ summary: "Get current user cart" })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: "HttpStatus:200:OK",
+    type: CartEntity,
+    isArray: false,
+  })
+  @Get()
+  @AuthPermissionsGuard(UserPermissions.getCart)
+  @UsePipes(new ValidationPipe())
+  async getCart(@User() user: UserSessionDto): Promise<CartSessionDto> {
+    const cart = await this.cartService.getUserCart(user);
 
-        return CartSessionDto.fromEntity(cart);
-    }
+    return CartSessionDto.fromEntity(cart);
+  }
 
-    @ApiOperation({ summary: "Add new item to cart" })
-    @ApiResponse({
-        status: HttpStatus.OK,
-        description: "HttpStatus:200:OK",
-        type: CartEntity,
-        isArray: false,
-    })
-    @Post()
-    @AuthPermissionsGuard(UserPermissions.addCartItem)
-    @UsePipes(new ValidationPipe())
-    async addCartItem(
-        @User() user: UserSessionDto,
-        @Body() cartItemDto: CartItemDto
-    ): Promise<CartSessionDto> {
-        const cart = await this.cartService.addCartItem(user, cartItemDto);
+  @ApiOperation({ summary: "Add new item to cart" })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: "HttpStatus:200:OK",
+    type: CartEntity,
+    isArray: false,
+  })
+  @Post()
+  @AuthPermissionsGuard(UserPermissions.addCartItem)
+  @UsePipes(new ValidationPipe())
+  async addCartItem(
+    @User() user: UserSessionDto,
+    @Body() cartItemDto: CartItemDto
+  ): Promise<CartSessionDto> {
+    const cart = await this.cartService.addCartItem(user, cartItemDto);
 
-        return CartSessionDto.fromEntity(cart);
-    }
+    return CartSessionDto.fromEntity(cart);
+  }
 
-    @ApiOperation({ summary: "Update item quantity" })
-    @ApiResponse({
-        status: HttpStatus.OK,
-        description: "HttpStatus:200:OK",
-        type: CartEntity,
-        isArray: false,
-    })
-    @Put()
-    @AuthPermissionsGuard(UserPermissions.updateCartItem)
-    @UsePipes(new ValidationPipe())
-    async updateCartItem(
-        @User() user: UserSessionDto,
-        @Body() cartItemDto: CartItemDto
-    ): Promise<CartSessionDto> {
-        const cart = await this.cartService.updateCartItem(user, cartItemDto);
+  @ApiOperation({ summary: "Update item quantity" })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: "HttpStatus:200:OK",
+    type: CartEntity,
+    isArray: false,
+  })
+  @Put()
+  @AuthPermissionsGuard(UserPermissions.updateCartItem)
+  @UsePipes(new ValidationPipe())
+  async updateCartItem(
+    @User() user: UserSessionDto,
+    @Body() cartItemDto: CartItemDto
+  ): Promise<CartSessionDto> {
+    const cart = await this.cartService.updateCartItem(user, cartItemDto);
 
         return CartSessionDto.fromEntity(cart);
     }
@@ -100,6 +100,7 @@ export class CartController {
     })
     @Delete("")
     @AuthPermissionsGuard(UserPermissions.cleanCart)
+    @AuthPermissionsGuard(UserPermissions.cleanCart)
     @UsePipes(new ValidationPipe())
     async cleanCart(@User() user: UserSessionDto): Promise<CartSessionDto> {
         const cart = await this.cartService.cleanCart(user);
@@ -107,22 +108,22 @@ export class CartController {
         return CartSessionDto.fromEntity(cart);
     }
 
-    @ApiOperation({ summary: "Delete item from cart" })
-    @ApiResponse({
-        status: HttpStatus.OK,
-        description: "HttpStatus:200:OK",
-        type: CartEntity,
-        isArray: false,
-    })
-    @Delete(":productId")
-    @AuthPermissionsGuard(UserPermissions.deleteCartItem)
-    @UsePipes(new ValidationPipe())
-    async deleteCartItem(
-        @User() user: UserSessionDto,
-        @Param("productId") productId: string
-    ): Promise<CartSessionDto> {
-        const cart = await this.cartService.deleteCartItem(user, productId);
+  @ApiOperation({ summary: "Delete item from cart" })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: "HttpStatus:200:OK",
+    type: CartEntity,
+    isArray: false,
+  })
+  @Delete(":productId")
+  @AuthPermissionsGuard(UserPermissions.deleteCartItem)
+  @UsePipes(new ValidationPipe())
+  async deleteCartItem(
+    @User() user: UserSessionDto,
+    @Param("productId") productId: string
+  ): Promise<CartSessionDto> {
+    const cart = await this.cartService.deleteCartItem(user, productId);
 
-        return CartSessionDto.fromEntity(cart);
-    }
+    return CartSessionDto.fromEntity(cart);
+  }
 }

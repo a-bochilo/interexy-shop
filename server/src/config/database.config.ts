@@ -62,19 +62,18 @@ const databaseConfig: PostgresConnectionOptions = {
     synchronize: false,
     migrations: [
         $npmConfigName1678357923542,
-
         $npmConfigName1678362416266,
+
         $npmConfigName1678370951605,
-
         $npmConfigName1678367706850,
+
         $npmConfigName1678373196143,
-
         $npmConfigName1678450911295,
+
         $npmConfigName1678456092937,
-
         $npmConfigName1678456561878,
-        $npmConfigName1678456993069,
 
+        $npmConfigName1678456993069,
         $npmConfigName1678544710047,
         $npmConfigName1678709145463,
 
@@ -89,7 +88,7 @@ const databaseConfig: PostgresConnectionOptions = {
 
         $npmConfigName1678980320744,
         $npmConfigName1679035791091,
-
+        
         $npmConfigName1679041536118,
         $npmConfigName1679044066865,
     ],

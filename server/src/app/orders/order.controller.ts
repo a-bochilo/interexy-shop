@@ -27,7 +27,7 @@ export class OrderController {
     ) { }
 
     @Post()
-    @AuthPermissionsGuard(UserPermissions.all)
+    @AuthPermissionsGuard(UserPermissions.createOrder)
     @ApiOperation({ summary: "Create order" })
     @ApiResponse({
         status: HttpStatus.OK,
@@ -44,7 +44,7 @@ export class OrderController {
     }
 
     @Get('/profile')
-    @AuthPermissionsGuard(UserPermissions.all)
+    @AuthPermissionsGuard(UserPermissions.getProfileOrders)
     @ApiOperation({ summary: "Get orders by user_id (user)" })
     @ApiResponse({
         status: HttpStatus.OK,
@@ -53,14 +53,14 @@ export class OrderController {
         isArray: true,
     })
     @UsePipes(new ValidationPipe())
-    async getProfile(
+    async getProfileOrders(
         @User() user: UserSessionDto
     ): Promise<OrderEntity[]> {
         return await this.orderService.getOrderById(user.id)
     }
 
     @Get()
-    @AuthPermissionsGuard(UserPermissions.all)
+    @AuthPermissionsGuard(UserPermissions.getAllOrders)
     @ApiOperation({ summary: "Get all orders" })
     @ApiResponse({
         status: HttpStatus.OK,
@@ -75,7 +75,7 @@ export class OrderController {
 
 
     @Get(':userId')
-    @AuthPermissionsGuard(UserPermissions.all)
+    @AuthPermissionsGuard(UserPermissions.getOrdersByUserId)
     @ApiOperation({ summary: "Get orders by user_id (admin)" })
     @ApiResponse({
         status: HttpStatus.OK,
