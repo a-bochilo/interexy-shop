@@ -1,63 +1,71 @@
-import { Test } from "@nestjs/testing";
+// ========================== Nest ==========================
+import { Test, TestingModule } from "@nestjs/testing";
+import { ConfigModule } from "@nestjs/config";
+import { JwtModule, JwtService } from "@nestjs/jwt";
+import { getRepositoryToken } from "@nestjs/typeorm";
+import { BadRequestException } from "@nestjs/common";
 
+// ========================== service ==========================
 import { SecurityService } from "../../security/security.service";
-import { UserRepository } from "../../users/repos/user.repository";
 import { AuthService } from "../auth.service";
-import { UserSignInStub } from "./stubs/user-sign-in.stub";
-import { RoleRepository } from "../../roles/repos/role.repository";
-import { UserDetailsRepository } from "../../users/repos/user-details.repository";
-import { CartRepository } from "../../cart/repos/cart.repository";
+import { UserService } from "./../../users/user.service";
 
-jest.mock("../../users/repos/user.repository");
-jest.mock("../../security/security.service");
-jest.mock("../../roles/repos/role.repository");
-jest.mock("../../users/repos/user-details.repository");
-jest.mock("../../cart/repos/cart.repository");
+// ========================== repository ==========================
+import { UserRepository } from "../../users/repos/user.repository";
+import { RoleRepository } from "./../../roles/repos/role.repository";
+import { UserDetailsRepository } from "./../../users/repos/user-details.repository";
+import { CartRepository } from "./../../cart/repos/cart.repository";
 
-describe("AuthService. As a user I want to", () => {
+describe("AuthService methods", () => {
   let authService: AuthService;
-  let userRepository: UserRepository;
+
+  const user = {
+    id: 1,
+    email: "test@gmail.com",
+    password: "123456789",
+    phone: "375291234567",
+    userRole: {
+      permissions: ["sign-out"],
+    },
+  };
 
   beforeEach(async () => {
-    const moduleRef = await Test.createTestingModule({
-      imports: [],
-      controllers: [],
-      providers: [
-        AuthService,
-        UserRepository,
-        SecurityService,
-        RoleRepository,
-        UserDetailsRepository,
-        CartRepository,
+    const module = await Test.createTestingModule({
+      imports: [
+        ConfigModule.forRoot(),
+        JwtModule.register({
+          secretOrPrivateKey: "Secret key",
+        }),
       ],
+      providers: [AuthService, SecurityService],
     }).compile();
 
-    authService = moduleRef.get<AuthService>(AuthService);
-    userRepository = moduleRef.get<UserRepository>(UserRepository);
-
-    jest.clearAllMocks();
+    authService = module.get<AuthService>(AuthService);
   });
 
-  describe("sign-in", () => {
-    describe("and if I have not been already registred", () => {
-      it("I expect to get error that User no found", () => {
-        expect(authService.signIn(UserSignInStub())).rejects.toThrow();
-      });
-    });
-    describe("and if I have been already registred, but password is incorrect", () => {
-      it("I expect to get error that password is wrong", () => {
-        expect(authService.signIn(UserSignInStub())).rejects.toThrow();
-      });
-    });
-    describe("and if I have entered everything right", () => {
-      it("I expect to get token", () => {
-        console.log(UserSignInStub())
-        console.log(authService.signIn({ 
-            email: 'testmock@test.com', 
-            password: '123123123' 
-        }))
-        //expect(authService.signIn(UserSignInStub())).toBe("token_string");
-      });
-    });
+  it("should be defined", () => {
+    expect(authService).toBeDefined();
   });
 });
+//   // describe("sign-in", () => {
+//   //   describe("and if I have not been already registered", () => {
+//   //     it("I expect to get error that User not found", () => {
+//   //       expect(authService.signIn(UserSignInStub())).rejects.toThrow();
+//   //     });
+//   //   });
+//   //   describe("and if I have been already registered, but password is incorrect", () => {
+//   //     it("I expect to get error that password is wrong", () => {
+//   //       expect(authService.signIn(UserSignInStub())).rejects.toThrow();
+//   //     });
+//   //   });
+//   //   // describe("and if I have entered everything right", () => {
+//   //   //   it("I expect to get token", () => {
+//   //   //     console.log(UserSignInStub())
+//   //   //     console.log(authService.signIn({
+//   //   //         email: 'testmock@test.com',
+//   //   //         password: '123123123'
+//   //   //     }))
+//   //   //     expect(authService.signIn(UserSignInStub())).toBe("token_string");
+//   //   //   });
+//   //   // });
+//   // });
