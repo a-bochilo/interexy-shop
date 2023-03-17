@@ -1,3 +1,4 @@
+import { ProductDetailsDto } from "../../dtos/product-details.dto";
 import { ProductWithDetailsDto } from "../../dtos/product-with-details.dto";
 import { ProductDto } from "../../dtos/product.dto";
 import { ProductDetailsEntity } from "../../entities/product-details.entity";
@@ -30,9 +31,12 @@ productEntity.productsDetailsId = productDetailsEntity.id;
 productEntity.productDetails = productDetailsEntity;
 
 export const productDto = ProductDto.fromEntity(productEntity);
+export const productDetailsDto =
+    ProductDetailsDto.fromEntity(productDetailsEntity);
 
 export const productCreateDto =
     ProductWithDetailsDto.fromProductAndDetailsEntities({
         product: productEntity,
         productDetails: productDetailsEntity,
     });
+export const productWithDetailsDto = productCreateDto;
