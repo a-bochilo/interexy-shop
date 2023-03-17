@@ -1,4 +1,11 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, } from "typeorm";
+import {
+    Column,
+    Entity,
+    JoinColumn,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+} from "typeorm";
 
 // ========================== Entities ==========================
 import { UUIDEntity } from "../../../shared/entities/uuid.entity";
@@ -62,7 +69,7 @@ export class UserEntity extends UUIDEntity {
         description: "Cart id",
         required: true,
     })
-    @Column({ name: "cart_id" })
+    @Column({ name: "cart_id", nullable: true })
     cart_id: string;
 
     @OneToOne(() => UserDetailsEntity)
@@ -73,11 +80,10 @@ export class UserEntity extends UUIDEntity {
     @JoinColumn({ name: "role_id" })
     role: RoleEntity;
 
-
     @OneToMany(() => OrderEntity, (order) => order.user)
     order: OrderEntity[];
 
     @OneToOne(() => CartEntity, (cart) => cart.user)
     @JoinColumn({ name: "cart_id", referencedColumnName: "id" })
-    cart: CartEntity;
+    cart?: CartEntity;
 }
