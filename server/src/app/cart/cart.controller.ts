@@ -45,8 +45,7 @@ export class CartController {
         isArray: false,
     })
     @Get()
-    //@AuthPermissionsGuard(UserPermissions.getCart)
-    @AuthPermissionsGuard(UserPermissions.assignRole)
+    @AuthPermissionsGuard(UserPermissions.getCart)
     @UsePipes(new ValidationPipe())
     async getCart(@User() user: UserSessionDto): Promise<CartSessionDto> {
         const cart = await this.cartService.getUserCart(user);
