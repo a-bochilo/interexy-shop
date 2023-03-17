@@ -1,135 +1,143 @@
-import { ConfigModule } from "@nestjs/config";
-import { JwtModule, JwtService } from "@nestjs/jwt";
 import { Test, TestingModule } from "@nestjs/testing";
 
 import { UserPermissions } from "../../../shared/types/user-permissions.enum";
 import { UserRoles } from "../../../shared/types/user-roles.enum";
-import { UserSessionDto } from "../../users/dtos/user-session.dto";
-import { AuthPermissionsGuard } from "../../security/decorators/auth-permissions-guard.decorator";
 import { CartSessionDto } from "../dtos/cart-session.dto";
 import { CartController } from "../cart.controller";
 import { CartService } from "../cart.service";
+import { JwtAuthGuard } from "../../security/guards/jwt-auth.guard";
+import { RolesGuard } from "../../security/guards/roles.guard";
 
-// describe("CartController", () => {
-//     let controller: CartController;
-//     let testEmail = "testUser@test.com";
-//     let testPassword = "testPassword";
-//     let invalidEmail = "invalid-email";
-//     let testType = UserRoleTypes.User;
-//     let testPermissions = [UserPermissions.SignOut];
-//     const mockedService = {
-//         signIn: jest.fn().mockImplementation((dto: UserSignInDto) => {
-//             const jwt = new JwtService();
-//             return {
-//                 access_token: jwt.sign(
-//                     { email: testEmail, password: testPassword },
-//                     { secret: "secret_key" }
-//                 ),
-//             };
-//         }),
-//         signUp: jest.fn().mockImplementation((dto: UserNewDto) => {
-//             const jwt = new JwtService();
-//             return {
-//                 access_token: jwt.sign(
-//                     { email: testEmail, password: testPassword },
-//                     { secret: "secret_key" }
-//                 ),
-//             };
-//         }),
-//         signOut: jest.fn().mockImplementation((dto: UserSessionDto) => {
-//             return null;
-//         }),
-//     };
-//     beforeEach(async () => {
-//         const module: TestingModule = await Test.createTestingModule({
-//             imports: [
-//                 ConfigModule.forRoot(),
-//                 JwtModule.register({
-//                     secretOrPrivateKey: "secret key",
-//                 }),
-//             ],
-//             controllers: [AuthController],
-//             providers: [
-//                 AuthService,
-//                 {
-//                     provide: JwtPermissionsGuard,
-//                     useValue: jest.fn().mockImplementation(() => true),
-//                 },
-//                 {
-//                     provide: I18nService,
-//                     useValue: { t: jest.fn(() => "some value") },
-//                 },
-//             ],
-//         })
-//             .overrideProvider(AuthService)
-//             .useValue(mockedService)
-//             .compile();
-//         controller = module.get<AuthController>(AuthController);
-//     });
-//     it("should be defined", () => {
-//         expect(controller).toBeDefined();
-//     });
-//     describe("Sign In", () => {
-//         it("should sign in the user", async () => {
-//             const newUserSignInDto = {
-//                 email: testEmail,
-//                 password: testPassword,
-//             };
-//             const signIn = await controller.signIn(newUserSignInDto);
-//             expect(signIn).not.toBe(null);
-//             const jwt = new JwtService();
-//             const decodedToken = jwt.decode(signIn.access_token);
-//             expect(decodedToken).toMatchObject({ email: "testUser@test.com" });
-//         });
-//         it("should return error if the email is not valid", async () => {
-//             const newUserSignInDto: UserSignInDto | any = {
-//                 email: invalidEmail,
-//                 password: testPassword,
-//             };
-//             try {
-//                 await controller.signIn(newUserSignInDto);
-//             } catch (err) {
-//                 expect(err).toBeInstanceOf(BadRequestException);
-//             }
-//         });
-//     });
-//     describe("Registration", () => {
-//         it("should register a new user", async () => {
-//             const newUserNewDto: UserNewDto | any = {
-//                 email: testEmail,
-//                 password: testPassword,
-//                 passwordConfirm: testPassword,
-//             };
-//             const registration = await controller.registration(newUserNewDto);
-//             expect(registration).not.toBe(null);
-//             const jwt = new JwtService();
-//             const decodedToken = jwt.decode(registration.access_token);
-//             expect(decodedToken).toMatchObject({ email: "testUser@test.com" });
-//         });
-//         it("should return error if the email is not valid", async () => {
-//             const newUserNewDto: UserNewDto | any = {
-//                 email: invalidEmail,
-//                 password: testPassword,
-//                 passwordConfirm: testPassword,
-//             };
-//             try {
-//                 await controller.registration(newUserNewDto);
-//             } catch (err) {
-//                 expect(err).toBeInstanceOf(BadRequestException);
-//             }
-//         });
-//     });
-//     describe("Sign Out", () => {
-//         it("should sign out the user", async () => {
-//             const newUserSessionDto: UserSessionDto = {
-//                 id: "uuid",
-//                 email: testEmail,
-//                 role_id: 1,
-//                 role_type: testType,
-//                 permissions: testPermissions,
-//             };
-//             const signIn = controller.signOut(newUserSessionDto);
-//             await expect(signIn).resolves.toEqual(null);
-//         });
-//     });
-// });
+describe("CartController", () => {
+    let controller: CartController;
+
+    const date = new Date();
+
+    const cart: CartSessionDto = {
+        id: "39357c86-29d3-4df0-a1e0-ef0626d0d877",
+        created: date.valueOf(),
+        updated: date.valueOf(),
+        items: [
+            {
+                productId: "d5232d45-99e6-40ca-83fc-3ead715c5fdc",
+                quantity: 10,
+            },
+        ],
+    };
+
+    const cartItemEntity = {
+        id: "39357c86-29d3-4df0-a1e0-ef0626d0d877",
+        created: date,
+        updated: date,
+        product_id: "d5232d45-99e6-40ca-83fc-3ead715c5fdc",
+        quantity: 10,
+    };
+
+    const cartItemDto = {
+        id: "39357c86-29d3-4df0-a1e0-ef0626d0d877",
+        created: date,
+        updated: date,
+        productId: "d5232d45-99e6-40ca-83fc-3ead715c5fdc",
+        quantity: 10,
+    };
+
+    const cartEntity = {
+        id: "39357c86-29d3-4df0-a1e0-ef0626d0d877",
+        created: date,
+        updated: date,
+        items: [cartItemEntity],
+    };
+
+    const user = {
+        id: "94ff2989-7ffa-4c2a-bfae-5fa78a751fd5",
+        email: "test@test.com",
+        role_id: 2,
+        role_type: UserRoles.user,
+        created: date.valueOf(),
+        updated: date.valueOf(),
+        permissions: [
+            UserPermissions.getCart,
+            UserPermissions.addCartItem,
+            UserPermissions.updateCartItem,
+            UserPermissions.deleteCartItem,
+            UserPermissions.cleanCart,
+            UserPermissions.createOrder,
+            UserPermissions.getProfileOrders,
+            UserPermissions.getUserProfile,
+            UserPermissions.updateUserProfile,
+        ],
+    };
+
+    const mockedCartService = {
+        addCartItem: jest.fn().mockResolvedValue(cartEntity),
+        updateCartItem: jest.fn().mockResolvedValue(cartEntity),
+        deleteCartItem: jest.fn().mockResolvedValue(cartEntity),
+        cleanCart: jest.fn().mockResolvedValue(cartEntity),
+        getUserCart: jest.fn().mockResolvedValue(cartEntity),
+        createCartItem: jest.fn().mockResolvedValue(cartItemEntity),
+    };
+
+    beforeEach(async () => {
+        const module: TestingModule = await Test.createTestingModule({
+            imports: [],
+            controllers: [CartController],
+            providers: [
+                {
+                    provide: CartService,
+                    useValue: mockedCartService,
+                },
+            ],
+        })
+            .overrideGuard(JwtAuthGuard)
+            .useValue(true)
+            .overrideGuard(RolesGuard)
+            .useValue(true)
+            .compile();
+        controller = module.get<CartController>(CartController);
+    });
+    it("should be defined", () => {
+        expect(controller).toBeDefined();
+    });
+
+    describe("on get request on '/cart'", () => {
+        it("should return cartSessionDto", async () => {
+            const getCart = await controller.getCart(user);
+            expect(getCart).toBeDefined();
+            expect(getCart).toMatchObject(cart);
+        });
+    });
+    describe("on post request on '/cart'", () => {
+        it("should return cartSessionDto", async () => {
+            const addCartItem = await controller.addCartItem(user, cartItemDto);
+            expect(addCartItem).toBeDefined();
+            expect(addCartItem).toMatchObject(cart);
+        });
+    });
+    describe("on put request on '/cart'", () => {
+        it("should return cartSessionDto", async () => {
+            const updateCartItem = await controller.updateCartItem(
+                user,
+                cartItemDto
+            );
+            expect(updateCartItem).toBeDefined();
+            expect(updateCartItem).toMatchObject(cart);
+        });
+    });
+    describe("on delete request on '/cart'", () => {
+        it("should return cartSessionDto", async () => {
+            const cleanCart = await controller.cleanCart(user);
+            expect(cleanCart).toBeDefined();
+            expect(cleanCart).toMatchObject(cart);
+        });
+    });
+    describe("on delete request on '/cart/productId'", () => {
+        it("should return cartSessionDto", async () => {
+            const deleteCartItem = await controller.deleteCartItem(
+                user,
+                "d5232d45-99e6-40ca-83fc-3ead715c5fdc"
+            );
+            expect(deleteCartItem).toBeDefined();
+            expect(deleteCartItem).toMatchObject(cart);
+        });
+    });
+});
