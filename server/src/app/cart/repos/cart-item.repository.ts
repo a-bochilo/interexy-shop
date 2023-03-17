@@ -21,4 +21,8 @@ export class CartItemRepository {
     async deleteCartItem(id: string) {
         return await this.cartItemRepository.delete(id);
     }
+
+    async deleteCartItems(ids: string[]) {
+        return await this.cartItemRepository.delete(ids);
+    }
 }

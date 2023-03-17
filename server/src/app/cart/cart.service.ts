@@ -13,7 +13,6 @@ import { CartItemRepository } from "./repos/cart-item.repository";
 // ========================== DTO's ==========================
 import { CartItemDto } from "./dtos/cart-item.dto";
 import { UserSessionDto } from "../users/dtos/user-session.dto";
-import { ProductEntity } from "../products/entities/product.entity";
 
 @Injectable()
 export class CartService {
@@ -50,8 +49,6 @@ export class CartService {
         user: UserSessionDto,
         cartItemDto: CartItemDto
     ): Promise<CartEntity> {
-        await this.getProductIfEnough(cartItemDto);
-
         const cart = await this.getUserCart(user);
 
         const item = cart.items.find(
@@ -98,11 +95,19 @@ export class CartService {
         return await this.cartRepository.saveCart(cart);
     }
 
-    async getUserCart(user: UserSessionDto): Promise<CartEntity> {
-        const userFromDB = await this.userRepository.getById(
-            user.id
-        );
+    async cleanCart(user: UserSessionDto): Promise<CartEntity> {
+        const cart = await this.getUserCart(user);
 
+        const itemIds = cart.items.map((item) => item.id);
+        await this.cartItemRepository.deleteCartItems(itemIds);
+
+        cart.items = [];
+
+        return await this.cartRepository.saveCart(cart);
+    }
+
+    async getUserCart(user: UserSessionDto): Promise<CartEntity> {
+        const userFromDB = await this.userRepository.getById(user.id);
 
         if (!userFromDB) {
             throw new HttpException(
@@ -126,19 +131,6 @@ export class CartService {
         cart: CartEntity,
         cartItemDto: CartItemDto
     ): Promise<CartItemEntity> {
-        const product = await this.getProductIfEnough(cartItemDto);
-
-        const item = new CartItemEntity();
-        item.created = new Date();
-        item.quantity = cartItemDto.quantity;
-        item.cart = cart;
-        item.quantity = cartItemDto.quantity;
-        item.product_id = product.id;
-
-        return await this.cartItemRepository.saveCartItem(item);
-    }
-
-    async getProductIfEnough(cartItemDto: CartItemDto): Promise<ProductEntity> {
         const product = await this.productsRepository.getProductById(
             cartItemDto.productId
         );
@@ -157,6 +149,13 @@ export class CartService {
             );
         }
 
-        return product;
+        const item = new CartItemEntity();
+        item.created = new Date();
+        item.quantity = cartItemDto.quantity;
+        item.cart = cart;
+        item.quantity = cartItemDto.quantity;
+        item.product_id = product.id;
+
+        return await this.cartItemRepository.saveCartItem(item);
     }
 }
