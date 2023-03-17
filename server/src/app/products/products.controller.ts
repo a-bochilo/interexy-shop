@@ -35,7 +35,7 @@ import { AuthPermissionsGuard } from "../security/decorators/auth-permissions-gu
 export class ProductsController {
     constructor(private readonly productsService: ProductsService) {}
 
-    @ApiOperation({ summary: "Add new product" })
+    @ApiOperation({ summary: "Create new product" })
     @ApiResponse({
         status: HttpStatus.OK,
         description: "HttpStatus:200:OK",
@@ -43,7 +43,7 @@ export class ProductsController {
         isArray: false,
     })
     @Post()
-    // @AuthPermissionsGuard(UserPermissions.createProduct)
+    @AuthPermissionsGuard(UserPermissions.createProduct)
     @UsePipes(new ValidationPipe())
     async createProduct(
         @Body() productCreateDto: ProductWithDetailsDto
@@ -63,7 +63,6 @@ export class ProductsController {
         isArray: true,
     })
     @Get()
-    // @AuthPermissionsGuard(UserPermissions.getAllProducts)
     @UsePipes(new ValidationPipe())
     async getAllProducts(
         @Query() query: ProductsQueryDto
@@ -74,7 +73,6 @@ export class ProductsController {
     }
 
     @Get("/filter")
-    // @AuthPermissionsGuard(UserPermissions.getFiltredProducts)
     @UsePipes(new ValidationPipe())
     async getFiltredProducts(
         @Body() filter: ProductsFilterDto
@@ -92,7 +90,6 @@ export class ProductsController {
         isArray: false,
     })
     @Get("/:productId")
-    // @AuthPermissionsGuard(UserPermissions.getProductDetials)
     @UsePipes(new ValidationPipe())
     async getProductDetials(
         @Param("productId") productId: string
@@ -112,7 +109,7 @@ export class ProductsController {
         isArray: false,
     })
     @Put("/:productId")
-    // @AuthPermissionsGuard(UserPermissions.updateProduct)
+    @AuthPermissionsGuard(UserPermissions.updateProduct)
     @UsePipes(new ValidationPipe())
     async updateProduct(
         @Body() productUpdateDto: ProductOptionalDto,
@@ -132,7 +129,7 @@ export class ProductsController {
         isArray: false,
     })
     @Delete("/:productId")
-    // @AuthPermissionsGuard(UserPermissions.deleteProduct)
+    @AuthPermissionsGuard(UserPermissions.deleteProduct)
     @UsePipes(new ValidationPipe())
     async deleteProduct(
         @Param("productId") productId: string

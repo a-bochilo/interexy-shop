@@ -35,9 +35,9 @@ import { UserViewEntity } from "./entities/user-view.entity";
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  //GET ALL INACTIVE USERS
+  //GET ALL USERS
   @Get("")
-  @AuthPermissionsGuard(UserPermissions.assignRole)
+  @AuthPermissionsGuard(UserPermissions.getAllUsers)
   @ApiOperation({ summary: "Get all users" })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -46,7 +46,7 @@ export class UserController {
     isArray: true,
   })
   @UsePipes(new ValidationPipe())
-  async getInActiveUsers(
+  async getAllUsers(
     @Query("isActive") isActive: boolean
   ): Promise<UserEntity[] | UserViewEntity[]> {
     return this.userService.getUsers(isActive);
@@ -54,8 +54,8 @@ export class UserController {
 
   //GET ONE USER BY ID ---------------------------------------USER
   @Get("/profile")
-  @AuthPermissionsGuard(UserPermissions.assignRole)
-  @ApiOperation({ summary: "Get user order by id (admin)" })
+  @AuthPermissionsGuard(UserPermissions.getUserProfile)
+  @ApiOperation({ summary: "Get current user" })
   @ApiResponse({
     status: HttpStatus.OK,
     description: "HttpStatus:200:OK",
@@ -63,7 +63,7 @@ export class UserController {
     isArray: false,
   })
   @UsePipes(new ValidationPipe())
-  async getProfile(
+  async getUserProfile(
     @User() user: UserSessionDto
 ): Promise<UserDetailsEntity> {
     return await this.userService.getDetailsById(user.id);
@@ -71,7 +71,7 @@ export class UserController {
 
   //UPDATE DETAILS BY USER ID ---------------------------------------USER
   @Put("/profile")
-  @AuthPermissionsGuard(UserPermissions.assignRole)
+  @AuthPermissionsGuard(UserPermissions.updateUserProfile)
   @ApiOperation({ summary: "Update user details (user)" })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -80,7 +80,7 @@ export class UserController {
     isArray: false,
   })
   @UsePipes(new ValidationPipe())
-  async updateProfile(
+  async updateUserProfile(
     @Body() info: UpdateUserDto,
     @User() user: UserSessionDto
   ): Promise<UserEntity> {
@@ -89,7 +89,7 @@ export class UserController {
 
   //GET ONE USER BY ID ----------------------------------------------ADMIN
   @Get("/:userId")
-  @AuthPermissionsGuard(UserPermissions.assignRole)
+  @AuthPermissionsGuard(UserPermissions.getUserById)
   @ApiOperation({ summary: "Get user by id (admin)" })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -106,7 +106,7 @@ export class UserController {
 
   //UPDATE DETAILS BY USER ID ---------------------------------------ADMIN
   @Put("/:userId")
-  @AuthPermissionsGuard(UserPermissions.assignRole)
+  @AuthPermissionsGuard(UserPermissions.updateDetails)
   @ApiOperation({ summary: "Update user details (admin)" })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -124,7 +124,7 @@ export class UserController {
 
   //DELETE ONE BY ID ---------------------------------------ADMIN
   @Delete("/:userId")
-  @AuthPermissionsGuard(UserPermissions.assignRole)
+  @AuthPermissionsGuard(UserPermissions.deleteUserById)
   @ApiOperation({ summary: "Delete user by id (change isActive) (admin)" })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -139,7 +139,7 @@ export class UserController {
 
   //ASSIGN ROLE BY ID ---------------------------------------ADMIN
   @Post("/assignRole/:userId")
-  @AuthPermissionsGuard(UserPermissions.assignRole)
+  @AuthPermissionsGuard(UserPermissions.assignRoleById)
   @ApiOperation({ summary: "Assign role for user by id (admin)" })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -148,7 +148,7 @@ export class UserController {
     isArray: false,
   })
   @UsePipes(new ValidationPipe())
-  async assignRole(
+  async assignRoleById(
     @Body() assignUserRoleDto: AssignUserRoleDto,
     @Param("userId") userId: string
   ): Promise<UserEntity> {
