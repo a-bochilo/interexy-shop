@@ -1,4 +1,4 @@
-import { UUIDDto } from "src/shared/dtos/uuid.dto";
+import { UUIDDto } from "../../../shared/dtos/uuid.dto";
 import { OrderEntity } from "../entities/order.entity";
 
 export class OrderDto extends UUIDDto {

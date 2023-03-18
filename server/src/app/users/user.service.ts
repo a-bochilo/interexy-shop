@@ -23,23 +23,19 @@ export class UserService {
     private readonly userDetailsRepository: UserDetailsRepository,
     private readonly userRepository: UserRepository,
     private readonly userViewRepository: UserViewRepository,
-    private readonly roleRepository: RoleRepository,
+    private readonly roleRepository: RoleRepository
   ) {}
 
-  async getAll() {
-    return await this.userViewRepository.getAll();
-  }
-
-  async getUsers(isActive: boolean) {
+  async getAllUsers(isActive: boolean) {
     if (isActive === undefined) {
-      return await this.userViewRepository.getAll();
+      return await this.userViewRepository.getAllUsers();
     }
-    return await this.userRepository.getInActiveUsers(false);
+    return await this.userRepository.getAllUsers(false);
   }
 
   async getDetailsById(userId: string) {
     const user = await this.userRepository.getById(userId);
-    return await this.userDetailsRepository.getDetails(user.details_id);
+    return await this.userDetailsRepository.getDetailsById(user.details_id);
   }
 
   async getById(userId: string) {
@@ -48,48 +44,45 @@ export class UserService {
 
   async assignUserRole(assignUserRoleDto: AssignUserRoleDto, userId: string) {
     const user = await this.userRepository.getById(userId);
-    const newRole = await this.roleRepository.getById(
+    const newRole = await this.roleRepository.getRoleByName(
       assignUserRoleDto.newRole
     );
     user.updated = new Date();
     user.role = newRole;
     user.roleId = newRole.id;
     user.roleType = newRole.type;
-    return await this.userRepository.updateUser(user);
+    return await this.userRepository.assignUserRole(user);
   }
 
   async deleteUserById(userId: string) {
-    return await this.userRepository.deleteUser(userId);
+    return await this.userRepository.deleteUserById(userId);
   }
 
   async updateUserDetails(info: UpdateUserDto, userId: string) {
     const user = await this.userRepository.getById(userId);
-    let details = await this.userDetailsRepository.getDetails(
+    let details = await this.userDetailsRepository.getDetailsById(
       user.details_id as string
     );
-    const newDetails = await this.userDetailsRepository.save(
+    const newDetails = await this.userDetailsRepository.setDetails(
       Object.assign(details, info.details)
     );
-  
+
     delete info.details;
     Object.assign(user, info);
 
     user.updated = new Date();
     details = newDetails;
 
-    return await this.userRepository.updateUser({
+    return await this.userRepository.updateUserDetails({
       ...user,
       details,
     });
   }
-  
-  async updateUserOrder(user: UserEntity) {
-    const newUser = await this.userRepository.getById(user.id);
-    Object.assign(newUser, user);
-    return await this.userRepository.updateUser(user);
-  }
 
   async getUserByEmail(email: string) {
     return await this.userRepository.getUserByEmail(email);
+  }
+  async getUserByPhone(phone: string) {
+    return await this.userRepository.getUserByPhone(phone);
   }
 }

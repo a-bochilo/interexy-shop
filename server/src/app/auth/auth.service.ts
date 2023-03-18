@@ -52,7 +52,6 @@ export class AuthService {
 
     const cart = await this.cartRepository.createCart(newUser);
 
-    
     newUser.cart = cart;
     await this.userRepository.save(newUser)
 

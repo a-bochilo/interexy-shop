@@ -3,7 +3,7 @@ import { Type } from "class-transformer";
 import { IsArray, IsNotEmpty, ValidateNested } from "class-validator";
 
 // ========================== DTO's ==========================
-import { UUIDDto } from "src/shared/dtos/uuid.dto";
+import { UUIDDto } from "../../../shared/dtos/uuid.dto";
 import { CartItemDto } from "./cart-item.dto";
 
 // ========================== Entities ==========================

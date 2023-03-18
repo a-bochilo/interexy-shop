@@ -21,7 +21,6 @@ import { UserService } from "./user.service";
 // ========================== Modules ===================================
 import { SecurityModule } from "../security/security.module";
 import { OrderEntity } from "../orders/entities/order.entity";
-import { CartEntity } from "../cart/entities/cart.entity";
 
 @Module({
     imports: [

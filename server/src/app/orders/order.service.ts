@@ -30,11 +30,11 @@ export class OrderService {
     ) {}
 
     async getAllOrders() {
-        return await this.orderRepository.getAll();
+        return await this.orderRepository.getAllOrders();
     }
 
-    async getOrderById(id: string) {
-        return await this.orderRepository.getById(id);
+    async getOrdersByUserId(id: string) {
+        return await this.orderRepository.getOrdersByUserId(id);
     }
 
     async createOrder(cart: CartSessionDto, userId: string): Promise<OrderDto> {

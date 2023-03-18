@@ -9,5 +9,5 @@ export class AssignUserRoleDto {
     })
     @IsNotEmpty()
     @IsNumber()
-    readonly newRole: number;
+    readonly newRole: string;
 }

@@ -30,11 +30,11 @@ export class OrderRepository extends Repository<OrderEntity> {
         return await this.save(newOrder);
     }
 
-    async getAll() {
+    async getAllOrders() {
         return await this.find();
     }
 
-    async getById(id: string) {
+    async getOrdersByUserId(id: string) {
         return await this.find({
             where: {
                 user_id: id

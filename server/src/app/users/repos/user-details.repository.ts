@@ -29,7 +29,11 @@ export class UserDetailsRepository extends Repository<UserDetailsEntity> {
         return await this.delete({id: detailsId})
     }
 
-    async getDetails(detailsId: string) {
+    async getDetailsById(detailsId: string) {
         return await this.findOneBy({id: detailsId})
+    }
+
+    async setDetails(details: UserDetailsDto) {
+        return await this.save(details);
     }
 }
