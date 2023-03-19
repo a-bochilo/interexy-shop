@@ -1,10 +1,20 @@
 import React, { FC, Suspense } from "react";
 import { Navigate, Routes, Route } from "react-router-dom";
 
+// ========================== mui ==========================
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
+
 // ======= private route ======= //
 const PrivateRoute: FC<{ element: any }> = ({ element: Element }) => {
   return true ? (
-    <Suspense fallback={<h2>Loading...</h2>}>
+    <Suspense
+      fallback={
+        <Box sx={{ display: "flex" }}>
+          <CircularProgress />
+        </Box>
+      }
+    >
       <div>
         <Element />
       </div>
@@ -16,7 +26,13 @@ const PrivateRoute: FC<{ element: any }> = ({ element: Element }) => {
 
 // ======= public route ======= //
 const PublicRoute: FC<{ element: any }> = ({ element: Element }) => (
-  <Suspense fallback={<h2>Loading...</h2>}>
+  <Suspense
+    fallback={
+      <Box sx={{ display: "flex" }}>
+        <CircularProgress />
+      </Box>
+    }
+  >
     <Element />
   </Suspense>
 );

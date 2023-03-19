@@ -2,11 +2,21 @@
 import React, { FC, PropsWithChildren, Suspense } from "react";
 import { Navigate, Routes, Route } from "react-router-dom";
 
+// ========================== mui ==========================
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
+
 const Suspended: FC<PropsWithChildren & { element: any }> = ({
   element: Element,
 }) => {
   return (
-    <Suspense fallback={<h2>Loading...</h2>}>
+    <Suspense
+      fallback={
+        <Box sx={{ display: "flex" }}>
+          <CircularProgress />
+        </Box>
+      }
+    >
       <Element />
     </Suspense>
   );
@@ -14,10 +24,7 @@ const Suspended: FC<PropsWithChildren & { element: any }> = ({
 
 // ======= pages ======= //
 const LoginPage = React.lazy(
-  () =>
-    import(
-      /* webpackChunkName: "LoginPage" */ "../login/login.page"
-    )
+  () => import(/* webpackChunkName: "LoginPage" */ "../login/login.page")
 );
 
 const LoginRoutes: FC = () => {
