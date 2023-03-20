@@ -88,7 +88,7 @@ const PageHeaderComp: FC = () => {
   };
 
   return (
-    <header>
+    <Box component={"header"}>
       <AppBar position="static">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
@@ -219,7 +219,7 @@ const PageHeaderComp: FC = () => {
           </Toolbar>
         </Container>
       </AppBar>
-    </header>
+    </Box>
   );
 };
 
