@@ -21,6 +21,7 @@ import { CartItemRepository } from "./repos/cart-item.repository";
 import { UserRepository } from "../users/repos/user.repository";
 import { ProductsRepository } from "../products/repos/products.repository";
 import { UserViewRepository } from "../users/repos/user-view.repository";
+import { I18nContext } from "nestjs-i18n";
 
 @Module({
     imports: [
@@ -42,6 +43,5 @@ import { UserViewRepository } from "../users/repos/user-view.repository";
         ProductsRepository,
         UserViewRepository,
     ],
-    exports: [],
 })
 export class CartModule {}

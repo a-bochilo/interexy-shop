@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { DeleteResult } from "typeorm";
+import { I18nContext } from "nestjs-i18n";
 import { RoleRepository } from "./repos/role.repository";
 
 // ========================== DTO's & Types ==========================
@@ -14,12 +15,16 @@ export class RoleService {
     constructor(private readonly roleRepository: RoleRepository) {}
 
     async createRole(createRoleDto: CreateRoleDto): Promise<RoleEntity> {
-        const existedRole = await this.roleRepository.getRoleByName(createRoleDto.name);
-        if(existedRole) {
+        const existedRole = await this.roleRepository.getRoleByName(
+            createRoleDto.name
+        );
+        if (existedRole) {
             throw new HttpException(
-                `Role '${existedRole.name}' already exist`,
+                `${I18nContext.current().t(
+                    "errors.roles.roleAlreadyExist"
+                )}: '${existedRole.name}'`,
                 HttpStatus.BAD_REQUEST
-              );
+            );
         }
         return this.roleRepository.createRole(createRoleDto);
     }

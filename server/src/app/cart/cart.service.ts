@@ -1,4 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { I18nContext } from "nestjs-i18n";
 
 // ========================== Entities ==========================
 import { CartEntity } from "./entities/cart.entity";
@@ -36,7 +37,7 @@ export class CartService {
 
         if (isProductInCart) {
             throw new HttpException(
-                "Product already exists in users cart",
+                I18nContext.current().t("errors.cart.productAlreadyInCart"),
                 HttpStatus.BAD_REQUEST
             );
         }
@@ -57,7 +58,9 @@ export class CartService {
 
         if (!item) {
             throw new HttpException(
-                "Product does not exist it users cart",
+                I18nContext.current().t(
+                    "errors.cart.productDoesNotExistInCart"
+                ),
                 HttpStatus.BAD_REQUEST
             );
         }
@@ -79,7 +82,7 @@ export class CartService {
         });
         if (!existedItem) {
             throw new HttpException(
-                "Cart item does not exist",
+                I18nContext.current().t("errors.cart.productAlreadyInCart"),
                 HttpStatus.BAD_REQUEST
             );
         }
@@ -111,7 +114,7 @@ export class CartService {
 
         if (!userFromDB) {
             throw new HttpException(
-                "User does not exist",
+                I18nContext.current().t("errors.user.userDoesNotExist"),
                 HttpStatus.UNAUTHORIZED
             );
         }
@@ -137,14 +140,16 @@ export class CartService {
 
         if (!product) {
             throw new HttpException(
-                "Product does not exist",
+                I18nContext.current().t("errors.products.productDoesNotExist"),
                 HttpStatus.BAD_REQUEST
             );
         }
 
         if (product.quantity < cartItemDto.quantity) {
             throw new HttpException(
-                `Product quantity less then required in request. Aviliable count ${product.quantity}`,
+                `${I18nContext.current().t(
+                    "errors.products.productNotEnough"
+                )} ${product.quantity}`,
                 HttpStatus.BAD_REQUEST
             );
         }

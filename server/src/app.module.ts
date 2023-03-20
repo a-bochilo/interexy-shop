@@ -1,7 +1,9 @@
+import * as path from "path";
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConfigModule } from "@nestjs/config";
 import databaseConfig from "./config/database.config";
+import { AcceptLanguageResolver, I18nModule } from "nestjs-i18n";
 
 // ========================== Modules =====================================
 import { ProductsModule } from "./app/products/products.module";
@@ -14,7 +16,6 @@ import { TasksModule } from "./app/tasks/tasks.module";
 import { OrderModule } from "./app/orders/order.module";
 import { AuthModule } from "./app/auth/auth.module";
 
-
 @Module({
     imports: [
         ConfigModule.forRoot({
@@ -23,6 +24,14 @@ import { AuthModule } from "./app/auth/auth.module";
         }),
         TypeOrmModule.forRoot(databaseConfig),
         ScheduleModule.forRoot(),
+        I18nModule.forRoot({
+            fallbackLanguage: "en",
+            loaderOptions: {
+                path: path.join(__dirname, "/i18n/"),
+                watch: true,
+            },
+            resolvers: [AcceptLanguageResolver],
+        }),
         TasksModule,
         ProductsModule,
         RoleModule,
@@ -33,8 +42,5 @@ import { AuthModule } from "./app/auth/auth.module";
         OrderModule,
         AuthModule,
     ],
-    controllers: [],
-    providers: [],
 })
 export class AppModule {}
-
