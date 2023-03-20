@@ -1,9 +1,16 @@
 import { Test, TestingModule } from "@nestjs/testing";
+
+// ========================== Services & Controllers ====================
 import { OrderController } from "../order.controller";
 import { OrderService } from "../order.service";
+
+// ============================== Guards ================================
 import { JwtAuthGuard } from "../../security/guards/jwt-auth.guard";
 import { RolesGuard } from "../../security/guards/roles.guard";
+
+// ============================== Mocks =================================
 import { cartDto, mockedServices, order, user } from "./mocks/data.mock";
+
 
 describe("Order controller", () => {
   let controller: OrderController;

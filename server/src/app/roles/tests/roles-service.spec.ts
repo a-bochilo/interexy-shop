@@ -1,10 +1,20 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { RoleService } from "../role.service";
 import { getRepositoryToken } from "@nestjs/typeorm";
-import { RoleRepository } from "../repos/role.repository";
-import { UserRoles } from "../../../shared/types/user-roles.enum";
 import { HttpException, HttpStatus } from "@nestjs/common";
+
+// ========================== Services & Controllers ====================
+import { RoleService } from "../role.service";
+
+// ============================== Types =================================
+import { UserRoles } from "../../../shared/types/user-roles.enum";
+
+// ========================== Repositories ==============================
+import { RoleRepository } from "../repos/role.repository";
+
+// ============================== Mocks =================================
 import { newUserRole, roleRepositoryFake, userRoleDto } from "./mocks/data.mock";
+
+
 
 describe("Roles services", () => {
   let service: RoleService;

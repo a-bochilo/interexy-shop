@@ -1,10 +1,18 @@
 import { TestingModule, Test } from "@nestjs/testing";
+import { HttpStatus } from "@nestjs/common";
+
+// ========================== Services & Controllers ====================
 import { RoleController } from "../role.controller";
 import { RoleService } from "../role.service";
+
+// ============================== Guards ================================
 import { JwtAuthGuard } from "../../security/guards/jwt-auth.guard";
 import { RolesGuard } from "../../security/guards/roles.guard";
-import { HttpStatus } from "@nestjs/common";
+
+// ============================== Mocks =================================
 import { mockedServices, userRoleDto, newUserRole } from "./mocks/data.mock";
+
+
 
 describe("Roles controller", () => {
   let controller: RoleController;

@@ -1,10 +1,16 @@
 import { Test, TestingModule } from "@nestjs/testing";
+import { HttpException } from "@nestjs/common";
+
+// ========================== Services & Controllers ====================
 import { OrderService } from "../order.service";
+
+// ========================== Repositories ==============================
 import { UserRepository } from "../../users/repos/user.repository";
 import { ProductsRepository } from "../../products/repos/products.repository";
 import { OrderItemRepository } from "../repos/order-item.repository";
 import { OrderRepository } from "../repos/order.repository";
 
+// ============================== Mocks =================================
 import {
   orderItemRepositoryFake,
   productsRepositoryFake,
@@ -18,7 +24,8 @@ import {
   cartDto,
   newOrder,
 } from "./mocks/data.mock";
-import { HttpException } from "@nestjs/common";
+
+
 
 describe("Order service", () => {
   let service: OrderService;

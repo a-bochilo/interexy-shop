@@ -1,8 +1,15 @@
+
+import { Test, TestingModule } from "@nestjs/testing";
+
+// ========================== Services & Controllers ====================
 import { UserController } from "../user.controller";
 import { UserService } from "../user.service";
-import { Test, TestingModule } from "@nestjs/testing";
+
+// ============================== Guards ================================
 import { RolesGuard } from "../../security/guards/roles.guard";
 import { JwtAuthGuard } from "../../security/guards/jwt-auth.guard";
+
+// ============================== Mocks =================================
 import {
   mockedServices,
   user,
@@ -11,6 +18,8 @@ import {
   userWithDetails,
   userSessionDto,
 } from "./mocks/data.mock";
+
+
 
 describe("User controller", () => {
   let controller: UserController;
