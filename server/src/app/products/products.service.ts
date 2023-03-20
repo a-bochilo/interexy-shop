@@ -76,6 +76,13 @@ export class ProductsService {
             productId
         );
 
+        if (!product) {
+            throw new HttpException(
+                I18nContext.current().t("errors.products.productDoesNotExist"),
+                HttpStatus.UNPROCESSABLE_ENTITY
+            );
+        }
+
         return await this.productsDetailsRepository.getProductDetailsById(
             product.productsDetailsId
         );
@@ -133,9 +140,8 @@ export class ProductsService {
                   productUpdateDto?.name
               )
             : null;
-
         if (
-            productsByName &&
+            productsByName.length &&
             (productsByName.length > 1 || productsByName[0]?.id !== productId)
         ) {
             throw new HttpException(

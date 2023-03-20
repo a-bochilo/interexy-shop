@@ -20,12 +20,16 @@ export class UserService {
     private readonly userRepository: UserRepository,
     private readonly userViewRepository: UserViewRepository,
     private readonly roleRepository: RoleRepository
+    private readonly roleRepository: RoleRepository
   ) {}
 
   async getAllUsers(isActive: boolean) {
+  async getAllUsers(isActive: boolean) {
     if (isActive === undefined) {
       return await this.userViewRepository.getAllUsers();
+      return await this.userViewRepository.getAllUsers();
     }
+    return await this.userRepository.getAllUsers(false);
     return await this.userRepository.getAllUsers(false);
   }
 
@@ -77,6 +81,7 @@ export class UserService {
     user.roleId = newRole.id;
     user.roleType = newRole.type;
     return await this.userRepository.assignUserRole(user);
+    return await this.userRepository.assignUserRole(user);
   }
 
   async deleteUserById(userId: string) {
@@ -116,11 +121,13 @@ export class UserService {
       Object.assign(details, info.details)
     );
 
+
     delete info.details;
     Object.assign(user, info);
 
     user.updated = new Date();
     details = newDetails;
+    return await this.userRepository.updateUserDetails({
     return await this.userRepository.updateUserDetails({
       ...user,
       details,

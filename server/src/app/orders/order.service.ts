@@ -7,6 +7,11 @@ import { CartSessionDto } from "../cart/dtos/cart-session.dto";
 import { OrderItemEntity } from "./entities/order-item.entity";
 import { ProductEntity } from "../products/entities/product.entity";
 import { OrderEntity } from "./entities/order.entity";
+import { OrderDto } from "./dtos/order.dto";
+import { CartSessionDto } from "../cart/dtos/cart-session.dto";
+import { OrderItemEntity } from "./entities/order-item.entity";
+import { ProductEntity } from "../products/entities/product.entity";
+import { OrderEntity } from "./entities/order.entity";
 
 // ========================== Repositories ==============================
 import { OrderRepository } from "./repos/order.repository";
@@ -22,7 +27,16 @@ export class OrderService {
     private readonly userRepository: UserRepository,
     private readonly orderItemRepository: OrderItemRepository
   ) {}
+  constructor(
+    private readonly orderRepository: OrderRepository,
+    private readonly productRepository: ProductsRepository,
+    private readonly userRepository: UserRepository,
+    private readonly orderItemRepository: OrderItemRepository
+  ) {}
 
+  async getAllOrders() {
+    return await this.orderRepository.getAllOrders();
+  }
   async getAllOrders() {
     return await this.orderRepository.getAllOrders();
   }
@@ -52,6 +66,8 @@ export class OrderService {
 
     prodEntities.map((product, i) => {
       const res = product.quantity - cart.items[i].quantity;
+    prodEntities.map((product, i) => {
+      const res = product.quantity - cart.items[i].quantity;
 
             if (res < 0) {
                 throw new HttpException(
@@ -73,6 +89,7 @@ export class OrderService {
     }
 
     const order = await this.orderRepository.createOrder(user);
+    const order = await this.orderRepository.createOrder(user);
 
     const orderItems = await Promise.all(
       prodEntities.map(async (product, i) => {
@@ -83,7 +100,26 @@ export class OrderService {
         );
       })
     );
+    const orderItems = await Promise.all(
+      prodEntities.map(async (product, i) => {
+        return await this.createOrderItem(
+          order,
+          product,
+          cart.items[i].quantity
+        );
+      })
+    );
 
+    order.items = orderItems;
+    order.total = orderItems.reduce(
+      (acccumulator: number, item) =>
+        acccumulator + item.product_price * item.product_quantity,
+      0
+    );
+    
+    const newOrder = await this.orderRepository.saveOrder(order);
+    return await OrderDto.fromEntity(newOrder);
+  }
     order.items = orderItems;
     order.total = orderItems.reduce(
       (acccumulator: number, item) =>
@@ -108,7 +144,22 @@ export class OrderService {
     item.product = product;
     item.product_name = product.name;
     item.product_price = product.price;
+  async createOrderItem(
+    order: OrderEntity,
+    product: ProductEntity,
+    quantity: number
+  ): Promise<OrderItemEntity> {
+    const item = new OrderItemEntity();
+    item.created = new Date();
+    item.updated = new Date();
+    item.product_quantity = quantity;
+    item.order = order;
+    item.product = product;
+    item.product_name = product.name;
+    item.product_price = product.price;
 
+    return await this.orderItemRepository.createOrderItem(item);
+  }
     return await this.orderItemRepository.createOrderItem(item);
   }
 }
