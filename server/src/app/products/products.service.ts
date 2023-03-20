@@ -72,7 +72,7 @@ export class ProductsService {
         const product = await this.productsActiveViewRepository.getProductById(
             productId
         );
-
+        console.log(product);
         return await this.productsDetailsRepository.getProductDetailsById(
             product.productsDetailsId
         );
@@ -130,9 +130,8 @@ export class ProductsService {
                   productUpdateDto?.name
               )
             : null;
-
         if (
-            productsByName &&
+            productsByName.length &&
             (productsByName.length > 1 || productsByName[0]?.id !== productId)
         ) {
             throw new HttpException(

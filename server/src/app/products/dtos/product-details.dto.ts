@@ -51,11 +51,13 @@ export class ProductDetailsDto extends UUIDDto {
         incomingDto: ProductWithDetailsDto | ProductOptionalDto
     ): ProductDetailsDto {
         const dto = new ProductDetailsDto();
-        incomingDto.color ? (dto.color = incomingDto.color) : null;
-        incomingDto.material ? (dto.color = incomingDto.material) : null;
-        incomingDto.size ? (dto.color = incomingDto.size) : null;
-        incomingDto.description ? (dto.color = incomingDto.description) : null;
 
+        dto.color = incomingDto.color ? incomingDto.color : null;
+        dto.material = incomingDto.material ? incomingDto.material : null;
+        dto.size = incomingDto.size ? incomingDto.size : null;
+        dto.description = incomingDto.description
+            ? incomingDto.description
+            : null;
         return dto;
     }
 }
