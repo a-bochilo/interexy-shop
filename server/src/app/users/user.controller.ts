@@ -64,7 +64,7 @@ export class UserController {
   @UsePipes(new ValidationPipe())
   async getUserProfile(
     @User() user: UserSessionDto
-): Promise<UserDetailsEntity> {
+  ): Promise<UserDetailsEntity> {
     return await this.userService.getDetailsById(user.id);
   }
 

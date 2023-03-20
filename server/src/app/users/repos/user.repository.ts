@@ -72,7 +72,4 @@ export class UserRepository extends Repository<UserEntity> {
     return await this.findOneBy({ email: email });
   }
 
-  async getUserByPhone(phone: string) {
-    return await this.findOneBy({ phone: phone });
-  }
 }

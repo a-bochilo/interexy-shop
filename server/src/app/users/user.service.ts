@@ -1,17 +1,12 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 
 // ========================== Entities & DTO's ==========================
-import { CreateUserDto } from "./dtos/create-user.dto";
 import { AssignUserRoleDto } from "./dtos/assign-role-user.dto";
-import { UserEntity } from "./entities/user.entity";
 
 // ========================== Repositories ==============================
 import { UserRepository } from "./repos/user.repository";
 import { UserDetailsRepository } from "./repos/user-details.repository";
 import { UserViewRepository } from "./repos/user-view.repository";
-
-// ========================== Enums =====================================
-import { UserRoles } from "../../shared/types/user-roles.enum";
 
 // ========================== Services & Controllers ====================
 import { UpdateUserDto } from "./dtos/update-user.dto";
@@ -35,18 +30,38 @@ export class UserService {
 
   async getDetailsById(userId: string) {
     const user = await this.userRepository.getById(userId);
+    if (!user) {
+      throw new HttpException(`User ${userId} not found`, HttpStatus.NOT_FOUND);
+    }
     return await this.userDetailsRepository.getDetailsById(user.details_id);
   }
 
   async getById(userId: string) {
-    return await this.userRepository.getById(userId);
+    const user = await this.userRepository.getById(userId);
+    if (!user) {
+      throw new HttpException(`User ${userId} not found`, HttpStatus.NOT_FOUND);
+    }
+    return user;
   }
 
   async assignUserRole(assignUserRoleDto: AssignUserRoleDto, userId: string) {
     const user = await this.userRepository.getById(userId);
+
+    if (!user) {
+      throw new HttpException(`User ${userId} not found`, HttpStatus.NOT_FOUND);
+    }
+
     const newRole = await this.roleRepository.getRoleByName(
       assignUserRoleDto.newRole
     );
+
+    if (!newRole) {
+      throw new HttpException(
+        `User ${assignUserRoleDto.newRole} not found`,
+        HttpStatus.NOT_FOUND
+      );
+    }
+
     user.updated = new Date();
     user.role = newRole;
     user.roleId = newRole.id;
@@ -55,14 +70,32 @@ export class UserService {
   }
 
   async deleteUserById(userId: string) {
+    const user = await this.userRepository.getById(userId);
+
+    if (!user) {
+      throw new HttpException(`User ${userId} not found`, HttpStatus.NOT_FOUND);
+    }
     return await this.userRepository.deleteUserById(userId);
   }
 
   async updateUserDetails(info: UpdateUserDto, userId: string) {
     const user = await this.userRepository.getById(userId);
+
+    if (!user) {
+      throw new HttpException(`User ${userId} not found`, HttpStatus.NOT_FOUND);
+    }
+
     let details = await this.userDetailsRepository.getDetailsById(
-      user.details_id as string
+      user.details_id
     );
+
+    if (!details) {
+      throw new HttpException(
+        `Details ${user.details_id} not found`,
+        HttpStatus.NOT_FOUND
+      );
+    }
+
     const newDetails = await this.userDetailsRepository.setDetails(
       Object.assign(details, info.details)
     );
@@ -79,9 +112,13 @@ export class UserService {
   }
 
   async getUserByEmail(email: string) {
-    return await this.userRepository.getUserByEmail(email);
-  }
-  async getUserByPhone(phone: string) {
-    return await this.userRepository.getUserByPhone(phone);
+    const user = await this.userRepository.getUserByEmail(email);
+    if (!user) {
+      throw new HttpException(
+        `User with email: ${email} not found`,
+        HttpStatus.NOT_FOUND
+      );
+    }
+    return user;
   }
 }
