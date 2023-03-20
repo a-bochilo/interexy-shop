@@ -5,17 +5,20 @@ import { Repository } from "typeorm";
 // ========================== DTO's & Types ==========================
 import { CreateRoleDto } from "../dtos/create-role.dto";
 
-
 // ========================== Entities ==========================
 import { RoleEntity } from "../entities/role.entity";
-import { UserRoles } from "src/shared/types/user-roles.enum";
+import { UserRoles } from "../../../shared/types/user-roles.enum";
 
 @Injectable()
 export class RoleRepository extends Repository<RoleEntity> {
     constructor(
-        @InjectRepository(RoleEntity) RoleRepository: Repository<RoleEntity>,
+        @InjectRepository(RoleEntity) RoleRepository: Repository<RoleEntity>
     ) {
-        super(RoleRepository.target, RoleRepository.manager, RoleRepository.queryRunner);
+        super(
+            RoleRepository.target,
+            RoleRepository.manager,
+            RoleRepository.queryRunner
+        );
     }
 
     async createRole(createRoleDto: CreateRoleDto): Promise<RoleEntity> {
@@ -25,14 +28,14 @@ export class RoleRepository extends Repository<RoleEntity> {
             name: createRoleDto.name,
             type: createRoleDto.type,
             permissions: createRoleDto.permissions,
-        })
+        });
         return await this.save(role);
     }
 
     async getRoleByType(roleType: UserRoles) {
         return await this.findOne({
             where: { type: roleType },
-        })
+        });
     }
 
     async getAll() {
@@ -40,14 +43,18 @@ export class RoleRepository extends Repository<RoleEntity> {
     }
 
     async getById(id: number) {
-        return await this.findOneBy({ id: id })
+        return await this.findOneBy({ id: id });
     }
 
     async deleteRole(id: number) {
-        return await this.delete({id: id});
+        return await this.delete({ id: id });
     }
 
     async updateRole(role: RoleEntity) {
         return await this.save(role);
+    }
+
+    async getRoleByName(roleName: string) {
+        return await this.findOneBy({name: roleName})
     }
 }

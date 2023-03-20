@@ -1,0 +1,25 @@
+{
+    "cart": {
+        "productAlreadyInCart": "Product already exists in users cart",
+        "productDoesNotExistInCart": "Product does not exist in users cart",
+        "cartIsEmpty": "Cart is empty"
+    },
+    "user": {
+        "userDoesNotExist": "User does not exist"
+    },
+    "products": {
+        "productDoesNotExist": "Product does not exist",
+        "productAlreadyExist": "Product already exist",
+        "productNotEnough": "Product quantity less then required in request. Aviliable count"
+    },
+    "roles": {
+        "roleAlreadyExist": "Role already exist",
+        "roleDoesNotExist": "Role does not exist"
+    },
+    "details": {
+        "detailsDoesNotExist": "Details does not exist"
+    },
+    "authorization": {
+        "unAuthorized": "Not authorized"
+    }
+}

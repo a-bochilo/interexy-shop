@@ -1,22 +1,24 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { FindOptionsWhere, Between } from "typeorm";
-import { omit } from "lodash";
+import { I18nContext } from "nestjs-i18n";
 
 // ========================== Entities ==========================
-import { ProudctEntity } from "./entities/product.entity";
+import { ProductEntity } from "./entities/product.entity";
 import { ProductActiveViewEntity } from "./entities/product-active-view.entity";
-import { ProudctDetailsEntity } from "./entities/product-details.entity";
+import { ProductDetailsEntity } from "./entities/product-details.entity";
 
 // ========================== Entities ==========================
 import { ProductsRepository } from "./repos/products.repository";
 import { ProductsActiveViewRepository } from "./repos/products-active-view.repository";
 import { ProductsDetailsRepository } from "./repos/product-details.repository";
 
-// ========================== DTO's & Enums ==========================
+// ========================== DTO's ==========================
 import { ProductWithDetailsDto } from "./dtos/product-with-details.dto";
 import { ProductsQueryDto } from "./dtos/products-query.dto";
 import { ProductsFilterDto } from "./dtos/products-filter.dto";
 import { ProductOptionalDto } from "./dtos/products-optional.dto";
+import { ProductDetailsDto } from "./dtos/product-details.dto";
+import { ProductDto } from "./dtos/product.dto";
 
 @Injectable()
 export class ProductsService {
@@ -28,14 +30,16 @@ export class ProductsService {
 
     async createProduct(
         productCreateDto: ProductWithDetailsDto
-    ): Promise<ProudctEntity> {
+    ): Promise<ProductEntity> {
         const productByName = await this.productsRepository.getProductsByName(
             productCreateDto.name
         );
 
         if (productByName.length) {
             throw new HttpException(
-                `Product '${productCreateDto.name}' already exist`,
+                `${I18nContext.current().t(
+                    "errors.products.productAlreadyExist"
+                )}: '${productCreateDto.name}'`,
                 HttpStatus.UNPROCESSABLE_ENTITY
             );
         }
@@ -46,19 +50,19 @@ export class ProductsService {
 
         const details =
             await this.productsDetailsRepository.createProductDetails(
-                productCreateDto.productDetails
+                ProductDetailsDto.fromDto(productCreateDto)
             );
 
-        return await this.productsRepository.createProduct({
-            ...productCreateDto,
-            productDetails: details,
-        });
+        return await this.productsRepository.createProduct(
+            ProductDto.fromDto(productCreateDto),
+            details
+        );
     }
 
     async getActiveProducts(
         query: ProductsQueryDto = null
     ): Promise<ProductActiveViewEntity[]> {
-        if (query.category) {
+        if (query?.category) {
             return await this.productsActiveViewRepository.getProductsInCategory(
                 query.category
             );
@@ -67,10 +71,17 @@ export class ProductsService {
         return await this.productsActiveViewRepository.getAllProducts();
     }
 
-    async getProductDetails(productId: string): Promise<ProudctDetailsEntity> {
+    async getProductDetails(productId: string): Promise<ProductDetailsEntity> {
         const product = await this.productsActiveViewRepository.getProductById(
             productId
         );
+
+        if (!product) {
+            throw new HttpException(
+                I18nContext.current().t("errors.products.productDoesNotExist"),
+                HttpStatus.UNPROCESSABLE_ENTITY
+            );
+        }
 
         return await this.productsDetailsRepository.getProductDetailsById(
             product.productsDetailsId
@@ -79,10 +90,10 @@ export class ProductsService {
 
     async getFiltredProducts(
         filter: ProductsFilterDto
-    ): Promise<(ProudctEntity | ProductActiveViewEntity)[]> {
+    ): Promise<(ProductEntity | ProductActiveViewEntity)[]> {
         const productFilter = this.removeEmptyAndExtraFields(
             filter
-        ) as FindOptionsWhere<ProudctEntity>;
+        ) as FindOptionsWhere<ProductEntity>;
 
         productFilter.price =
             productFilter.price ||
@@ -117,16 +128,26 @@ export class ProductsService {
             productId
         );
 
-        const productsByName = await this.productsRepository.getProductsByName(
-            productUpdateDto.name
-        );
+        if (!productFromDB) {
+            throw new HttpException(
+                I18nContext.current().t("errors.products.productDoesNotExist"),
+                HttpStatus.UNPROCESSABLE_ENTITY
+            );
+        }
 
+        const productsByName = productUpdateDto.name
+            ? await this.productsRepository.getProductsByName(
+                  productUpdateDto?.name
+              )
+            : null;
         if (
-            productsByName.length > 1 ||
-            (productsByName.length && productsByName[0]?.id !== productId)
+            productsByName.length &&
+            (productsByName.length > 1 || productsByName[0]?.id !== productId)
         ) {
             throw new HttpException(
-                `Product '${productUpdateDto.name}' already exist`,
+                `${I18nContext.current().t(
+                    "errors.products.productAlreadyExist"
+                )}: '${productUpdateDto.name}'`,
                 HttpStatus.UNPROCESSABLE_ENTITY
             );
         }
@@ -136,17 +157,25 @@ export class ProductsService {
                 productFromDB.productsDetailsId
             );
 
-        Object.assign(productDetailsFromDB, productUpdateDto.productDetails);
+        Object.assign(
+            productDetailsFromDB,
+            ProductDetailsDto.fromDto(productUpdateDto)
+        );
+        await this.productsDetailsRepository.updateProductDetails(
+            productDetailsFromDB
+        );
+
         const updatedProductDetails =
-            await this.productsDetailsRepository.updateProductDetails(
-                productDetailsFromDB
+            await this.productsDetailsRepository.getProductDetailsById(
+                productDetailsFromDB.id
             );
 
-        delete productUpdateDto.productDetails;
+        Object.assign(productFromDB, ProductDto.fromDto(productUpdateDto));
 
-        Object.assign(productFromDB, productUpdateDto);
-        const updatedProduct = await this.productsRepository.updateProduct(
-            productFromDB
+        await this.productsRepository.updateProduct(productFromDB);
+
+        const updatedProduct = await this.productsRepository.getProductById(
+            productFromDB.id
         );
 
         const updatedDto = ProductWithDetailsDto.fromProductAndDetailsEntities({
@@ -157,28 +186,34 @@ export class ProductsService {
         return updatedDto;
     }
 
-    async deleteProduct(productId: string): Promise<ProudctEntity> {
+    async deleteProduct(productId: string): Promise<ProductEntity> {
         const productFromDB = await this.productsRepository.getProductById(
             productId
         );
+
+        if (!productFromDB) {
+            throw new HttpException(
+                I18nContext.current().t("errors.products.productDoesNotExist"),
+                HttpStatus.BAD_REQUEST
+            );
+        }
+
         productFromDB.isActive = false;
         return await this.productsRepository.updateProduct(productFromDB);
     }
 
     private removeEmptyAndExtraFields(obj: ProductsFilterDto) {
+        const dto = ProductsFilterDto.fromDto(obj);
+
         const filterObj = Object.fromEntries(
-            Object.entries(obj)
+            Object.entries(dto)
                 .filter(([_, v]) => v !== (null || undefined))
                 .map(([k, v]) => [
                     k,
                     v === Object(v) ? this.removeEmptyAndExtraFields(v) : v,
                 ])
         );
-        return omit(filterObj, [
-            "minPrice",
-            "maxPrice",
-            "minQuantity",
-            "maxQuantity",
-        ]);
+
+        return filterObj;
     }
 }
