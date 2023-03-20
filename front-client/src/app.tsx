@@ -17,7 +17,7 @@ function App() {
       <Provider store={store}>
         <Router>
           {/* <AppRoutes /> */}
-         <PageAsideComp />
+          <PageNavBarComp />
 
         </Router>
       </Provider>
