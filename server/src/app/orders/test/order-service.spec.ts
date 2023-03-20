@@ -1,6 +1,5 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { OrderService } from "../order.service";
-import { getRepositoryToken } from "@nestjs/typeorm";
 import { UserRepository } from "../../users/repos/user.repository";
 import { ProductsRepository } from "../../products/repos/products.repository";
 import { OrderItemRepository } from "../repos/order-item.repository";
