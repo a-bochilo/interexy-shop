@@ -17,18 +17,6 @@ import {
 describe("CartService", () => {
     let cartService: CartService;
 
-    // const cart: CartSessionDto = {
-    //     id: "39357c86-29d3-4df0-a1e0-ef0626d0d877",
-    //     created: date.valueOf(),
-    //     updated: date.valueOf(),
-    //     items: [
-    //         {
-    //             productId: "d5232d45-99e6-40ca-83fc-3ead715c5fdc",
-    //             quantity: 10,
-    //         },
-    //     ],
-    // };
-
     const mockedCartRepo = {
         saveCart: jest.fn().mockResolvedValue(cartEntity),
         createCart: jest.fn().mockResolvedValue(cartEntity),

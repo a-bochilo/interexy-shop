@@ -1,6 +1,7 @@
 import { ProductDetailsDto } from "../../dtos/product-details.dto";
 import { ProductWithDetailsDto } from "../../dtos/product-with-details.dto";
 import { ProductDto } from "../../dtos/product.dto";
+import { ProductActiveViewEntity } from "../../entities/product-active-view.entity";
 import { ProductDetailsEntity } from "../../entities/product-details.entity";
 import { ProductEntity } from "../../entities/product.entity";
 import { ProductsCategory } from "../../enums/products-category.enum";
@@ -40,3 +41,6 @@ export const productCreateDto =
         productDetails: productDetailsEntity,
     });
 export const productWithDetailsDto = productCreateDto;
+
+export const productActiveViewEntity = new ProductActiveViewEntity();
+Object.assign(productActiveViewEntity, productEntity);

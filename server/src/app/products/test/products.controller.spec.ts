@@ -47,6 +47,7 @@ describe("CartController", () => {
             .compile();
         controller = module.get<ProductsController>(ProductsController);
     });
+
     it("should be defined", () => {
         expect(controller).toBeDefined();
     });
@@ -60,6 +61,7 @@ describe("CartController", () => {
             expect(createProduct).toMatchObject(productDto);
         });
     });
+
     describe("on get request on '/products'", () => {
         it("should return productDto[]", async () => {
             const createProductArr = await controller.getAllProducts(null);
@@ -68,6 +70,7 @@ describe("CartController", () => {
             expect(createProductArr).toMatchObject([productDto, productDto]);
         });
     });
+
     describe("on get request on '/products/filter'", () => {
         it("should return productDto[]", async () => {
             const filtredProductArr = await controller.getFiltredProducts({
@@ -78,6 +81,7 @@ describe("CartController", () => {
             expect(filtredProductArr).toMatchObject([productDto, productDto]);
         });
     });
+
     describe("on get request on '/productId'", () => {
         it("should return productDetailsDto", async () => {
             const productDetails = await controller.getProductDetials("id");
@@ -86,6 +90,7 @@ describe("CartController", () => {
             expect(productDetails).toMatchObject(productDetailsDto);
         });
     });
+
     describe("on put request on '/productId'", () => {
         it("should return productWithDetailsDto", async () => {
             const productWithDetails = await controller.updateProduct(
@@ -97,6 +102,7 @@ describe("CartController", () => {
             expect(productWithDetails).toMatchObject(productWithDetailsDto);
         });
     });
+
     describe("on delete request on '/productId'", () => {
         it("should return productDto", async () => {
             const deleteProduct = await controller.deleteProduct("proudctId");
