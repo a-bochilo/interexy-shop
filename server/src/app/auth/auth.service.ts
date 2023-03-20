@@ -1,5 +1,6 @@
 // ========================== Nest ==========================
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { I18nContext } from "nestjs-i18n";
 
 // ========================== bcrypt ==========================
 import { compare, hashSync } from "bcrypt";
@@ -35,7 +36,10 @@ export class AuthService {
     const userFromDB = await this.userRepository.getUserByEmail(dto.email);
 
     if (userFromDB)
-      throw new HttpException("User exist", HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        I18nContext.current().t("errors.user.userExists"),
+        HttpStatus.BAD_REQUEST
+      );
 
     const role = await this.roleRepository.getRoleByType(UserRoles.user);
     const details = await this.userDetailsRepository.createUserDetails(
@@ -52,11 +56,10 @@ export class AuthService {
 
     const cart = await this.cartRepository.createCart(newUser);
 
-    
     newUser.cart = cart;
-    await this.userRepository.save(newUser)
+    await this.userRepository.save(newUser);
 
-    console.log(await this.userRepository.getById(newUser.id))
+    console.log(await this.userRepository.getById(newUser.id));
     const access_token = await this.securityService.generateJwt(newUser);
     return access_token;
   }
@@ -65,7 +68,10 @@ export class AuthService {
     const userFromDB = await this.userRepository.getUserByEmail(dto.email);
 
     if (!userFromDB) {
-      throw new HttpException("User not found", HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        I18nContext.current().t("errors.user.userDoesNotExist"),
+        HttpStatus.BAD_REQUEST
+      );
     }
 
     const role = await this.roleRepository.getById(userFromDB.roleId);
@@ -75,7 +81,7 @@ export class AuthService {
 
     if (!isPasswordCorrect)
       throw new HttpException(
-        "Wrong password",
+        I18nContext.current().t("errors.authorization.wrongPassword"),
         HttpStatus.UNPROCESSABLE_ENTITY
       );
     const access_token = await this.securityService.generateJwt(userFromDB);

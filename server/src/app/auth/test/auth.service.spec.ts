@@ -1,4 +1,3 @@
-import { SecurityService } from "../../security/security.service";
 // ========================== Nest ==========================
 import { Test, TestingModule } from "@nestjs/testing";
 import { JwtModule, JwtService } from "@nestjs/jwt";
@@ -7,6 +6,7 @@ import { BadRequestException } from "@nestjs/common";
 
 // ========================== service ==========================
 import { AuthService } from "../auth.service";
+import { SecurityService } from "../../security/security.service";
 
 // ========================== repository ==========================
 import { UserRepository } from "../../users/repos/user.repository";
@@ -16,6 +16,14 @@ import { CartRepository } from "../../cart/repos/cart.repository";
 import { TokenDto } from "../../security/dtos/token.dto";
 import { CreateUserDto } from "../../users/dtos/create-user.dto";
 import { UserSignInDto } from "../dtos/user-sign-in.dto";
+
+jest.mock("nestjs-i18n", () => ({
+  I18nContext: {
+    current: () => ({
+      t: () => "text",
+    }),
+  },
+}));
 
 describe("AuthService methods", () => {
   let authService: AuthService;
@@ -282,7 +290,7 @@ describe("AuthService methods", () => {
         password: "password",
       });
     });
-    
+
     it("get an error if the password is wrong", async () => {
       const newUserSignInDto: UserSignInDto | any = {
         email: "test@gmail.com",
