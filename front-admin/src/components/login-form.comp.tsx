@@ -2,11 +2,17 @@
 import { FC } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 
+
+// ========================== yup ==========================
+import { yupResolver } from "@hookform/resolvers/yup";
+import { formSchema } from "./login-form.const";
+
+
 // ========================== mui ==========================
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Paper, Typography } from "@mui/material";
-import { display } from "@mui/system";
+
 
 interface IFormInput {
   email: string;
@@ -25,6 +31,8 @@ const LoginForm: FC = () => {
       password: "",
     },
     mode: "onChange",
+    resolver: yupResolver(formSchema),
+
   });
 
   const onSubmit: SubmitHandler<IFormInput> = (data) => console.log(data);
@@ -69,25 +77,18 @@ const LoginForm: FC = () => {
               id="outlined-basic"
               label="email"
               variant="outlined"
-              {...register("email", {
-                required: true,
-                pattern: /\S+@\S+\.\S+/,
-              })}
+
+              {...register("email")}
+
               placeholder="example@gmail.com"
             />
           )}
         />
 
-        {errors?.email?.type === "required" && (
-          <Typography variant="caption" color={"red"}>
-            ⚠ This field is required
-          </Typography>
-        )}
-        {errors?.email?.type === "pattern" && (
-          <Typography variant="caption" color={"red"}>
-            ⚠ Entered value does not match email format
-          </Typography>
-        )}
+        <Typography variant="caption" color={"red"}>
+          {errors.email?.message}
+        </Typography>
+
 
         <Controller
           name="password"
@@ -109,16 +110,10 @@ const LoginForm: FC = () => {
           )}
         />
 
-        {errors?.password?.type === "required" && (
-          <Typography variant="caption" color={"red"}>
-            ⚠ This field is required
-          </Typography>
-        )}
-        {errors?.password?.type === "minLength" && (
-          <Typography variant="caption" color={"red"}>
-            ⚠ Min length is 5
-          </Typography>
-        )}
+        <Typography variant="caption" color={"red"}>
+          {errors.password?.message}
+        </Typography>
+
         <Button type="submit" disabled={!isValid} variant="contained">
           Login
         </Button>
