@@ -16,35 +16,17 @@ export class SecurityService {
         private readonly userRepository: UserRepository,
         private readonly roleRepository: RoleRepository,
         private readonly jwtService: JwtService
-    ) { }
+    ) {}
 
     async generateJwt(user: UserEntity): Promise<TokenDto> {
-            const payload = await UserSessionDto.fromEntity(user);
-            const token = this.jwtService.sign(payload);
-            return { token };
-    }
-
-    async verifyJwt(jwt: string) {
-        try {
-            return await this.jwtService.verify(jwt);
-        } catch(error) {
-            throw new HttpException(
-                `${error}`,
-                HttpStatus.BAD_REQUEST
-            )
-        }
+        const payload = await UserSessionDto.fromEntity(user);
+        const token = this.jwtService.sign(payload);
+        return { token };
     }
 
     async getUser(id: string): Promise<UserEntity> {
-        try {
-            const user =  await this.userRepository.getById(id)
-            user.role = await this.roleRepository.getById(user.roleId);
-            return user;
-        } catch (error) {
-            throw new HttpException(
-                `${error}`,
-                HttpStatus.BAD_REQUEST
-            )
-        }
+        const user = await this.userRepository.getById(id);
+        user.role = await this.roleRepository.getById(user.roleId);
+        return user;
     }
 }

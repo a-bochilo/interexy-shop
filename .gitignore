@@ -15,4 +15,5 @@ node_modules
 */.production.env
 */package-lock.json
 npm-debug.log*
+*/coverage
 ========
