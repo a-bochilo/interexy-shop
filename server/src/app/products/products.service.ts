@@ -75,7 +75,14 @@ export class ProductsService {
         const product = await this.productsActiveViewRepository.getProductById(
             productId
         );
-        console.log(product);
+
+        if (!product) {
+            throw new HttpException(
+                I18nContext.current().t("errors.products.productDoesNotExist"),
+                HttpStatus.UNPROCESSABLE_ENTITY
+            );
+        }
+
         return await this.productsDetailsRepository.getProductDetailsById(
             product.productsDetailsId
         );
