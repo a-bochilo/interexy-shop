@@ -1,24 +1,17 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 
 // ========================== Entities & DTO's ==========================
-import { CreateOrderDto } from "./dtos/create-order.dto";
+import { OrderDto } from "./dtos/order.dto";
+import { CartSessionDto } from "../cart/dtos/cart-session.dto";
+import { OrderItemEntity } from "./entities/order-item.entity";
+import { ProductEntity } from "../products/entities/product.entity";
+import { OrderEntity } from "./entities/order.entity";
 
 // ========================== Repositories ==============================
 import { OrderRepository } from "./repos/order.repository";
-
-// ========================== Services & Controllers ====================
-import { UserService } from "../users/user.service";
-import { ProductDto } from "../products/dtos/product.dto";
-import { OrderItemEntity } from "./entities/order-item.entity";
-import { ProductEntity } from "../products/entities/product.entity";
-import { createOrderItemDto } from "./dtos/create-order-item.dto";
 import { ProductsRepository } from "../products/repos/products.repository";
-import { CartSessionDto } from "../cart/dtos/cart-session.dto";
-import { OrderEntity } from "./entities/order.entity";
 import { UserRepository } from "../users/repos/user.repository";
-import { CartItemDto } from "../cart/dtos/cart-item.dto";
 import { OrderItemRepository } from "./repos/order-item.repository";
-import { OrderDto } from "./dtos/order.dto";
 
 @Injectable()
 export class OrderService {

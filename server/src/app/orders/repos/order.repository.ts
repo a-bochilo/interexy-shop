@@ -4,8 +4,6 @@ import { Repository } from "typeorm";
 
 // ========================== Entities & DTO's ==========================
 import { OrderEntity } from "../entities/order.entity";
-import { CreateOrderDto } from "../dtos/create-order.dto";
-import { createOrderItemDto } from "../dtos/create-order-item.dto";
 import { UserEntity } from "src/app/users/entities/user.entity";
 
 @Injectable()

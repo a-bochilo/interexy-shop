@@ -1,5 +1,4 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
-import { DeleteResult } from "typeorm";
 import { RoleRepository } from "./repos/role.repository";
 
 // ========================== DTO's & Types ==========================
@@ -21,11 +20,11 @@ export class RoleService {
                 HttpStatus.BAD_REQUEST
               );
         }
-        return this.roleRepository.createRole(createRoleDto);
+        return await this.roleRepository.createRole(createRoleDto);
     }
 
     async getRoleByType(roleType: UserRoles) {
-        return this.roleRepository.getRoleByType(roleType);
+        return await this.roleRepository.getRoleByType(roleType);
     }
 
     async getAll() {
@@ -37,7 +36,9 @@ export class RoleService {
     }
 
     async deleteRole(id: number) {
-        return await this.roleRepository.deleteRole(id);
+        if(await this.roleRepository.deleteRole(id)) {
+            return HttpStatus.OK;
+        }
     }
 
     async updateRole(id: number, createRoleDto: CreateRoleDto) {

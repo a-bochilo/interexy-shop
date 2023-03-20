@@ -72,7 +72,6 @@ export class UserService {
 
     user.updated = new Date();
     details = newDetails;
-
     return await this.userRepository.updateUserDetails({
       ...user,
       details,

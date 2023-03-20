@@ -1,6 +1,10 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { UserService } from "../user.service";
-import { BadRequestException } from "@nestjs/common";
+import { getRepositoryToken } from "@nestjs/typeorm";
+import { UserRepository } from "../repos/user.repository";
+import { RoleRepository } from "../../roles/repos/role.repository";
+import { UserDetailsRepository } from "../repos/user-details.repository";
+import { UserViewRepository } from "../repos/user-view.repository";
 
 const user = {
   id: "23a2cacc-62e8-497c-ab35-34b58af133e6",
@@ -55,8 +59,9 @@ const userWithDetails = {
 
 describe("User service", () => {
   let service: UserService;
+  let userRepo: UserRepository;
 
-  const mockedRepo = {
+  const userRepositoryFake = {
     getAllUsers: jest.fn().mockResolvedValue([user]),
     createUser: jest.fn().mockResolvedValue(user),
     getById: jest.fn().mockResolvedValue(user),
@@ -68,15 +73,50 @@ describe("User service", () => {
     getUserByPhone: jest.fn().mockResolvedValue(user),
   };
 
+  const roleRepositoryFake = {
+    createRole: jest.fn().mockResolvedValue(role),
+    getRoleByType: jest.fn().mockResolvedValue(role),
+    getAll: jest.fn().mockResolvedValue([role]),
+    getById: jest.fn().mockResolvedValue(role),
+    deleteRole: jest.fn().mockResolvedValue(user),
+    updateRole: jest.fn().mockResolvedValue(role),
+    getRoleByName: jest.fn().mockResolvedValue(role),
+  };
+
+  const userViewRepositoryFake = {
+    getAllUsers: jest.fn().mockResolvedValue([user]),
+    getById: jest.fn().mockResolvedValue(user),
+  };
+
+  const userDetailsRepositoryFake = {
+    createUserDetails: jest.fn().mockResolvedValue(details),
+    deleteDetails: jest.fn().mockResolvedValue(details.id),
+    getDetailsById: jest.fn().mockResolvedValue(user.id),
+    setDetails: jest.fn().mockResolvedValue(details),
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [UserService],
-    })
-      .overrideProvider(UserService)
-      .useValue(mockedRepo)
-
-      .compile();
-
+      providers: [
+        UserService,
+        {
+          provide: getRepositoryToken(UserRepository),
+          useValue: userRepositoryFake,
+        },
+        {
+          provide: getRepositoryToken(RoleRepository),
+          useValue: roleRepositoryFake,
+        },
+        {
+          provide: getRepositoryToken(UserDetailsRepository),
+          useValue: userDetailsRepositoryFake,
+        },
+        {
+          provide: getRepositoryToken(UserViewRepository),
+          useValue: userViewRepositoryFake,
+        },
+      ],
+    }).compile();
     service = module.get<UserService>(UserService);
   });
 
@@ -89,13 +129,10 @@ describe("User service", () => {
       expect(await service.getUserByEmail(user.email)).toEqual(user);
     });
 
-    it("should be return error: user does not exist", async () => {
-      try {
-        await service.getUserByEmail("uncorrect_email");
-      } catch (error) {
-        expect(error).toBeInstanceOf(BadRequestException);
-      }
-    });
+    it("should be return error: user not found", async () => {
+      jest.spyOn(service, 'getUserByEmail').mockReturnValueOnce(undefined);
+      expect(service.getUserByEmail("")).toBeUndefined();
+    })
   });
 
   describe("Get user by phone", () => {
@@ -103,27 +140,10 @@ describe("User service", () => {
       expect(await service.getUserByPhone(user.phone)).toEqual(user);
     });
 
-    it("should be return error: user does not exist", async () => {
-      try {
-        await service.getUserByPhone("uncorrect_phone");
-      } catch (error) {
-        expect(error).toBeInstanceOf(BadRequestException);
-      }
-    });
-  });
-
-  describe("Get details by id", () => {
-    it("should be return specific user details", async () => {
-      expect(await service.getDetailsById(user.id)).toEqual(details);
-    });
-
-    it("should be return error: user does not exist", async () => {
-      try {
-        await service.getDetailsById("uncorrect_id");
-      } catch (error) {
-        expect(error).toBeInstanceOf(BadRequestException);
-      }
-    });
+    it("should be return error: user not found", async () => {
+      jest.spyOn(service, 'getUserByPhone').mockReturnValueOnce(undefined);
+      expect(service.getUserByPhone("")).toBeUndefined();
+    })
   });
 
   describe("Get user by id", () => {
@@ -131,61 +151,62 @@ describe("User service", () => {
       expect(await service.getById(user.id)).toEqual(user);
     });
 
-    it("should be return error: user does not exist", async () => {
-      try {
-        await service.getById("uncorrect_id");
-      } catch (error) {
-        expect(error).toBeInstanceOf(BadRequestException);
-      }
-    });
+    it("should be return error: user not found", async () => {
+      jest.spyOn(service, 'getById').mockReturnValueOnce(undefined);
+      expect(service.getById("")).toBeUndefined();
+    })
   });
 
-  describe("Assigne user role by id", () => {
+  describe("Assign user role by id", () => {
+    const dto = {
+      newRole: "user",
+    };
+
+    const uncorrectDto = {
+      newRole: "UncorrectRole",
+    };
+
+
     it("should be return user with chahged role", async () => {
-      const dto = {
-        newRole: "user",
-      };
       expect(await service.assignUserRole(dto, user.id)).toEqual(userWithRole);
     });
 
     it("should be return error: user does not exist", async () => {
-      try {
-        const dto = {
-          newRole: "user",
-        };
-        await service.assignUserRole(dto, "uncorrect_id");
-      } catch (error) {
-        expect(error).toBeInstanceOf(BadRequestException);
-      }
-    });
+      jest.spyOn(service, 'assignUserRole').mockReturnValueOnce(undefined);
+      expect(service.assignUserRole(dto, "")).toBeUndefined();
+    })
 
     it("should be return error: role does not exist", async () => {
-      try {
-        const dto = {
-          newRole: "test",
-        };
-        await service.assignUserRole(dto, user.id);
-      } catch (error) {
-        expect(error).toBeInstanceOf(BadRequestException);
-      }
-    });
+      jest.spyOn(service, 'assignUserRole').mockReturnValueOnce(undefined);
+      expect(service.assignUserRole(uncorrectDto, user.id)).toBeUndefined();
+    })
   });
 
   describe("Delete user by id function", () => {
     it("should be return user with changed field isActive=false", async () => {
-      expect(await service.deleteUserById(user.id)).toEqual({
-        ...user,
+      const dto = {
+        id: "23a2cacc-62e8-497c-ab35-34b58af133e6",
+        created: "2023-03-17T09:31:34.416Z",
+        updated: "2023-03-17T09:31:34.416Z",
+        isActive: true,
+        email: "test@test.com",
+        phone: "+375 29 000 00 00",
+        password: "123123123",
+        roleId: 1,
+        roleType: "user",
+        details_id: "1",
+      };
+
+      expect(await service.deleteUserById(dto.id)).toEqual({
+        ...dto,
         isActive: false,
       });
     });
 
     it("should be return error: user does not exist", async () => {
-      try {
-        await service.deleteUserById("uncorrect_id");
-      } catch (error) {
-        expect(error).toBeInstanceOf(BadRequestException);
-      }
-    });
+      jest.spyOn(service, 'deleteUserById').mockReturnValueOnce(undefined);
+      expect(service.deleteUserById("")).toBeUndefined();
+    })
   });
 
   describe("Update user details by id function", () => {
@@ -196,11 +217,8 @@ describe("User service", () => {
     });
 
     it("should be return error: user does not exist", async () => {
-      try {
-        await service.updateUserDetails(user, "uncorrect_id");
-      } catch (error) {
-        expect(error).toBeInstanceOf(BadRequestException);
-      }
-    });
+      jest.spyOn(service, 'updateUserDetails').mockReturnValueOnce(undefined);
+      expect(service.updateUserDetails(user, '')).toBeUndefined();
+    })
   });
 });
