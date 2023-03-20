@@ -26,5 +26,5 @@ export class RoleEntity extends IDEntity {
     permissions: UserPermissions[];
 
     @OneToMany(() => UserEntity, (user) => user.id)
-    users: UserEntity[];
+    users?: UserEntity[];
 }

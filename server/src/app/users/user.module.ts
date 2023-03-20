@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { Module, forwardRef } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 
 // ========================== Entities & DTO's ==========================
@@ -12,28 +12,29 @@ import { UserRepository } from "./repos/user.repository";
 import { RoleRepository } from "../roles/repos/role.repository";
 import { UserDetailsRepository } from "./repos/user-details.repository";
 import { UserViewRepository } from "./repos/user-view.repository";
+import { CartRepository } from "../cart/repos/cart.repository";
 
 // ========================== Services & Controllers ====================
 import { UserController } from "./user.controller";
 import { UserService } from "./user.service";
-import { RoleService } from "../roles/role.service";
 
 // ========================== Modules ===================================
 import { SecurityModule } from "../security/security.module";
+import { OrderEntity } from "../orders/entities/order.entity";
 
 @Module({
     imports: [
         TypeOrmModule.forFeature([
-            UserEntity, 
-            RoleEntity, 
+            UserEntity,
+            RoleEntity,
             UserDetailsEntity,
-            UserViewEntity
+            UserViewEntity,
+            OrderEntity,
         ]),
         SecurityModule,
     ],
     controllers: [UserController],
     providers: [
-        RoleService,
         RoleRepository,
         UserService,
         UserRepository,

@@ -3,20 +3,20 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 
 // ========================== Entities & DTO's ==========================
-import { ProudctDetailsEntity } from "../entities/product-details.entity";
+import { ProductDetailsEntity } from "../entities/product-details.entity";
 import { ProductDetailsDto } from "../dtos/product-details.dto";
 
 @Injectable()
 export class ProductsDetailsRepository {
     constructor(
-        @InjectRepository(ProudctDetailsEntity)
-        private readonly productDetailsRepository: Repository<ProudctDetailsEntity>
+        @InjectRepository(ProductDetailsEntity)
+        private readonly productDetailsRepository: Repository<ProductDetailsEntity>
     ) {}
 
     async createProductDetails(
-        productDetails: ProductDetailsDto | ProudctDetailsEntity
-    ): Promise<ProudctDetailsEntity> {
-        const newProductsDetails = new ProudctDetailsEntity();
+        productDetails: ProductDetailsDto | ProductDetailsEntity
+    ): Promise<ProductDetailsEntity> {
+        const newProductsDetails = new ProductDetailsEntity();
 
         Object.assign(newProductsDetails, productDetails);
         newProductsDetails.created = new Date();
@@ -27,15 +27,15 @@ export class ProductsDetailsRepository {
 
     async getProductDetailsById(
         detailsId: string
-    ): Promise<ProudctDetailsEntity> {
+    ): Promise<ProductDetailsEntity> {
         return await this.productDetailsRepository.findOne({
             where: { id: detailsId },
         });
     }
 
     async updateProductDetails(
-        productDetails: ProudctDetailsEntity
-    ): Promise<ProudctDetailsEntity> {
+        productDetails: ProductDetailsEntity
+    ): Promise<ProductDetailsEntity> {
         productDetails.updated = new Date();
         return await this.productDetailsRepository.save(productDetails);
     }

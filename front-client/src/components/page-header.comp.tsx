@@ -2,7 +2,9 @@
 import React, { FC } from "react";
 
 // ========================== mui ==========================
+
 import { styled, alpha } from "@mui/material/styles";
+
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -51,7 +53,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "inherit",
   "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
+
     // vertical padding + font size from searchIcon
+
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create("width"),
     width: "100%",
@@ -88,9 +92,11 @@ const PageHeaderComp: FC = () => {
   };
 
   return (
+
     <header>
       <AppBar position="static">
         <Container maxWidth="xl">
+
           <Toolbar disableGutters>
             <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
             <Typography
@@ -109,6 +115,7 @@ const PageHeaderComp: FC = () => {
               }}
             >
               LOGO
+
             </Typography>
 
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -147,6 +154,7 @@ const PageHeaderComp: FC = () => {
                 ))}
               </Menu>
             </Box>
+
             <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
             <Typography
               variant="h5"
@@ -166,6 +174,7 @@ const PageHeaderComp: FC = () => {
             >
               LOGO
             </Typography>
+
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               {pages.map((page) => (
                 <Button
@@ -220,6 +229,7 @@ const PageHeaderComp: FC = () => {
         </Container>
       </AppBar>
     </header>
+
   );
 };
 
