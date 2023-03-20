@@ -5,6 +5,9 @@ import AppRoutes from "./app.routes";
 
 import "./app.css";
 import ErrorBoundaryComp from "./components/error-boundary.comp";
+
+import LoginForm from "./components/login-form.comp";
+
 import store from "./store";
 
 function App() {
@@ -13,6 +16,7 @@ function App() {
       <Provider store={store}>
         <Router>
           <AppRoutes />
+
         </Router>
       </Provider>
     </ErrorBoundaryComp>

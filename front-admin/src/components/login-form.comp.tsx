@@ -29,6 +29,7 @@ const LoginForm: FC = () => {
     },
     mode: "onChange",
     resolver: yupResolver(formSchema),
+
   });
 
   const onSubmit: SubmitHandler<IFormInput> = (data) => console.log(data);
@@ -73,7 +74,9 @@ const LoginForm: FC = () => {
               id="outlined-basic"
               label="email"
               variant="outlined"
+
               {...register("email")}
+
               placeholder="example@gmail.com"
             />
           )}
@@ -82,6 +85,7 @@ const LoginForm: FC = () => {
         <Typography variant="caption" color={"red"}>
           {errors.email?.message}
         </Typography>
+
 
         <Controller
           name="password"

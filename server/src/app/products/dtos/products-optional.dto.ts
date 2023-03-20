@@ -5,17 +5,12 @@ import {
     IsBoolean,
     IsPositive,
     IsOptional,
-    ValidateNested,
     IsUrl,
 } from "class-validator";
-import { Type } from "class-transformer";
 import { ApiProperty } from "@nestjs/swagger";
 
-// ========================== Types ==========================
+// ========================== Enums ==========================
 import { ProductsCategory } from "../enums/products-category.enum";
-
-// ========================== DTO's ==========================
-import { ProductDetailsOptionalDto } from "./product-details-optional.dto";
 
 export class ProductOptionalDto {
     @ApiProperty({
@@ -73,10 +68,30 @@ export class ProductOptionalDto {
     quantity?: number;
 
     @ApiProperty({
-        description: "Product details",
+        description: "Product color",
     })
     @IsOptional()
-    @ValidateNested({ each: true })
-    @Type(() => ProductDetailsOptionalDto)
-    productDetails?: ProductDetailsOptionalDto;
+    @IsString()
+    color?: string;
+
+    @ApiProperty({
+        description: "Product material",
+    })
+    @IsOptional()
+    @IsString()
+    material?: string;
+
+    @ApiProperty({
+        description: "Product size",
+    })
+    @IsOptional()
+    @IsString()
+    size?: string;
+
+    @ApiProperty({
+        description: "Product description",
+    })
+    @IsOptional()
+    @IsString()
+    description?: string;
 }
