@@ -1,7 +1,5 @@
 // ========================== react ==========================
-
 import React, { FC, useState } from "react";
-
 
 // ========================== mui ==========================
 import { styled, useTheme } from "@mui/material/styles";
@@ -107,11 +105,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-
 const PageNavBarComp: FC = () => {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
-
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );

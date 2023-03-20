@@ -8,21 +8,22 @@ import { ThemeProvider } from "@mui/material";
 
 // ========================== components ==========================
 import ErrorBoundaryComp from "./components/error-boundary.comp";
-import PageHeaderComp from "./components/page-header.comp";
 
+// ========================== etc ==========================
+import theme from "./theme/mainTheme";
 import store from "./store";
-import ProductsPage from "./app/products/products-page";
+import AppRoutes from "./app.routes";
+import "./app.css";
 
 function App() {
   return (
     <ErrorBoundaryComp>
       <Provider store={store}>
-
-        <Router>
-          {/* <AppRoutes /> */}
-          <PageHeaderComp />
-        </Router>
-
+        <ThemeProvider theme={theme}>
+          <Router>
+            <AppRoutes />
+          </Router>
+        </ThemeProvider>
       </Provider>
     </ErrorBoundaryComp>
   );

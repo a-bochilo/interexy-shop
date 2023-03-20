@@ -14,7 +14,6 @@ const PageAsideComp: FC = () => {
         backgroundColor: "secondary.main",
       }}
     />
-
   );
 };
 
