@@ -12,7 +12,9 @@ import theme from "./theme/mainTheme";
 
 import AppRoutes from "./app.routes";
 import "./app.css";
+
 import store from "./store";
+import ProductsPage from "./app/products/products-page";
 
 function App() {
   return (
@@ -23,6 +25,7 @@ function App() {
             <AppRoutes />
           </Router>
         </ThemeProvider>
+
       </Provider>
     </ErrorBoundaryComp>
   );

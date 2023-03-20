@@ -4,7 +4,7 @@
 node_modules
 =======
 # testing
-/coverage
+*/coverage
 
 # production
 /*/dist
@@ -15,4 +15,5 @@ node_modules
 */.production.env
 */package-lock.json
 npm-debug.log*
+*/coverage
 ========

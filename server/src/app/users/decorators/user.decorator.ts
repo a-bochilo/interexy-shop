@@ -1,7 +1,7 @@
 import { createParamDecorator, ExecutionContext } from "@nestjs/common";
 
 // ========================== DTO's & Types ==========================
-import { IRequest } from "src/shared/types/request.interface";
+import { IRequest } from "../../../shared/types/request.interface";
 import { UserSessionDto } from "../dtos/user-session.dto";
 
 export const User = createParamDecorator(
