@@ -25,7 +25,7 @@ export class ProductsService {
         private readonly productsRepository: ProductsRepository,
         private readonly productsActiveViewRepository: ProductsActiveViewRepository,
         private readonly productsDetailsRepository: ProductsDetailsRepository
-    ) { }
+    ) {}
 
     async createProduct(
         productCreateDto: ProductWithDetailsDto
@@ -59,7 +59,7 @@ export class ProductsService {
     async getActiveProducts(
         query: ProductsQueryDto = null
     ): Promise<ProductActiveViewEntity[]> {
-        if (query.category) {
+        if (query?.category) {
             return await this.productsActiveViewRepository.getProductsInCategory(
                 query.category
             );
@@ -118,13 +118,22 @@ export class ProductsService {
             productId
         );
 
-        const productsByName = await this.productsRepository.getProductsByName(
-            productUpdateDto.name
-        );
+        if (!productFromDB) {
+            throw new HttpException(
+                "Product does not exist",
+                HttpStatus.UNPROCESSABLE_ENTITY
+            );
+        }
+
+        const productsByName = productUpdateDto.name
+            ? await this.productsRepository.getProductsByName(
+                  productUpdateDto?.name
+              )
+            : null;
 
         if (
-            productsByName.length > 1 ||
-            (productsByName.length && productsByName[0]?.id !== productId)
+            productsByName &&
+            (productsByName.length > 1 || productsByName[0]?.id !== productId)
         ) {
             throw new HttpException(
                 `Product '${productUpdateDto.name}' already exist`,

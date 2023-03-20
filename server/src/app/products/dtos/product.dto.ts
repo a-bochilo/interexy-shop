@@ -99,13 +99,13 @@ export class ProductDto extends UUIDDto {
         incomingDto: ProductWithDetailsDto | ProductOptionalDto
     ): ProductDto {
         const dto = new ProductDto();
-        dto.category = incomingDto.category;
-        dto.name = incomingDto.name;
-        dto.brand = incomingDto.brand;
-        dto.price = incomingDto.price;
-        dto.image = incomingDto.image;
-        dto.quantity = incomingDto.quantity;
-        dto.isActive = incomingDto.isActive;
+        incomingDto.category ? (dto.category = incomingDto.category) : null;
+        incomingDto.name ? (dto.name = incomingDto.name) : null;
+        incomingDto.brand ? (dto.brand = incomingDto.brand) : null;
+        incomingDto.price ? (dto.price = incomingDto.price) : null;
+        incomingDto.image ? (dto.image = incomingDto.image) : null;
+        incomingDto.quantity ? (dto.quantity = incomingDto.quantity) : null;
+        incomingDto.isActive ? (dto.isActive = incomingDto.isActive) : null;
 
         return dto;
     }
