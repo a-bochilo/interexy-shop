@@ -7,17 +7,10 @@ import { CartSessionDto } from "../cart/dtos/cart-session.dto";
 import { OrderItemEntity } from "./entities/order-item.entity";
 import { ProductEntity } from "../products/entities/product.entity";
 import { OrderEntity } from "./entities/order.entity";
-import { OrderDto } from "./dtos/order.dto";
-import { CartSessionDto } from "../cart/dtos/cart-session.dto";
-import { OrderItemEntity } from "./entities/order-item.entity";
-import { ProductEntity } from "../products/entities/product.entity";
-import { OrderEntity } from "./entities/order.entity";
 
 // ========================== Repositories ==============================
 import { OrderRepository } from "./repos/order.repository";
 import { ProductsRepository } from "../products/repos/products.repository";
-import { UserRepository } from "../users/repos/user.repository";
-import { OrderItemRepository } from "./repos/order-item.repository";
 
 @Injectable()
 export class OrderService {
@@ -27,16 +20,7 @@ export class OrderService {
     private readonly userRepository: UserRepository,
     private readonly orderItemRepository: OrderItemRepository
   ) {}
-  constructor(
-    private readonly orderRepository: OrderRepository,
-    private readonly productRepository: ProductsRepository,
-    private readonly userRepository: UserRepository,
-    private readonly orderItemRepository: OrderItemRepository
-  ) {}
-
-  async getAllOrders() {
-    return await this.orderRepository.getAllOrders();
-  }
+ 
   async getAllOrders() {
     return await this.orderRepository.getAllOrders();
   }
@@ -63,9 +47,7 @@ export class OrderService {
         const prodEntities = await this.productRepository.getProductsArrayByIds(
             productIds
         );
-
-    prodEntities.map((product, i) => {
-      const res = product.quantity - cart.items[i].quantity;
+      
     prodEntities.map((product, i) => {
       const res = product.quantity - cart.items[i].quantity;
 
@@ -89,17 +71,7 @@ export class OrderService {
     }
 
     const order = await this.orderRepository.createOrder(user);
-    const order = await this.orderRepository.createOrder(user);
-
-    const orderItems = await Promise.all(
-      prodEntities.map(async (product, i) => {
-        return await this.createOrderItem(
-          order,
-          product,
-          cart.items[i].quantity
-        );
-      })
-    );
+      
     const orderItems = await Promise.all(
       prodEntities.map(async (product, i) => {
         return await this.createOrderItem(
@@ -144,22 +116,6 @@ export class OrderService {
     item.product = product;
     item.product_name = product.name;
     item.product_price = product.price;
-  async createOrderItem(
-    order: OrderEntity,
-    product: ProductEntity,
-    quantity: number
-  ): Promise<OrderItemEntity> {
-    const item = new OrderItemEntity();
-    item.created = new Date();
-    item.updated = new Date();
-    item.product_quantity = quantity;
-    item.order = order;
-    item.product = product;
-    item.product_name = product.name;
-    item.product_price = product.price;
-
-    return await this.orderItemRepository.createOrderItem(item);
-  }
     return await this.orderItemRepository.createOrderItem(item);
   }
 }
