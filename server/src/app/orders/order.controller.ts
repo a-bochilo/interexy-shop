@@ -1,18 +1,18 @@
 import { Body, Controller, Get, HttpStatus, Param, Post, UsePipes, ValidationPipe } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
+import { AuthPermissionsGuard } from "../security/decorators/auth-permissions-guard.decorator";
 import { User } from "../users/decorators/user.decorator";
+import { UserPermissions } from "../../shared/types/user-permissions.enum";
 
 // ========================== Entities & DTO's ==========================
 import { UserSessionDto } from "../users/dtos/user-session.dto";
 import { OrderEntity } from "./entities/order.entity";
+import { CartSessionDto } from "../cart/dtos/cart-session.dto";
+import { OrderDto } from "./dtos/order.dto";
 
 // ========================== Services & Controllers ====================
 import { OrderService } from "./order.service";
-import { AuthPermissionsGuard } from "../security/decorators/auth-permissions-guard.decorator";
-import { UserPermissions } from "../../shared/types/user-permissions.enum";
-import { CartSessionDto } from "../cart/dtos/cart-session.dto";
-import { OrderDto } from "./dtos/order.dto";
 
 @ApiTags('Order controller')
 @Controller("orders")

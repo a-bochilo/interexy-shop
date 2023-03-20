@@ -29,6 +29,6 @@ export class OrderItemEntity extends UUIDEntity {
 
     @ManyToOne(() => OrderEntity, (item) => item.items)
     @JoinColumn({name: "order_id", referencedColumnName: "id"})
-    order!: OrderEntity
+    order?: OrderEntity
 
 }

@@ -14,19 +14,6 @@ export const user = {
   details_id: "1",
 };
 
-export const inActiveUser = {
-  id: "23a2cacc-62e8-497c-ab35-34b58af133e6",
-  created: "2023-03-17T09:31:34.416Z",
-  updated: "2023-03-17T09:31:34.416Z",
-  isActive: false,
-  email: "test@test.com",
-  phone: "+375 29 000 00 00",
-  password: "123123123",
-  roleId: 1,
-  roleType: "user",
-  details_id: "1",
-};
-
 export const userSessionDto = {
   id: "23a2cacc-62e8-497c-ab35-34b58af133e6",
   created: 20230317,

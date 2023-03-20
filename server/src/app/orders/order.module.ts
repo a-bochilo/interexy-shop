@@ -12,20 +12,13 @@ import { ProductActiveViewEntity } from "../products/entities/product-active-vie
 import { OrderItemEntity } from "./entities/order-item.entity";
 
 // ========================== Repositories ==============================
-import { RoleRepository } from "../roles/repos/role.repository";
-import { UserDetailsRepository } from "../users/repos/user-details.repository";
-import { UserViewRepository } from "../users/repos/user-view.repository";
 import { UserRepository } from "../users/repos/user.repository";
 import { OrderRepository } from "./repos/order.repository";
-import { ProductsActiveViewRepository } from "../products/repos/products-active-view.repository";
 import { ProductsRepository } from "../products/repos/products.repository";
 
 // ========================== Services & Controllers ====================
-import { RoleService } from "../roles/role.service";
-import { UserService } from "../users/user.service";
 import { OrderService } from "./order.service";
 import { OrderController } from "./order.controller";
-import { ProductsService } from "../products/products.service";
 
 // ========================== Modules ===================================
 import { SecurityModule } from "../security/security.module";
@@ -38,6 +31,7 @@ import { OrderItemRepository } from "./repos/order-item.repository";
             UserEntity,
             UserDetailsEntity,
             UserViewEntity,
+            
             RoleEntity, 
            
             OrderEntity,
@@ -51,9 +45,9 @@ import { OrderItemRepository } from "./repos/order-item.repository";
     controllers: [OrderController],
     providers: [
         UserRepository,
+        ProductsRepository,
         OrderRepository,
         OrderItemRepository,
-        ProductsRepository,
         OrderService,
     ],
     exports: [OrderService],

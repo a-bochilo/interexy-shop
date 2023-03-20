@@ -16,7 +16,7 @@ import {
   userWithDetails,
   details,
   dto,
-} from "./mocks/user.mock";
+} from "./mocks/data.mock";
 
 describe("User service", () => {
   let service: UserService;

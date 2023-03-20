@@ -28,6 +28,10 @@ export class OrderRepository extends Repository<OrderEntity> {
         return await this.save(newOrder);
     }
 
+    async saveOrder(order: OrderEntity) {
+        return await this.save(order)
+    }
+
     async getAllOrders() {
         return await this.find();
     }

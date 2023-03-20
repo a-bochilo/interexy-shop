@@ -10,7 +10,7 @@ import {
   userWithRole,
   userWithDetails,
   userSessionDto,
-} from "./mocks/user.mock";
+} from "./mocks/data.mock";
 
 describe("User controller", () => {
   let controller: UserController;
