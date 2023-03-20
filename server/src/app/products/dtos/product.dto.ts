@@ -14,10 +14,12 @@ import { ApiProperty } from "@nestjs/swagger";
 import { ProductsCategory } from "../enums/products-category.enum";
 
 // ========================== DTO's ==========================
-import { UUIDDto } from "src/shared/dtos/uuid.dto";
+import { UUIDDto } from "../../../shared/dtos/uuid.dto";
+import { ProductWithDetailsDto } from "./product-with-details.dto";
+import { ProductOptionalDto } from "./products-optional.dto";
 
 // ========================== Entities ==========================
-import { ProudctEntity } from "../entities/product.entity";
+import { ProductEntity } from "../entities/product.entity";
 import { ProductActiveViewEntity } from "../entities/product-active-view.entity";
 
 export class ProductDto extends UUIDDto {
@@ -76,7 +78,7 @@ export class ProductDto extends UUIDDto {
     quantity!: number;
 
     public static fromEntity(
-        entity: ProudctEntity | ProductActiveViewEntity
+        entity: ProductEntity | ProductActiveViewEntity
     ): ProductDto {
         const dto = new ProductDto();
         dto.id = entity.id;
@@ -89,6 +91,21 @@ export class ProductDto extends UUIDDto {
         dto.image = entity.image;
         dto.quantity = entity.quantity;
         dto.isActive = entity.isActive;
+
+        return dto;
+    }
+
+    public static fromDto(
+        incomingDto: ProductWithDetailsDto | ProductOptionalDto
+    ): ProductDto {
+        const dto = new ProductDto();
+        dto.category = incomingDto.category ? incomingDto.category : null;
+        dto.name = incomingDto.name ? incomingDto.name : null;
+        dto.brand = incomingDto.brand ? incomingDto.brand : null;
+        dto.price = incomingDto.price ? incomingDto.price : null;
+        dto.image = incomingDto.image ? incomingDto.image : null;
+        dto.quantity = incomingDto.quantity ? incomingDto.quantity : null;
+        dto.isActive = incomingDto.isActive ? incomingDto.isActive : null;
 
         return dto;
     }

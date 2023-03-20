@@ -4,7 +4,7 @@ export abstract class IDEntity {
     @PrimaryGeneratedColumn({ name: "id", type: "bigint" })
     id!: number;
 
-    @UpdateDateColumn({
+    @Column({
         name: "created",
         type: "timestamp",
         default: () => "CURRENT_TIMESTAMP(6)",

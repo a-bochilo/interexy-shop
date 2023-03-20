@@ -6,6 +6,7 @@ import {
     Injectable,
 } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
+import { I18nContext } from "nestjs-i18n";
 
 // ========================== Services ==========================
 import { SecurityService } from "../security.service";
@@ -30,13 +31,12 @@ export class RolesGuard implements CanActivate {
         if (!permissions) return true;
 
         const request = context.switchToHttp().getRequest<IRequest>();
-        const user = await this.securityService.getUser(
-           request.user.id as 'uuid'
-        );
+
+        const user = await this.securityService.getUser(request.user.id);
 
         if (!user) {
             throw new HttpException(
-                "User does not exist",
+                I18nContext.current().t("errors.user.userDoesNotExist"),
                 HttpStatus.BAD_REQUEST
             );
         }
@@ -46,13 +46,19 @@ export class RolesGuard implements CanActivate {
         const userPermissions = user.role.permissions;
 
         if (!userPermissions.length) {
-            throw new HttpException("Not authorized", HttpStatus.UNAUTHORIZED);
+            throw new HttpException(
+                I18nContext.current().t("errors.authorization.unAuthorized"),
+                HttpStatus.UNAUTHORIZED
+            );
         }
 
         if (userPermissions.includes(permissions)) return true;
 
         if (userPermissions.includes(UserPermissions.all)) return true;
 
-        throw new HttpException("Not authorized", HttpStatus.UNAUTHORIZED);
+        throw new HttpException(
+            I18nContext.current().t("errors.authorization.unAuthorized"),
+            HttpStatus.UNAUTHORIZED
+        );
     }
 }

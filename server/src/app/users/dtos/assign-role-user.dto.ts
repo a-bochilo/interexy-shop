@@ -4,10 +4,9 @@ import { IsNotEmpty, IsNumber } from "class-validator";
 export class AssignUserRoleDto {
 
     @ApiProperty({ 
-        example: '1', 
-        description: 'Role id' 
+        example: 'default_user', 
+        description: 'Role name' 
     })
     @IsNotEmpty()
-    @IsNumber()
-    readonly newRole: number;
+    readonly newRole: string;
 }
