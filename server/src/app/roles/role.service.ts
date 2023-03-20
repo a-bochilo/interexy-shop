@@ -12,44 +12,71 @@ import { UserRoles } from "../../shared/types/user-roles.enum";
 
 @Injectable()
 export class RoleService {
-    constructor(private readonly roleRepository: RoleRepository) {}
+  constructor(private readonly roleRepository: RoleRepository) {}
 
-    async createRole(createRoleDto: CreateRoleDto): Promise<RoleEntity> {
-        const existedRole = await this.roleRepository.getRoleByName(
-            createRoleDto.name
-        );
-        if (existedRole) {
-            throw new HttpException(
-                `${I18nContext.current().t(
-                    "errors.roles.roleAlreadyExist"
-                )}: '${existedRole.name}'`,
-                HttpStatus.BAD_REQUEST
-            );
-        }
-        return await this.roleRepository.createRole(createRoleDto);
+  async createRole(createRoleDto: CreateRoleDto): Promise<RoleEntity> {
+    const existedRole = await this.roleRepository.getRoleByName(
+      createRoleDto.name
+    );
+    if (existedRole) {
+      throw new HttpException(
+        `${I18nContext.current().t("errors.roles.roleAlreadyExist")}: '${
+          existedRole.name
+        }'`,
+        HttpStatus.BAD_REQUEST
+      );
     }
+    return await this.roleRepository.createRole(createRoleDto);
+  }
 
-    async getRoleByType(roleType: UserRoles) {
-        return await this.roleRepository.getRoleByType(roleType);
+  async getRoleByType(roleType: UserRoles) {
+    const role = await this.roleRepository.getRoleByType(roleType);
+    if (!role) {
+      throw new HttpException(
+        `${I18nContext.current().t(
+          "errors.roles.roleDoesNotExist"
+        )}: '${roleType}'`,
+        HttpStatus.BAD_REQUEST
+      );
     }
+    return role;
+  }
 
-    async getAll() {
-        return await this.roleRepository.getAll();
-    }
+  async getAll() {
+    return await this.roleRepository.getAll();
+  }
 
-    async getRoleById(id: number) {
-        return await this.roleRepository.getById(id);
+  async getRoleById(id: number) {
+    const role = await this.roleRepository.getById(id);
+    if (!role) {
+      throw new HttpException(
+        `${I18nContext.current().t("errors.roles.roleDoesNotExist")}: '${id}'`,
+        HttpStatus.BAD_REQUEST
+      );
     }
+    return role;
+  }
 
-    async deleteRole(id: number) {
-        if(await this.roleRepository.deleteRole(id)) {
-            return HttpStatus.OK;
-        }
+  async deleteRole(id: number) {
+    if (await this.roleRepository.deleteRole(id)) {
+      return HttpStatus.OK;
+    } else {
+      throw new HttpException(
+        `${I18nContext.current().t("errors.roles.roleDoesNotExist")}: '${id}'`,
+        HttpStatus.BAD_REQUEST
+      );
     }
+  }
 
-    async updateRole(id: number, createRoleDto: CreateRoleDto) {
-        const role = await this.roleRepository.getById(id);
-        Object.assign(role, createRoleDto);
-        return await this.roleRepository.updateRole(role);
+  async updateRole(id: number, createRoleDto: CreateRoleDto) {
+    const role = await this.roleRepository.getById(id);
+    if (!role) {
+      throw new HttpException(
+        `${I18nContext.current().t("errors.roles.roleDoesNotExist")}: '${id}'`,
+        HttpStatus.BAD_REQUEST
+      );
     }
+    Object.assign(role, createRoleDto);
+    return await this.roleRepository.updateRole(role);
+  }
 }

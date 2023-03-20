@@ -2,10 +2,12 @@ import { UserRoles } from "../../../../shared/types/user-roles.enum";
 import { UserPermissions } from "../../../../shared/types/user-permissions.enum";
 import { HttpStatus } from "@nestjs/common";
 
+const date = new Date()
+
 export const newUserRole = {
   id: 1,
-  created: "2023-03-17T09:31:34.416Z",
-  updated: "2023-03-17T09:31:34.416Z",
+  created: date,
+  updated: date,
   type: "user",
   name: "user",
   permissions: ["all"],

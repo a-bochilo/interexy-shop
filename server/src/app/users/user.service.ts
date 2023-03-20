@@ -1,4 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { I18nContext } from "nestjs-i18n";
 
 // ========================== Entities & DTO's ==========================
 import { AssignUserRoleDto } from "./dtos/assign-role-user.dto";
@@ -19,19 +20,26 @@ export class UserService {
     private readonly userRepository: UserRepository,
     private readonly userViewRepository: UserViewRepository,
     private readonly roleRepository: RoleRepository
+    private readonly roleRepository: RoleRepository
   ) {}
 
   async getAllUsers(isActive: boolean) {
+  async getAllUsers(isActive: boolean) {
     if (isActive === undefined) {
       return await this.userViewRepository.getAllUsers();
+      return await this.userViewRepository.getAllUsers();
     }
+    return await this.userRepository.getAllUsers(false);
     return await this.userRepository.getAllUsers(false);
   }
 
   async getDetailsById(userId: string) {
     const user = await this.userRepository.getById(userId);
     if (!user) {
-      throw new HttpException(`User ${userId} not found`, HttpStatus.NOT_FOUND);
+      throw new HttpException(
+        `${I18nContext.current().t("errors.user.userDoesNotExist")}`,
+        HttpStatus.NOT_FOUND
+      );
     }
     return await this.userDetailsRepository.getDetailsById(user.details_id);
   }
@@ -39,7 +47,10 @@ export class UserService {
   async getById(userId: string) {
     const user = await this.userRepository.getById(userId);
     if (!user) {
-      throw new HttpException(`User ${userId} not found`, HttpStatus.NOT_FOUND);
+      throw new HttpException(
+        `${I18nContext.current().t("errors.user.userDoesNotExist")}`,
+        HttpStatus.NOT_FOUND
+      );
     }
     return user;
   }
@@ -48,16 +59,19 @@ export class UserService {
     const user = await this.userRepository.getById(userId);
 
     if (!user) {
-      throw new HttpException(`User ${userId} not found`, HttpStatus.NOT_FOUND);
+      throw new HttpException(
+        `${I18nContext.current().t("errors.user.userDoesNotExist")}`,
+        HttpStatus.NOT_FOUND
+      );
     }
 
     const newRole = await this.roleRepository.getRoleByName(
       assignUserRoleDto.newRole
     );
-
+    
     if (!newRole) {
       throw new HttpException(
-        `User ${assignUserRoleDto.newRole} not found`,
+        `${I18nContext.current().t("errors.roles.roleDoesNotExist")}`,
         HttpStatus.NOT_FOUND
       );
     }
@@ -67,13 +81,17 @@ export class UserService {
     user.roleId = newRole.id;
     user.roleType = newRole.type;
     return await this.userRepository.assignUserRole(user);
+    return await this.userRepository.assignUserRole(user);
   }
 
   async deleteUserById(userId: string) {
     const user = await this.userRepository.getById(userId);
 
     if (!user) {
-      throw new HttpException(`User ${userId} not found`, HttpStatus.NOT_FOUND);
+      throw new HttpException(
+        `${I18nContext.current().t("errors.user.userDoesNotExist")}`,
+        HttpStatus.NOT_FOUND
+      );
     }
     return await this.userRepository.deleteUserById(userId);
   }
@@ -82,7 +100,10 @@ export class UserService {
     const user = await this.userRepository.getById(userId);
 
     if (!user) {
-      throw new HttpException(`User ${userId} not found`, HttpStatus.NOT_FOUND);
+      throw new HttpException(
+        `${I18nContext.current().t("errors.user.userDoesNotExist")}`,
+        HttpStatus.NOT_FOUND
+      );
     }
 
     let details = await this.userDetailsRepository.getDetailsById(
@@ -91,7 +112,7 @@ export class UserService {
 
     if (!details) {
       throw new HttpException(
-        `Details ${user.details_id} not found`,
+        `${I18nContext.current().t("errors.details.userDoesNotExist")}`,
         HttpStatus.NOT_FOUND
       );
     }
@@ -100,11 +121,13 @@ export class UserService {
       Object.assign(details, info.details)
     );
 
+
     delete info.details;
     Object.assign(user, info);
 
     user.updated = new Date();
     details = newDetails;
+    return await this.userRepository.updateUserDetails({
     return await this.userRepository.updateUserDetails({
       ...user,
       details,
@@ -115,7 +138,7 @@ export class UserService {
     const user = await this.userRepository.getUserByEmail(email);
     if (!user) {
       throw new HttpException(
-        `User with email: ${email} not found`,
+        `${I18nContext.current().t("errors.user.userDoesNotExist")}`,
         HttpStatus.NOT_FOUND
       );
     }

@@ -13,7 +13,11 @@
         "productNotEnough": "Product quantity less then required in request. Aviliable count"
     },
     "roles": {
-        "roleAlreadyExist": "Role already exist"
+        "roleAlreadyExist": "Role already exist",
+        "roleDoesNotExist": "Role does not exist"
+    },
+    "details": {
+        "detailsDoesNotExist": "Details does not exist"
     },
     "authorization": {
         "unAuthorized": "Not authorized"
