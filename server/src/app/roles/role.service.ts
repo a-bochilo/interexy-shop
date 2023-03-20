@@ -1,5 +1,6 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { DeleteResult } from "typeorm";
+import { I18nContext } from "nestjs-i18n";
 import { RoleRepository } from "./repos/role.repository";
 
 // ========================== DTO's & Types ==========================
@@ -7,19 +8,29 @@ import { CreateRoleDto } from "./dtos/create-role.dto";
 
 // ========================== Entities & Repos ==========================
 import { RoleEntity } from "./entities/role.entity";
-import { UserRoles } from "src/shared/types/user-roles.enum";
+import { UserRoles } from "../../shared/types/user-roles.enum";
 
 @Injectable()
 export class RoleService {
-
-    constructor(private readonly roleRepository: RoleRepository) { }
+    constructor(private readonly roleRepository: RoleRepository) {}
 
     async createRole(createRoleDto: CreateRoleDto): Promise<RoleEntity> {
-        return this.roleRepository.createRole(createRoleDto);
+        const existedRole = await this.roleRepository.getRoleByName(
+            createRoleDto.name
+        );
+        if (existedRole) {
+            throw new HttpException(
+                `${I18nContext.current().t(
+                    "errors.roles.roleAlreadyExist"
+                )}: '${existedRole.name}'`,
+                HttpStatus.BAD_REQUEST
+            );
+        }
+        return await this.roleRepository.createRole(createRoleDto);
     }
 
     async getRoleByType(roleType: UserRoles) {
-        return this.roleRepository.getRoleByType(roleType);
+        return await this.roleRepository.getRoleByType(roleType);
     }
 
     async getAll() {
@@ -31,12 +42,14 @@ export class RoleService {
     }
 
     async deleteRole(id: number) {
-        return await this.roleRepository.deleteRole(id);
+        if(await this.roleRepository.deleteRole(id)) {
+            return HttpStatus.OK;
+        }
     }
 
     async updateRole(id: number, createRoleDto: CreateRoleDto) {
         const role = await this.roleRepository.getById(id);
         Object.assign(role, createRoleDto);
-        return await this.roleRepository.updateRole(role)
+        return await this.roleRepository.updateRole(role);
     }
 }

@@ -1,7 +1,7 @@
 import { ViewEntity } from "typeorm";
 
 // ========================== Entities ==========================
-import { ProudctEntity } from "./product.entity";
+import { ProductEntity } from "./product.entity";
 
 @ViewEntity({
     name: "products_active_view",
@@ -11,4 +11,4 @@ import { ProudctEntity } from "./product.entity";
             WHERE is_active=true
         `,
 })
-export class ProductActiveViewEntity extends ProudctEntity {}
+export class ProductActiveViewEntity extends ProductEntity {}

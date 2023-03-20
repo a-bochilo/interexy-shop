@@ -1,5 +1,7 @@
 // ========================== react ==========================
+
 import React, { FC, useEffect, useState } from "react";
+
 
 // ========================== mui ==========================
 import { styled, useTheme } from "@mui/material/styles";
@@ -15,6 +17,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 
+
 const drawerWidth = 200;
 
 const DrawerHeader = styled("div")(({ theme }) => ({
@@ -26,11 +29,13 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-end",
 }));
 
+
 const PageNavBarComp: FC = () => {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const [width, setWidth] = useState("8%");
   // const [drawerWidth, setDrawerWidth] = useState("1%");
+
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -68,6 +73,7 @@ const PageNavBarComp: FC = () => {
       <Drawer
         sx={{
           ...(open && { width: drawerWidth }),
+
           flexShrink: 0,
           "& .MuiDrawer-paper": {
             width: drawerWidth,
@@ -100,6 +106,7 @@ const PageNavBarComp: FC = () => {
         <Divider />
         <List>
           {["Material", "Color", "Size"].map((text) => (
+
             <ListItem key={text} disablePadding>
               <ListItemButton>
                 <ListItemText primary={text} />

@@ -6,6 +6,7 @@ import Box from "@mui/material/Box";
 
 const PageAsideComp: FC = () => {
   return (
+
     <aside>
       <Box
         sx={{
@@ -19,6 +20,7 @@ const PageAsideComp: FC = () => {
         }}
       />
     </aside>
+
   );
 };
 

@@ -17,9 +17,8 @@ import { UserRepository } from "../users/repos/user.repository";
 // ========================== Services & Controllers ==========================
 import { RoleService } from "./role.service";
 import { RoleController } from "./role.controller";
-import { UserService } from "../users/user.service";
 import { UserViewEntity } from "../users/entities/user-view.entity";
-import { UserViewRepository } from "../users/repos/user-view.repository";
+
 
 
 @Module({
@@ -36,10 +35,6 @@ import { UserViewRepository } from "../users/repos/user-view.repository";
     providers: [
         RoleService,
         RoleRepository,
-        UserService,
-        UserRepository,
-        UserDetailsRepository,
-        UserViewRepository,
     ],
     exports: [RoleService],
 })
