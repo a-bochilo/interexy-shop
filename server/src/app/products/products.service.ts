@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { FindOptionsWhere, Between } from "typeorm";
+import { I18nContext } from "nestjs-i18n";
 
 // ========================== Entities ==========================
 import { ProductEntity } from "./entities/product.entity";
@@ -36,7 +37,9 @@ export class ProductsService {
 
         if (productByName.length) {
             throw new HttpException(
-                `Product '${productCreateDto.name}' already exist`,
+                `${I18nContext.current().t(
+                    "errors.products.productAlreadyExist"
+                )}: '${productCreateDto.name}'`,
                 HttpStatus.UNPROCESSABLE_ENTITY
             );
         }
@@ -120,7 +123,7 @@ export class ProductsService {
 
         if (!productFromDB) {
             throw new HttpException(
-                "Product does not exist",
+                I18nContext.current().t("errors.products.productDoesNotExist"),
                 HttpStatus.UNPROCESSABLE_ENTITY
             );
         }
@@ -136,7 +139,9 @@ export class ProductsService {
             (productsByName.length > 1 || productsByName[0]?.id !== productId)
         ) {
             throw new HttpException(
-                `Product '${productUpdateDto.name}' already exist`,
+                `${I18nContext.current().t(
+                    "errors.products.productAlreadyExist"
+                )}: '${productUpdateDto.name}'`,
                 HttpStatus.UNPROCESSABLE_ENTITY
             );
         }
@@ -182,7 +187,7 @@ export class ProductsService {
 
         if (!productFromDB) {
             throw new HttpException(
-                "Product does not eixst",
+                I18nContext.current().t("errors.products.productDoesNotExist"),
                 HttpStatus.BAD_REQUEST
             );
         }
