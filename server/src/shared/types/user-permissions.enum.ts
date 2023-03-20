@@ -30,8 +30,11 @@ export enum UserPermissions {
     cleanCart = "cleanCart",
 
     //==============================================ORDERS==============================================
-    createOrder = "createOrer",
+    createOrder = "createOrder",
     getProfileOrders = "getProfileOrders",
     getAllOrders = "getAllOrders",
     getOrdersByUserId = "getOrdersByUserId",
+
+    //==============================================Security==============================================
+    refreshToken = "refreshToken",
 }
