@@ -6,20 +6,14 @@ import Box from "@mui/material/Box";
 
 const PageAsideComp: FC = () => {
   return (
-
-    <aside>
-      <Box
-        sx={{
-          width: 300,
-          height: 600,
-          backgroundColor: "yellow",
-          "&:hover": {
-            backgroundColor: "lightyellow",
-            opacity: [0.9, 0.8, 0.7],
-          },
-        }}
-      />
-    </aside>
+    <Box
+      component={"aside"}
+      sx={{
+        width: 300,
+        height: { xs: 295, md: 695 },
+        backgroundColor: "secondary.main",
+      }}
+    />
 
   );
 };

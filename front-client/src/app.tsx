@@ -10,7 +10,7 @@ import { ThemeProvider } from "@mui/material";
 import ErrorBoundaryComp from "./components/error-boundary.comp";
 import theme from "./theme/mainTheme";
 
-// import AppRoutes from "app.routes";
+import AppRoutes from "./app.routes";
 import "./app.css";
 
 import store from "./store";
@@ -20,11 +20,9 @@ function App() {
   return (
     <ErrorBoundaryComp>
       <Provider store={store}>
-
         <ThemeProvider theme={theme}>
           <Router>
-            {/* <AppRoutes /> */}
-            <ProductsPage />
+            <AppRoutes />
           </Router>
         </ThemeProvider>
 
