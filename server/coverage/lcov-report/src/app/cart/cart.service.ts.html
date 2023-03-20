@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">86.15% </span>
+                <span class="strong">86.36% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>56/65</span>
+                <span class='fraction'>57/66</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">87.09% </span>
+                <span class="strong">87.3% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>54/62</span>
+                <span class='fraction'>55/63</span>
             </div>
         
             
@@ -224,7 +224,13 @@
 <a name='L159'></a><a href='#L159'>159</a>
 <a name='L160'></a><a href='#L160'>160</a>
 <a name='L161'></a><a href='#L161'>161</a>
-<a name='L162'></a><a href='#L162'>162</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<a name='L162'></a><a href='#L162'>162</a>
+<a name='L163'></a><a href='#L163'>163</a>
+<a name='L164'></a><a href='#L164'>164</a>
+<a name='L165'></a><a href='#L165'>165</a>
+<a name='L166'></a><a href='#L166'>166</a>
+<a name='L167'></a><a href='#L167'>167</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -283,6 +289,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -375,6 +383,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
@@ -386,6 +396,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { I18nContext } from "nestjs-i18n";
 &nbsp;
 // ========================== Entities ==========================
 import { CartEntity } from "./entities/cart.entity";
@@ -423,7 +434,7 @@ export class CartService {
 &nbsp;
         if (isProductInCart) {
             throw new HttpException(
-                "Product already exists in users cart",
+                I18nContext.current().t("errors.cart.productAlreadyInCart"),
                 HttpStatus.BAD_REQUEST
             );
         }
@@ -444,7 +455,9 @@ export class CartService {
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (!item) {</span>
 <span class="cstat-no" title="statement not covered" >            throw new HttpException(</span>
-                "Product does not exist it users cart",
+                I18nContext.current().t(
+                    "errors.cart.productDoesNotExistInCart"
+                ),
                 HttpStatus.BAD_REQUEST
             );
         }
@@ -466,7 +479,7 @@ export class CartService {
         });
         if (!existedItem) {
             throw new HttpException(
-                "Cart item does not exist",
+                I18nContext.current().t("errors.cart.productAlreadyInCart"),
                 HttpStatus.BAD_REQUEST
             );
         }
@@ -498,7 +511,7 @@ export class CartService {
 &nbsp;
         if (!userFromDB) {
             throw new HttpException(
-                "User does not exist",
+                I18nContext.current().t("errors.user.userDoesNotExist"),
                 HttpStatus.UNAUTHORIZED
             );
         }
@@ -524,14 +537,16 @@ export class CartService {
 &nbsp;
         if (!product) {
             throw new HttpException(
-                "Product does not exist",
+                I18nContext.current().t("errors.products.productDoesNotExist"),
                 HttpStatus.BAD_REQUEST
             );
         }
 &nbsp;
         if (product.quantity &lt; cartItemDto.quantity) {
             throw new HttpException(
-                `Product quantity less then required in request. Aviliable count ${product.quantity}`,
+                `${I18nContext.current().t(
+                    "errors.products.productNotEnough"
+                )} ${product.quantity}`,
                 HttpStatus.BAD_REQUEST
             );
         }
@@ -553,7 +568,7 @@ export class CartService {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-03-20T13:17:37.563Z
+                at 2023-03-20T14:52:16.374Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

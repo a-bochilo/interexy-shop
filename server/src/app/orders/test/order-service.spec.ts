@@ -25,7 +25,13 @@ import {
   newOrder,
 } from "./mocks/data.mock";
 
-
+jest.mock("nestjs-i18n", () => ({
+  I18nContext: {
+      current: () => ({
+          t: () => "text",
+      }),
+  },
+}));
 
 describe("Order service", () => {
   let service: OrderService;

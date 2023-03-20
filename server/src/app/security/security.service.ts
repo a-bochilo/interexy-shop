@@ -9,6 +9,7 @@ import { UserEntity } from "../users/entities/user.entity";
 import { UserSessionDto } from "../users/dtos/user-session.dto";
 import { TokenDto } from "./dtos/token.dto";
 import { RoleRepository } from "../roles/repos/role.repository";
+import { I18nContext } from "nestjs-i18n";
 
 @Injectable()
 export class SecurityService {
@@ -26,6 +27,12 @@ export class SecurityService {
 
   async getUser(id: string): Promise<UserEntity> {
     const user = await this.userRepository.getById(id);
+    if (!user) {
+      throw new HttpException(
+        `${I18nContext.current().t("errors.user.userDoesNotExist")}`,
+        HttpStatus.NOT_FOUND
+      );
+    }
     user.role = await this.roleRepository.getById(user.roleId);
     return user;
   }

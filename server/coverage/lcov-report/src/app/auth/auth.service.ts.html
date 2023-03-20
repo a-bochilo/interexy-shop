@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">28.94% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/38</span>
+                <span class='fraction'>11/38</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">25% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/36</span>
+                <span class='fraction'>9/36</span>
             </div>
         
             
@@ -146,30 +146,30 @@
 <a name='L81'></a><a href='#L81'>81</a>
 <a name='L82'></a><a href='#L82'>82</a>
 <a name='L83'></a><a href='#L83'>83</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -228,10 +228,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// ========================== Nest ==========================
-<span class="cstat-no" title="statement not covered" >import { HttpException, HttpStatus, Injectable } from "@nestjs/common";</span>
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 &nbsp;
 // ========================== bcrypt ==========================
-<span class="cstat-no" title="statement not covered" >import { compare, hashSync } from "bcrypt";</span>
+import { compare, hashSync } from "bcrypt";
 &nbsp;
 // ========================== Entities &amp; DTO's ==========================
 import { UserSignInDto } from "./dtos/user-sign-in.dto";
@@ -239,19 +239,19 @@ import { TokenDto } from "../security/dtos/token.dto";
 import { CreateUserDto } from "../users/dtos/create-user.dto";
 &nbsp;
 // ========================== Repositories ==============================
-<span class="cstat-no" title="statement not covered" >import { UserRepository } from "../users/repos/user.repository";</span>
-<span class="cstat-no" title="statement not covered" >import { RoleRepository } from "../roles/repos/role.repository";</span>
-<span class="cstat-no" title="statement not covered" >import { UserDetailsRepository } from "../users/repos/user-details.repository";</span>
+import { UserRepository } from "../users/repos/user.repository";
+import { RoleRepository } from "../roles/repos/role.repository";
+import { UserDetailsRepository } from "../users/repos/user-details.repository";
 &nbsp;
 // ========================== Enums =====================================
-<span class="cstat-no" title="statement not covered" >import { UserRoles } from "../../shared/types/user-roles.enum";</span>
+import { UserRoles } from "../../shared/types/user-roles.enum";
 &nbsp;
 // ========================== Services &amp; Controllers ====================
-<span class="cstat-no" title="statement not covered" >import { SecurityService } from "../security/security.service";</span>
-<span class="cstat-no" title="statement not covered" >import { CartRepository } from "../cart/repos/cart.repository";</span>
+import { SecurityService } from "../security/security.service";
+import { CartRepository } from "../cart/repos/cart.repository";
 &nbsp;
 @Injectable()
-export <span class="cstat-no" title="statement not covered" >class <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >AuthService </span>{</span></span>
+export class AuthService {
 <span class="fstat-no" title="function not covered" >  constructor(</span>
     private readonly <span class="cstat-no" title="statement not covered" >userRepository: U</span>serRepository,
     private readonly <span class="cstat-no" title="statement not covered" >roleRepository: R</span>oleRepository,
@@ -316,7 +316,7 @@ export <span class="cstat-no" title="statement not covered" >class <span class="
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-03-20T13:17:37.563Z
+                at 2023-03-20T14:52:16.374Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

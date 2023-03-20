@@ -30,7 +30,10 @@ export class OrderService {
   async getOrdersByUserId(id: string) {
     const user = await this.userRepository.getById(id);
     if (!user) {
-      throw new HttpException(`User ${id} not found`, HttpStatus.NOT_FOUND);
+      throw new HttpException(
+        `${I18nContext.current().t("errors.user.userDoesNotExist")}`,
+        HttpStatus.NOT_FOUND
+      );
     }
     return await this.orderRepository.getOrdersByUserId(id);
   }
@@ -63,7 +66,10 @@ export class OrderService {
     const user = await this.userRepository.getById(userId);
 
     if (!user) {
-      throw new HttpException(`User ${userId} not found`, HttpStatus.NOT_FOUND);
+      throw new HttpException(
+        `${I18nContext.current().t("errors.user.userDoesNotExist")}`,
+        HttpStatus.NOT_FOUND
+      );
     }
 
     const order = await this.orderRepository.createOrder(user);

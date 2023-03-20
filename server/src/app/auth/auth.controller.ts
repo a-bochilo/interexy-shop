@@ -22,7 +22,7 @@ import { SecurityService } from "../security/security.service";
 
 // ========================== Security ====================
 import { AuthPermissionsGuard } from "../security/decorators/auth-permissions-guard.decorator";
-import { UserPermissions } from "src/shared/types/user-permissions.enum";
+import { UserPermissions } from "../../shared/types/user-permissions.enum";
 
 // ========================== Decorators ====================
 import { User } from "../users/decorators/user.decorator";

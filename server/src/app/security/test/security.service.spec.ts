@@ -7,6 +7,15 @@ import { UserRepository } from "../../users/repos/user.repository";
 import { JwtStrategy } from "../jwt.strategy";
 import { SecurityService } from "../security.service";
 import { roleEntity, userEntity } from "./data.mocks";
+import { HttpException } from "@nestjs/common";
+
+jest.mock("nestjs-i18n", () => ({
+    I18nContext: {
+        current: () => ({
+            t: () => "text",
+        }),
+    },
+  }));
 
 describe("ProductsService", () => {
     let securityService: SecurityService;
@@ -71,5 +80,14 @@ describe("ProductsService", () => {
             expect(result).toBeDefined();
             expect(result).toMatchObject(userEntity);
         });
+
+        it("should be return error", async () => {
+            mockedUserRepository.getById = jest.fn().mockResolvedValue(false);
+            try {
+                await securityService.getUser('id')
+            } catch(error) {
+                expect(error).toBeInstanceOf(HttpException);
+            }
+        })
     });
 });

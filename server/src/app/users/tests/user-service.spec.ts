@@ -25,6 +25,13 @@ import {
 } from "./mocks/data.mock";
 
 
+jest.mock("nestjs-i18n", () => ({
+  I18nContext: {
+      current: () => ({
+          t: () => "text",
+      }),
+  },
+}));
 
 
 

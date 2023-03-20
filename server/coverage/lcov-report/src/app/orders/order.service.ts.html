@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">97.91% </span>
+                <span class="strong">97.95% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>47/48</span>
+                <span class='fraction'>48/49</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">97.77% </span>
+                <span class="strong">97.82% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>44/45</span>
+                <span class='fraction'>45/46</span>
             </div>
         
             
@@ -165,7 +165,20 @@
 <a name='L100'></a><a href='#L100'>100</a>
 <a name='L101'></a><a href='#L101'>101</a>
 <a name='L102'></a><a href='#L102'>102</a>
-<a name='L103'></a><a href='#L103'>103</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<a name='L103'></a><a href='#L103'>103</a>
+<a name='L104'></a><a href='#L104'>104</a>
+<a name='L105'></a><a href='#L105'>105</a>
+<a name='L106'></a><a href='#L106'>106</a>
+<a name='L107'></a><a href='#L107'>107</a>
+<a name='L108'></a><a href='#L108'>108</a>
+<a name='L109'></a><a href='#L109'>109</a>
+<a name='L110'></a><a href='#L110'>110</a>
+<a name='L111'></a><a href='#L111'>111</a>
+<a name='L112'></a><a href='#L112'>112</a>
+<a name='L113'></a><a href='#L113'>113</a>
+<a name='L114'></a><a href='#L114'>114</a>
+<a name='L115'></a><a href='#L115'>115</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
@@ -197,6 +210,9 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -204,6 +220,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -221,10 +240,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -268,6 +292,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { I18nContext } from "nestjs-i18n";
 &nbsp;
 // ========================== Entities &amp; DTO's ==========================
 import { OrderDto } from "./dtos/order.dto";
@@ -298,35 +323,46 @@ export class OrderService {
   async getOrdersByUserId(id: string) {
     const user = await this.userRepository.getById(id);
     if (!user) {
-      throw new HttpException(`User ${id} not found`, HttpStatus.NOT_FOUND);
+      throw new HttpException(
+        `${I18nContext.current().t("errors.user.userDoesNotExist")}`,
+        HttpStatus.NOT_FOUND
+      );
     }
     return await this.orderRepository.getOrdersByUserId(id);
   }
 &nbsp;
-  async createOrder(cart: CartSessionDto, userId: string): Promise&lt;OrderDto&gt; {
-    if (!cart.items.length) {
-      throw new HttpException(`Cart is empty!`, HttpStatus.BAD_REQUEST);
-    }
-    const productIds = cart.items.map((item) =&gt; item.productId);
-    const prodEntities = await this.productRepository.getProductsArrayByIds(
-      productIds
-    );
+    async createOrder(cart: CartSessionDto, userId: string): Promise&lt;OrderDto&gt; {
+        if (!cart.items.length) {
+            throw new HttpException(
+                I18nContext.current().t("errors.cart.cartIsEmpty"),
+                HttpStatus.BAD_REQUEST
+            );
+        }
+        const productIds = cart.items.map((item) =&gt; item.productId);
+        const prodEntities = await this.productRepository.getProductsArrayByIds(
+            productIds
+        );
 &nbsp;
     prodEntities.map((product, i) =&gt; {
       const res = product.quantity - cart.items[i].quantity;
 &nbsp;
-      <span class="missing-if-branch" title="if path not taken" >I</span>if (res &lt; 0) {
-<span class="cstat-no" title="statement not covered" >        throw new HttpException(</span>
-          `Product '${product.name}' is ended`,
-          HttpStatus.BAD_REQUEST
-        );
-      }
-    });
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (res &lt; 0) {
+<span class="cstat-no" title="statement not covered" >                throw new HttpException(</span>
+                    `'${product.name}'. ${I18nContext.current().t(
+                        "errors.products.productNotEnough"
+                    )} ${product.quantity}`,
+                    HttpStatus.BAD_REQUEST
+                );
+            }
+        });
 &nbsp;
     const user = await this.userRepository.getById(userId);
 &nbsp;
     if (!user) {
-      throw new HttpException(`User ${userId} not found`, HttpStatus.NOT_FOUND);
+      throw new HttpException(
+        `${I18nContext.current().t("errors.user.userDoesNotExist")}`,
+        HttpStatus.NOT_FOUND
+      );
     }
 &nbsp;
     const order = await this.orderRepository.createOrder(user);
@@ -376,7 +412,7 @@ export class OrderService {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-03-20T13:17:37.563Z
+                at 2023-03-20T14:52:16.374Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
