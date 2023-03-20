@@ -80,7 +80,6 @@ export class OrderService {
     );
     
     const newOrder = await this.orderRepository.saveOrder(order);
-    console.log(newOrder)
     return await OrderDto.fromEntity(newOrder);
   }
 

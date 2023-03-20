@@ -26,7 +26,7 @@ describe("Roles services", () => {
     expect(service).toBeDefined();
   });
 
-  describe("Create role function", () => {
+  describe("method: Create role function", () => {
     it("should be return error", async () => {
       roleRepositoryFake.getRoleByName = jest.fn().mockResolvedValue(true);
       try {
@@ -42,31 +42,31 @@ describe("Roles services", () => {
     });
   });
 
-  describe("Get role by type function", () => {
+  describe("method: Get role by type function", () => {
     it("should be return specific role", async () => {
       expect(await service.getRoleByType(UserRoles.user)).toEqual(newUserRole);
     });
   });
 
-  describe("Get role by id function", () => {
+  describe("method: Get role by id function", () => {
     it("should be return specific role", async () => {
       expect(await service.getRoleById(1)).toEqual(newUserRole);
     });
   });
 
-  describe("Get all roles function", () => {
+  describe("method: Get all roles function", () => {
     it("should be return array with roles", async () => {
       expect(await service.getAll()).toEqual([newUserRole]);
     });
   });
 
-  describe("Update role function", () => {
+  describe("method: Update role function", () => {
     it("should be return new role", async () => {
       expect(await service.updateRole(1, userRoleDto)).toEqual(newUserRole);
     });
   });
 
-  describe("Delete role function", () => {
+  describe("method: Delete role function", () => {
     it("should be return http status 200", async () => {
       expect(await service.deleteRole(1)).toEqual(HttpStatus.OK);
     });

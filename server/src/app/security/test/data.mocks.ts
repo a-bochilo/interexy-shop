@@ -34,3 +34,4 @@ userEntity.role = roleEntity;
 userEntity.roleId = roleEntity.id;
 userEntity.roleType = roleEntity.type;
 userEntity.isActive = true;
+userEntity.phone = '123-45-67'

@@ -55,7 +55,6 @@ export class AuthService {
     newUser.cart = cart;
     await this.userRepository.save(newUser)
 
-    console.log(await this.userRepository.getById(newUser.id))
     const access_token = await this.securityService.generateJwt(newUser);
     return access_token;
   }

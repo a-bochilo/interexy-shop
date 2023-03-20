@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">47.05% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>8/17</span>
+                <span class='fraction'>17/17</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/3</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">40% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>6/15</span>
+                <span class='fraction'>15/15</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -95,36 +95,36 @@
 <a name='L30'></a><a href='#L30'>30</a>
 <a name='L31'></a><a href='#L31'>31</a>
 <a name='L32'></a><a href='#L32'>32</a>
-<a name='L33'></a><a href='#L33'>33</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
+<a name='L33'></a><a href='#L33'>33</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
@@ -141,22 +141,22 @@ import { RoleRepository } from "../roles/repos/role.repository";
 &nbsp;
 @Injectable()
 export class SecurityService {
-<span class="fstat-no" title="function not covered" >  constructor(</span>
-    private readonly <span class="cstat-no" title="statement not covered" >userRepository: U</span>serRepository,
-    private readonly <span class="cstat-no" title="statement not covered" >roleRepository: R</span>oleRepository,
-    private readonly <span class="cstat-no" title="statement not covered" >jwtService: J</span>wtService
+  constructor(
+    private readonly userRepository: UserRepository,
+    private readonly roleRepository: RoleRepository,
+    private readonly jwtService: JwtService
   ) {}
 &nbsp;
-<span class="fstat-no" title="function not covered" >  async </span>generateJwt(user: UserEntity): Promise&lt;TokenDto&gt; {
-    const payload = <span class="cstat-no" title="statement not covered" >await UserSessionDto.fromEntity(user);</span>
-    const token = <span class="cstat-no" title="statement not covered" >this.jwtService.sign(payload);</span>
-<span class="cstat-no" title="statement not covered" >    return { token };</span>
+  async generateJwt(user: UserEntity): Promise&lt;TokenDto&gt; {
+    const payload = await UserSessionDto.fromEntity(user);
+    const token = this.jwtService.sign(payload);
+    return { token };
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  async </span>getUser(id: string): Promise&lt;UserEntity&gt; {
-    const user = <span class="cstat-no" title="statement not covered" >await this.userRepository.getById(id);</span>
-<span class="cstat-no" title="statement not covered" >    user.role = await this.roleRepository.getById(user.roleId);</span>
-<span class="cstat-no" title="statement not covered" >    return user;</span>
+  async getUser(id: string): Promise&lt;UserEntity&gt; {
+    const user = await this.userRepository.getById(id);
+    user.role = await this.roleRepository.getById(user.roleId);
+    return user;
   }
 }
 &nbsp;</pre></td></tr></table></pre>
@@ -166,7 +166,7 @@ export class SecurityService {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-03-20T12:58:39.284Z
+                at 2023-03-20T13:17:37.563Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

@@ -31,7 +31,7 @@ export class UserSessionDto extends UUIDDto {
     })
     @IsNotEmpty()
     @IsString()
-    phone!: string;
+    phone?: string;
 
     @ApiProperty({
         description: "User role id",

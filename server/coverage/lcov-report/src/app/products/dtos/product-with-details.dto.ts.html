@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/20</span>
+                <span class='fraction'>20/20</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/1</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/20</span>
+                <span class='fraction'>20/20</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -108,13 +108,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -123,24 +121,26 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// ========================== Entities ==========================
@@ -148,39 +148,39 @@ import { ProductEntity } from "../entities/product.entity";
 import { ProductDetailsEntity } from "../entities/product-details.entity";
 &nbsp;
 // ========================== DTO's ==========================
-<span class="cstat-no" title="statement not covered" >import { ProductDto } from "./product.dto";</span>
-<span class="cstat-no" title="statement not covered" >import { ProductDetailsDto } from "./product-details.dto";</span>
-<span class="cstat-no" title="statement not covered" >import { IntersectionType } from "@nestjs/mapped-types";</span>
+import { ProductDto } from "./product.dto";
+import { ProductDetailsDto } from "./product-details.dto";
+import { IntersectionType } from "@nestjs/mapped-types";
 &nbsp;
-<span class="cstat-no" title="statement not covered" >export class P</span>roductWithDetailsDto extends IntersectionType(
+export class ProductWithDetailsDto extends IntersectionType(
     ProductDto,
     ProductDetailsDto
 ) {
-    public <span class="fstat-no" title="function not covered" >static </span>fromProductAndDetailsEntities({
+    public static fromProductAndDetailsEntities({
         product,
         productDetails,
     }: {
         product: ProductEntity;
         productDetails: ProductDetailsEntity;
     }): ProductWithDetailsDto {
-        const dto = <span class="cstat-no" title="statement not covered" >new ProductWithDetailsDto();</span>
+        const dto = new ProductWithDetailsDto();
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        dto.id = product.id;</span>
-<span class="cstat-no" title="statement not covered" >        dto.created = product.created.valueOf();</span>
-<span class="cstat-no" title="statement not covered" >        dto.updated = product.updated.valueOf();</span>
-<span class="cstat-no" title="statement not covered" >        dto.category = product.category;</span>
-<span class="cstat-no" title="statement not covered" >        dto.name = product.name;</span>
-<span class="cstat-no" title="statement not covered" >        dto.brand = product.brand;</span>
-<span class="cstat-no" title="statement not covered" >        dto.price = product.price;</span>
-<span class="cstat-no" title="statement not covered" >        dto.image = product.image;</span>
-<span class="cstat-no" title="statement not covered" >        dto.quantity = product.quantity;</span>
-<span class="cstat-no" title="statement not covered" >        dto.isActive = product.isActive;</span>
-<span class="cstat-no" title="statement not covered" >        dto.color = productDetails.color;</span>
-<span class="cstat-no" title="statement not covered" >        dto.material = productDetails.material;</span>
-<span class="cstat-no" title="statement not covered" >        dto.size = productDetails.size;</span>
-<span class="cstat-no" title="statement not covered" >        dto.description = productDetails.description;</span>
+        dto.id = product.id;
+        dto.created = product.created.valueOf();
+        dto.updated = product.updated.valueOf();
+        dto.category = product.category;
+        dto.name = product.name;
+        dto.brand = product.brand;
+        dto.price = product.price;
+        dto.image = product.image;
+        dto.quantity = product.quantity;
+        dto.isActive = product.isActive;
+        dto.color = productDetails.color;
+        dto.material = productDetails.material;
+        dto.size = productDetails.size;
+        dto.description = productDetails.description;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        return dto;</span>
+        return dto;
     }
 }
 &nbsp;</pre></td></tr></table></pre>
@@ -190,7 +190,7 @@ import { ProductDetailsEntity } from "../entities/product-details.entity";
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-03-20T12:58:39.284Z
+                at 2023-03-20T13:17:37.563Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

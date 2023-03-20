@@ -30,13 +30,13 @@ describe("Order controller", () => {
     expect(controller).toBeDefined();
   });
 
-  describe("Create order", () => {
+  describe("endpoint: Create order", () => {
     it("should be return new order", async () => {
       expect(await controller.createOrder(user, cartDto));
     });
   });
 
-  describe("Get orders by user_id", () => {
+  describe("endpoint: Get orders by user_id", () => {
     it("should be return order", async () => {
       expect(await controller.getProfileOrders(user)).toEqual(order);
     }),
@@ -45,7 +45,7 @@ describe("Order controller", () => {
       });
   });
 
-  describe("Get all orders", () => {
+  describe("endpoint: Get all orders", () => {
     it("should be return all orders", async () => {
       expect(await controller.getAllOrders()).toEqual([order]);
     });

@@ -38,25 +38,25 @@ describe("User controller", () => {
     expect(controller).toBeDefined();
   });
 
-  describe("Get all users", () => {
+  describe("endpoint: Get all users", () => {
     it("should be return array with users", async () => {
       expect(await controller.getAllUsers(true)).toEqual([user]);
     });
   });
 
-  describe("Get details by id", () => {
+  describe("endpoint: Get details by id", () => {
     it("should be return specific user details", async () => {
       expect(await controller.getUserById(user.id)).toEqual(details);
     });
   });
 
-  describe("Get user profile by id", () => {
+  describe("endpoint: Get user profile by id", () => {
     it("should be return specific user details", async () => {
       expect(await controller.getUserProfile(userSessionDto)).toEqual(details);
     });
   });
 
-  describe("Assign user role by id", () => {
+  describe("endpoint: Assign user role by id", () => {
     it("should be return user with chahged role", async () => {
       const dto = {
         newRole: "user",
@@ -67,7 +67,7 @@ describe("User controller", () => {
     });
   });
 
-  describe("Delete user by id", () => {
+  describe("endpoint: Delete user by id", () => {
     it("should be return user with changed field isActive=false", async () => {
       expect(await controller.deleteUserById(user.id)).toEqual({
         ...user,
@@ -76,7 +76,7 @@ describe("User controller", () => {
     });
   });
 
-  describe("Update user details by id", () => {
+  describe("endpoint: Update user details by id", () => {
     it("should be return user with changed detais", async () => {
       expect(await controller.updateDetails(user, user.id)).toEqual(
         userWithDetails
@@ -84,7 +84,7 @@ describe("User controller", () => {
     });
   });
 
-  describe("Update user profile", () => {
+  describe("endpoint: Update user profile", () => {
     it("should be return user with changed detais", async () => {
       expect(await controller.updateUserProfile(user, userSessionDto)).toEqual(
         userWithDetails

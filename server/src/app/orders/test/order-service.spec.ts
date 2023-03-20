@@ -52,13 +52,13 @@ describe("Order service", () => {
     expect(service).toBeDefined();
   });
 
-  describe("Get all orders", () => {
+  describe("method: Get all orders", () => {
     it("should be return", async () => {
       expect(await service.getAllOrders()).toEqual([order]);
     });
   });
 
-  describe("Get orders by id", () => {
+  describe("method: Get orders by id", () => {
     it("should be return specific orders", async () => {
       userRepositoryFake.getById = jest.fn().mockResolvedValue(user);
       expect(await service.getOrdersByUserId(user.id)).toEqual([order]);
@@ -74,7 +74,7 @@ describe("Order service", () => {
     });
   });
 
-  describe("Create order", () => {
+  describe("method: Create order", () => {
     it("should be return new order", async () => {
       userRepositoryFake.getById = jest.fn().mockResolvedValue(user);
       orderRepositoryFake.createOrder = jest.fn().mockResolvedValue(newOrder);
@@ -105,7 +105,7 @@ describe("Order service", () => {
     });
   });
 
-  describe("Create order item", () => {
+  describe("method: Create order item", () => {
     it("should be return new order item", async () => {
       expect(await service.createOrderItem(order, product, 20)).toEqual(orderItem);
     });
