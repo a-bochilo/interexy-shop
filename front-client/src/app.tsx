@@ -4,11 +4,11 @@ import { BrowserRouter as Router } from "react-router-dom";
 // import AppRoutes from "app.routes";
 
 import "./app.css";
+import PageAsideComp from "./components/aside.comp";
 import ErrorBoundaryComp from "./components/error-boundary.comp";
 
-import PageFooterComp from "./components/page-footer.comp";
+import PageNavBarComp from "./components/navbar.comp";
 
-import PageHeaderComp from "./components/page-header.comp";
 import store from "./store";
 
 function App() {
@@ -17,9 +17,7 @@ function App() {
       <Provider store={store}>
         <Router>
           {/* <AppRoutes /> */}
-          <PageHeaderComp />
-
-          <PageFooterComp />
+         <PageAsideComp />
 
         </Router>
       </Provider>
