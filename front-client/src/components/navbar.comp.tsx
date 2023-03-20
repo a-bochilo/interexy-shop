@@ -16,7 +16,6 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
@@ -57,7 +56,6 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
-
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
@@ -66,7 +64,6 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   ...theme.mixins.toolbar,
   justifyContent: "flex-end",
 }));
-
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -119,7 +116,6 @@ const PageNavBarComp: FC = () => {
     null
   );
 
-
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -127,7 +123,6 @@ const PageNavBarComp: FC = () => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -236,7 +231,6 @@ const PageNavBarComp: FC = () => {
       <Drawer
         sx={{
           width: drawerWidth,
-
           flexShrink: 0,
           "& .MuiDrawer-paper": {
             width: drawerWidth,
@@ -259,7 +253,6 @@ const PageNavBarComp: FC = () => {
         <Divider />
         <List>
           {["Catalog", "Cart", "Login"].map((text, index) => (
-
             <ListItem key={text} disablePadding>
               <ListItemButton>
                 <ListItemText primary={text} />

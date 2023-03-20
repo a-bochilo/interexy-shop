@@ -1,39 +1,55 @@
 import React, { FC, Suspense } from "react";
-// import { Navigate, Routes, Route } from "react-router-dom";
+import { Navigate, Routes, Route } from "react-router-dom";
 
-// // ======= private route ======= //
-// const PrivateRoute: FC<{ element: any }> = ({ element: Element }) => {
-//   return true ? (
-//     <Suspense fallback={<div />}>
-//       <div>
-//         <Element />
-//       </div>
-//     </Suspense>
-//   ) : (
-//     <Navigate to={""} />
-//   );
-// };
+// ========================== mui ==========================
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 
-// // ======= public route ======= //
-// const PublicRoute: FC<{ element: any }> = ({ element: Element }) => (
-//   <Suspense fallback={<div />}>
-//     <Element />
-//   </Suspense>
-// );
+// ======= private route ======= //
+const PrivateRoute: FC<{ element: any }> = ({ element: Element }) => {
+  return true ? (
+    <Suspense
+      fallback={
+        <Box sx={{ display: "flex" }}>
+          <CircularProgress />
+        </Box>
+      }
+    >
+      <div>
+        <Element />
+      </div>
+    </Suspense>
+  ) : (
+    <Navigate to={"/"} />
+  );
+};
 
-// // ======= pages ======= //
-// const UsersPage = React.lazy(() => import("app/users"));
+// ======= public route ======= //
+const PublicRoute: FC<{ element: any }> = ({ element: Element }) => (
+  <Suspense
+    fallback={
+      <Box sx={{ display: "flex" }}>
+        <CircularProgress />
+      </Box>
+    }
+  >
+    <Element />
+  </Suspense>
+);
 
-// const AppRoutes = () => {
-//   return (
-//     <Routes>
-//       {/* PRIVATE */}
-//       <Route path={"/users/*"} element={<PrivateRoute element={UsersPage} />} />
+// ======= pages ======= //
+const LoginPage = React.lazy(() => import("./app/login"));
 
-//       {/* DEFAULT */}
-//       <Route path="*" element={<Navigate to="/users" />} />
-//     </Routes>
-//   );
-// };
+const AppRoutes = () => {
+  return (
+    <Routes>
+      {/* PUBLIC */}
+      <Route path={"/"} element={<PublicRoute element={LoginPage} />} />
 
-// export default AppRoutes;
+      {/* DEFAULT */}
+      <Route path="*" element={<Navigate to="/" />} />
+    </Routes>
+  );
+};
+
+export default AppRoutes;
