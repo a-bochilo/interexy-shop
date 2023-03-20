@@ -14,6 +14,14 @@ import {
     cartEntityWithExtraItem,
 } from "./mocks/data.mocks";
 
+jest.mock("nestjs-i18n", () => ({
+    I18nContext: {
+        current: () => ({
+            t: () => "text",
+        }),
+    },
+}));
+
 describe("CartService", () => {
     let cartService: CartService;
 

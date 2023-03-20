@@ -1,4 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { I18nContext } from "nestjs-i18n";
 
 // ========================== Entities & DTO's ==========================
 import { CreateOrderDto } from "./dtos/create-order.dto";
@@ -39,7 +40,10 @@ export class OrderService {
 
     async createOrder(cart: CartSessionDto, userId: string): Promise<OrderDto> {
         if (!cart.items.length) {
-            throw new HttpException(`Cart is empty!`, HttpStatus.BAD_REQUEST);
+            throw new HttpException(
+                I18nContext.current().t("errors.cart.cartIsEmpty"),
+                HttpStatus.BAD_REQUEST
+            );
         }
         const productIds = cart.items.map((item) => item.productId);
         const prodEntities = await this.productRepository.getProductsArrayByIds(
@@ -51,7 +55,9 @@ export class OrderService {
 
             if (res < 0) {
                 throw new HttpException(
-                    `Product '${product.name}' is ended`,
+                    `'${product.name}'. ${I18nContext.current().t(
+                        "errors.products.productNotEnough"
+                    )} ${product.quantity}`,
                     HttpStatus.BAD_REQUEST
                 );
             }

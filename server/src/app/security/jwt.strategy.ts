@@ -22,6 +22,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     }
 
     async validate(payload: UserSessionDto): Promise<UserSessionDto> {
+
         return UserSessionDto.fromJwt(payload);
     }
 }
