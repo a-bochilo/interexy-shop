@@ -81,7 +81,7 @@ export class UserEntity extends UUIDEntity {
     role: RoleEntity;
 
     @OneToMany(() => OrderEntity, (order) => order.user)
-    order: OrderEntity[];
+    order?: OrderEntity[];
 
     @OneToOne(() => CartEntity, (cart) => cart.user)
     @JoinColumn({ name: "cart_id", referencedColumnName: "id" })

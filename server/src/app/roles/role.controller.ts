@@ -21,6 +21,7 @@ import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { UserDetailsEntity } from "../users/entities/user-details.entity";
 import { UserPermissions } from "../../shared/types/user-permissions.enum";
 import { AuthPermissionsGuard } from "../security/decorators/auth-permissions-guard.decorator";
+import { DeleteResult } from "typeorm";
 
 
 @ApiTags('Roles controller')
@@ -86,7 +87,7 @@ export class RoleController {
     @UsePipes(new ValidationPipe())
     async deleteRoleById(
         @Param('id') id: number
-    ) {
+    ): Promise<HttpStatus> {
         return await this.roleService.deleteRole(id)
     }
 

@@ -26,9 +26,9 @@ export class AuthService {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly roleRepository: RoleRepository,
-    private readonly securityService: SecurityService,
     private readonly userDetailsRepository: UserDetailsRepository,
-    private readonly cartRepository: CartRepository
+    private readonly cartRepository: CartRepository,
+    private readonly securityService: SecurityService,
   ) {}
 
   async signUp(dto: CreateUserDto): Promise<TokenDto> {
@@ -52,11 +52,9 @@ export class AuthService {
 
     const cart = await this.cartRepository.createCart(newUser);
 
-    
     newUser.cart = cart;
     await this.userRepository.save(newUser)
 
-    console.log(await this.userRepository.getById(newUser.id))
     const access_token = await this.securityService.generateJwt(newUser);
     return access_token;
   }

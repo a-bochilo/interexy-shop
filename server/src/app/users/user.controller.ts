@@ -16,19 +16,18 @@ import { User } from "./decorators/user.decorator";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
 // ========================== Entities & DTO's ==========================
-import { CreateUserDto } from "./dtos/create-user.dto";
 import { UserEntity } from "./entities/user.entity";
 import { AssignUserRoleDto } from "./dtos/assign-role-user.dto";
 import { UserDetailsEntity } from "./entities/user-details.entity";
 import { UserSessionDto } from "./dtos/user-session.dto";
+import { UpdateUserDto } from "./dtos/update-user.dto";
+import { UserViewEntity } from "./entities/user-view.entity";
 
 // ========================== Enums =====================================
 import { UserPermissions } from "../../shared/types/user-permissions.enum";
 
 // ========================== Services & Controllers ====================
 import { UserService } from "./user.service";
-import { UpdateUserDto } from "./dtos/update-user.dto";
-import { UserViewEntity } from "./entities/user-view.entity";
 
 @ApiTags("Users controller")
 @Controller("users")
@@ -49,7 +48,7 @@ export class UserController {
   async getAllUsers(
     @Query("isActive") isActive: boolean
   ): Promise<UserEntity[] | UserViewEntity[]> {
-    return this.userService.getUsers(isActive);
+    return this.userService.getAllUsers(isActive);
   }
 
   //GET ONE USER BY ID ---------------------------------------USER
@@ -65,7 +64,7 @@ export class UserController {
   @UsePipes(new ValidationPipe())
   async getUserProfile(
     @User() user: UserSessionDto
-): Promise<UserDetailsEntity> {
+  ): Promise<UserDetailsEntity> {
     return await this.userService.getDetailsById(user.id);
   }
 
@@ -124,7 +123,7 @@ export class UserController {
 
   //DELETE ONE BY ID ---------------------------------------ADMIN
   @Delete("/:userId")
-  @AuthPermissionsGuard(UserPermissions.deleteUserById)
+  //@AuthPermissionsGuard(UserPermissions.deleteUserById)
   @ApiOperation({ summary: "Delete user by id (change isActive) (admin)" })
   @ApiResponse({
     status: HttpStatus.OK,

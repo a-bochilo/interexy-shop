@@ -1,23 +1,18 @@
 import { Body, Controller, Get, HttpStatus, Param, Post, UsePipes, ValidationPipe } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
+import { AuthPermissionsGuard } from "../security/decorators/auth-permissions-guard.decorator";
 import { User } from "../users/decorators/user.decorator";
+import { UserPermissions } from "../../shared/types/user-permissions.enum";
 
 // ========================== Entities & DTO's ==========================
 import { UserSessionDto } from "../users/dtos/user-session.dto";
-import { CreateOrderDto } from "./dtos/create-order.dto";
-import { UserEntity } from "../users/entities/user.entity";
 import { OrderEntity } from "./entities/order.entity";
+import { CartSessionDto } from "../cart/dtos/cart-session.dto";
+import { OrderDto } from "./dtos/order.dto";
 
 // ========================== Services & Controllers ====================
 import { OrderService } from "./order.service";
-import { ProductDto } from "../products/dtos/product.dto";
-import { OrderItemEntity } from "./entities/order-item.entity";
-import { ProductEntity } from "../products/entities/product.entity";
-import { AuthPermissionsGuard } from "../security/decorators/auth-permissions-guard.decorator";
-import { UserPermissions } from "../../shared/types/user-permissions.enum";
-import { CartSessionDto } from "../cart/dtos/cart-session.dto";
-import { OrderDto } from "./dtos/order.dto";
 
 @ApiTags('Order controller')
 @Controller("orders")
@@ -56,7 +51,7 @@ export class OrderController {
     async getProfileOrders(
         @User() user: UserSessionDto
     ): Promise<OrderEntity[]> {
-        return await this.orderService.getOrderById(user.id)
+        return await this.orderService.getOrdersByUserId(user.id)
     }
 
     @Get()
@@ -87,6 +82,6 @@ export class OrderController {
     async getOrdersByUserId(
         @Param("userId") userId: string
     ): Promise<OrderEntity[]> {
-        return await this.orderService.getOrderById(userId)
+        return await this.orderService.getOrdersByUserId(userId)
     }
 }
