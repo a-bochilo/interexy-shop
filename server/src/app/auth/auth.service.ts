@@ -26,9 +26,9 @@ export class AuthService {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly roleRepository: RoleRepository,
-    private readonly securityService: SecurityService,
     private readonly userDetailsRepository: UserDetailsRepository,
-    private readonly cartRepository: CartRepository
+    private readonly cartRepository: CartRepository,
+    private readonly securityService: SecurityService,
   ) {}
 
   async signUp(dto: CreateUserDto): Promise<TokenDto> {
