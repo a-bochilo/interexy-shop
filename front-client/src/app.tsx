@@ -6,7 +6,9 @@ import { BrowserRouter as Router } from "react-router-dom";
 import "./app.css";
 import PageAsideComp from "./components/aside.comp";
 import ErrorBoundaryComp from "./components/error-boundary.comp";
+
 import PageNavBarComp from "./components/navbar.comp";
+
 import store from "./store";
 
 function App() {
@@ -15,7 +17,8 @@ function App() {
       <Provider store={store}>
         <Router>
           {/* <AppRoutes /> */}
-          <PageAsideComp />
+         <PageAsideComp />
+
         </Router>
       </Provider>
     </ErrorBoundaryComp>

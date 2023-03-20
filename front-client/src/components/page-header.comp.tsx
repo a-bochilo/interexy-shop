@@ -2,14 +2,18 @@
 import React, { FC } from "react";
 
 // ========================== mui ==========================
+
 import { styled, alpha } from "@mui/material/styles";
+
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
+
 import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
+
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
@@ -21,6 +25,7 @@ import AdbIcon from "@mui/icons-material/Adb";
 
 const pages = ["Products", "Cart"];
 const settings = ["Profile", "Account", "Logout"];
+
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -63,6 +68,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
   },
 }));
+
 
 const PageHeaderComp: FC = () => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
@@ -108,7 +114,9 @@ const PageHeaderComp: FC = () => {
                 textDecoration: "none",
               }}
             >
+
               LOGO
+
             </Typography>
 
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -178,6 +186,7 @@ const PageHeaderComp: FC = () => {
               ))}
             </Box>
 
+
             <Box sx={{ flexGrow: 0, display: { md: "flex", gap: 20 } }}>
               <Search>
                 <SearchIconWrapper>
@@ -188,6 +197,7 @@ const PageHeaderComp: FC = () => {
                   inputProps={{ "aria-label": "search" }}
                 />
               </Search>
+
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />

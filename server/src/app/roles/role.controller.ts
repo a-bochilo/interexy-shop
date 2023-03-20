@@ -19,6 +19,9 @@ import { CreateRoleDto } from "./dtos/create-role.dto";
 import { RoleEntity } from "./entities/role.entity";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { UserDetailsEntity } from "../users/entities/user-details.entity";
+import { UserPermissions } from "../../shared/types/user-permissions.enum";
+import { AuthPermissionsGuard } from "../security/decorators/auth-permissions-guard.decorator";
+import { DeleteResult } from "typeorm";
 
 
 @ApiTags('Roles controller')
@@ -27,7 +30,7 @@ export class RoleController {
     constructor(private readonly roleService: RoleService) { }
 
     @Post()
-    //@AuthPermissionsGuard(UserPermissions.createRole)
+    @AuthPermissionsGuard(UserPermissions.createRole)
     @ApiOperation({ summary: "Create role" })
     @ApiResponse({
         status: HttpStatus.OK,
@@ -43,7 +46,7 @@ export class RoleController {
     }
 
     @Get()
-    //@AuthPermissionsGuard(UserPermissions.getAllRoles)
+    @AuthPermissionsGuard(UserPermissions.getAllRoles)
     @ApiOperation({ summary: "Get all roles" })
     @ApiResponse({
         status: HttpStatus.OK,
@@ -52,12 +55,12 @@ export class RoleController {
         isArray: true,
     })
     @UsePipes(new ValidationPipe())
-    async getAll(): Promise<RoleEntity[]> {
+    async getAllRoles(): Promise<RoleEntity[]> {
         return await this.roleService.getAll();
     }
 
     @Get('/:id')
-    //@AuthPermissionsGuard(UserPermissions.getRoleById)
+    @AuthPermissionsGuard(UserPermissions.getRoleById)
     @ApiOperation({ summary: "Get role by id" })
     @ApiResponse({
         status: HttpStatus.OK,
@@ -73,7 +76,7 @@ export class RoleController {
     }
 
     @Delete('/:id')
-    //@AuthPermissionsGuard(UserPermissions.deleteRoleById)
+    @AuthPermissionsGuard(UserPermissions.deleteRoleById)
     @ApiOperation({ summary: "Delete role by id" })
     @ApiResponse({
         status: HttpStatus.OK,
@@ -82,14 +85,14 @@ export class RoleController {
         isArray: false,
     })
     @UsePipes(new ValidationPipe())
-    async deleteRole(
+    async deleteRoleById(
         @Param('id') id: number
-    ) {
+    ): Promise<HttpStatus> {
         return await this.roleService.deleteRole(id)
     }
 
     @Put('/:id')
-    //@AuthPermissionsGuard(UserPermissions.updateRoleById)
+    @AuthPermissionsGuard(UserPermissions.updateRoleById)
     @ApiOperation({ summary: "Update role by id" })
     @ApiResponse({
         status: HttpStatus.OK,
@@ -98,7 +101,7 @@ export class RoleController {
         isArray: false,
     })
     @UsePipes(new ValidationPipe())
-    async updateRole(
+    async updateRoleById(
         @Param('id') id: number,
         @Body() createRoleDto: CreateRoleDto
     ) {
