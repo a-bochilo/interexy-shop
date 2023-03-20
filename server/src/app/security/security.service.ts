@@ -16,35 +16,31 @@ export class SecurityService {
         private readonly userRepository: UserRepository,
         private readonly roleRepository: RoleRepository,
         private readonly jwtService: JwtService
-    ) { }
+    ) {}
 
     async generateJwt(user: UserEntity): Promise<TokenDto> {
-            const payload = await UserSessionDto.fromEntity(user);
-            const token = this.jwtService.sign(payload);
-            return { token };
+        const payload = await UserSessionDto.fromEntity(user);
+        const token = this.jwtService.sign(payload);
+        return { token };
     }
 
     async verifyJwt(jwt: string) {
         try {
             return await this.jwtService.verify(jwt);
-        } catch(error) {
-            throw new HttpException(
-                `${error}`,
-                HttpStatus.BAD_REQUEST
-            )
+        } catch (error) {
+            throw new HttpException(`${error}`, HttpStatus.BAD_REQUEST);
         }
     }
 
     async getUser(id: string): Promise<UserEntity> {
         try {
-            const user =  await this.userRepository.getById(id)
+            const user = await this.userRepository.getById(id);
+
+            //! Если мы возвращаем DTO без роли, то нам наверно не нужен запрос ниже + нужно убрать try..catch и verifyJwt!
             user.role = await this.roleRepository.getById(user.roleId);
             return user;
         } catch (error) {
-            throw new HttpException(
-                `${error}`,
-                HttpStatus.BAD_REQUEST
-            )
+            throw new HttpException(`${error}`, HttpStatus.BAD_REQUEST);
         }
     }
 }
