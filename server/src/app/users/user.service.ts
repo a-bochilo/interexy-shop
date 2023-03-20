@@ -1,135 +1,124 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 
 // ========================== Entities & DTO's ==========================
-import { CreateUserDto } from "./dtos/create-user.dto";
 import { AssignUserRoleDto } from "./dtos/assign-role-user.dto";
-import { UserEntity } from "./entities/user.entity";
 
 // ========================== Repositories ==============================
 import { UserRepository } from "./repos/user.repository";
 import { UserDetailsRepository } from "./repos/user-details.repository";
 import { UserViewRepository } from "./repos/user-view.repository";
 
-// ========================== Enums =====================================
-import { UserRoles } from "src/shared/types/user-roles.enum";
-
 // ========================== Services & Controllers ====================
-import { RoleService } from "../roles/role.service";
 import { UpdateUserDto } from "./dtos/update-user.dto";
+import { RoleRepository } from "../roles/repos/role.repository";
 
 @Injectable()
 export class UserService {
-    constructor(
-        private readonly userDetailsRepository: UserDetailsRepository,
-        private readonly userRepository: UserRepository,
-        private readonly userViewRepository: UserViewRepository,
-        private readonly roleService: RoleService
-    ) { }
+  constructor(
+    private readonly userDetailsRepository: UserDetailsRepository,
+    private readonly userRepository: UserRepository,
+    private readonly userViewRepository: UserViewRepository,
+    private readonly roleRepository: RoleRepository
+  ) {}
 
-    async createUser(createUserDto: CreateUserDto): Promise<UserEntity> {
-        try {
-            const email = await this.userRepository.getUserByEmail(createUserDto.email);
-            if (email) {
-                throw new HttpException(
-                    `User with ${createUserDto.email} already exist`,
-                    HttpStatus.BAD_REQUEST
-                )
-            }
-            if (createUserDto.phone !== null) {
-                const phone = await this.userRepository.getUserByEmail(createUserDto.phone);
-                if (phone) {
-                    throw new HttpException(
-                        `User with ${createUserDto.email} already exist`,
-                        HttpStatus.BAD_REQUEST
-                    )
-                }
-            }
+  async getAllUsers(isActive: boolean) {
+    if (isActive === undefined) {
+      return await this.userViewRepository.getAllUsers();
+    }
+    return await this.userRepository.getAllUsers(false);
+  }
 
-            const role = await this.roleService.getRoleByType(UserRoles.user);
-            const details = await this.userDetailsRepository.createUserDetails(
-                createUserDto.details
-            );
+  async getDetailsById(userId: string) {
+    const user = await this.userRepository.getById(userId);
+    if (!user) {
+      throw new HttpException(`User ${userId} not found`, HttpStatus.NOT_FOUND);
+    }
+    return await this.userDetailsRepository.getDetailsById(user.details_id);
+  }
 
-            return await this.userRepository.createUser({
-                ...createUserDto,
-                details,
-                role,
-            });
-        } catch (error) {
-            throw new HttpException(
-                error,
-                HttpStatus.BAD_REQUEST
-            )
-        }
+  async getById(userId: string) {
+    const user = await this.userRepository.getById(userId);
+    if (!user) {
+      throw new HttpException(`User ${userId} not found`, HttpStatus.NOT_FOUND);
+    }
+    return user;
+  }
+
+  async assignUserRole(assignUserRoleDto: AssignUserRoleDto, userId: string) {
+    const user = await this.userRepository.getById(userId);
+
+    if (!user) {
+      throw new HttpException(`User ${userId} not found`, HttpStatus.NOT_FOUND);
     }
 
-    async getAll() {
-        return await this.userViewRepository.getAll();
+    const newRole = await this.roleRepository.getRoleByName(
+      assignUserRoleDto.newRole
+    );
+
+    if (!newRole) {
+      throw new HttpException(
+        `User ${assignUserRoleDto.newRole} not found`,
+        HttpStatus.NOT_FOUND
+      );
     }
 
-    async getUsers(isActive: boolean) {
-        if (isActive === undefined) {
-            return await this.userViewRepository.getAll();
-        }
-        return await this.userRepository.getInActiveUsers(false);
+    user.updated = new Date();
+    user.role = newRole;
+    user.roleId = newRole.id;
+    user.roleType = newRole.type;
+    return await this.userRepository.assignUserRole(user);
+  }
+
+  async deleteUserById(userId: string) {
+    const user = await this.userRepository.getById(userId);
+
+    if (!user) {
+      throw new HttpException(`User ${userId} not found`, HttpStatus.NOT_FOUND);
+    }
+    return await this.userRepository.deleteUserById(userId);
+  }
+
+  async updateUserDetails(info: UpdateUserDto, userId: string) {
+    const user = await this.userRepository.getById(userId);
+
+    if (!user) {
+      throw new HttpException(`User ${userId} not found`, HttpStatus.NOT_FOUND);
     }
 
-    async getById(userId: 'uuid') {
-        try {
-            const user = await this.userRepository.getById(userId);
-            return await this.userDetailsRepository.getDetails(user.details_id as 'uuid');
-        } catch (error) {
-            throw new HttpException(
-                error,
-                HttpStatus.BAD_REQUEST
-            )
-        }
+    let details = await this.userDetailsRepository.getDetailsById(
+      user.details_id
+    );
+
+    if (!details) {
+      throw new HttpException(
+        `Details ${user.details_id} not found`,
+        HttpStatus.NOT_FOUND
+      );
     }
 
-    async assignUserRole(assignUserRoleDto: AssignUserRoleDto, userId: 'uuid') {
-        try {
-            const user = await this.userRepository.getById(userId);
-            const newRole = await this.roleService.getRoleById(
-                assignUserRoleDto.newRole
-            );
-            user.role = newRole;
-            user.roleId = newRole.id;
-            user.roleType = newRole.type;
-            return await this.userRepository.updateUser(user);
-        } catch (error) {
-            throw new HttpException(
-                error,
-                HttpStatus.BAD_REQUEST
-            )
-        }
-    };
+    const newDetails = await this.userDetailsRepository.setDetails(
+      Object.assign(details, info.details)
+    );
 
-    async deleteUserById(userId: 'uuid') {
-        return await this.userRepository.deleteUser(userId);
-    }
+    delete info.details;
+    Object.assign(user, info);
 
-    async updateUserDetails(info: UpdateUserDto, userId: 'uuid') {
-        try {
-            const user = await this.userRepository.getById(userId);
-            let details = await this.userDetailsRepository.getDetails(user.details_id as 'uuid');
-            const newDetails = await this.userDetailsRepository.createUserDetails(
-                Object.assign(details, info.details)
-            );
-            const role = await this.roleService.getRoleById(user.roleId);
-            delete (info.details);
-            Object.assign(user, info);
-            details = newDetails;
-            await this.userDetailsRepository.deleteDetails(user.details_id as 'uuid');
-            return await this.userRepository.updateUser({
-                ...user,
-                details,
-                role
-            })
-        } catch (error) {
-            throw new HttpException(
-                error,
-                HttpStatus.BAD_REQUEST
-            )
-        }
+    user.updated = new Date();
+    details = newDetails;
+    return await this.userRepository.updateUserDetails({
+      ...user,
+      details,
+    });
+  }
+
+  async getUserByEmail(email: string) {
+    const user = await this.userRepository.getUserByEmail(email);
+    if (!user) {
+      throw new HttpException(
+        `User with email: ${email} not found`,
+        HttpStatus.NOT_FOUND
+      );
     }
+    return user;
+  }
 }

@@ -5,6 +5,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 
 import "./app.css";
 import ErrorBoundaryComp from "./components/error-boundary.comp";
+import SignUpForm from "./components/registration-form.comp";
 import store from "./store";
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
         <Router>
           {/* <AppRoutes /> */}
           <div>Front-Admin</div>
+          <SignUpForm />
         </Router>
       </Provider>
     </ErrorBoundaryComp>

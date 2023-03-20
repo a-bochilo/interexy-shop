@@ -2,7 +2,9 @@
 import React, { FC } from "react";
 
 // ========================== mui ==========================
+
 import { styled, alpha } from "@mui/material/styles";
+
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -89,6 +91,7 @@ const PageHeaderComp: FC = () => {
 
   return (
     <Box component={"header"}>
+
       <AppBar position="static">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
@@ -109,6 +112,7 @@ const PageHeaderComp: FC = () => {
               }}
             >
               LOGO
+
             </Typography>
 
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -177,7 +181,6 @@ const PageHeaderComp: FC = () => {
                 </Button>
               ))}
             </Box>
-
             <Box sx={{ flexGrow: 0, display: { md: "flex", gap: 20 } }}>
               <Search>
                 <SearchIconWrapper>
@@ -220,6 +223,7 @@ const PageHeaderComp: FC = () => {
         </Container>
       </AppBar>
     </Box>
+
   );
 };
 
