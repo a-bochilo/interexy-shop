@@ -1,0 +1,21 @@
+{
+    "cart": {
+        "productAlreadyInCart": "Товар уже есть в корзине",
+        "productDoesNotExistInCart": "Товара нет в корзине",
+        "cartIsEmpty": "Корзина пуста"
+    },
+    "user": {
+        "userDoesNotExist": "Такого пользователя не существует"
+    },
+    "products": {
+        "productDoesNotExist": "Такого товара не существует",
+        "productAlreadyExist": "Такой товар уже есть",
+        "productNotEnough": "Количество товара меньше чем запрашивается. Доступное количество"
+    },
+    "roles": {
+        "roleAlreadyExist": "Такая роль уже существует"
+    },
+    "authorization": {
+        "unAuthorized": "Нет доступа"
+    }
+}

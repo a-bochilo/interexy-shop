@@ -68,7 +68,6 @@ export class CartController {
         @Body() cartItemDto: CartItemDto
     ): Promise<CartSessionDto> {
         const cart = await this.cartService.addCartItem(user, cartItemDto);
-
         return CartSessionDto.fromEntity(cart);
     }
 
