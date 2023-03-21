@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { I18nContext } from "nestjs-i18n";
 
 // ========================== Entities & DTO's ==========================
-import { AssignUserRoleDto } from "./dtos/assign-role-user.dto";
+import { AssignUserRoleDto } from "./dtos/user-assigne-role.dto";
 
 // ========================== Repositories ==============================
 import { UserRepository } from "./repos/user.repository";
@@ -10,7 +10,7 @@ import { UserDetailsRepository } from "./repos/user-details.repository";
 import { UserViewRepository } from "./repos/user-view.repository";
 
 // ========================== Services & Controllers ====================
-import { UpdateUserDto } from "./dtos/update-user.dto";
+import { UpdateUserDto } from "./dtos/user-update.dto";
 import { RoleRepository } from "../roles/repos/role.repository";
 
 @Injectable()
@@ -20,16 +20,12 @@ export class UserService {
     private readonly userRepository: UserRepository,
     private readonly userViewRepository: UserViewRepository,
     private readonly roleRepository: RoleRepository
-    private readonly roleRepository: RoleRepository
   ) {}
 
   async getAllUsers(isActive: boolean) {
-  async getAllUsers(isActive: boolean) {
     if (isActive === undefined) {
       return await this.userViewRepository.getAllUsers();
-      return await this.userViewRepository.getAllUsers();
     }
-    return await this.userRepository.getAllUsers(false);
     return await this.userRepository.getAllUsers(false);
   }
 
@@ -81,7 +77,6 @@ export class UserService {
     user.roleId = newRole.id;
     user.roleType = newRole.type;
     return await this.userRepository.assignUserRole(user);
-    return await this.userRepository.assignUserRole(user);
   }
 
   async deleteUserById(userId: string) {
@@ -127,7 +122,6 @@ export class UserService {
 
     user.updated = new Date();
     details = newDetails;
-    return await this.userRepository.updateUserDetails({
     return await this.userRepository.updateUserDetails({
       ...user,
       details,

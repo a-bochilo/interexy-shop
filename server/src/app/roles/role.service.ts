@@ -4,7 +4,7 @@ import { I18nContext } from "nestjs-i18n";
 import { RoleRepository } from "./repos/role.repository";
 
 // ========================== DTO's & Types ==========================
-import { CreateRoleDto } from "./dtos/create-role.dto";
+import { CreateRoleDto } from "./dtos/role-create.dto";
 
 // ========================== Entities & Repos ==========================
 import { RoleEntity } from "./entities/role.entity";

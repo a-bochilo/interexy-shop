@@ -4,7 +4,7 @@ import { Repository } from "typeorm";
 
 // ========================== Entities & DTO's ==========================
 import { UserEntity } from "../entities/user.entity";
-import { CreateUserDto } from "../dtos/create-user.dto";
+import { CreateUserDto } from "../dtos/user-create.dto";
 
 @Injectable()
 export class UserRepository extends Repository<UserEntity> {

@@ -15,7 +15,7 @@ import {
 import { RoleService } from "./role.service";
 
 // ========================== DTO's & Types ==========================
-import { CreateRoleDto } from "./dtos/create-role.dto";
+import { CreateRoleDto } from "./dtos/role-create.dto";
 import { RoleEntity } from "./entities/role.entity";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { UserDetailsEntity } from "../users/entities/user-details.entity";

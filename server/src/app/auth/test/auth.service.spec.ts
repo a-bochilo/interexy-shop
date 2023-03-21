@@ -14,7 +14,7 @@ import { RoleRepository } from "../../roles/repos/role.repository";
 import { UserDetailsRepository } from "../../users/repos/user-details.repository";
 import { CartRepository } from "../../cart/repos/cart.repository";
 import { TokenDto } from "../../security/dtos/token.dto";
-import { CreateUserDto } from "../../users/dtos/create-user.dto";
+import { CreateUserDto } from "../../users/dtos/user-create.dto";
 import { UserSignInDto } from "../dtos/user-sign-in.dto";
 
 describe("AuthService methods", () => {

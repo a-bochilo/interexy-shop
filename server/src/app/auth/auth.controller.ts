@@ -13,7 +13,7 @@ import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 // ========================== Entities & DTO's ==========================
 import { UserSignInDto } from "./dtos/user-sign-in.dto";
 import { TokenDto } from "../security/dtos/token.dto";
-import { CreateUserDto } from "../users/dtos/create-user.dto";
+import { CreateUserDto } from "../users/dtos/user-create.dto";
 import { UserSessionDto } from "../users/dtos/user-session.dto";
 
 // ========================== Services ====================

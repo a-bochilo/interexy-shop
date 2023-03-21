@@ -17,10 +17,10 @@ import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
 // ========================== Entities & DTO's ==========================
 import { UserEntity } from "./entities/user.entity";
-import { AssignUserRoleDto } from "./dtos/assign-role-user.dto";
+import { AssignUserRoleDto } from "./dtos/user-assigne-role.dto";
 import { UserDetailsEntity } from "./entities/user-details.entity";
 import { UserSessionDto } from "./dtos/user-session.dto";
-import { UpdateUserDto } from "./dtos/update-user.dto";
+import { UpdateUserDto } from "./dtos/user-update.dto";
 import { UserViewEntity } from "./entities/user-view.entity";
 
 // ========================== Enums =====================================

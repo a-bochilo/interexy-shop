@@ -6,7 +6,7 @@ import { BadRequestException } from "@nestjs/common";
 // ========================== rest ==========================
 import { AuthController } from "../auth.controller";
 import { AuthService } from "../auth.service";
-import { CreateUserDto } from "../../users/dtos/create-user.dto";
+import { CreateUserDto } from "../../users/dtos/user-create.dto";
 import { UserSignInDto } from "../dtos/user-sign-in.dto";
 import { SecurityService } from "../../security/security.service";
 import { JwtAuthGuard } from "../../security/guards/jwt-auth.guard";
