@@ -1,12 +1,12 @@
 import axios from "axios";
 
-const BASE_URL = process.env.REACT_APP_BASE_URL;
+// const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const $api = axios.create({
     headers: {
         "Content-type": "application/json",
     },
-    baseURL: BASE_URL,
+    // baseURL: BASE_URL,
 });
 
 // $api.interceptors.response.use((response) => {
