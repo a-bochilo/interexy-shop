@@ -1,8 +1,12 @@
+// ========================== redux ==========================
 import { configureStore } from "@reduxjs/toolkit";
+
+// ========================== store ==========================
+import { usersSlice } from "./app/users/store/users.slice";
 
 const store = configureStore({
   reducer: {
-    // users: usersSlice.reducer,
+    users: usersSlice.reducer,
   },
 });
 
