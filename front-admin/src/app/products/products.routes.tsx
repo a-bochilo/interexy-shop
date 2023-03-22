@@ -33,7 +33,7 @@ const Suspended: FC<PropsWithChildren & { element: any }> = ({
 // ======= pages ======= //
 const ProductListPage = React.lazy(
     () =>
-        import(/* webpackChunkName: "ProductListPage" */ "./product-list.page")
+        import(/* webpackChunkName: "ProductListPage" */ "./products-list.page")
 );
 const ProductViewPage = React.lazy(
     () =>
@@ -44,7 +44,7 @@ const ProductsRoutes: FC = () => {
     return (
         <Routes>
             <Route
-                path={"/"}
+                path={"/*"}
                 element={<Suspended element={ProductListPage} />}
             />
             <Route

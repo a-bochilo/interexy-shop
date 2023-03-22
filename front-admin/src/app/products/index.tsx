@@ -14,14 +14,19 @@ import PageNavBarComp from "../../components/navbar.comp";
 import ProductsRoutes from "./products.routes";
 
 const MainGrid = styled(Grid)`
+    display: flex;
+    flex-direction: column;
     flex: 1 1 0;
     padding-top: 64px;
+    min-height: 100vh;
+    justify-content: space-between;
 `;
 
 const ContentGrid = styled(Grid)`
     display: flex;
-    align-items: top;
+    flex-grow: 1;
     min-width: 100%;
+    min-height: 100%;
 `;
 
 const ProductsPage: FC = () => {

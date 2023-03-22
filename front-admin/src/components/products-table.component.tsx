@@ -74,7 +74,7 @@ const ProductsTable = ({
                         key={column.dataKey}
                         variant="head"
                         align="center"
-                        style={{ width: column.width }}
+                        style={{ width: column.width, fontWeight: "bold" }}
                         sx={{
                             backgroundColor: "background.paper",
                         }}
@@ -99,7 +99,12 @@ const ProductsTable = ({
     };
 
     return (
-        <Paper style={{ height: "calc(100vh - 64px)", width: "100%" }}>
+        <Paper
+            style={{
+                width: "100%",
+                minHeight: "100%",
+            }}
+        >
             <TableVirtuoso
                 data={products}
                 components={VirtuosoTableComponents}

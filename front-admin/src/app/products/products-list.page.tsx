@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 // =========================== MUI ===========================
 import styled from "@emotion/styled";
-import { Grid } from "@mui/material";
+import { CircularProgress, Grid } from "@mui/material";
 
 // =========================== Store ===========================
 import { fetchProducts } from "./store/products.actions";
@@ -12,7 +12,6 @@ import {
     productsPendingSelector,
 } from "./store/products.selectors";
 import { useAppDispatch, useAppSelector } from "../../store";
-import { setProductById } from "./store/products.slice";
 
 // =========================== Components ===========================
 import ProductsTable from "../../components/products-table.component";
@@ -22,28 +21,34 @@ const MainGrid = styled(Grid)`
     align-items: top;
     justify-content: space-around;
     width: 100%;
+    min-height: 100%;
 `;
 
 const ProductListPage: FC = () => {
-    const isInitialLoading = useRef(true);
     const dispatch = useAppDispatch();
-    const products = useAppSelector(productsSelector);
     const navigate = useNavigate();
+
+    const isInitialLoading = useRef(true);
+
+    const products = useAppSelector(productsSelector);
+    const pending = useAppSelector(productsPendingSelector);
 
     useEffect(() => {
         if (!isInitialLoading.current) return;
         dispatch(fetchProducts());
         isInitialLoading.current = false;
-    }, [dispatch, products.length]);
+    }, [dispatch]);
 
     const handleClickRow = (productId: string) => {
-        dispatch(setProductById(productId));
         navigate(`${productId}`);
     };
 
     return (
         <MainGrid>
-            {products.length && (
+            {pending.products && (
+                <CircularProgress sx={{ alignSelf: "center" }} />
+            )}
+            {!!products.length && (
                 <ProductsTable
                     products={products}
                     handleClickRow={handleClickRow}

@@ -1,13 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 // =========================== Interfaces & DTO's ===========================
-import { IInitialState } from "../types/products-state.interface";
+import { IProductsState } from "../types/products-state.interface";
 import { ProductDto } from "../types/product.dto";
+import { ProductDetailsDto } from "../types/product-details.dto";
 
 // =========================== Actions ===========================
-import { fetchProducts } from "./products.actions";
+import { fetchProductDetials, fetchProducts } from "./products.actions";
 
-const initialState: IInitialState = {
+const initialState: IProductsState = {
     products: [],
     product: undefined,
     pending: {
@@ -24,11 +25,11 @@ const productsSlice = createSlice({
     name: "products",
     initialState,
     reducers: {
-        setProductById: (state, action: PayloadAction<string>) => {
-            state.product = state.products.find(
-                (product) => product.id === action.payload
-            );
-        },
+        // setProductById: (state, action: PayloadAction<string>) => {
+        //     state.product = state.products.find(
+        //         (product) => product.id === action.payload
+        //     );
+        // },
     },
     extraReducers: (builder) => {
         // ================== Get products ==================
@@ -49,6 +50,23 @@ const productsSlice = createSlice({
                     state.errors.products = action.payload?.message;
                 }
             );
+        builder
+            .addCase(fetchProductDetials.pending, (state) => {
+                state.pending.product = true;
+            })
+            .addCase(
+                fetchProductDetials.fulfilled,
+                (state, action: PayloadAction<ProductDetailsDto>) => {
+                    state.pending.product = false;
+                    state.product = action.payload;
+                }
+            )
+            .addCase(
+                fetchProductDetials.rejected,
+                (state, action: any & { payload: any }) => {
+                    state.errors.product = action.payload?.message;
+                }
+            );
     },
 });
 
@@ -56,4 +74,6 @@ const { actions, reducer } = productsSlice;
 
 export default reducer;
 
-export const { setProductById } = actions;
+export const {
+    // setProductById
+} = actions;

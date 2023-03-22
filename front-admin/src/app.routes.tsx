@@ -47,7 +47,7 @@ const AppRoutes = () => {
             {/* PUBLIC */}
             <Route path={"/"} element={<PublicRoute element={LoginPage} />} />
             <Route
-                path={"/products/*"}
+                path={"products/*"}
                 element={<PublicRoute element={ProductsPage} />}
             />
 
