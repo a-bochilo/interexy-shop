@@ -5,6 +5,7 @@ import {
     Get,
     HttpStatus,
     Param,
+    ParseUUIDPipe,
     Post,
     Put,
     Query,
@@ -92,7 +93,7 @@ export class ProductsController {
     @Get("/:productId")
     @UsePipes(new ValidationPipe())
     async getProductDetials(
-        @Param("productId") productId: string
+        @Param("productId", ParseUUIDPipe) productId: string
     ): Promise<ProductDetailsDto> {
         const productDetails = await this.productsService.getProductDetails(
             productId
