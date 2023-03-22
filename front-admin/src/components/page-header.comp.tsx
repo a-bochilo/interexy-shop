@@ -11,7 +11,7 @@ import Container from "@mui/material/Container";
 const PageHeaderComp: FC = () => {
   return (
     <Box component={"header"}>
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Container maxWidth={false}>
           <Toolbar disableGutters>
             <Typography

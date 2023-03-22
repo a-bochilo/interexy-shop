@@ -33,6 +33,7 @@
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.4.5",
     "react-scripts": "5.0.1",
+    "react-virtuoso": "^4.1.0",
     "redux": "^4.2.0",
     "sass": "^1.56.2",
     "svgo": "^2.8.0",

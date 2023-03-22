@@ -33,7 +33,7 @@ const UserEditPage = React.lazy(
 const UsersRoutes: FC = () => {
   return (
     <Routes>
-      <Route path={"/"} element={<Suspended element={UserListPage} />} />
+      <Route path={"/*"} element={<Suspended element={UserListPage} />} />
       <Route path={"/:userId"} element={<Suspended element={UserEditPage} />} />
 
       {/* DEFAULT */}

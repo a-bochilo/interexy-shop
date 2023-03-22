@@ -15,14 +15,6 @@ export const formSchema = yup
       .string()
       .required("⚠ This field is required")
       .matches(phoneRegExp, "⚠ Entered value does not match phone format"),
-    created: yup
-      .date()
-      .required("⚠ This field is required")
-      .max(new Date(), "Can not use future date"),
-    updated: yup
-      .date()
-      .required("⚠ This field is required")
-      .max(new Date(), "Can not use future date"),
     // roleType: yup
     //   .string()
     //   .oneOf([yup.ref("roleId")], "Role type and role id are not equal"),

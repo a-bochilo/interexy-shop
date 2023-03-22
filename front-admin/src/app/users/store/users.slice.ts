@@ -5,7 +5,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { UserState } from "../../users/types/user-state.type";
 
 // ========================== store ==========================
-import { getUsers } from "./users.actions";
+import { getUsers, getUserInfo } from "./users.actions";
 
 const initialState: UserState = {
   users: [],
@@ -39,6 +39,23 @@ export const usersSlice = createSlice({
         state.pending.users = false;
         state.errors.users = action.payload.message;
       });
+    // ============ GET USER ============ //
+    builder
+      .addCase(getUserInfo.pending, (state) => {
+        state.pending.user = true;
+        state.errors.user = null;
+      })
+      .addCase(getUserInfo.fulfilled, (state, action) => {
+        state.pending.user = false;
+        state.user = action.payload;
+      })
+      .addCase(
+        getUserInfo.rejected,
+        (state, action: any & { payload: any }) => {
+          state.pending.user = false;
+          state.errors.user = action.payload.message;
+        }
+      );
   },
 });
 

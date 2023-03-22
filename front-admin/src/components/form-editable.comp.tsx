@@ -1,6 +1,8 @@
 // ========================== react ==========================
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
 // ========================== mui ==========================
 import TextField from "@mui/material/TextField";
@@ -10,6 +12,14 @@ import { MenuItem, Paper, Typography } from "@mui/material";
 // ========================== yup ==========================
 import { yupResolver } from "@hookform/resolvers/yup";
 import { formSchema } from "./login-form.const";
+
+// ========================== store ==========================
+import { getUserInfo, getUsers } from "../app/users/store/users.actions";
+import {
+  userSelector,
+  usersSelector,
+} from "../app/users/store/users.selectors";
+import { AppDispatch } from "../store";
 
 // ========================== enum ==========================
 import { UserRoles } from "../app/roles/enums/user-roles.enum";
@@ -32,6 +42,27 @@ interface IFormInput {
 
 interface FormProps {
   formName: string;
+}
+
+interface userListProps {
+  id: string;
+  created: number;
+  updated: number;
+  email: string;
+  password: string;
+  phone: string;
+  roleId: number;
+  roleType: UserRoles;
+  status: UserStatuses;
+}
+
+interface userInfoProps {
+  id: string;
+  firstName: string;
+  lastName: string;
+  middleName: string;
+  created: number;
+  updated: number;
 }
 
 const userRoles = [
@@ -74,16 +105,33 @@ const FormEditableComp: FC<FormProps> = ({ formName }) => {
   const onSubmit: SubmitHandler<IFormInput> = (data) => console.log(data);
 
   const [disabled, setDisabled] = useState(true);
+  const dispatch = useDispatch<AppDispatch>();
+  const userInfo = useSelector(userSelector);
+  const userList = useSelector(usersSelector);
+  const { userId } = useParams<string>();
+
+  useEffect(() => {
+    if (!userId) return;
+    dispatch(getUserInfo(userId));
+  }, [userId]);
+
+  useEffect(() => {
+    dispatch(getUsers());
+  });
 
   const buttonOnclick = () => {
     setDisabled(false);
   };
 
+  const selectedUser = userList.find(
+    (user) => user.details_id === userInfo!.id
+  );
+
   return (
     <Paper
       sx={{
-        maxWidth: 400,
-        height: 1220,
+        minWidth: 600,
+        height: 1140,
         backgroundColor: "lightyellow",
         justifyContent: "center",
         p: 3,
@@ -103,6 +151,7 @@ const FormEditableComp: FC<FormProps> = ({ formName }) => {
           render={() => (
             <TextField
               disabled
+              value={selectedUser?.id}
               id="outlined-basic"
               label="id"
               variant="outlined"
@@ -118,6 +167,7 @@ const FormEditableComp: FC<FormProps> = ({ formName }) => {
           render={() => (
             <TextField
               disabled={disabled}
+              value={userInfo?.firstname}
               id="outlined-basic"
               label="first name"
               variant="outlined"
@@ -137,6 +187,7 @@ const FormEditableComp: FC<FormProps> = ({ formName }) => {
           render={() => (
             <TextField
               disabled={disabled}
+              value={userInfo?.middlename}
               id="outlined-basic"
               label="middle name"
               variant="outlined"
@@ -152,6 +203,7 @@ const FormEditableComp: FC<FormProps> = ({ formName }) => {
           render={() => (
             <TextField
               disabled={disabled}
+              value={userInfo?.lastname}
               id="outlined-basic"
               label="last name"
               variant="outlined"
@@ -171,6 +223,7 @@ const FormEditableComp: FC<FormProps> = ({ formName }) => {
           render={() => (
             <TextField
               disabled={disabled}
+              value={selectedUser?.email}
               id="outlined-basic"
               label="email"
               variant="outlined"
@@ -190,6 +243,7 @@ const FormEditableComp: FC<FormProps> = ({ formName }) => {
           render={() => (
             <TextField
               disabled={disabled}
+              value={selectedUser?.phone}
               id="outlined-basic"
               label="phone"
               variant="outlined"
@@ -207,7 +261,8 @@ const FormEditableComp: FC<FormProps> = ({ formName }) => {
           control={control}
           render={() => (
             <TextField
-              disabled={disabled}
+              disabled
+              value={selectedUser?.created}
               id="outlined-basic"
               label="created"
               variant="outlined"
@@ -226,7 +281,8 @@ const FormEditableComp: FC<FormProps> = ({ formName }) => {
           control={control}
           render={() => (
             <TextField
-              disabled={disabled}
+              disabled
+              value={selectedUser?.update}
               id="outlined-basic"
               label="updated"
               variant="outlined"
@@ -239,21 +295,6 @@ const FormEditableComp: FC<FormProps> = ({ formName }) => {
         <Typography variant="caption" color={"red"}>
           {errors.updated?.message}
         </Typography>
-
-        <Controller
-          name="password"
-          control={control}
-          render={() => (
-            <TextField
-              disabled
-              id="outlined-basic"
-              label="password"
-              variant="outlined"
-              {...register("password")}
-              placeholder="password"
-            />
-          )}
-        />
 
         <Controller
           name="roleId"

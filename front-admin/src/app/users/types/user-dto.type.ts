@@ -10,4 +10,5 @@ export interface UserDto extends UUIDDto {
   roleId: number;
   roleType: UserRoles;
   status: UserStatuses;
+  details_id: string;
 }

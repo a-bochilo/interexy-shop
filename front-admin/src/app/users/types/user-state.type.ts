@@ -1,10 +1,11 @@
+import { UserDetailsDto } from './user-details.type';
 // ========================== types ==========================
 import { BaseState } from "../../../types/base-state.type";
 import { UserDto } from "./user-dto.type";
 
 export interface UserState extends BaseState {
   users: UserDto[];
-  user: UserDto | null;
+  user: UserDetailsDto | null;
   pending: {
     users: boolean;
     user: boolean;

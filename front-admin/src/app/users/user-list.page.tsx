@@ -1,46 +1,42 @@
 // ========================== react ==========================
-import { FC, useEffect, useMemo } from "react";
+import { FC, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 // ========================== mui ==========================
 import styled from "@emotion/styled";
 import { Grid } from "@mui/material";
 
-// ========================== selectors ==========================
-import { usersLoadingSelector, usersSelector } from "./store/users.selectors";
+// ========================== components ==========================
+import UsersTable from "../../components/users-table.comp";
 
 // ========================== store ==========================
 import { AppDispatch } from "../../store";
+import { usersSelector } from "./store/users.selectors";
 import { getUsers } from "./store/users.actions";
-import { UserDto } from "./types/user-dto.type";
-
-// ========================== components ==========================
-import { UserCard } from "../../components/user-card.comp";
 
 const MainGrid = styled(Grid)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    align-items: top;
+    justify-content: space-around;
+    width: 100%;
+    min-height: 100%;
 `;
 
 const UserListPage: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const userList = useSelector(usersSelector);
-  const isUserListLoading = useSelector(usersLoadingSelector);
+  console.log(userList);
 
   useEffect(() => {
     dispatch(getUsers());
   }, []);
 
-  // mui Virtualized table с кликабельными полями
-
-  const allUsers = useMemo(() => {
-    return userList.map((user: UserDto) => (
-      <UserCard key={user.id} user={user} />
-    ));
-  }, [userList]);
-
-  return <MainGrid sx={{ display: "flex" }}>{allUsers}</MainGrid>;
+  return (
+    <MainGrid sx={{ display: "flex" }}>
+      <UsersTable users={userList} />
+    </MainGrid>
+  );
 };
 
 export default UserListPage;
