@@ -22,7 +22,7 @@ export const UserCard: FC<UserProps> = ({ user }) => {
     <Container>
       <Card key={user.id} sx={{ width: 250 }}>
         <CardContent>
-          {userId && <Navigate to={`/${userId}`} />}
+          {userId && <Navigate to={`/users/${userId}`} />}
 
           <Button onClick={() => handleClick(user.id)} size="small">
             {user.email}
