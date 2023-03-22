@@ -15,13 +15,13 @@ import ProductsRoutes from "./products.routes";
 
 const MainGrid = styled(Grid)`
     flex: 1 1 0;
+    padding-top: 64px;
 `;
 
 const ContentGrid = styled(Grid)`
     display: flex;
-    align-items: center;
-    // justify-content: flex-end;
-    width: 100%;
+    align-items: top;
+    min-width: 100%;
 `;
 
 const ProductsPage: FC = () => {
