@@ -1,5 +1,5 @@
 // ======== react ============
-import { FC } from "react";
+import React, { FC } from "react";
 
 // ========================== mui ==========================
 import { Grid } from "@mui/material";
@@ -9,17 +9,17 @@ import Container from "@mui/material/Container";
 import PageHeaderComp from "../../components/page-header.comp";
 
 // ======== routes ============
-import LoginRoutes from "./login.routes";
+import RolesRoutes from "./roles.routes";
 
-const LoginPage: FC = () => {
+const RolesPage: FC = () => {
   return (
     <Grid>
       <PageHeaderComp />
       <Container maxWidth="sm" sx={{ p: 10 }}>
-        <LoginRoutes />
+        <RolesRoutes />
       </Container>
     </Grid>
   );
 };
 
-export default LoginPage;
+export default RolesPage;

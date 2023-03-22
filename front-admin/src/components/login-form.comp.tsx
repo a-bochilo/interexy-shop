@@ -1,15 +1,20 @@
 // ========================== react ==========================
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 // ========================== yup ==========================
 import { yupResolver } from "@hookform/resolvers/yup";
 import { formSchema } from "./login-form.const";
+import { decodeToken } from "react-jwt";
 
 // ========================== mui ==========================
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { Paper, Typography } from "@mui/material";
+import { Box, Paper, Typography } from "@mui/material";
+import { useAppDispatch } from "../app/login/store/hooks";
+import { fetchAuth } from "../app/login/store/auth.slice";
+import { Navigate } from "react-router-dom";
 
 interface IFormInput {
   email: string;
@@ -17,6 +22,10 @@ interface IFormInput {
 }
 
 const LoginForm: FC = () => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const [error, setError] = useState(false);
+
   const {
     register,
     control,
@@ -24,29 +33,34 @@ const LoginForm: FC = () => {
     formState: { errors, isValid },
   } = useForm<IFormInput>({
     defaultValues: {
-      email: "",
-      password: "",
+      email: "superadmin@gmail.com",
+      password: "123123123",
     },
     mode: "onChange",
     resolver: yupResolver(formSchema),
-
   });
 
-  const onSubmit: SubmitHandler<IFormInput> = (data) => console.log(data);
-
-  //   const onSubmit = async (values) => {
-  //     const data = await dispatch(fetchAuth(values));
-  //     if (!data.payload) {
-  //         alert("Failed to login");
-  //     }
-  //     if ('token' in data.payload) {
-  //         window.localStorage.setItem('token', data.payload.token);
-  //     }
-  // };
-
-  // if (isAuth) {
-  //   return <Navigate to={'/'}/>
-  // }
+  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+    const returnedData = await dispatch(fetchAuth(data));
+    if (!returnedData.payload) {
+      //ERROR: FAILED TO SIGNIN
+      setError(true);
+    }
+    if (returnedData.payload) {
+      const user: any = decodeToken(returnedData.payload);
+      window.localStorage.setItem("token", returnedData.payload);
+      if (user.role_type === "user") {
+        //IF USER => REDIRECT TO SHOP
+        //window.location.replace("https://http://localhost:3001/")
+        console.log("Redirect to shop");
+        setError(false);
+      } else {
+        console.log("Redirect to roles table");
+        navigate('/roles');
+        setError(false);
+      }
+    }
+  };
 
   return (
     <Paper
@@ -74,9 +88,7 @@ const LoginForm: FC = () => {
               id="outlined-basic"
               label="email"
               variant="outlined"
-
               {...register("email")}
-
               placeholder="example@gmail.com"
             />
           )}
@@ -85,7 +97,6 @@ const LoginForm: FC = () => {
         <Typography variant="caption" color={"red"}>
           {errors.email?.message}
         </Typography>
-
 
         <Controller
           name="password"
@@ -114,6 +125,24 @@ const LoginForm: FC = () => {
         <Button type="submit" disabled={!isValid} variant="contained">
           Login
         </Button>
+
+        {error === true ? (
+          <Box
+            sx={{
+              display: "flex",
+              border: "2px solid red",
+              padding: "5px",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Typography variant="caption" color={"red"}>
+              ERROR: FAILED TO SIGNIN
+            </Typography>
+          </Box>
+        ) : (
+          null
+        )}
       </form>
     </Paper>
   );

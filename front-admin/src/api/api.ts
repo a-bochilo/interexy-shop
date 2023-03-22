@@ -1,12 +1,10 @@
 import axios from "axios";
 
-const BASE_URL = process.env.REACT_APP_BASE_URL;
-
 const $api = axios.create({
     headers: {
+        "Access-Control-Allow-Origin": "http://localhost:3000",
         "Content-type": "application/json",
     },
-    baseURL: BASE_URL,
 });
 
 // $api.interceptors.response.use((response) => {

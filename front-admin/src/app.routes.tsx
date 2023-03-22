@@ -39,12 +39,14 @@ const PublicRoute: FC<{ element: any }> = ({ element: Element }) => (
 
 // ======= pages ======= //
 const LoginPage = React.lazy(() => import("./app/login"));
+const RolesPage = React.lazy(() => import("./app/roles"));
 
 const AppRoutes = () => {
   return (
     <Routes>
       {/* PUBLIC */}
       <Route path={"/"} element={<PublicRoute element={LoginPage} />} />
+      <Route path={"/roles"} element={<PublicRoute element={RolesPage} />} />
 
       {/* DEFAULT */}
       <Route path="*" element={<Navigate to="/" />} />
