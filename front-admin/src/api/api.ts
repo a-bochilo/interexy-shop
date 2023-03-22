@@ -4,6 +4,7 @@ const $api = axios.create({
     headers: {
         "Access-Control-Allow-Origin": "http://localhost:3000",
         "Content-type": "application/json",
+        "Authorization" : `Bearer ${window.localStorage.getItem("token")}`
     },
 });
 

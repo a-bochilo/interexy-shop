@@ -12,9 +12,9 @@ import { decodeToken } from "react-jwt";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Box, Paper, Typography } from "@mui/material";
-import { useAppDispatch } from "../app/login/store/hooks";
 import { fetchAuth } from "../app/login/store/auth.slice";
-import { Navigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../store";
 
 interface IFormInput {
   email: string;
@@ -23,7 +23,7 @@ interface IFormInput {
 
 const LoginForm: FC = () => {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const [error, setError] = useState(false);
 
   const {
@@ -41,18 +41,19 @@ const LoginForm: FC = () => {
   });
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    const returnedData = await dispatch(fetchAuth(data));
-    if (!returnedData.payload) {
+    const newToken = await dispatch(fetchAuth(data));
+    if (!newToken.payload) {
       //ERROR: FAILED TO SIGNIN
       setError(true);
     }
-    if (returnedData.payload) {
-      const user: any = decodeToken(returnedData.payload);
-      window.localStorage.setItem("token", returnedData.payload);
+    if (newToken.payload) {
+      const user: any = decodeToken(newToken.payload);
+      window.localStorage.setItem("token", newToken.payload);
       if (user.role_type === "user") {
         //IF USER => REDIRECT TO SHOP
         //window.location.replace("https://http://localhost:3001/")
         console.log("Redirect to shop");
+        navigate('/');
         setError(false);
       } else {
         console.log("Redirect to roles table");
@@ -105,6 +106,7 @@ const LoginForm: FC = () => {
             <TextField
               id="outlined-basic"
               label="password"
+              type="password"
               variant="outlined"
               {...register("password", {
                 required: true,

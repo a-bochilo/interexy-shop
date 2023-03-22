@@ -1,31 +1,35 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchAuth } from "./auth.actions";
 
-
 const initialState = {
-    token: "",
-    authFetchingStatus: "loading",
-}
+  token: "",
+  authFetchingStatus: "loading",
+};
 
 const authSlice = createSlice({
-    name: "auth",
-    initialState: initialState,
-    reducers: {},
-    extraReducers: (builder) => {
-        builder
-        .addCase(fetchAuth.pending, (state) => {
-            state.authFetchingStatus = "loading";
-        })
-        .addCase(fetchAuth.fulfilled, (state, action) => {
-            state.authFetchingStatus = "idle";
-            state.token = action.payload;
-        })
-        .addCase(fetchAuth.rejected, (state) => {
-            state.authFetchingStatus = "error";
-        })
-        .addDefaultCase(() => {});
-    }
-})
+  name: "auth",
+  initialState: initialState,
+  reducers: {
+    logout: (state) => {
+      state.token = "";
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchAuth.pending, (state) => {
+        state.authFetchingStatus = "loading";
+      })
+      .addCase(fetchAuth.fulfilled, (state, action) => {
+        state.authFetchingStatus = "idle";
+        state.token = action.payload;
+      })
+      .addCase(fetchAuth.rejected, (state) => {
+        state.authFetchingStatus = "error";
+        state.token = "";
+      })
+      .addDefaultCase(() => {});
+  },
+});
 export const authReducer = authSlice.reducer;
+export const { logout } = authSlice.actions;
 export { fetchAuth };
-

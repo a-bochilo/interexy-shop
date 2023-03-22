@@ -12,16 +12,12 @@ export interface IToken {
 
 export const fetchAuth = createAsyncThunk(
   "auth/fetchSignIn",
-  async (data: ISignInTemplate) => {
+  async (data: ISignInTemplate, { rejectWithValue }) => {
     try {
       const response = await $api.post(`/auth/signIn`, data);
-      if (response) {
-        return response.data.token;
-      } else {
-        return console.error("custom error!!!");
-      }
+      return response.data.token;
     } catch (error) {
-      console.error(error);
+      return rejectWithValue(error);
     }
   }
 );

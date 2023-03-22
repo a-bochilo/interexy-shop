@@ -23,17 +23,23 @@ const Suspended: FC<PropsWithChildren & { element: any }> = ({
 };
 
 // ======= pages ======= //
-const RolesPage = React.lazy(
-  () => import(/* webpackChunkName: "RolesPage" */ "../roles/roles.page")
+const RolesListPage = React.lazy(
+  () => import(/* webpackChunkName: "RolesPage" */ "../roles/roles-list.page")
+);
+
+const RolesViewPage = React.lazy(
+  () => import(/* webpackChunkName: "RolesPage" */ "../roles/role-view.page")
 );
 
 const RolesRoutes: FC = () => {
   return (
     <Routes>
-      <Route path={"/"} element={<Suspended element={RolesPage} />} />
+      <Route path={"/*"} element={<Suspended element={RolesListPage} />} />
+      <Route path={"/:roleId"} element={<Suspended element={RolesViewPage} />}
+      />
 
       {/* DEFAULT */}
-      <Route path="*" element={<Navigate to="/" />} />
+      {/* <Route path="*" element={<Navigate to="/" />} /> */}
     </Routes>
   );
 };

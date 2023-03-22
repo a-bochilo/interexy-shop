@@ -46,7 +46,7 @@ const AppRoutes = () => {
     <Routes>
       {/* PUBLIC */}
       <Route path={"/"} element={<PublicRoute element={LoginPage} />} />
-      <Route path={"/roles"} element={<PublicRoute element={RolesPage} />} />
+      <Route path={"roles/*"} element={<PublicRoute element={RolesPage} />} />
 
       {/* DEFAULT */}
       <Route path="*" element={<Navigate to="/" />} />
