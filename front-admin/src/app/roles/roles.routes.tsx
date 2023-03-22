@@ -35,7 +35,7 @@ const RolesRoutes: FC = () => {
   return (
     <Routes>
       <Route path={"/*"} element={<Suspended element={RolesListPage} />} />
-      <Route path={"/:roleId"} element={<Suspended element={RolesViewPage} />}
+      <Route path={"/:id"} element={<Suspended element={RolesViewPage} />}
       />
 
       {/* DEFAULT */}

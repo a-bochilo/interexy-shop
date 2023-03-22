@@ -50,14 +50,14 @@ export class UserSessionDto extends UUIDDto {
     @IsEnum(UserRoles)
     role_type: UserRoles;
 
-    @ApiProperty({
-        description: "User permissions",
-        enum: [UserPermissions],
-    })
-    @IsNotEmpty()
-    @IsArray()
-    @IsEnum(UserPermissions, { each: true })
-    permissions: UserPermissions[];
+    // @ApiProperty({
+    //     description: "User permissions",
+    //     enum: [UserPermissions],
+    // })
+    // @IsNotEmpty()
+    // @IsArray()
+    // @IsEnum(UserPermissions, { each: true })
+    // permissions: UserPermissions[];
 
     public static fromEntity(entity: UserEntity | UserViewEntity) {
         return {

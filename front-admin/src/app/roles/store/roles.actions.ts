@@ -5,24 +5,28 @@ import { RolesDto } from "../types/roles.dto";
 
 export const fetchRoles = createAsyncThunk(
   "roles/fetchRoles",
-  async (_, {rejectWithValue}) => {
-    try{
+  async (_, { rejectWithValue }) => {
+    try {
       const response: AxiosResponse<RolesDto[]> = await $api.get(`/roles`);
       return response.data;
-    } catch (error) {
-      return rejectWithValue(error)
+    } catch (error: any) {
+      return rejectWithValue(error?.response?.data?.message as string);
     }
   }
 );
 
-export const fetchCurrentRole = createAsyncThunk(
+export const fetchCurrentRole = createAsyncThunk<RolesDto, string>(
   "roles/fetchCurrentRole",
-  async(id: string, {rejectWithValue}) => {
+  async (id: string, { rejectWithValue }) => {
     try {
-      const response: AxiosResponse<RolesDto> = await $api.get(`/roles/${id}`)
+      const response: AxiosResponse<RolesDto> = await $api.get<
+        any,
+        AxiosResponse<RolesDto, any>,
+        any
+      >(`/roles/${id}`);
       return response.data;
-    } catch (error) {
-      return rejectWithValue(error);
+    } catch (error: any) {
+      return rejectWithValue(error?.response?.data?.message as string);
     }
   }
-)
+);

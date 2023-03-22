@@ -91,7 +91,6 @@ const RolesTable = ({ roles }: { roles: RolesDto[] }) => {
           return (
             <TableCell key={column.dataKey} 
             align="center"
-            
             >
               {`${newRow[column.dataKey]}`}
             </TableCell>
