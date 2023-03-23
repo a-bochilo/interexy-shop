@@ -91,7 +91,7 @@ export class ProductsService {
     async getFiltredProducts(
         filter: ProductsFilterDto
     ): Promise<(ProductEntity | ProductActiveViewEntity)[]> {
-        const productFilter = this.removeEmptyAndExtraFields(
+        const productFilter = this.removeEmptyFields(
             filter
         ) as FindOptionsWhere<ProductEntity>;
 
@@ -141,7 +141,7 @@ export class ProductsService {
               )
             : null;
         if (
-            productsByName.length &&
+            productsByName?.length &&
             (productsByName.length > 1 || productsByName[0]?.id !== productId)
         ) {
             throw new HttpException(
@@ -202,7 +202,7 @@ export class ProductsService {
         return await this.productsRepository.updateProduct(productFromDB);
     }
 
-    private removeEmptyAndExtraFields(obj: ProductsFilterDto) {
+    private removeEmptyFields(obj: ProductsFilterDto) {
         const dto = ProductsFilterDto.fromDto(obj);
 
         const filterObj = Object.fromEntries(
@@ -210,7 +210,7 @@ export class ProductsService {
                 .filter(([_, v]) => v !== (null || undefined))
                 .map(([k, v]) => [
                     k,
-                    v === Object(v) ? this.removeEmptyAndExtraFields(v) : v,
+                    v === Object(v) ? this.removeEmptyFields(v) : v,
                 ])
         );
 
