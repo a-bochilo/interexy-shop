@@ -30,3 +30,27 @@ export const fetchCurrentRole = createAsyncThunk<RolesDto, string>(
     }
   }
 );
+
+export const fetchRoleUpdate = createAsyncThunk<number, RolesDto>(
+  "roles/fetchUpdateRole",
+  async (data: RolesDto, { rejectWithValue }) => {
+    try {
+      const response = await $api.put(`/roles/${data.id}`, data);
+      return response.status;
+    } catch (error: any) {
+      return rejectWithValue(error?.response?.data?.message as string);
+    }
+  }
+);
+
+export const fetchRoleDelete = createAsyncThunk<number, number>(
+  "roles/fetchDeleteRole",
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const response = await $api.delete(`/roles/${id}`);
+      return response.status;
+    } catch (error: any) {
+      return rejectWithValue(error?.response?.data?.message as string);
+    }
+  }
+);

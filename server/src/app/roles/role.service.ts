@@ -75,8 +75,9 @@ export class RoleService {
         `${I18nContext.current().t("errors.roles.roleDoesNotExist")}: '${id}'`,
         HttpStatus.BAD_REQUEST
       );
+    } else {
+      Object.assign(role, createRoleDto);
+      return await this.roleRepository.updateRole(role);
     }
-    Object.assign(role, createRoleDto);
-    return await this.roleRepository.updateRole(role);
   }
 }

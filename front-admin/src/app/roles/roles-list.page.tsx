@@ -24,7 +24,7 @@ const ProductListPage: FC = () => {
 
   useEffect(() => {
     dispatch(fetchRoles());
-  }, [dispatch]);
+  }, []);
   
   return (
     <MainGrid>

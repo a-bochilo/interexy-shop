@@ -3,7 +3,7 @@ import { UserRoles } from "./user-roles.enum";
 
 
 export interface RolesDto {
-    id: string;
+    id: number;
     type: UserRoles;
     name: string;
     permissions: UserPermissions[];

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchCurrentRole, fetchRoles } from "./roles.actions";
+import { fetchCurrentRole, fetchRoleDelete, fetchRoleUpdate, fetchRoles } from "./roles.actions";
 import { RolesDto } from "../types/roles.dto";
 
 type IInitialState = {
@@ -11,7 +11,7 @@ type IInitialState = {
 const initialState = {
   roles: [],
   chosenRole: undefined,
-  rolesFetchingStatus: "idle",
+  rolesFetchingStatus: "loading",
 } as IInitialState;
 
 const rolesSlice = createSlice({
@@ -30,7 +30,7 @@ const rolesSlice = createSlice({
       .addCase(fetchRoles.rejected, (state) => {
         state.rolesFetchingStatus = "error";
       });
-
+      
     builder
       .addCase(fetchCurrentRole.pending, (state) => {
         state.rolesFetchingStatus = "loading";
@@ -42,6 +42,29 @@ const rolesSlice = createSlice({
       .addCase(fetchCurrentRole.rejected, (state) => {
         state.rolesFetchingStatus = "error";
       })
+
+      builder
+      .addCase(fetchRoleUpdate.pending, (state) => {
+        state.rolesFetchingStatus = "loading";
+      })
+      .addCase(fetchRoleUpdate.fulfilled, (state, action) => {
+        state.rolesFetchingStatus = "idle";
+      })
+      .addCase(fetchRoleUpdate.rejected, (state) => {
+        state.rolesFetchingStatus = "error";
+      })
+
+      builder
+      .addCase(fetchRoleDelete.pending, (state) => {
+        state.rolesFetchingStatus = "loading";
+      })
+      .addCase(fetchRoleDelete.fulfilled, (state, action) => {
+        state.rolesFetchingStatus = "idle";
+      })
+      .addCase(fetchRoleDelete.rejected, (state) => {
+        state.rolesFetchingStatus = "error";
+      })
+
       .addDefaultCase(() => {});
   },
 });

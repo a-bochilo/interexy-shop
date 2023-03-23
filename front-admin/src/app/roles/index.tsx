@@ -5,7 +5,6 @@ import React, { FC } from "react";
 import { Grid, styled } from "@mui/material";
 
 // ======== components ============
-import PageHeaderComp from "../../components/page-header.comp";
 import PageAsideComp from "../../components/aside.comp";
 import PageFooterComp from "../../components/page-footer.comp";
 
@@ -17,6 +16,7 @@ const MainGrid = styled(Grid)`
   display: flex;
   flex-direction: column;
   flex: 1 1 0;
+  padding-top: 64px;
   min-height: 100vh;
   justify-content: space-between;
 `;
@@ -25,7 +25,7 @@ const ContentGrid = styled(Grid)`
   display: flex;
   flex-grow: 1;
   min-width: 100%;
-  min-height: 100%;
+  min-height: 100vh;
 `;
 
 const RolesPage: FC = () => {
