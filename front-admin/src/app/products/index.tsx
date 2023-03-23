@@ -30,6 +30,8 @@ const ContentGrid = styled(Grid)`
 `;
 
 const ProductsPage: FC = () => {
+
+    
     return (
         <MainGrid>
             <PageNavBarComp />

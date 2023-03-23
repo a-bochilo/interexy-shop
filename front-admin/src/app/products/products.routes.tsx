@@ -33,7 +33,7 @@ const Suspended: FC<PropsWithChildren & { element: any }> = ({
 // ======= pages ======= //
 const ProductListPage = React.lazy(
     () =>
-        import(/* webpackChunkName: "ProductListPage" */ "./products-list.page")
+        import(/* webpackChunkName: "ProductListPage" */ "./product-list.page")
 );
 const ProductViewPage = React.lazy(
     () =>

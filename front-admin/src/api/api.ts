@@ -5,6 +5,7 @@ import axios from "axios";
 const $api = axios.create({
     headers: {
         "Content-type": "application/json",
+        Authorization: `Bearer ${window.localStorage.getItem("token")}`,
     },
     // baseURL: BASE_URL,
 });

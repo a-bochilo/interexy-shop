@@ -5,13 +5,13 @@ import { ProductDto } from "./product.dto";
 
 export interface IProductsState extends BaseState {
     products: ProductDto[];
-    product: ProductDetailsDto | undefined;
+    productDetails: ProductDetailsDto | undefined;
     pending: {
         products: boolean;
-        product: boolean;
+        productDetails: boolean;
     };
     errors: {
         products: string | null;
-        product: string | null;
+        productDetails: string | null;
     };
 }

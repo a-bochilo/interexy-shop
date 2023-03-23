@@ -1,7 +1,7 @@
 export interface UUIDDto {
-  id: string;
+    id: string;
 
-  created: number;
+    created: number;
 
-  update: number;
+    updated: number;
 }
