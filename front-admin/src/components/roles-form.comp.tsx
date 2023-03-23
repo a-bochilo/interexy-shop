@@ -1,7 +1,6 @@
 // ========================== react ==========================
-import { FC, useState } from "react";
+import { useState } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 
 // ========================== yup ==========================
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -10,10 +9,17 @@ import { formSchema } from "./login-form.const";
 // ========================== mui ==========================
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { Box, Paper, Typography } from "@mui/material";
+import {
+  Box,
+  Checkbox,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Paper,
+  Select,
+  Typography,
+} from "@mui/material";
 
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../store";
 import { UserPermissions } from "../app/roles/types/user-permissions.enum";
 import { UserRoles } from "../app/roles/types/user-roles.enum";
 import { RolesDto } from "../app/roles/types/roles.dto";
@@ -28,22 +34,31 @@ interface IFormInput {
 }
 
 const RoleForm = ({ role }: { role: RolesDto }) => {
-  const dispatch = useDispatch<AppDispatch>();
-  const [error, setError] = useState(false);
-
   const [edit, setEdit] = useState(false);
+  const [permissions, setPermissions] = useState([role?.permissions].flat());
 
-  const {
-    register,
-    control,
-    handleSubmit,
-    formState: { errors, isValid },
-  } = useForm<IFormInput>({
+  const [type, setType] = useState("");
+  const [name, setName] = useState("");
+
+  const enumsRoleTypes = Object.keys(UserRoles);
+
+  const enumsRolePermissions = Object.keys(UserPermissions);
+
+  let isEnougth = enumsRolePermissions.map((item) => {
+    if (permissions.includes(item as UserPermissions)) return true;
+    return false;
+  });
+
+  const handleChangeRolePermissions = (index: number) => {
+    isEnougth[index] ? (isEnougth[index] = false) : (isEnougth[index] = true);
+  };
+
+  const { register, control, handleSubmit } = useForm<IFormInput>({
     defaultValues: {
-      id: 0,
-      type: UserRoles.user,
-      name: "",
-      permissions: [],
+      id: +role.id,
+      type: role.type,
+      name: role.name,
+      permissions: role.permissions,
     },
     mode: "onChange",
     resolver: yupResolver(formSchema),
@@ -56,15 +71,15 @@ const RoleForm = ({ role }: { role: RolesDto }) => {
   return (
     <Paper
       sx={{
-        minWidth: 400,
-        minHeight: 340,
+        width: "90%",
+        maxWidth: 800,
         backgroundColor: "#f0f8ff",
         justifyContent: "center",
         p: 3,
       }}
     >
       <Typography variant="h5" fontWeight={"bold"} pb={3}>
-        Login
+        Edit role: {role.name}
       </Typography>
 
       <form
@@ -76,8 +91,8 @@ const RoleForm = ({ role }: { role: RolesDto }) => {
           control={control}
           render={() => (
             <TextField
-              disabled={!edit}
-              value={role?.id}
+              disabled={true}
+              defaultValue={role.id}
               id="outlined-basic"
               label="id"
               variant="outlined"
@@ -91,44 +106,93 @@ const RoleForm = ({ role }: { role: RolesDto }) => {
           control={control}
           render={() => (
             <TextField
-              disabled={!edit}
-              value={role?.name}
+              disabled={edit}
+              defaultValue={role.name}
               id="outlined-basic"
-              label="name"
               variant="outlined"
               {...register("name")}
             />
           )}
         />
 
-        <Controller
-          name="type"
-          control={control}
-          render={() => (
-            <TextField
-              disabled={!edit}
-              value={role?.type}
-              id="outlined-basic"
-              label="type"
-              variant="outlined"
-              {...register("type")}
-            />
-          )}
-        />
+        <FormControl fullWidth>
+          <InputLabel id="demo-simple-select-label">Type</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            defaultValue={role.type}
+            label="Type"
+            //onChange={handleChangeRoleType}
+            disabled={!edit}
+          >
+            {enumsRoleTypes.map((item, index) => {
+              return (
+                <MenuItem value={role.type} key={index}>
+                  {item}
+                </MenuItem>
+              );
+            })}
+          </Select>
+        </FormControl>
 
-        <Controller
-          name="permissions"
-          control={control}
-          render={() => (
-            <TextField
-              disabled={!edit}
-              value={role?.permissions}
-              id="outlined-basic"
-              variant="outlined"
-              {...register("permissions")}
-            />
-          )}
-        />
+        <FormControl fullWidth>
+          <InputLabel id="demo-simple-select-label">Permissions</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            label="Permissions"
+            //onChange={handleChangeRoleType}
+            disabled={edit}
+          >
+            {isEnougth.map((item, index) => {
+              return (
+                <Box
+                  key={index}
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    padding: "8px",
+                    gap: "8px",
+                  }}
+                >
+                  <MenuItem value={role.type} key={index}>
+                    <Checkbox
+                      disabled={edit}
+                      defaultChecked={item}
+                      onChange={() => handleChangeRolePermissions(index)}
+                      color="success"
+                    />
+                    <Typography>{enumsRolePermissions[index]}</Typography>
+                  </MenuItem>
+                </Box>
+              );
+            })}
+          </Select>
+        </FormControl>
+
+        {/* <Box>
+          {isEnougth.map((item, index) => {
+            return (
+              <Box
+                key={index}
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  padding: "8px",
+                  gap: "8px",
+                }}
+              >
+                <Checkbox
+                  disabled={edit}
+                  defaultChecked={item}
+                  onChange={() => handleChangeRolePermissions(index)}
+                  color="success"
+                />
+                <Typography>{enumsRolePermissions[index]}</Typography>
+              </Box>
+            );
+          })}
+        </Box> */}
 
         <Button
           type="submit"

@@ -6,6 +6,16 @@ import { ChosenRoleSelector } from "./store/roles.selector";
 import { fetchCurrentRole } from "./store/roles.actions";
 import { AppDispatch } from "../../store";
 import { useParams } from "react-router-dom";
+import styled from "@emotion/styled";
+import { Grid } from "@mui/material";
+
+const MainGrid = styled(Grid)`
+    display: flex;
+    align-items: top;
+    justify-content: space-around;
+    width: 100%;
+    min-height: 100%;
+`;
 
 const RoleViewPage: FC<string> = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -14,12 +24,11 @@ const RoleViewPage: FC<string> = () => {
 
   useEffect(() => {
     if (!id) return;
-    console.log(id);
     dispatch(fetchCurrentRole(id));
-  }, []);
+  }, [dispatch, id]);
 
-  console.log(role);
-  return <div>{role && <RoleForm role={role} />}</div>;
+ 
+  return <MainGrid>{role && <RoleForm role={role}/>}</MainGrid>;
 };
 
 export default RoleViewPage;

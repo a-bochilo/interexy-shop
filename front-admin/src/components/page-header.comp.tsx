@@ -18,11 +18,8 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
-import { logout } from "../app/login/store/auth.slice";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router";
 
-const pages = ["Products", "Cart", "Roles", "Users"];
+const pages = ["Products", "Cart"];
 const settings = ["Profile", "Account", "Logout"];
 
 const Search = styled("div")(({ theme }) => ({
@@ -67,10 +64,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const PageHeaderComp: FC = () => {
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -92,31 +85,6 @@ const PageHeaderComp: FC = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
-  const handleClick = (item: string) => {
-   if(window.localStorage.getItem('token')) {
-    switch(item) {
-      case "Logout": {
-        if (window.confirm('Are you sure you want to logout?')) {
-          dispatch(logout());
-          window.localStorage.removeItem('token');
-          navigate('/');
-        }
-        break;
-      }
-
-      case "Roles": {
-        navigate('/roles');
-        break;
-      }
-
-      default: break;
-    }
-   } else {
-    navigate('/');
-   }
-    
-  }
 
   return (
     <Box component={"header"}>
@@ -173,7 +141,7 @@ const PageHeaderComp: FC = () => {
               >
                 {pages.map((page) => (
                   <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center" onClick={() => handleClick(page)}>{page}</Typography>
+                    <Typography textAlign="center">{page}</Typography>
                   </MenuItem>
                 ))}
               </Menu>
@@ -183,9 +151,8 @@ const PageHeaderComp: FC = () => {
               {pages.map((page) => (
                 <Button
                   key={page}
-                  // onClick={handleCloseNavMenu}
+                  onClick={handleCloseNavMenu}
                   sx={{ my: 2, color: "white", display: "block" }}
-                  onClick={() => handleClick(page)}
                 >
                   {page}
                 </Button>
@@ -204,7 +171,7 @@ const PageHeaderComp: FC = () => {
               </Search>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="https://th.bing.com/th/id/R.b938cdf9e4c16ca0d021abed1602bb8e?rik=K6doEFXGQjE49w&riu=http%3a%2f%2fwww.kololowieckiewybrzeze.pl%2ffoto%2fdzik1.jpg&ehk=2UuhFPyCiP8zae8HpTWtLHdEViILZWEVQE9%2bH3ZDslk%3d&risl=&pid=ImgRaw&r=0" />
+                  <Avatar alt="Remy Sharp" src="https://th.bing.com/th/id/R.1428815d5f7bbf91f8a2eaffd7b126f4?rik=LLiOI%2fwFm1EJRA&pid=ImgRaw&r=0" />
                 </IconButton>
               </Tooltip>
               <Menu
@@ -225,9 +192,7 @@ const PageHeaderComp: FC = () => {
               >
                 {settings.map((setting) => (
                   <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center" onClick={() => handleClick(setting)}>
-                        {setting}
-                      </Typography>
+                    <Typography textAlign="center">{setting}</Typography>
                   </MenuItem>
                 ))}
               </Menu>

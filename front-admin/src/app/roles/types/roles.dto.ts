@@ -3,15 +3,8 @@ import { UserRoles } from "./user-roles.enum";
 
 
 export interface RolesDto {
-    id: string | undefined;
-    type: UserRoles | undefined;
-    name: string | undefined;
-    permissions: UserPermissions[] | undefined;
-}
-
-export interface RolesTableDto {
-    id: string | undefined;
-    type: UserRoles | undefined;
-    name: string | undefined;
-    permissions: string | undefined;
+    id: string;
+    type: UserRoles;
+    name: string;
+    permissions: UserPermissions[];
 }

@@ -1,6 +1,6 @@
 // ========================== react ==========================
 import React, { FC, PropsWithChildren, Suspense } from "react";
-import { Navigate, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 // ========================== mui ==========================
 import CircularProgress from "@mui/material/CircularProgress";

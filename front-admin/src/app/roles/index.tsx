@@ -11,6 +11,7 @@ import PageFooterComp from "../../components/page-footer.comp";
 
 // ======== routes ============
 import RolesRoutes from "./roles.routes";
+import PageNavBarComp from "../../components/navbar.comp";
 
 const MainGrid = styled(Grid)`
   display: flex;
@@ -30,12 +31,12 @@ const ContentGrid = styled(Grid)`
 const RolesPage: FC = () => {
   return (
     <MainGrid>
-      <PageHeaderComp />
-      <ContentGrid>
-        <RolesRoutes />
-        <PageAsideComp />
-      </ContentGrid>
-      <PageFooterComp />
+      <PageNavBarComp />
+        <ContentGrid>
+          <RolesRoutes />
+          <PageAsideComp />
+        </ContentGrid>
+        <PageFooterComp />
     </MainGrid>
   );
 };

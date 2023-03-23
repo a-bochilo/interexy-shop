@@ -10,7 +10,7 @@ const PageAsideComp: FC = () => {
       component={"aside"}
       sx={{
         width: 300,
-        minHeight: { xs: 295, md: 695 },
+        height: { xs: 295, md: 695 },
         backgroundColor: "secondary.main",
       }}
     />

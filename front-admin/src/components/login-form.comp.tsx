@@ -48,16 +48,17 @@ const LoginForm: FC = () => {
     }
     if (newToken.payload) {
       const user: any = decodeToken(newToken.payload);
-      window.localStorage.setItem("token", newToken.payload);
       if (user.role_type === "user") {
+        window.localStorage.setItem("token", newToken.payload);
         //IF USER => REDIRECT TO SHOP
         //window.location.replace("https://http://localhost:3001/")
         console.log("Redirect to shop");
-        navigate('/');
+        navigate("/");
         setError(false);
       } else {
+        window.localStorage.setItem("token", newToken.payload);
         console.log("Redirect to roles table");
-        navigate('/roles');
+        navigate("/roles");
         setError(false);
       }
     }
@@ -142,9 +143,7 @@ const LoginForm: FC = () => {
               ERROR: FAILED TO SIGNIN
             </Typography>
           </Box>
-        ) : (
-          null
-        )}
+        ) : null}
       </form>
     </Paper>
   );
