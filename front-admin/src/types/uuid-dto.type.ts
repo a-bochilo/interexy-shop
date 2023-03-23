@@ -3,5 +3,5 @@ export interface UUIDDto {
 
   created: number;
 
-  update: number;
+  updated: number;
 }

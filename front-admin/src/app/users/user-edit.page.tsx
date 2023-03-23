@@ -1,5 +1,5 @@
 // ========================== react ==========================
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
@@ -8,37 +8,67 @@ import styled from "@emotion/styled";
 import { Grid } from "@mui/material";
 
 // ========================== components ==========================
-import FormEditableComp from "../../components/form-editable.comp";
+import UserEditFormComp from "../../components/user-edit-form.comp";
 
 // ========================== store ==========================
 import { AppDispatch } from "../../store";
-import { userSelector, usersSelector } from "./store/users.selectors";
+import {
+  userInfoSelector,
+  usersSelector,
+  usersLoadingSelector,
+} from "./store/users.selectors";
 import { getUserInfo, getUsers } from "./store/users.actions";
 
 const MainGrid = styled(Grid)`
   justify-content: center;
   align-items: center;
   padding: 10px;
+  display: flex;
+  width: 100%;
+  min-height: 100%;
 `;
 
 const UserEditPage: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const selectedUser = useSelector(userSelector);
+  const [disabled, setDisabled] = useState(true);
+  const userList = useSelector(usersSelector);
+  const userInfo = useSelector(userInfoSelector);
+  const usersLoading = useSelector(usersLoadingSelector);
   const { userId } = useParams<string>();
+
+  useEffect(() => {
+    dispatch(getUsers());
+  }, []);
 
   useEffect(() => {
     if (!userId) return;
     dispatch(getUserInfo(userId));
   }, [userId]);
 
-  useEffect(() => {
-    dispatch(getUsers);
-  });
+  const buttonOnclick = () => {
+    setDisabled(false);
+  };
+
+  const handleSave = () => {};
+
+  const handleDelete = () => {};
+
+  const selectedUser = userList.find((user) => user.id === userId);
 
   return (
     <MainGrid>
-      {selectedUser ? (
-        <FormEditableComp formName={"Edit user"} />
+      {userInfo && selectedUser ? (
+        <UserEditFormComp
+          formName={"Edit user"}
+          userInfo={userInfo}
+          selectedUser={selectedUser}
+          disabled={disabled}
+          pending={usersLoading}
+          setDisabled={setDisabled}
+          buttonOnclick={buttonOnclick}
+          handleSave={handleSave}
+          handleDelete={handleDelete}
+        />
       ) : (
         "no user selected"
       )}

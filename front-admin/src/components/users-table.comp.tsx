@@ -29,15 +29,14 @@ const UsersTable = ({ users }: { users: UserDto[] }) => {
   };
 
   const getColumns = (user: UserDto): ColumnData[] => {
-    // const keys = Object.keys(user) as (keyof UserDto)[];
     const keys = [
       "id",
       "created",
-      "update",
+      "updated",
       "phone",
       "email",
       "roleType",
-      "status",
+      "isActive",
     ] as (keyof UserDto)[];
     const columns = keys.map((key) => {
       return {
@@ -85,7 +84,7 @@ const UsersTable = ({ users }: { users: UserDto[] }) => {
               backgroundColor: "background.paper",
             }}
           >
-            {column.label}
+          {column.label}
           </TableCell>
         ))}
       </TableRow>

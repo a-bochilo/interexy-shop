@@ -9,14 +9,14 @@ import { getUsers, getUserInfo } from "./users.actions";
 
 const initialState: UserState = {
   users: [],
-  user: null,
+  userInfo: null,
   pending: {
     users: false,
-    user: false,
+    userInfo: false,
   },
   errors: {
     users: null,
-    user: null,
+    userInfo: null,
   },
 };
 
@@ -33,27 +33,27 @@ export const usersSlice = createSlice({
       })
       .addCase(getUsers.fulfilled, (state, action) => {
         state.pending.users = false;
-        state.users.push(...action.payload);
+        state.users = action.payload;
       })
       .addCase(getUsers.rejected, (state, action: any & { payload: any }) => {
         state.pending.users = false;
         state.errors.users = action.payload.message;
       });
-    // ============ GET USER ============ //
+    // ============ GET USER INFO ============ //
     builder
       .addCase(getUserInfo.pending, (state) => {
-        state.pending.user = true;
-        state.errors.user = null;
+        state.pending.userInfo = true;
+        state.errors.userInfo = null;
       })
       .addCase(getUserInfo.fulfilled, (state, action) => {
-        state.pending.user = false;
-        state.user = action.payload;
+        state.pending.userInfo = false;
+        state.userInfo = action.payload;
       })
       .addCase(
         getUserInfo.rejected,
         (state, action: any & { payload: any }) => {
-          state.pending.user = false;
-          state.errors.user = action.payload.message;
+          state.pending.userInfo = false;
+          state.errors.userInfo = action.payload.message;
         }
       );
   },

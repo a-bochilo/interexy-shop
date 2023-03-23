@@ -1,7 +1,6 @@
 // ========================== types ==========================
 import { UUIDDto } from "../../../types/uuid-dto.type";
 import { UserRoles } from "../../roles/enums/user-roles.enum";
-import { UserStatuses } from "../enums/user-statuses.enum";
 
 export interface UserDto extends UUIDDto {
   phone: string;
@@ -9,6 +8,6 @@ export interface UserDto extends UUIDDto {
   password: string;
   roleId: number;
   roleType: UserRoles;
-  status: UserStatuses;
+  isActive: boolean;
   details_id: string;
 }
