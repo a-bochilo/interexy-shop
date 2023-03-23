@@ -1,14 +1,18 @@
 // =========================== React ===========================
-import { FC } from "react";
+import { FC, useEffect } from "react";
 
 // =========================== MUI ===========================
 import styled from "@emotion/styled";
-import { Grid } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 
 // =========================== Components ===========================
 import PageAsideComp from "../../components/aside.comp";
 import PageFooterComp from "../../components/page-footer.comp";
 import PageNavBarComp from "../../components/navbar.comp";
+
+// =========================== Store ===========================
+import { useAppDispatch } from "../../store";
+import { fetchProducts } from "./store/products.actions";
 
 // =========================== Routes ===========================
 import ProductsRoutes from "./products.routes";
@@ -30,8 +34,12 @@ const ContentGrid = styled(Grid)`
 `;
 
 const ProductsPage: FC = () => {
+    const dispatch = useAppDispatch();
 
-    
+    useEffect(() => {
+        dispatch(fetchProducts());
+    }, []);
+
     return (
         <MainGrid>
             <PageNavBarComp />
@@ -39,7 +47,19 @@ const ProductsPage: FC = () => {
                 sx={{ flexDirection: { xs: "column-reverse", md: "row" } }}
             >
                 <ProductsRoutes />
-                <PageAsideComp />
+                <PageAsideComp>
+                    <Button
+                        sx={{
+                            width: "100%",
+                        }}
+                        size="small"
+                        variant="contained"
+                        color="success"
+                        onClick={() => {}}
+                    >
+                        Create new
+                    </Button>
+                </PageAsideComp>
             </ContentGrid>
             <PageFooterComp />
         </MainGrid>

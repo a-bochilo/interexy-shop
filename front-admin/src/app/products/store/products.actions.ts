@@ -17,7 +17,7 @@ export const fetchProducts = createAsyncThunk<ProductDto[]>(
                 any,
                 AxiosResponse<ProductDto[], any>,
                 any
-            >("products");
+            >("");
             return data;
         } catch (e: any) {
             console.error(e);

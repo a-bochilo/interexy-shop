@@ -5,3 +5,5 @@ export const productDetailsSelector = (state: RootState) =>
     state.products.productDetails;
 export const productsPendingSelector = (state: RootState) =>
     state.products.pending;
+export const productsErrorsSelector = (state: RootState) =>
+    state.products.errors;

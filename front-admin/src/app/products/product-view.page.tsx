@@ -14,9 +14,11 @@ import {
 } from "./store/products.actions";
 import {
     productDetailsSelector,
+    productsErrorsSelector,
     productsPendingSelector,
     productsSelector,
 } from "./store/products.selectors";
+import { clearErrors } from "./store/products.slice";
 
 // =========================== Components ===========================
 import ProductEditForm from "../../components/product-edit-form.component";
@@ -39,12 +41,14 @@ const ProductViewPage: FC = () => {
     const navigate = useNavigate();
 
     const [isEditable, setIsEditable] = useState<boolean>(false);
+    const [isClicked, setIsClicked] = useState<boolean>(false);
     const isInitialLoading = useRef(true);
     const { productId } = useParams();
 
     const products = useAppSelector(productsSelector);
     const productDetails = useAppSelector(productDetailsSelector);
     const pending = useAppSelector(productsPendingSelector);
+    const errors = useAppSelector(productsErrorsSelector);
 
     useEffect(() => {
         if (!productId) return;
@@ -62,14 +66,20 @@ const ProductViewPage: FC = () => {
         productWithDetails = { ...product, ...productDetailsWithoutId };
     }
 
-    const handleDelete = (id: string) => {
-        dispatch(deleteProduct(id));
+    const handleDelete = async (id: string) => {
+        dispatch(clearErrors());
+        const result = await dispatch(deleteProduct(id));
+        setIsClicked(true);
+        if (result.type.endsWith("rejected")) return;
         navigate("/products");
     };
     const handleSave = (product: Partial<ProductWithDetailsDto>) => {
+        dispatch(clearErrors());
         dispatch(updateProduct(product));
+        setIsClicked(true);
     };
     const handleBack = () => {
+        dispatch(clearErrors());
         navigate("/products");
     };
 
@@ -82,7 +92,9 @@ const ProductViewPage: FC = () => {
                 <ProductEditForm
                     product={productWithDetails}
                     pending={pending}
+                    fetchingErrors={errors}
                     isEditable={isEditable}
+                    isClicked={isClicked}
                     setIsEditable={setIsEditable}
                     handleDelete={handleDelete}
                     handleSave={handleSave}

@@ -31,11 +31,10 @@ const productsSlice = createSlice({
     name: "products",
     initialState,
     reducers: {
-        // setProductById: (state, action: PayloadAction<string>) => {
-        //     state.product = state.products.find(
-        //         (product) => product.id === action.payload
-        //     );
-        // },
+        clearErrors: (state) => {
+            state.errors.products = null;
+            state.errors.productDetails = null;
+        },
     },
     extraReducers: (builder) => {
         // ================== Get products ==================
@@ -85,15 +84,12 @@ const productsSlice = createSlice({
         builder
             .addCase(deleteProduct.pending, (state) => {
                 state.pending.products = true;
-                state.pending.productDetails = true;
             })
             .addCase(
                 deleteProduct.fulfilled,
                 (state, action: PayloadAction<ProductDto>) => {
                     state.pending.products = false;
-                    state.pending.productDetails = false;
 
-                    state.errors.productDetails = null;
                     state.errors.products = null;
 
                     state.products = state.products.filter(
@@ -107,7 +103,6 @@ const productsSlice = createSlice({
                 (state, action: any & { payload: any }) => {
                     console.log(action.payload);
                     state.pending.products = false;
-                    state.pending.productDetails = false;
 
                     state.errors.products = action.payload;
                 }
@@ -116,15 +111,12 @@ const productsSlice = createSlice({
         builder
             .addCase(updateProduct.pending, (state) => {
                 state.pending.products = true;
-                state.pending.productDetails = true;
             })
             .addCase(
                 updateProduct.fulfilled,
                 (state, action: PayloadAction<ProductWithDetailsDto>) => {
                     state.pending.products = false;
-                    state.pending.productDetails = false;
 
-                    state.errors.productDetails = null;
                     state.errors.products = null;
 
                     const products = state.products.filter(
@@ -135,6 +127,7 @@ const productsSlice = createSlice({
 
                     products.push(product);
                     state.products = products;
+
                     if (!state.productDetails) return;
                     state.productDetails = {
                         ...state.productDetails,
@@ -150,7 +143,7 @@ const productsSlice = createSlice({
                 (state, action: any & { payload: any }) => {
                     console.error(action.payload);
                     state.pending.products = false;
-                    state.pending.productDetails = false;
+
                     state.errors.products = action.payload;
                 }
             );
@@ -161,6 +154,4 @@ const { actions, reducer } = productsSlice;
 
 export default reducer;
 
-export const {
-    // setProductById
-} = actions;
+export const { clearErrors } = actions;

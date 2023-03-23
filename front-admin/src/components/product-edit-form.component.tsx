@@ -15,10 +15,13 @@ import {
     Button,
     MenuItem,
 } from "@mui/material";
+import TemporaryTypography from "./temporary-typography.component";
+import DoneIcon from "@mui/icons-material/Done";
 
 // =========================== DTO's & Enums ===========================
 import { ProductWithDetailsDto } from "../app/products/types/product-with-details.dto";
 import { ProductsCategory } from "../app/products/types/products-category.enum";
+import { IProductsState } from "../app/products/types/products-state.interface";
 
 type ProductKeysType = keyof ProductWithDetailsDto;
 
@@ -26,6 +29,8 @@ const ProductEditForm = ({
     product,
     isEditable,
     pending,
+    fetchingErrors,
+    isClicked,
     setIsEditable,
     handleDelete,
     handleSave,
@@ -33,10 +38,9 @@ const ProductEditForm = ({
 }: {
     product: ProductWithDetailsDto;
     isEditable: boolean;
-    pending: {
-        products: boolean;
-        productDetails: boolean;
-    };
+    pending: IProductsState["pending"];
+    fetchingErrors: IProductsState["errors"];
+    isClicked: boolean;
     setIsEditable: (s: boolean) => void;
     handleDelete: (s: string) => void;
     handleSave: (s: Partial<ProductWithDetailsDto>) => void;
@@ -69,30 +73,35 @@ const ProductEditForm = ({
         const outputData = Object.assign(removeEmptyFields(data), {
             id: product.id,
         });
-        console.log("submit");
         handleSave(outputData);
         setIsEditable(!isEditable);
     };
 
-    const renderTextField = (key: keyof ProductWithDetailsDto, value: any) => (
-        <TextField
-            sx={{
-                width: "100%",
-                alignSelf: "right",
-            }}
-            id={key}
-            defaultValue={value}
-            variant="standard"
-            size="small"
-            disabled={
-                !isEditable ||
-                key === "id" ||
-                key === "created" ||
-                key === "updated"
-            }
-            {...register(key)}
-        />
-    );
+    const renderTextField = (key: keyof ProductWithDetailsDto, value: any) => {
+        if (key === "created" || key === "updated") {
+            value = new Date(value).toLocaleString();
+        }
+
+        return (
+            <TextField
+                sx={{
+                    width: "100%",
+                    alignSelf: "right",
+                }}
+                id={key}
+                defaultValue={value}
+                variant="standard"
+                size="small"
+                disabled={
+                    !isEditable ||
+                    key === "id" ||
+                    key === "created" ||
+                    key === "updated"
+                }
+                {...register(key)}
+            />
+        );
+    };
 
     const renderSelect = (
         key: keyof ProductWithDetailsDto,
@@ -139,13 +148,9 @@ const ProductEditForm = ({
                     gap: 10,
                 }}
             >
-                {productFullDataEntries.map(([key, value]) => {
-                    if (key === "created" || key === "updated") {
-                        value = new Date(value).toLocaleString();
-                    }
-                    return (
+                {productFullDataEntries.map(([key, value]) => (
+                    <Box key={key}>
                         <Box
-                            key={key}
                             sx={{
                                 display: "flex",
                                 justifyContent: "space-between",
@@ -168,13 +173,13 @@ const ProductEditForm = ({
                                         : () => renderSelect(key, value)
                                 }
                             />
-
-                            <Typography variant="caption" color={"red"}>
-                                {errors[key]?.message}
-                            </Typography>
                         </Box>
-                    );
-                })}
+
+                        <Typography variant="caption" color={"red"}>
+                            {errors[key]?.message}
+                        </Typography>
+                    </Box>
+                ))}
                 <Box
                     sx={{
                         display: "flex",
@@ -191,6 +196,27 @@ const ProductEditForm = ({
                         }}
                     >
                         {pending.products && <CircularProgress />}
+                        {isClicked &&
+                            !pending.products &&
+                            !fetchingErrors.products && (
+                                <TemporaryTypography
+                                    variant="overline"
+                                    align="center"
+                                    color="success.main"
+                                >
+                                    <DoneIcon />
+                                </TemporaryTypography>
+                            )}
+
+                        {fetchingErrors.products && (
+                            <TemporaryTypography
+                                variant="overline"
+                                align="center"
+                                color="error"
+                            >
+                                {fetchingErrors.products}
+                            </TemporaryTypography>
+                        )}
                     </Box>
 
                     <Box
@@ -208,6 +234,7 @@ const ProductEditForm = ({
                                 width: "100%",
                                 display: isEditable ? "none" : null,
                             }}
+                            size="small"
                             variant="contained"
                             color="success"
                             disabled={isEditable}
@@ -223,6 +250,7 @@ const ProductEditForm = ({
                                 width: "100%",
                                 display: !isEditable ? "none" : null,
                             }}
+                            size="small"
                             type="submit"
                             variant="contained"
                             color="success"
@@ -235,6 +263,7 @@ const ProductEditForm = ({
                             sx={{
                                 width: "100%",
                             }}
+                            size="small"
                             variant="contained"
                             color="error"
                             onClick={() => handleDelete(product.id)}
@@ -246,11 +275,12 @@ const ProductEditForm = ({
                             sx={{
                                 width: "100%",
                             }}
+                            size="small"
                             variant="contained"
                             color="primary"
                             onClick={handleBack}
                         >
-                            Back to products
+                            Back to all
                         </Button>
                     </Box>
                 </Box>
