@@ -69,6 +69,9 @@ const ProductViewPage: FC = () => {
     const handleSave = (product: Partial<ProductWithDetailsDto>) => {
         dispatch(updateProduct(product));
     };
+    const handleBack = () => {
+        navigate("/products");
+    };
 
     return (
         <MainGrid>
@@ -83,6 +86,7 @@ const ProductViewPage: FC = () => {
                     setIsEditable={setIsEditable}
                     handleDelete={handleDelete}
                     handleSave={handleSave}
+                    handleBack={handleBack}
                 />
             )}
         </MainGrid>

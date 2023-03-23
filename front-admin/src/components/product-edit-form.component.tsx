@@ -27,6 +27,7 @@ const ProductEditForm = ({
     setIsEditable,
     handleDelete,
     handleSave,
+    handleBack,
 }: {
     product: ProductWithDetailsDto;
     isEditable: boolean;
@@ -37,6 +38,7 @@ const ProductEditForm = ({
     setIsEditable: (s: boolean) => void;
     handleDelete: (s: string) => void;
     handleSave: (s: Partial<ProductWithDetailsDto>) => void;
+    handleBack: () => void;
 }) => {
     const productFullDataEntries: [ProductKeysType, any][] = [
         ...Object.entries(product),
@@ -67,7 +69,7 @@ const ProductEditForm = ({
         });
         console.log("submit");
         handleSave(outputData);
-        // setIsEditable(!isEditable);
+        setIsEditable(!isEditable);
     };
 
     return (
@@ -80,7 +82,7 @@ const ProductEditForm = ({
                 p: 3,
             }}
         >
-            <Typography variant="h5" fontWeight={"bold"} pb={3}>
+            <Typography variant="h6" fontWeight={"bold"} pb={1}>
                 Product info
             </Typography>
 
@@ -97,17 +99,34 @@ const ProductEditForm = ({
                         value = new Date(value).toLocaleString();
                     }
                     return (
-                        <div key={key}>
+                        <Box
+                            key={key}
+                            sx={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                            }}
+                        >
+                            <Typography
+                                variant="overline"
+                                align="left"
+                                sx={{ minWidth: 90, width: 120 }}
+                            >
+                                {key}
+                            </Typography>
                             <Controller
                                 name={key}
                                 control={control}
                                 render={() => (
                                     <TextField
-                                        sx={{ minWidth: "100%" }}
-                                        id="outlined-basic"
+                                        sx={{
+                                            width: "100%",
+                                            alignSelf: "right",
+                                        }}
+                                        id={key}
                                         defaultValue={value}
-                                        label={key}
-                                        variant="outlined"
+                                        variant="standard"
+                                        size="small"
                                         disabled={
                                             !isEditable ||
                                             key === "id" ||
@@ -122,7 +141,7 @@ const ProductEditForm = ({
                             <Typography variant="caption" color={"red"}>
                                 {errors[key]?.message}
                             </Typography>
-                        </div>
+                        </Box>
                     );
                 })}
                 <Box
@@ -137,7 +156,6 @@ const ProductEditForm = ({
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
-                            // flexGrow: 1,
                             width: "50%",
                         }}
                     >
@@ -150,7 +168,6 @@ const ProductEditForm = ({
                             flexFlow: "column",
                             alignItems: "center",
                             justifyContent: "center",
-                            // flexGrow: 1,
                             width: "50%",
                             gap: 2,
                         }}
@@ -192,6 +209,17 @@ const ProductEditForm = ({
                             onClick={() => handleDelete(product.id)}
                         >
                             Delete
+                        </Button>
+
+                        <Button
+                            sx={{
+                                width: "100%",
+                            }}
+                            variant="contained"
+                            color="primary"
+                            onClick={handleBack}
+                        >
+                            Back to products
                         </Button>
                     </Box>
                 </Box>
