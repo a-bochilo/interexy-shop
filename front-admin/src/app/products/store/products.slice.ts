@@ -148,8 +148,9 @@ const productsSlice = createSlice({
             .addCase(
                 updateProduct.rejected,
                 (state, action: any & { payload: any }) => {
-                    console.log(action.payload);
+                    console.error(action.payload);
                     state.pending.products = false;
+                    state.pending.productDetails = false;
                     state.errors.products = action.payload;
                 }
             );

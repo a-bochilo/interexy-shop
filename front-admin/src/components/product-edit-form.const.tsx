@@ -1,8 +1,9 @@
 import * as yup from "yup";
+import { ProductsCategory } from "../app/products/types/products-category.enum";
 
 export const formSchema = yup
     .object({
-        category: yup.string().min(1, "⚠ This field is required").nullable(),
+        category: yup.mixed().oneOf(Object.values(ProductsCategory)).nullable(),
 
         name: yup.string().min(1, "⚠ This field is required").nullable(),
 

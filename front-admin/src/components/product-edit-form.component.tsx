@@ -13,10 +13,12 @@ import {
     Typography,
     TextField,
     Button,
+    MenuItem,
 } from "@mui/material";
 
-// =========================== DTO's ===========================
+// =========================== DTO's & Enums ===========================
 import { ProductWithDetailsDto } from "../app/products/types/product-with-details.dto";
+import { ProductsCategory } from "../app/products/types/products-category.enum";
 
 type ProductKeysType = keyof ProductWithDetailsDto;
 
@@ -72,6 +74,49 @@ const ProductEditForm = ({
         setIsEditable(!isEditable);
     };
 
+    const renderTextField = (key: keyof ProductWithDetailsDto, value: any) => (
+        <TextField
+            sx={{
+                width: "100%",
+                alignSelf: "right",
+            }}
+            id={key}
+            defaultValue={value}
+            variant="standard"
+            size="small"
+            disabled={
+                !isEditable ||
+                key === "id" ||
+                key === "created" ||
+                key === "updated"
+            }
+            {...register(key)}
+        />
+    );
+
+    const renderSelect = (
+        key: keyof ProductWithDetailsDto,
+        value: ProductsCategory
+    ) => (
+        <TextField
+            sx={{
+                width: "100%",
+                alignSelf: "right",
+            }}
+            id={key}
+            select
+            defaultValue={value}
+            variant="standard"
+            disabled={!isEditable}
+        >
+            {Object.values(ProductsCategory).map((option) => (
+                <MenuItem key={option} value={option}>
+                    {option}
+                </MenuItem>
+            ))}
+        </TextField>
+    );
+
     return (
         <Paper
             sx={{
@@ -117,25 +162,11 @@ const ProductEditForm = ({
                             <Controller
                                 name={key}
                                 control={control}
-                                render={() => (
-                                    <TextField
-                                        sx={{
-                                            width: "100%",
-                                            alignSelf: "right",
-                                        }}
-                                        id={key}
-                                        defaultValue={value}
-                                        variant="standard"
-                                        size="small"
-                                        disabled={
-                                            !isEditable ||
-                                            key === "id" ||
-                                            key === "created" ||
-                                            key === "updated"
-                                        }
-                                        {...register(key)}
-                                    />
-                                )}
+                                render={
+                                    key !== "category"
+                                        ? () => renderTextField(key, value)
+                                        : () => renderSelect(key, value)
+                                }
                             />
 
                             <Typography variant="caption" color={"red"}>
