@@ -1,11 +1,19 @@
 import styled from "@emotion/styled";
 import { Typography, TypographyProps } from "@mui/material";
 
-const CustomTypography = styled(Typography)`
-        animation: dissapear 2s 1 forwards ease-in;
+interface ITypographyProps extends TypographyProps {
+    duration: number;
+}
+
+const TemporaryTypography = ({ duration, ...props }: ITypographyProps) => {
+    const CustomTypography = styled(Typography)`
+        animation: dissapear ${duration}s 1 forwards ease-in;
             
         @keyframes dissapear {
             0% {
+                opacity: 1;
+            }
+            70% {
                 opacity: 1;
             }
             100% {
@@ -13,7 +21,6 @@ const CustomTypography = styled(Typography)`
         } 
     `;
 
-const TemporaryTypography = (props: TypographyProps) => {
     return <CustomTypography {...props} />;
 };
 

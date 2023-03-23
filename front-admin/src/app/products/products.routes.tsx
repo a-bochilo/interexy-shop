@@ -16,7 +16,7 @@ const Suspended: FC<PropsWithChildren & { element: any }> = ({
                     sx={{
                         display: "flex",
                         minHeight: "100vh",
-                        minWidth: "100%",
+                        minWidth: "100vw",
                         alignItems: "center",
                         justifyContent: "center",
                     }}
@@ -39,17 +39,24 @@ const ProductViewPage = React.lazy(
     () =>
         import(/* webpackChunkName: "ProductViewPage" */ "./product-view.page")
 );
+const ProductAddPage = React.lazy(
+    () => import(/* webpackChunkName: "ProductAddPage" */ "./product-add.page")
+);
 
 const ProductsRoutes: FC = () => {
     return (
         <Routes>
             <Route
-                path={"/*"}
+                path={"/"}
                 element={<Suspended element={ProductListPage} />}
             />
             <Route
                 path={"/:productId"}
                 element={<Suspended element={ProductViewPage} />}
+            />
+            <Route
+                path={"/add"}
+                element={<Suspended element={ProductAddPage} />}
             />
 
             {/* DEFAULT */}

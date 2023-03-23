@@ -8,6 +8,7 @@ import { ProductWithDetailsDto } from "../types/product-with-details.dto";
 
 // =========================== Actions ===========================
 import {
+    createProduct,
     deleteProduct,
     fetchProductDetials,
     fetchProducts,
@@ -101,7 +102,6 @@ const productsSlice = createSlice({
             .addCase(
                 deleteProduct.rejected,
                 (state, action: any & { payload: any }) => {
-                    console.log(action.payload);
                     state.pending.products = false;
 
                     state.errors.products = action.payload;
@@ -141,7 +141,29 @@ const productsSlice = createSlice({
             .addCase(
                 updateProduct.rejected,
                 (state, action: any & { payload: any }) => {
-                    console.error(action.payload);
+                    state.pending.products = false;
+
+                    state.errors.products = action.payload;
+                }
+            );
+        // ================== Create product ==================
+        builder
+            .addCase(createProduct.pending, (state) => {
+                state.pending.products = true;
+            })
+            .addCase(
+                createProduct.fulfilled,
+                (state, action: PayloadAction<ProductDto>) => {
+                    state.pending.products = false;
+
+                    state.errors.products = null;
+
+                    state.products.push(action.payload);
+                }
+            )
+            .addCase(
+                createProduct.rejected,
+                (state, action: any & { payload: any }) => {
                     state.pending.products = false;
 
                     state.errors.products = action.payload;

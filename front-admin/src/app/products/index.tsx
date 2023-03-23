@@ -1,5 +1,6 @@
 // =========================== React ===========================
 import { FC, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 // =========================== MUI ===========================
 import styled from "@emotion/styled";
@@ -35,6 +36,7 @@ const ContentGrid = styled(Grid)`
 
 const ProductsPage: FC = () => {
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
         dispatch(fetchProducts());
@@ -55,7 +57,9 @@ const ProductsPage: FC = () => {
                         size="small"
                         variant="contained"
                         color="success"
-                        onClick={() => {}}
+                        onClick={() => {
+                            navigate("add");
+                        }}
                     >
                         Create new
                     </Button>

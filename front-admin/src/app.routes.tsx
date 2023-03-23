@@ -10,7 +10,15 @@ const PrivateRoute: FC<{ element: any }> = ({ element: Element }) => {
     return true ? (
         <Suspense
             fallback={
-                <Box sx={{ display: "flex" }}>
+                <Box
+                    sx={{
+                        display: "flex",
+                        minHeight: "100vh",
+                        minWidth: "100vw",
+                        alignItems: "center",
+                        justifyContent: "center",
+                    }}
+                >
                     <CircularProgress />
                 </Box>
             }
@@ -28,7 +36,15 @@ const PrivateRoute: FC<{ element: any }> = ({ element: Element }) => {
 const PublicRoute: FC<{ element: any }> = ({ element: Element }) => (
     <Suspense
         fallback={
-            <Box sx={{ display: "flex" }}>
+            <Box
+                sx={{
+                    display: "flex",
+                    minHeight: "100vh",
+                    minWidth: "100vw",
+                    alignItems: "center",
+                    justifyContent: "center",
+                }}
+            >
                 <CircularProgress />
             </Box>
         }
