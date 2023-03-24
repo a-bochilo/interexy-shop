@@ -74,7 +74,8 @@ const ProductsTable = ({
                         key={column.dataKey}
                         variant="head"
                         align="center"
-                        style={{ width: column.width }}
+                        style={{ width: column.width, fontWeight: "bold" }}
+
                         sx={{
                             backgroundColor: "background.paper",
                         }}
@@ -89,17 +90,34 @@ const ProductsTable = ({
     const rowContent = (_index: number, row: ProductDto) => {
         return (
             <>
-                {columns.map((column) => (
-                    <TableCell key={column.dataKey} align="center">
-                        {`${row[column.dataKey]}`}
-                    </TableCell>
-                ))}
+                {columns.map((column) => {
+                    let date: string | null = null;
+                    if (
+                        (column.dataKey === "created" ||
+                            column.dataKey === "updated") &&
+                        typeof row[column.dataKey] !== "string"
+                    ) {
+                        date = new Date(row[column.dataKey]).toLocaleString();
+                    }
+                    return (
+                        <TableCell key={column.dataKey} align="center">
+                            {date ? `${date}` : `${row[column.dataKey]}`}
+                        </TableCell>
+                    );
+                })}
+
             </>
         );
     };
 
     return (
-        <Paper style={{ height: "calc(100vh - 64px)", width: "100%" }}>
+        <Paper
+            style={{
+                width: "100%",
+                minHeight: "100%",
+            }}
+        >
+
             <TableVirtuoso
                 data={products}
                 components={VirtuosoTableComponents}
