@@ -13,14 +13,17 @@ import {
 import { useAppSelector } from "../../store";
 
 // =========================== Components ===========================
-import ProductsTable from "../../components/products-table.component";
+import ProductCard from "../../components/product-card.component";
 
 const MainGrid = styled(Grid)`
     display: flex;
-    align-items: top;
+    // align-items: top;
+    gap: 15px;
+    flex-flow: row wrap;
     justify-content: space-around;
     width: 100%;
     min-height: 100%;
+    padding: 20px;
 `;
 
 const ProductListPage: FC = () => {
@@ -29,7 +32,7 @@ const ProductListPage: FC = () => {
     const products = useAppSelector(productsSelector);
     const pending = useAppSelector(productsPendingSelector);
 
-    const handleClickRow = (productId: string) => {
+    const handleClickCard = (productId: string) => {
         navigate(`${productId}`);
     };
 
@@ -38,12 +41,14 @@ const ProductListPage: FC = () => {
             {pending.products && (
                 <CircularProgress sx={{ alignSelf: "center" }} />
             )}
-            {!!products.length && !pending.products && (
-                <ProductsTable
-                    products={products}
-                    handleClickRow={handleClickRow}
-                />
-            )}
+            {!!products.length &&
+                !pending.products &&
+                products.map((product) => (
+                    <ProductCard
+                        product={product}
+                        handleClickCard={handleClickCard}
+                    />
+                ))}
         </MainGrid>
     );
 };

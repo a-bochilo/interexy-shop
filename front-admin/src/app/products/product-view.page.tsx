@@ -88,7 +88,7 @@ const ProductViewPage: FC = () => {
             {(pending.products || pending.productDetails) && (
                 <CircularProgress sx={{ alignSelf: "center" }} />
             )}
-            {!!productWithDetails && (
+            {!!productWithDetails && !pending.products && (
                 <ProductEditForm
                     product={productWithDetails}
                     pending={pending}
