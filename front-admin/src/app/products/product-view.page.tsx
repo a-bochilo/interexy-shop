@@ -85,9 +85,10 @@ const ProductViewPage: FC = () => {
 
     return (
         <MainGrid>
-            {(pending.products || pending.productDetails) && (
-                <CircularProgress sx={{ alignSelf: "center" }} />
-            )}
+            {!productWithDetails &&
+                (pending.products || pending.productDetails) && (
+                    <CircularProgress sx={{ alignSelf: "center" }} />
+                )}
             {!!productWithDetails && (
                 <ProductEditForm
                     product={productWithDetails}

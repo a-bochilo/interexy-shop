@@ -51,19 +51,6 @@ const ProductsPage: FC = () => {
             >
                 <ProductsRoutes />
                 <PageAsideComp>
-                    <Button
-                        sx={{
-                            width: "100%",
-                        }}
-                        size="small"
-                        variant="contained"
-                        color="success"
-                        onClick={() => {
-                            navigate("add");
-                        }}
-                    >
-                        Create new
-                    </Button>
                     <ProductFilterForm />
                 </PageAsideComp>
             </ContentGrid>
