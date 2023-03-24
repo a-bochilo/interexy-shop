@@ -13,6 +13,7 @@ import { OrderRepository } from "./repos/order.repository";
 import { ProductsRepository } from "../products/repos/products.repository";
 import { UserRepository } from "../users/repos/user.repository";
 import { OrderItemRepository } from "./repos/order-item.repository";
+import { order } from "./test/mocks/data.mock";
 
 @Injectable()
 export class OrderService {
@@ -25,6 +26,10 @@ export class OrderService {
 
   async getAllOrders() {
     return await this.orderRepository.getAllOrders();
+  }
+
+  async getOrderItemByOrderId(orderId: string) {
+    return await this.orderItemRepository.getOrdersById(orderId);
   }
 
   async getOrdersByUserId(id: string) {
@@ -55,55 +60,6 @@ export class OrderService {
     return await this.orderItemRepository.createOrderItem(item);
   }
 
-  // async createOrder(cart: CartSessionDto, userId: string): Promise<OrderDto> {
-  //   if (!cart.items.length) {
-  //     throw new HttpException(
-  //       I18nContext.current().t("errors.cart.cartIsEmpty"),
-  //       HttpStatus.BAD_REQUEST
-  //     );
-  //   }
-  //   const productIds = cart.items.map((item) => item.productId);
-  //   const prodEntities = await this.productRepository.getProductsArrayByIds(
-  //     productIds
-  //   );
-
-  //   prodEntities.map((product, i) => {
-  //     const res = product.quantity - cart.items[i].quantity;
-
-  //     if (res < 0) {
-  //       throw new HttpException(
-  //         `'${product.name}'. ${I18nContext.current().t(
-  //           "errors.products.productNotEnough"
-  //         )} ${product.quantity}`,
-  //         HttpStatus.BAD_REQUEST
-  //       );
-  //     }
-  //   });
-
-  //   const user = await this.userRepository.getById(userId);
-
-  //   if (!user) {
-  //     throw new HttpException(
-  //       `${I18nContext.current().t("errors.user.userDoesNotExist")}`,
-  //       HttpStatus.NOT_FOUND
-  //     );
-  //   }
-
-  //   const order = await this.orderRepository.createOrder(user);
-
-  //   const orderItems = await Promise.all(
-  //     prodEntities.map(async (product, i) => {
-  //       return await this.createOrderItem(
-  //         order,
-  //         product,
-  //         cart.items[i].quantity
-  //       );
-  //     })
-  //   );
-  //   const newOrder = await this.orderRepository.saveOrder(order);
-  //   return await OrderDto.fromEntity(newOrder);
-  // }
-
   async createOrder(cart: CartSessionDto, userId: string): Promise<OrderDto> {
     if (!cart.items.length) {
       throw new HttpException(
@@ -113,9 +69,7 @@ export class OrderService {
     }
 
     const productIds = cart.items.map((item) => item.productId);
-    const prodEntities = await this.productRepository.getProductsArrayByIds(
-      productIds
-    );
+    const prodEntities = await this.productRepository.getProductsArrayByIds(productIds);
 
     prodEntities.map((product, i) => {
       const res = product.quantity - cart.items[i].quantity;
@@ -140,11 +94,7 @@ export class OrderService {
 
     const orderItems = await Promise.all(
       prodEntities.map(async (product, i) => {
-        return await this.createOrderItem(
-          order,
-          product,
-          cart.items[i].quantity
-        );
+        return await this.createOrderItem(order, product, cart.items[i].quantity);
       })
     );
 

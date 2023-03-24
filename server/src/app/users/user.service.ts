@@ -12,6 +12,7 @@ import { UserViewRepository } from "./repos/user-view.repository";
 // ========================== Services & Controllers ====================
 import { UpdateUserDto } from "./dtos/user-update.dto";
 import { RoleRepository } from "../roles/repos/role.repository";
+import { UserRoles } from "../../shared/types/user-roles.enum";
 
 @Injectable()
 export class UserService {
@@ -61,10 +62,22 @@ export class UserService {
       );
     }
 
-    const newRole = await this.roleRepository.getRoleByName(
-      assignUserRoleDto.newRole
-    );
-    
+    if (user.roleType === UserRoles.superadmin) {
+      throw new HttpException(
+        `${I18nContext.current().t("errors.user.userIsSuperuser")}`,
+        HttpStatus.NOT_FOUND
+      );
+    }
+
+    const newRole = await this.roleRepository.getRoleByName(assignUserRoleDto.newRole);
+
+    if (newRole.type === UserRoles.superadmin) {
+      throw new HttpException(
+        `${I18nContext.current().t("errors.roles.roleSuperuserLimit")}`,
+        HttpStatus.NOT_FOUND
+      );
+    }
+
     if (!newRole) {
       throw new HttpException(
         `${I18nContext.current().t("errors.roles.roleDoesNotExist")}`,
@@ -81,6 +94,12 @@ export class UserService {
 
   async deleteUserById(userId: string) {
     const user = await this.userRepository.getById(userId);
+    if (user.roleType === UserRoles.superadmin) {
+      throw new HttpException(
+        `${I18nContext.current().t("errors.user.userIsSuperuser")}`,
+        HttpStatus.NOT_FOUND
+      );
+    }
 
     if (!user) {
       throw new HttpException(
@@ -94,6 +113,13 @@ export class UserService {
   async updateUserDetails(info: UpdateUserDto, userId: string) {
     const user = await this.userRepository.getById(userId);
 
+    if (user.roleType === UserRoles.superadmin) {
+      throw new HttpException(
+        `${I18nContext.current().t("errors.roles.roleSuperuserLimit")}`,
+        HttpStatus.NOT_FOUND
+      );
+    }
+
     if (!user) {
       throw new HttpException(
         `${I18nContext.current().t("errors.user.userDoesNotExist")}`,
@@ -101,9 +127,7 @@ export class UserService {
       );
     }
 
-    let details = await this.userDetailsRepository.getDetailsById(
-      user.details_id
-    );
+    let details = await this.userDetailsRepository.getDetailsById(user.details_id);
 
     if (!details) {
       throw new HttpException(
@@ -115,7 +139,6 @@ export class UserService {
     const newDetails = await this.userDetailsRepository.setDetails(
       Object.assign(details, info.details)
     );
-
 
     delete info.details;
     Object.assign(user, info);
