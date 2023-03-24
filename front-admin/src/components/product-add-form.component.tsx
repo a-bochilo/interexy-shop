@@ -3,7 +3,7 @@ import { useForm, SubmitHandler, Controller } from "react-hook-form";
 
 // =========================== YUP ===========================
 import { yupResolver } from "@hookform/resolvers/yup";
-import { formSchema } from "./product-edit-form.const";
+import { formSchema } from "./product-add-form.const";
 
 // =========================== MUI ===========================
 import {
@@ -65,7 +65,6 @@ const ProductAddForm = ({
 
     const onSubmit: SubmitHandler<ProductCreateDto> = async (data) => {
         const isPositive = await handleSave(data);
-        console.log("isPositive", isPositive);
         if (isPositive) {
             reset();
         }

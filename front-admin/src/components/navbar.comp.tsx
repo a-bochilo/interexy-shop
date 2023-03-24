@@ -15,7 +15,6 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import SearchIcon from "@mui/icons-material/Search";
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import {
     alpha,
@@ -189,9 +188,6 @@ const PageNavBarComp: FC = () => {
                                     inputProps={{ "aria-label": "search" }}
                                 />
                             </Search>
-                            <ShoppingCartOutlinedIcon
-                                sx={{ cursor: "pointer" }}
-                            />
                             <Tooltip title="Open settings">
                                 <IconButton
                                     onClick={handleOpenUserMenu}

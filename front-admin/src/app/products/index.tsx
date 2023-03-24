@@ -10,6 +10,7 @@ import { Button, Grid } from "@mui/material";
 import PageAsideComp from "../../components/aside.comp";
 import PageFooterComp from "../../components/page-footer.comp";
 import PageNavBarComp from "../../components/navbar.comp";
+import ProductFilterForm from "../../components/product-filter-form.component";
 
 // =========================== Store ===========================
 import { useAppDispatch } from "../../store";
@@ -63,6 +64,7 @@ const ProductsPage: FC = () => {
                     >
                         Create new
                     </Button>
+                    <ProductFilterForm />
                 </PageAsideComp>
             </ContentGrid>
             <PageFooterComp />

@@ -51,6 +51,7 @@ const theme: Theme = createTheme({
 
     typography: {
         fontFamily: ["Inter", "sans-serif"].join(","),
+        fontSize: 12,
     },
     components: {
         MuiCssBaseline: {

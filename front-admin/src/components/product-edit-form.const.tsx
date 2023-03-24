@@ -9,18 +9,16 @@ export const formSchema = yup
 
         brand: yup.string().min(1, "⚠ This field is required").nullable(),
 
-        price: yup
-            .number()
-            .integer("⚠ This field accepts only integer numbers")
-            .min(1, "⚠ This field is required")
-            .nullable(),
+        price: yup.number().min(0, "⚠ This field is required").nullable(),
+
         image: yup.string().url(),
 
         quantity: yup
             .number()
             .integer("⚠ This field accepts only integer numbers")
-            .min(1, "⚠ This field is required")
+            .min(0, "⚠ This field is required")
             .nullable(),
+
         isActive: yup.boolean().nullable(),
 
         color: yup.string().min(1, "⚠ This field is required").nullable(),

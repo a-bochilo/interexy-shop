@@ -12,6 +12,7 @@ import {
     deleteProduct,
     fetchProductDetials,
     fetchProducts,
+    filterProduct,
     updateProduct,
 } from "./products.actions";
 
@@ -163,6 +164,30 @@ const productsSlice = createSlice({
             )
             .addCase(
                 createProduct.rejected,
+                (state, action: any & { payload: any }) => {
+                    state.pending.products = false;
+
+                    state.errors.products = action.payload;
+                }
+            );
+
+        // ================== Filter product ==================
+        builder
+            .addCase(filterProduct.pending, (state) => {
+                state.pending.products = true;
+            })
+            .addCase(
+                filterProduct.fulfilled,
+                (state, action: PayloadAction<ProductDto[]>) => {
+                    state.pending.products = false;
+
+                    state.errors.products = null;
+
+                    state.products = action.payload;
+                }
+            )
+            .addCase(
+                filterProduct.rejected,
                 (state, action: any & { payload: any }) => {
                     state.pending.products = false;
 

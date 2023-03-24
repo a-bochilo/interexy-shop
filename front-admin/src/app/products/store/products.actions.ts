@@ -9,6 +9,7 @@ import { ProductDto } from "../types/product.dto";
 import { ProductDetailsDto } from "../types/product-details.dto";
 import { ProductWithDetailsDto } from "../types/product-with-details.dto";
 import { ProductCreateDto } from "../types/product-create.dto";
+import { ProductFilterDto } from "../types/product-filter.dto";
 
 export const fetchProducts = createAsyncThunk<ProductDto[]>(
     "products/fetchProducts",
@@ -35,7 +36,7 @@ export const fetchProductDetials = createAsyncThunk<ProductDetailsDto, string>(
                 any,
                 AxiosResponse<ProductDetailsDto, any>,
                 any
-            >(`${id}`);
+            >(`/products/${id}`);
             return data;
         } catch (e: any) {
             console.error(e);
@@ -52,7 +53,7 @@ export const deleteProduct = createAsyncThunk<ProductDto, string>(
                 any,
                 AxiosResponse<ProductDto, any>,
                 any
-            >(`${id}`);
+            >(`/products/${id}`);
             return data;
         } catch (e: any) {
             console.error(e);
@@ -72,7 +73,7 @@ export const updateProduct = createAsyncThunk<
                 any,
                 AxiosResponse<ProductWithDetailsDto, any>,
                 any
-            >(`${product.id}`, product);
+            >(`/products/${product.id}`, product);
             return data;
         } catch (e: any) {
             console.error(e);
@@ -90,6 +91,23 @@ export const createProduct = createAsyncThunk<ProductDto, ProductCreateDto>(
                 AxiosResponse<ProductDto, any>,
                 any
             >("/products", product);
+            return data;
+        } catch (e: any) {
+            console.error(e);
+            return rejectWithValue(e.response?.data?.message as string);
+        }
+    }
+);
+
+export const filterProduct = createAsyncThunk<ProductDto[], ProductFilterDto>(
+    "products/filterProduct",
+    async (product: ProductFilterDto, { rejectWithValue }) => {
+        try {
+            const { data } = await $api.get<
+                any,
+                AxiosResponse<ProductDto[], any>,
+                any
+            >("/products/filter", { params: product });
             return data;
         } catch (e: any) {
             console.error(e);
