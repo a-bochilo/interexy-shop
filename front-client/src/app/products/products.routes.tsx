@@ -7,48 +7,62 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 
 const Suspended: FC<PropsWithChildren & { element: any }> = ({
-  element: Element,
+    element: Element,
 }) => {
-  return (
-    <Suspense
-      fallback={
-        <Box sx={{ display: "flex" }}>
-          <CircularProgress />
-        </Box>
-      }
-    >
-      <Element />
-    </Suspense>
-  );
+    return (
+        <Suspense
+            fallback={
+                <Box
+                    sx={{
+                        display: "flex",
+                        minHeight: "100vh",
+                        minWidth: "100vw",
+                        alignItems: "center",
+                        justifyContent: "center",
+                    }}
+                >
+                    <CircularProgress />
+                </Box>
+            }
+        >
+            <Element />
+        </Suspense>
+    );
 };
 
 // ======= pages ======= //
 const ProductListPage = React.lazy(
-  () =>
-    import(
-      /* webpackChunkName: "ProductListPage" */ "../products/product-list.page"
-    )
+    () =>
+        import(/* webpackChunkName: "ProductListPage" */ "./product-list.page")
 );
 const ProductViewPage = React.lazy(
-  () =>
-    import(
-      /* webpackChunkName: "ProductViewPage" */ "../products/product-view.page"
-    )
+    () =>
+        import(/* webpackChunkName: "ProductViewPage" */ "./product-view.page")
+);
+const ProductAddPage = React.lazy(
+    () => import(/* webpackChunkName: "ProductAddPage" */ "./product-add.page")
 );
 
 const ProductsRoutes: FC = () => {
-  return (
-    <Routes>
-      <Route path={"/"} element={<Suspended element={ProductListPage} />} />
-      <Route
-        path={"/:productId"}
-        element={<Suspended element={ProductViewPage} />}
-      />
+    return (
+        <Routes>
+            <Route
+                path={"/"}
+                element={<Suspended element={ProductListPage} />}
+            />
+            <Route
+                path={"/:productId"}
+                element={<Suspended element={ProductViewPage} />}
+            />
+            <Route
+                path={"/add"}
+                element={<Suspended element={ProductAddPage} />}
+            />
 
-      {/* DEFAULT */}
-      <Route path="*" element={<Navigate to="/" />} />
-    </Routes>
-  );
+            {/* DEFAULT */}
+            <Route path="*" element={<Navigate to="/products" />} />
+        </Routes>
+    );
 };
 
 export default ProductsRoutes;

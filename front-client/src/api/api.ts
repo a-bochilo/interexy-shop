@@ -1,12 +1,13 @@
 import axios from "axios";
 
-const BASE_URL = process.env.REACT_APP_BASE_URL;
+// const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const $api = axios.create({
     headers: {
         "Content-type": "application/json",
+        Authorization: `Bearer ${window.localStorage.getItem("token")}`,
     },
-    baseURL: BASE_URL,
+    // baseURL: BASE_URL,
 });
 
 // $api.interceptors.response.use((response) => {

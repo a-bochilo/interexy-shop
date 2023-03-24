@@ -3,7 +3,7 @@ import { useForm, SubmitHandler, Controller } from "react-hook-form";
 
 // =========================== YUP ===========================
 import { yupResolver } from "@hookform/resolvers/yup";
-import { formSchema } from "./product-add-form.const";
+import { formSchema } from "./product-edit-form.const";
 
 // =========================== MUI ===========================
 import {
@@ -15,7 +15,6 @@ import {
     Button,
     MenuItem,
 } from "@mui/material";
-
 import TemporaryTypography from "./temporary-typography.component";
 import DoneIcon from "@mui/icons-material/Done";
 
@@ -23,55 +22,66 @@ import DoneIcon from "@mui/icons-material/Done";
 import { ProductWithDetailsDto } from "../app/products/types/product-with-details.dto";
 import { ProductsCategory } from "../app/products/types/products-category.enum";
 import { IProductsState } from "../app/products/types/products-state.interface";
-import { ProductCreateDto } from "../app/products/types/product-create.dto";
 
 type ProductKeysType = keyof ProductWithDetailsDto;
 
-const ProductAddForm = ({
+const ProductEditForm = ({
+    product,
+    isEditable,
     pending,
     fetchingErrors,
     isClicked,
+    setIsEditable,
+    handleDelete,
     handleSave,
     handleBack,
 }: {
+    product: ProductWithDetailsDto;
+    isEditable: boolean;
     pending: IProductsState["pending"];
     fetchingErrors: IProductsState["errors"];
     isClicked: boolean;
-    handleSave: (s: ProductCreateDto) => Promise<boolean>;
+    setIsEditable: (s: boolean) => void;
+    handleDelete: (s: string) => void;
+    handleSave: (s: Partial<ProductWithDetailsDto>) => void;
     handleBack: () => void;
 }) => {
-    const fields: ProductKeysType[] = [
-        "category",
-        "name",
-        "brand",
-        "price",
-        "image",
-        "quantity",
-        "color",
-        "material",
-        "size",
-        "description",
-    ];
+    const productFullDataEntries: [ProductKeysType, any][] = [
+        ...Object.entries(product),
+    ] as [ProductKeysType, any][];
+
+    const removeEmptyFields = (
+        obj: Partial<ProductWithDetailsDto>
+    ): Partial<ProductWithDetailsDto> => {
+        const newObj = Object.fromEntries(
+            Object.entries(obj).filter(([_, v]) => v !== (null || undefined))
+        );
+        return newObj as Partial<ProductWithDetailsDto>;
+    };
 
     const {
         register,
         control,
         handleSubmit,
-        reset,
         formState: { errors, isValid },
     } = useForm<ProductWithDetailsDto>({
         mode: "onChange",
         resolver: yupResolver(formSchema),
     });
 
-    const onSubmit: SubmitHandler<ProductCreateDto> = async (data) => {
-        const isPositive = await handleSave(data);
-        if (isPositive) {
-            reset();
-        }
+    const onSubmit: SubmitHandler<Partial<ProductWithDetailsDto>> = (data) => {
+        const outputData = Object.assign(removeEmptyFields(data), {
+            id: product.id,
+        });
+        handleSave(outputData);
+        setIsEditable(!isEditable);
     };
 
-    const renderTextField = (key: ProductKeysType) => {
+    const renderTextField = (key: ProductKeysType, value: any) => {
+        if (key === "created" || key === "updated") {
+            value = new Date(value).toLocaleString();
+        }
+
         return (
             <TextField
                 sx={{
@@ -79,15 +89,24 @@ const ProductAddForm = ({
                     alignSelf: "right",
                 }}
                 id={key}
-                defaultValue=""
+                defaultValue={value}
                 variant="standard"
                 size="small"
+                disabled={
+                    !isEditable ||
+                    key === "id" ||
+                    key === "created" ||
+                    key === "updated"
+                }
                 {...register(key)}
             />
         );
     };
 
-    const renderSelect = (key: ProductKeysType) => (
+    const renderCategorySelect = (
+        key: ProductKeysType,
+        value: ProductsCategory
+    ) => (
         <TextField
             sx={{
                 width: "100%",
@@ -95,8 +114,9 @@ const ProductAddForm = ({
             }}
             id={key}
             select
-            defaultValue=""
+            defaultValue={value}
             variant="standard"
+            disabled={!isEditable}
             {...register(key)}
         >
             {Object.values(ProductsCategory).map((option) => (
@@ -106,6 +126,32 @@ const ProductAddForm = ({
             ))}
         </TextField>
     );
+
+    const renderIsActiveSelect = (key: ProductKeysType, value: any) => {
+        return (
+            <TextField
+                sx={{
+                    width: "100%",
+                    alignSelf: "right",
+                }}
+                id={key}
+                select
+                size="small"
+                defaultValue={value}
+                variant="standard"
+                disabled={!isEditable}
+                {...register(key)}
+            >
+                <MenuItem key={"active"} value={true as any}>
+                    {"active"}
+                </MenuItem>
+
+                <MenuItem key={"inactive"} value={false as any}>
+                    {"inactive"}
+                </MenuItem>
+            </TextField>
+        );
+    };
 
     return (
         <Paper
@@ -118,7 +164,7 @@ const ProductAddForm = ({
             }}
         >
             <Typography variant="h6" fontWeight={"bold"} pb={1}>
-                Product add
+                Product info
             </Typography>
 
             <form
@@ -129,7 +175,7 @@ const ProductAddForm = ({
                     gap: 10,
                 }}
             >
-                {fields.map((key: keyof ProductWithDetailsDto) => (
+                {productFullDataEntries.map(([key, value]) => (
                     <Box key={key}>
                         <Box
                             sx={{
@@ -143,15 +189,17 @@ const ProductAddForm = ({
                                 align="left"
                                 sx={{ minWidth: 90, width: 120 }}
                             >
-                                {key}
+                                {key.split(/(?=[A-Z])/).join(" ")}
                             </Typography>
                             <Controller
                                 name={key}
                                 control={control}
                                 render={
-                                    key !== "category"
-                                        ? () => renderTextField(key)
-                                        : () => renderSelect(key)
+                                    key === "category"
+                                        ? () => renderCategorySelect(key, value)
+                                        : key === "isActive"
+                                        ? () => renderIsActiveSelect(key, value)
+                                        : () => renderTextField(key, value)
                                 }
                             />
                         </Box>
@@ -215,14 +263,43 @@ const ProductAddForm = ({
                         <Button
                             sx={{
                                 width: "100%",
+                                display: isEditable ? "none" : null,
+                            }}
+                            size="small"
+                            variant="contained"
+                            color="success"
+                            disabled={isEditable}
+                            onClick={() => {
+                                setIsEditable(!isEditable);
+                            }}
+                        >
+                            Edit
+                        </Button>
+
+                        <Button
+                            sx={{
+                                width: "100%",
+                                display: !isEditable ? "none" : null,
                             }}
                             size="small"
                             type="submit"
                             variant="contained"
                             color="success"
-                            disabled={!isValid}
+                            disabled={!isEditable || !isValid}
                         >
                             Save
+                        </Button>
+
+                        <Button
+                            sx={{
+                                width: "100%",
+                            }}
+                            size="small"
+                            variant="contained"
+                            color="error"
+                            onClick={() => handleDelete(product.id)}
+                        >
+                            Delete
                         </Button>
 
                         <Button
@@ -243,4 +320,4 @@ const ProductAddForm = ({
     );
 };
 
-export default ProductAddForm;
+export default ProductEditForm;

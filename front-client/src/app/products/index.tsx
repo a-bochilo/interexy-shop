@@ -1,45 +1,75 @@
-// ======== react ============
-import React, { FC } from "react";
+// =========================== React ===========================
+import { FC, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-// ========================== mui ==========================
+// =========================== MUI ===========================
 import styled from "@emotion/styled";
-import { Grid } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 
-// ======== components ============
+// =========================== Components ===========================
 import PageAsideComp from "../../components/aside.comp";
 import PageFooterComp from "../../components/page-footer.comp";
 import PageNavBarComp from "../../components/navbar.comp";
+import ProductFilterForm from "../../components/product-filter-form.component";
 
-// ======== routes ============
+// =========================== Store ===========================
+import { useAppDispatch } from "../../store";
+import { fetchProducts } from "./store/products.actions";
+
+// =========================== Routes ===========================
 import ProductsRoutes from "./products.routes";
 
 const MainGrid = styled(Grid)`
-  flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 0;
+    padding-top: 64px;
+    min-height: 100vh;
+    justify-content: space-between;
 `;
 
 const ContentGrid = styled(Grid)`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  max-width: 100%;
-  max-height: 80%;
+    display: flex;
+    flex-grow: 1;
+    min-width: 100%;
+    min-height: 100%;
 `;
 
 const ProductsPage: FC = () => {
-  return (
-    <MainGrid>
-      <Grid>
-        <PageNavBarComp />
-        <ContentGrid
-          sx={{ flexDirection: { xs: "column-reverse", md: "row" } }}
-        >
-          <ProductsRoutes />
-          <PageAsideComp />
-        </ContentGrid>
-        <PageFooterComp />
-      </Grid>
-    </MainGrid>
-  );
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        dispatch(fetchProducts());
+    }, []);
+
+    return (
+        <MainGrid>
+            <PageNavBarComp />
+            <ContentGrid
+                sx={{ flexDirection: { xs: "column-reverse", md: "row" } }}
+            >
+                <ProductsRoutes />
+                <PageAsideComp>
+                    <Button
+                        sx={{
+                            width: "100%",
+                        }}
+                        size="small"
+                        variant="contained"
+                        color="success"
+                        onClick={() => {
+                            navigate("add");
+                        }}
+                    >
+                        Create new
+                    </Button>
+                    <ProductFilterForm />
+                </PageAsideComp>
+            </ContentGrid>
+            <PageFooterComp />
+        </MainGrid>
+    );
 };
 
 export default ProductsPage;
