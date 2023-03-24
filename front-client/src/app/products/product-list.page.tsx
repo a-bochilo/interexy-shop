@@ -36,6 +36,12 @@ const ProductListPage: FC = () => {
         navigate(`${productId}`);
     };
 
+    const handleAddToCart = (productId: string, quantity: number) => {
+        //! add to cart logic
+        console.log("productId", productId);
+        console.log("quantity", quantity);
+    };
+
     return (
         <MainGrid>
             {pending.products && (
@@ -47,6 +53,7 @@ const ProductListPage: FC = () => {
                     <ProductCard
                         product={product}
                         handleClickCard={handleClickCard}
+                        handleAddToCart={handleAddToCart}
                     />
                 ))}
         </MainGrid>
