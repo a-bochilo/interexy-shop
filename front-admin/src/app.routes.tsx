@@ -23,9 +23,7 @@ const PrivateRoute: FC<{ element: any }> = ({ element: Element }) => {
                 </Box>
             }
         >
-            <div>
-                <Element />
-            </div>
+            <Element />
         </Suspense>
     ) : (
         <Navigate to={"/"} />

@@ -154,7 +154,7 @@ const ProductFilterForm = () => {
                 variant="standard"
                 {...register(key)}
             >
-                {[...Object.values(ProductsCategory), "all"].map((option) => (
+                {["all", ...Object.values(ProductsCategory)].map((option) => (
                     <MenuItem key={option} value={option}>
                         {option}
                     </MenuItem>
