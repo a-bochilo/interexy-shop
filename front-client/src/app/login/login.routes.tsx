@@ -23,27 +23,14 @@ const Suspended: FC<PropsWithChildren & { element: any }> = ({
 };
 
 // ======= pages ======= //
-const ProductListPage = React.lazy(
-  () =>
-    import(
-      /* webpackChunkName: "ProductListPage" */ "../products/product-list.page"
-    )
-);
-const ProductViewPage = React.lazy(
-  () =>
-    import(
-      /* webpackChunkName: "ProductViewPage" */ "../products/product-view.page"
-    )
+const LoginPage = React.lazy(
+  () => import(/* webpackChunkName: "LoginPage" */ "../login/login.page")
 );
 
-const ProductsRoutes: FC = () => {
+const LoginRoutes: FC = () => {
   return (
     <Routes>
-      <Route path={"/"} element={<Suspended element={ProductListPage} />} />
-      <Route
-        path={"/:productId"}
-        element={<Suspended element={ProductViewPage} />}
-      />
+      <Route path={"/"} element={<Suspended element={LoginPage} />} />
 
       {/* DEFAULT */}
       <Route path="*" element={<Navigate to="/" />} />
@@ -51,4 +38,4 @@ const ProductsRoutes: FC = () => {
   );
 };
 
-export default ProductsRoutes;
+export default LoginRoutes;
