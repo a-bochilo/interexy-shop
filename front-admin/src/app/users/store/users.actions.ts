@@ -8,6 +8,7 @@ import { UserDto } from "../../users/types/user-dto.type";
 // ========================== store ==========================
 import $api from "../../../api/api";
 import { UserDetailsDto } from "../types/user-details.type";
+import { UserUpdateDto } from "../types/user-details-update.type";
 
 export const getUsers = createAsyncThunk<UserDto[]>(
   "GET/users",
@@ -28,6 +29,30 @@ export const getUserInfo = createAsyncThunk(
       const response: AxiosResponse<UserDetailsDto> = await $api.get(
         `/users/${userId}`
       );
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message as string);
+    }
+  }
+);
+
+export const updateUserInfo = createAsyncThunk<UserUpdateDto, string>(
+  "PUT/users/:userId",
+  async (userData, id) => {
+    try {
+      const response = await $api.put(`/users/${id}`, userData);
+      return response.data;
+    } catch (error: any) {
+      return error.response?.data?.message as string;
+    }
+  }
+);
+
+export const deleteUser = createAsyncThunk(
+  "DELETE/users/:userId",
+  async (userId: string, { rejectWithValue }) => {
+    try {
+      const response = await $api.delete(`/users/${userId}`);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message as string);

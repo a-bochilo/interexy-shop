@@ -1,11 +1,18 @@
 // ========================== redux ==========================
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 // ========================== types ==========================
 import { UserState } from "../../users/types/user-state.type";
+import { UserDto } from "../types/user-dto.type";
+import { UserUpdateDto } from "../types/user-details-update.type";
 
 // ========================== store ==========================
-import { getUsers, getUserInfo } from "./users.actions";
+import {
+  getUsers,
+  getUserInfo,
+  updateUserInfo,
+  deleteUser,
+} from "./users.actions";
 
 const initialState: UserState = {
   users: [],
@@ -39,6 +46,7 @@ export const usersSlice = createSlice({
         state.pending.users = false;
         state.errors.users = action.payload.message;
       });
+
     // ============ GET USER INFO ============ //
     builder
       .addCase(getUserInfo.pending, (state) => {
@@ -56,6 +64,64 @@ export const usersSlice = createSlice({
           state.errors.userInfo = action.payload.message;
         }
       );
+
+    // ============ UPDATE USER INFO ============ //
+    builder
+      .addCase(updateUserInfo.pending, (state) => {
+        state.pending.userInfo = true;
+        state.errors.userInfo = null;
+      })
+      .addCase(
+        updateUserInfo.fulfilled,
+        (state, action: PayloadAction<UserUpdateDto>) => {
+          const users = state.users.filter(
+            (user: UserDto) => user.id !== action.payload.id
+          );
+          const { firstname, lastname, middlename, ...user } = action.payload;
+
+          users.push(user);
+          state.users = users;
+
+          if (!state.userInfo) return;
+          state.userInfo = {
+            ...state.userInfo,
+            firstname,
+            lastname,
+            middlename,
+          };
+
+          // const { email, phone, roleId, ...details } = payload;
+          // const updatedUser = state.users.find(
+          //   (user: UserDto) => user.id === payload.id
+          // );
+          // if (updatedUser) {
+          //   updatedUser.email = email;
+          //   updatedUser.phone = phone;
+          //   updatedUser.roleId = roleId;
+          // }
+        }
+      )
+      .addCase(
+        updateUserInfo.rejected,
+        (state, action: any & { payload: any }) => {
+          state.pending.userInfo = false;
+          state.errors.userInfo = action.payload.message;
+        }
+      );
+
+    // ============ DELETE USER ============ //
+    builder
+      .addCase(deleteUser.pending, (state) => {
+        state.pending.userInfo = true;
+        state.errors.userInfo = null;
+      })
+      .addCase(deleteUser.fulfilled, (state, { payload }) => {
+        state.users.filter((user: UserDto) => user.id !== payload);
+      })
+      .addCase(deleteUser.rejected, (state, action: any & { payload: any }) => {
+        state.pending.userInfo = false;
+        state.errors.userInfo = action.payload.message;
+      });
   },
 });
 

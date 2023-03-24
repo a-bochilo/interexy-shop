@@ -78,6 +78,8 @@ const userStatuses = [
   },
 ];
 
+type UserKeysType = keyof IUserWithDetails;
+
 const UserEditFormComp: FC<FormProps> = ({
   formName,
   userInfo,
@@ -89,6 +91,19 @@ const UserEditFormComp: FC<FormProps> = ({
   handleSave,
   handleDelete,
 }) => {
+  const userFullDataEntries: [UserKeysType, any][] = [
+    ...Object.entries(selectedUser),
+  ] as [UserKeysType, any][];
+
+  const removeEmptyFields = (
+    obj: Partial<IUserWithDetails>
+  ): Partial<IUserWithDetails> => {
+    const newObj = Object.fromEntries(
+      Object.entries(obj).filter(([_, v]) => v !== (null || undefined))
+    );
+    return newObj as Partial<IUserWithDetails>;
+  };
+
   const {
     register,
     control,
@@ -96,12 +111,15 @@ const UserEditFormComp: FC<FormProps> = ({
     formState: { errors, isValid },
   } = useForm<IUserWithDetails>({
     mode: "onChange",
-    resolver: yupResolver(formSchema),
+    // resolver: yupResolver(formSchema),
   });
 
-  const onSubmit: SubmitHandler<IUserWithDetails> = (data) => {
-    console.log(data);
-    handleSave(data);
+  const onSubmit: SubmitHandler<Partial<IUserWithDetails>> = (data) => {
+    const outputData = Object.assign(removeEmptyFields(data), {
+      id: userInfo.id,
+    });
+    console.log(outputData);
+    handleSave(outputData);
     setDisabled(!disabled);
   };
 
@@ -120,9 +138,63 @@ const UserEditFormComp: FC<FormProps> = ({
       </Typography>
 
       <form
+        id="userEdit"
         onSubmit={handleSubmit(onSubmit)}
         style={{ display: "flex", flexDirection: "column", gap: 10 }}
       >
+        {/* {userFullDataEntries.map(([key, value]) => {
+          if (key === "created" || key === "updated") {
+            value = moment(value).format("DD/MM/YYYY");
+          }
+
+          return (
+            <Box
+              key={key}
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <Typography
+                variant="overline"
+                align="left"
+                sx={{ minWidth: 90, width: 120 }}
+              >
+                {key}
+              </Typography>
+              <Controller
+                name={key}
+                control={control}
+                render={() => (
+                  <TextField
+                    sx={{
+                      width: "100%",
+                      alignSelf: "right",
+                    }}
+                    id={key}
+                    defaultValue={value}
+                    variant="standard"
+                    size="small"
+                    disabled={
+                      !disabled ||
+                      key === "id" ||
+                      key === "created" ||
+                      key === "updated" ||
+                      key === "password"
+                    }
+                    {...register(key)}
+                  />
+                )}
+              />
+
+              <Typography variant="caption" color={"red"}>
+                {errors[key]?.message}
+              </Typography>
+            </Box>
+          );
+        })} */}
+
         <Box
           sx={{
             display: "flex",
@@ -148,11 +220,11 @@ const UserEditFormComp: FC<FormProps> = ({
                   alignSelf: "right",
                 }}
                 disabled
-                value={selectedUser?.id}
+                defaultValue={selectedUser?.id}
                 size="small"
                 id="outlined-basic"
                 variant="outlined"
-                {...register("email")}
+                {...register("id")}
               />
             )}
           />
@@ -183,7 +255,7 @@ const UserEditFormComp: FC<FormProps> = ({
                   alignSelf: "right",
                 }}
                 disabled={disabled}
-                value={userInfo?.firstname}
+                defaultValue={userInfo?.firstname}
                 id="outlined-basic"
                 variant="outlined"
                 {...register("firstName")}
@@ -212,8 +284,8 @@ const UserEditFormComp: FC<FormProps> = ({
             middle name
           </Typography>
           <Controller
-            name="middleName"
             control={control}
+            name="middleName"
             render={() => (
               <TextField
                 sx={{
@@ -221,7 +293,7 @@ const UserEditFormComp: FC<FormProps> = ({
                   alignSelf: "right",
                 }}
                 disabled={disabled}
-                value={userInfo?.middlename}
+                defaultValue={userInfo?.middlename}
                 id="outlined-basic"
                 variant="outlined"
                 {...register("middleName")}
@@ -255,7 +327,7 @@ const UserEditFormComp: FC<FormProps> = ({
                   alignSelf: "right",
                 }}
                 disabled={disabled}
-                value={userInfo?.lastname}
+                defaultValue={userInfo?.lastname}
                 id="outlined-basic"
                 variant="outlined"
                 {...register("lastName")}
@@ -293,7 +365,7 @@ const UserEditFormComp: FC<FormProps> = ({
                   alignSelf: "right",
                 }}
                 disabled={disabled}
-                value={selectedUser?.email}
+                defaultValue={selectedUser?.email}
                 id="outlined-basic"
                 variant="outlined"
                 {...register("email")}
@@ -331,7 +403,7 @@ const UserEditFormComp: FC<FormProps> = ({
                   alignSelf: "right",
                 }}
                 disabled={disabled}
-                value={selectedUser?.phone}
+                defaultValue={selectedUser?.phone}
                 id="outlined-basic"
                 variant="outlined"
                 {...register("phone")}
@@ -368,7 +440,9 @@ const UserEditFormComp: FC<FormProps> = ({
                   alignSelf: "right",
                 }}
                 disabled
-                value={moment(selectedUser?.created).format("DD/MM/YYYY")}
+                defaultValue={moment(selectedUser?.created).format(
+                  "DD/MM/YYYY"
+                )}
                 id="outlined-basic"
                 variant="outlined"
                 {...register("created")}
@@ -402,7 +476,9 @@ const UserEditFormComp: FC<FormProps> = ({
                   alignSelf: "right",
                 }}
                 disabled
-                value={moment(selectedUser?.updated).format("DD/MM/YYYY")}
+                defaultValue={moment(selectedUser?.updated).format(
+                  "DD/MM/YYYY"
+                )}
                 id="outlined-basic"
                 variant="outlined"
                 {...register("updated")}
@@ -568,7 +644,6 @@ const UserEditFormComp: FC<FormProps> = ({
           >
             {disabled ? (
               <Button
-                type="submit"
                 onClick={buttonOnclick}
                 color="success"
                 variant="contained"
@@ -581,6 +656,7 @@ const UserEditFormComp: FC<FormProps> = ({
                 disabled={!isValid}
                 color="success"
                 variant="contained"
+                form="userEdit"
               >
                 Save
               </Button>

@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 // ========================== mui ==========================
 import styled from "@emotion/styled";
 import { Grid } from "@mui/material";
+import { CircularProgress } from "@mui/material";
 
 // ========================== components ==========================
 import UserEditFormComp from "../../components/user-edit-form.comp";
@@ -17,7 +18,12 @@ import {
   usersSelector,
   usersLoadingSelector,
 } from "./store/users.selectors";
-import { getUserInfo, getUsers } from "./store/users.actions";
+import {
+  deleteUser,
+  getUserInfo,
+  getUsers,
+  updateUserInfo,
+} from "./store/users.actions";
 
 const MainGrid = styled(Grid)`
   justify-content: center;
@@ -49,9 +55,15 @@ const UserEditPage: FC = () => {
     setDisabled(false);
   };
 
-  const handleSave = () => {};
+  const handleSave = () => {
+    if (!userId) return;
+    dispatch(updateUserInfo(userId));
+  };
 
-  const handleDelete = () => {};
+  const handleDelete = () => {
+    if (!userId) return;
+    dispatch(deleteUser(userId));
+  };
 
   const selectedUser = userList.find((user) => user.id === userId);
 
@@ -70,7 +82,7 @@ const UserEditPage: FC = () => {
           handleDelete={handleDelete}
         />
       ) : (
-        "no user selected"
+        <CircularProgress />
       )}
     </MainGrid>
   );
