@@ -27,9 +27,9 @@ import { UserDto } from "../app/users/types/user-dto.type";
 
 interface IUserWithDetails {
   id: string;
-  firstName: string;
-  lastName: string;
-  middleName: string;
+  firstname: string;
+  lastname: string;
+  middlename: string;
   created: string;
   updated: string;
   email: string;
@@ -50,6 +50,7 @@ interface FormProps {
   buttonOnclick: () => void;
   handleSave: (e: Partial<IUserWithDetails>) => void;
   handleDelete: (e: string) => void;
+  handleBack: () => void;
 }
 
 const userRoles = [
@@ -59,11 +60,11 @@ const userRoles = [
   },
   {
     id: "2",
-    name: "admin",
+    name: "user",
   },
   {
     id: "3",
-    name: "user",
+    name: "admin",
   },
 ];
 
@@ -78,8 +79,6 @@ const userStatuses = [
   },
 ];
 
-type UserKeysType = keyof IUserWithDetails;
-
 const UserEditFormComp: FC<FormProps> = ({
   formName,
   userInfo,
@@ -90,11 +89,8 @@ const UserEditFormComp: FC<FormProps> = ({
   buttonOnclick,
   handleSave,
   handleDelete,
+  handleBack,
 }) => {
-  const userFullDataEntries: [UserKeysType, any][] = [
-    ...Object.entries(selectedUser),
-  ] as [UserKeysType, any][];
-
   const removeEmptyFields = (
     obj: Partial<IUserWithDetails>
   ): Partial<IUserWithDetails> => {
@@ -111,13 +107,24 @@ const UserEditFormComp: FC<FormProps> = ({
     formState: { errors, isValid },
   } = useForm<IUserWithDetails>({
     mode: "onChange",
-    // resolver: yupResolver(formSchema),
+    resolver: yupResolver(formSchema),
   });
 
   const onSubmit: SubmitHandler<Partial<IUserWithDetails>> = (data) => {
-    const outputData = Object.assign(removeEmptyFields(data), {
-      id: userInfo.id,
-    });
+    const notNullFields = removeEmptyFields(data);
+    const { firstname, lastname, middlename, ...user } = notNullFields;
+    const info = removeEmptyFields({ firstname, lastname, middlename });
+
+    const outputData = {
+      id: selectedUser.id,
+      email: selectedUser.email,
+      phone: selectedUser.phone,
+      roleId: selectedUser.roleId,
+      roleType: selectedUser.roleType,
+      isActive: selectedUser.isActive,
+      ...user,
+      details: info,
+    };
     console.log(outputData);
     handleSave(outputData);
     setDisabled(!disabled);
@@ -142,59 +149,6 @@ const UserEditFormComp: FC<FormProps> = ({
         onSubmit={handleSubmit(onSubmit)}
         style={{ display: "flex", flexDirection: "column", gap: 10 }}
       >
-        {/* {userFullDataEntries.map(([key, value]) => {
-          if (key === "created" || key === "updated") {
-            value = moment(value).format("DD/MM/YYYY");
-          }
-
-          return (
-            <Box
-              key={key}
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <Typography
-                variant="overline"
-                align="left"
-                sx={{ minWidth: 90, width: 120 }}
-              >
-                {key}
-              </Typography>
-              <Controller
-                name={key}
-                control={control}
-                render={() => (
-                  <TextField
-                    sx={{
-                      width: "100%",
-                      alignSelf: "right",
-                    }}
-                    id={key}
-                    defaultValue={value}
-                    variant="standard"
-                    size="small"
-                    disabled={
-                      !disabled ||
-                      key === "id" ||
-                      key === "created" ||
-                      key === "updated" ||
-                      key === "password"
-                    }
-                    {...register(key)}
-                  />
-                )}
-              />
-
-              <Typography variant="caption" color={"red"}>
-                {errors[key]?.message}
-              </Typography>
-            </Box>
-          );
-        })} */}
-
         <Box
           sx={{
             display: "flex",
@@ -246,7 +200,7 @@ const UserEditFormComp: FC<FormProps> = ({
           </Typography>
 
           <Controller
-            name="firstName"
+            name="firstname"
             control={control}
             render={() => (
               <TextField
@@ -258,13 +212,13 @@ const UserEditFormComp: FC<FormProps> = ({
                 defaultValue={userInfo?.firstname}
                 id="outlined-basic"
                 variant="outlined"
-                {...register("firstName")}
+                {...register("firstname")}
               />
             )}
           />
 
           <Typography variant="caption" color={"red"}>
-            {errors.firstName?.message}
+            {errors.firstname?.message}
           </Typography>
         </Box>
 
@@ -285,7 +239,7 @@ const UserEditFormComp: FC<FormProps> = ({
           </Typography>
           <Controller
             control={control}
-            name="middleName"
+            name="middlename"
             render={() => (
               <TextField
                 sx={{
@@ -296,7 +250,7 @@ const UserEditFormComp: FC<FormProps> = ({
                 defaultValue={userInfo?.middlename}
                 id="outlined-basic"
                 variant="outlined"
-                {...register("middleName")}
+                {...register("middlename")}
               />
             )}
           />
@@ -318,7 +272,7 @@ const UserEditFormComp: FC<FormProps> = ({
             last name
           </Typography>
           <Controller
-            name="lastName"
+            name="lastname"
             control={control}
             render={() => (
               <TextField
@@ -330,13 +284,13 @@ const UserEditFormComp: FC<FormProps> = ({
                 defaultValue={userInfo?.lastname}
                 id="outlined-basic"
                 variant="outlined"
-                {...register("lastName")}
+                {...register("lastname")}
               />
             )}
           />
 
           <Typography variant="caption" color={"red"}>
-            {errors.lastName?.message}
+            {errors.lastname?.message}
           </Typography>
         </Box>
 
@@ -411,7 +365,7 @@ const UserEditFormComp: FC<FormProps> = ({
             )}
           />
           <Typography variant="caption" color={"red"}>
-            {errors.phone?.message}
+            {errors.phone?.message }
           </Typography>
         </Box>
 
@@ -514,12 +468,12 @@ const UserEditFormComp: FC<FormProps> = ({
                 disabled={disabled}
                 id="outlined-select"
                 select
-                defaultValue={UserRoles.superadmin}
+                defaultValue={selectedUser.roleId}
                 variant="outlined"
                 {...register("roleId")}
               >
                 {userRoles.map((role) => (
-                  <MenuItem key={role.id} value={role.name}>
+                  <MenuItem key={role.id} value={role.id}>
                     {role.id}
                   </MenuItem>
                 ))}
@@ -555,7 +509,7 @@ const UserEditFormComp: FC<FormProps> = ({
                 disabled={disabled}
                 id="outlined-select"
                 select
-                defaultValue={UserRoles.superadmin}
+                defaultValue={selectedUser.roleType}
                 variant="outlined"
                 {...register("roleType")}
               >
@@ -600,7 +554,7 @@ const UserEditFormComp: FC<FormProps> = ({
                 disabled={disabled}
                 id="outlined-select"
                 select
-                defaultValue={true}
+                defaultValue={selectedUser.isActive}
                 variant="outlined"
                 {...register("isActive")}
               >
@@ -642,31 +596,52 @@ const UserEditFormComp: FC<FormProps> = ({
               gap: 2,
             }}
           >
-            {disabled ? (
-              <Button
-                onClick={buttonOnclick}
-                color="success"
-                variant="contained"
-              >
-                Edit
-              </Button>
-            ) : (
-              <Button
-                type="submit"
-                disabled={!isValid}
-                color="success"
-                variant="contained"
-                form="userEdit"
-              >
-                Save
-              </Button>
-            )}
+            <Button
+              sx={{
+                width: "100%",
+                display: !disabled ? "none" : null,
+              }}
+              onClick={buttonOnclick}
+              color="success"
+              variant="contained"
+            >
+              Edit
+            </Button>
 
             <Button
+              sx={{
+                width: "100%",
+                display: disabled ? "none" : null,
+              }}
+              type="submit"
+              disabled={!isValid}
+              color="success"
+              variant="contained"
+              form="userEdit"
+            >
+              Save
+            </Button>
+
+            <Button
+              sx={{
+                width: "100%",
+              }}
+              type="submit"
+              onClick={handleBack}
+              color="error"
+              variant="contained"
+            >
+              Cancel
+            </Button>
+
+            <Button
+              sx={{
+                width: "100%",
+              }}
               type="submit"
               onClick={() => handleDelete(selectedUser.id)}
               color="error"
-              variant="contained"
+              variant="outlined"
             >
               Delete
             </Button>

@@ -1,7 +1,7 @@
 // ========================== react ==========================
 import { FC, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 // ========================== mui ==========================
 import styled from "@emotion/styled";
@@ -36,6 +36,7 @@ const MainGrid = styled(Grid)`
 
 const UserEditPage: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
   const [disabled, setDisabled] = useState(true);
   const userList = useSelector(usersSelector);
   const userInfo = useSelector(userInfoSelector);
@@ -52,17 +53,21 @@ const UserEditPage: FC = () => {
   }, [userId]);
 
   const buttonOnclick = () => {
-    setDisabled(false);
+    setDisabled(!disabled);
   };
 
-  const handleSave = () => {
+  const handleSave = (data: any) => {
     if (!userId) return;
-    dispatch(updateUserInfo(userId));
+    dispatch(updateUserInfo(data));
   };
 
   const handleDelete = () => {
     if (!userId) return;
     dispatch(deleteUser(userId));
+  };
+
+  const handleBack = () => {
+    navigate(-1);
   };
 
   const selectedUser = userList.find((user) => user.id === userId);
@@ -80,6 +85,7 @@ const UserEditPage: FC = () => {
           buttonOnclick={buttonOnclick}
           handleSave={handleSave}
           handleDelete={handleDelete}
+          handleBack={handleBack}
         />
       ) : (
         <CircularProgress />

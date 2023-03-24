@@ -77,28 +77,17 @@ export const usersSlice = createSlice({
           const users = state.users.filter(
             (user: UserDto) => user.id !== action.payload.id
           );
-          const { firstname, lastname, middlename, ...user } = action.payload;
+          const { details, ...user } = action.payload;
 
           users.push(user);
           state.users = users;
-
+          console.log(state.userInfo);
+          console.log(action.payload);
           if (!state.userInfo) return;
           state.userInfo = {
             ...state.userInfo,
-            firstname,
-            lastname,
-            middlename,
+            ...details,
           };
-
-          // const { email, phone, roleId, ...details } = payload;
-          // const updatedUser = state.users.find(
-          //   (user: UserDto) => user.id === payload.id
-          // );
-          // if (updatedUser) {
-          //   updatedUser.email = email;
-          //   updatedUser.phone = phone;
-          //   updatedUser.roleId = roleId;
-          // }
         }
       )
       .addCase(

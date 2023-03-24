@@ -36,11 +36,11 @@ export const getUserInfo = createAsyncThunk(
   }
 );
 
-export const updateUserInfo = createAsyncThunk<UserUpdateDto, string>(
+export const updateUserInfo = createAsyncThunk<UserUpdateDto, UserUpdateDto>(
   "PUT/users/:userId",
-  async (userData, id) => {
+  async (userData) => {
     try {
-      const response = await $api.put(`/users/${id}`, userData);
+      const response = await $api.put(`/users/${userData.id}`, userData);
       return response.data;
     } catch (error: any) {
       return error.response?.data?.message as string;

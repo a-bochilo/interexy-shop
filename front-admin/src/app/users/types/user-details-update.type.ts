@@ -11,8 +11,11 @@ export interface UserUpdateDto {
   updated: number;
   roleType: UserRoles;
   roleId: number;
-  firstname: string;
-  lastname: string;
-  middlename: string;
+  details: {
+    firstname: string;
+    lastname: string;
+    middlename: string;
+  };
+
   details_id: string;
 }

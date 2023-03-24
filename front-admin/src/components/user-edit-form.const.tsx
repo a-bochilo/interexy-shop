@@ -9,14 +9,11 @@ export const formSchema = yup
       .string()
       .required("⚠ This field is required")
       .email("⚠ Entered value does not match email format"),
-    firstName: yup.string().required("⚠ This field is required"),
-    lastName: yup.string().required("⚠ This field is required"),
+    firstname: yup.string().required("⚠ This field is required"),
+    lastname: yup.string().required("⚠ This field is required"),
     phone: yup
       .string()
       .required("⚠ This field is required")
       .matches(phoneRegExp, "⚠ Entered value does not match phone format"),
-    // roleType: yup
-    //   .string()
-    //   .oneOf([yup.ref("roleId")], "Role type and role id are not equal"),
   })
   .required();
