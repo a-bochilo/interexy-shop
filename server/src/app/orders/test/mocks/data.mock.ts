@@ -222,5 +222,6 @@ export const userRepositoryFake = {
 };
 
 export const orderItemRepositoryFake = {
-    createOrderItem: jest.fn().mockResolvedValue(orderItem),
+  createOrderItem: jest.fn().mockResolvedValue(orderItem),
+  getOrdersById: jest.fn().mockResolvedValue([orderItem]),
 };

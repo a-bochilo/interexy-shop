@@ -4,9 +4,11 @@ import { useDispatch, TypedUseSelectorHook, useSelector } from "react-redux";
 // =========================== Slices ===========================
 import products from "./app/products/store/products.slice";
 import cart from "./app/cart/store/cart.slice";
+import { authReducer } from "./app/login/store/auth.slice";
 
 const store = configureStore({
     reducer: {
+      auth: authReducer,
         products,
         cart,
     },

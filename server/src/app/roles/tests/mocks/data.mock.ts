@@ -19,6 +19,12 @@ export const userRoleDto = {
   permissions: [UserPermissions.all],
 };
 
+export const superadminRoleDto = {
+  name: "user",
+  type: UserRoles.superadmin,
+  permissions: [UserPermissions.all],
+};
+
 export const roleRepositoryFake = {
   createRole: jest.fn().mockResolvedValue(newUserRole),
   getRoleByType: jest.fn().mockResolvedValue(newUserRole),

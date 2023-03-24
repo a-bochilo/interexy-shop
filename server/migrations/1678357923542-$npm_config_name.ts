@@ -2,8 +2,6 @@ import {
     MigrationInterface,
     QueryRunner,
     Table,
-    TableColumn,
-    TableForeignKey,
 } from "typeorm";
 
 export class $npmConfigName1678357923542 implements MigrationInterface {
@@ -148,7 +146,7 @@ const getUsersTable = () => {
                 columnNames: ["role_id", "role_type"],
                 referencedTableName: "user_roles",
                 referencedColumnNames: ["id", "type"],
-                onDelete: "CASCADE",
+                onDelete: "RESTRICT",
                 onUpdate: "CASCADE",
             },
             {
@@ -156,7 +154,7 @@ const getUsersTable = () => {
                 columnNames: ["details_id"],
                 referencedTableName: "user_details",
                 referencedColumnNames: ["id"],
-                onDelete: "CASCADE",
+                onDelete: "RESTRICT",
                 onUpdate: "CASCADE",
             },
         ],
