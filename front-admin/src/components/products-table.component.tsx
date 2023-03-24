@@ -75,6 +75,7 @@ const ProductsTable = ({
                         variant="head"
                         align="center"
                         style={{ width: column.width, fontWeight: "bold" }}
+
                         sx={{
                             backgroundColor: "background.paper",
                         }}
@@ -104,6 +105,7 @@ const ProductsTable = ({
                         </TableCell>
                     );
                 })}
+
             </>
         );
     };
@@ -115,6 +117,7 @@ const ProductsTable = ({
                 minHeight: "100%",
             }}
         >
+
             <TableVirtuoso
                 data={products}
                 components={VirtuosoTableComponents}
