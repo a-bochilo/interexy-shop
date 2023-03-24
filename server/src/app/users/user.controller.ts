@@ -21,13 +21,13 @@ import { AssignUserRoleDto } from "./dtos/user-assigne-role.dto";
 import { UserDetailsEntity } from "./entities/user-details.entity";
 import { UserSessionDto } from "./dtos/user-session.dto";
 import { UpdateUserDto } from "./dtos/user-update.dto";
-import { UserViewEntity } from "./entities/user-view.entity";
 
 // ========================== Enums =====================================
 import { UserPermissions } from "../../shared/types/user-permissions.enum";
 
 // ========================== Services & Controllers ====================
 import { UserService } from "./user.service";
+
 
 @ApiTags("Users controller")
 @Controller("users")
@@ -36,7 +36,7 @@ export class UserController {
 
   //GET ALL USERS
   @Get("")
-  @AuthPermissionsGuard(UserPermissions.getAllUsers)
+  //@AuthPermissionsGuard(UserPermissions.getAllUsers)
   @ApiOperation({ summary: "Get all users" })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -47,8 +47,11 @@ export class UserController {
   @UsePipes(new ValidationPipe())
   async getAllUsers(
     @Query("isActive") isActive: boolean
-  ): Promise<UserEntity[] | UserViewEntity[]> {
-    return this.userService.getAllUsers(isActive);
+  ): Promise<UserSessionDto[]> {
+    const usersFromDB =  await this.userService.getAllUsers(isActive);
+    const res =  usersFromDB.map((user) => UserSessionDto.fromEntity(user))
+    return res;
+
   }
 
   //GET ONE USER BY ID ---------------------------------------USER

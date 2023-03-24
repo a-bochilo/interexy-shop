@@ -5,7 +5,8 @@
         "cartIsEmpty": "Корзина пуста"
     },
     "user": {
-        "userDoesNotExist": "Такого пользователя не существует"
+        "userDoesNotExist": "Такого пользователя не существует",
+        "userIsSuperuser": "Пользователь является суперпользователем"
     },
     "products": {
         "productDoesNotExist": "Такого товара не существует",
@@ -14,7 +15,8 @@
     },
     "roles": {
         "roleAlreadyExist": "Такая роль уже существует",
-        "roleDoesNotExist": "Такая роль не существует"
+        "roleDoesNotExist": "Такая роль не существует",
+        "roleSuperuserLimit": "Ограничение на создание роли суперпользователя"
     },
     "details": {
         "detailsDoesNotExist": "Такие детали не существуют"
