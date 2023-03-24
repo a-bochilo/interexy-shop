@@ -76,7 +76,7 @@ export class ProductsController {
     @Get("/filter")
     @UsePipes(new ValidationPipe())
     async getFiltredProducts(
-        @Body() filter: ProductsFilterDto
+        @Query() filter: ProductsFilterDto
     ): Promise<ProductDto[]> {
         const products = await this.productsService.getFiltredProducts(filter);
 
