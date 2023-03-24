@@ -4,25 +4,32 @@ import { createSlice } from "@reduxjs/toolkit";
 import { OrderDto } from "../types/order.dto";
 
 // =========================== Actions ===============================
-import { fetchOrders } from "./orders.actions";
+import { fetchOrderItems, fetchOrders } from "./orders.actions";
+import { OrderItemDto } from "../types/order-item.dto";
 
 type IInitialState = {
   orders: OrderDto[];
+  orderItems: OrderItemDto[];
   pending: {
     orders: boolean;
+    orderItems: boolean;
   };
   errors: {
     orders: string | null;
+    orderItems: string | null;
   };
 };
 
 const initialState = {
   orders: [],
+  orderItems: [],
   pending: {
     orders: false,
+    orderItems: false,
   },
   errors: {
     orders: null,
+    orderItems: null,
   },
 } as IInitialState;
 
@@ -32,6 +39,7 @@ const ordersSlice = createSlice({
   reducers: {
     clearErrors: (state) => {
       state.errors.orders = null;
+      state.errors.orderItems = null;
     },
   },
   extraReducers: (builder) => {
@@ -46,6 +54,19 @@ const ordersSlice = createSlice({
         state.orders = action.payload;
       })
       .addCase(fetchOrders.rejected, (state, action: any & { payload: any }) => {
+        state.pending.orders = false;
+        state.errors.orders = action.payload;
+      })
+
+      builder
+      .addCase(fetchOrderItems.pending, (state) => {
+        state.pending.orders = true;
+      })
+      .addCase(fetchOrderItems.fulfilled, (state, action) => {
+        state.pending.orders = false;
+        state.orderItems = action.payload;
+      })
+      .addCase(fetchOrderItems.rejected, (state, action: any & { payload: any }) => {
         state.pending.orders = false;
         state.errors.orders = action.payload;
       })

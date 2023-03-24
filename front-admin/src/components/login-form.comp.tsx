@@ -50,8 +50,7 @@ const LoginForm: FC = () => {
       const user: any = decodeToken(newToken.payload);
       if (user.role_type === "user") {
         window.localStorage.setItem("token", newToken.payload);
-        //IF USER => REDIRECT TO SHOP
-        //window.location.replace("https://http://localhost:3001/")
+        window.location.replace("https://http://localhost:3001/")
         console.log("Redirect to shop");
         navigate("/");
         setError(false);
