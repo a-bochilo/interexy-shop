@@ -13,6 +13,7 @@ import { OrderRepository } from "./repos/order.repository";
 import { ProductsRepository } from "../products/repos/products.repository";
 import { UserRepository } from "../users/repos/user.repository";
 import { OrderItemRepository } from "./repos/order-item.repository";
+import { order } from "./test/mocks/data.mock";
 
 @Injectable()
 export class OrderService {
@@ -25,6 +26,10 @@ export class OrderService {
 
   async getAllOrders() {
     return await this.orderRepository.getAllOrders();
+  }
+
+  async getOrderItemByOrderId(orderId: string) {
+    return await this.orderItemRepository.getOrdersById(orderId);
   }
 
   async getOrdersByUserId(id: string) {
@@ -64,9 +69,7 @@ export class OrderService {
     }
 
     const productIds = cart.items.map((item) => item.productId);
-    const prodEntities = await this.productRepository.getProductsArrayByIds(
-      productIds
-    );
+    const prodEntities = await this.productRepository.getProductsArrayByIds(productIds);
 
     prodEntities.map((product, i) => {
       const res = product.quantity - cart.items[i].quantity;
@@ -91,11 +94,7 @@ export class OrderService {
 
     const orderItems = await Promise.all(
       prodEntities.map(async (product, i) => {
-        return await this.createOrderItem(
-          order,
-          product,
-          cart.items[i].quantity
-        );
+        return await this.createOrderItem(order, product, cart.items[i].quantity);
       })
     );
 

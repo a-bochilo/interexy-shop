@@ -34,6 +34,7 @@ export enum UserPermissions {
     getProfileOrders = "getProfileOrders",
     getAllOrders = "getAllOrders",
     getOrdersByUserId = "getOrdersByUserId",
+    getOrderItemByOrderId = "getOrderItemByOrderId",
 
     //==============================================Security==============================================
     refreshToken = "refreshToken",
