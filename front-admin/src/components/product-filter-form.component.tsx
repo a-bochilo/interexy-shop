@@ -208,7 +208,7 @@ const ProductFilterForm = () => {
                 color="primary"
                 pb={1}
             >
-                Filter product
+                Filter products
             </Typography>
 
             <form

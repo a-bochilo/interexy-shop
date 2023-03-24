@@ -77,7 +77,7 @@ const ProductEditForm = ({
         setIsEditable(!isEditable);
     };
 
-    const renderTextField = (key: keyof ProductWithDetailsDto, value: any) => {
+    const renderTextField = (key: ProductKeysType, value: any) => {
         if (key === "created" || key === "updated") {
             value = new Date(value).toLocaleString();
         }
@@ -103,8 +103,8 @@ const ProductEditForm = ({
         );
     };
 
-    const renderSelect = (
-        key: keyof ProductWithDetailsDto,
+    const renderCategorySelect = (
+        key: ProductKeysType,
         value: ProductsCategory
     ) => (
         <TextField
@@ -126,6 +126,32 @@ const ProductEditForm = ({
             ))}
         </TextField>
     );
+
+    const renderIsActiveSelect = (key: ProductKeysType, value: any) => {
+        return (
+            <TextField
+                sx={{
+                    width: "100%",
+                    alignSelf: "right",
+                }}
+                id={key}
+                select
+                size="small"
+                defaultValue={value}
+                variant="standard"
+                disabled={!isEditable}
+                {...register(key)}
+            >
+                <MenuItem key={"active"} value={true as any}>
+                    {"active"}
+                </MenuItem>
+
+                <MenuItem key={"inactive"} value={false as any}>
+                    {"inactive"}
+                </MenuItem>
+            </TextField>
+        );
+    };
 
     return (
         <Paper
@@ -169,9 +195,11 @@ const ProductEditForm = ({
                                 name={key}
                                 control={control}
                                 render={
-                                    key !== "category"
-                                        ? () => renderTextField(key, value)
-                                        : () => renderSelect(key, value)
+                                    key === "category"
+                                        ? () => renderCategorySelect(key, value)
+                                        : key === "isActive"
+                                        ? () => renderIsActiveSelect(key, value)
+                                        : () => renderTextField(key, value)
                                 }
                             />
                         </Box>
