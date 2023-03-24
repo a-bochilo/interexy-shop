@@ -163,7 +163,7 @@ const ProductEditForm = ({
                                 align="left"
                                 sx={{ minWidth: 90, width: 120 }}
                             >
-                                {key}
+                                {key.split(/(?=[A-Z])/).join(" ")}
                             </Typography>
                             <Controller
                                 name={key}

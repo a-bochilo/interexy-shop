@@ -56,7 +56,7 @@ const ProductFilterForm = () => {
         const newObj = Object.fromEntries(
             Object.entries(obj).filter(([_, v]) => {
                 if (v === null) return false;
-                return v !== (null || undefined || "");
+                return v !== (null || undefined || "all");
             })
         );
         return newObj as ProductFilterDto;
@@ -68,7 +68,6 @@ const ProductFilterForm = () => {
         "brand",
         "minPrice",
         "maxPrice",
-        "quantity",
         "minQuantity",
         "maxQuantity",
         "isActive",
@@ -98,12 +97,28 @@ const ProductFilterForm = () => {
 
     const onSubmit: SubmitHandler<ProductFilterDto> = async (data) => {
         const outputData = removeEmptyFields(data);
-
+        console.log(outputData);
         const isPositive = await handleFilter(outputData);
 
         if (isPositive) navigate("/products");
     };
 
+    const renderController = (
+        key: FilterKeysType,
+        render: (key: FilterKeysType) => JSX.Element
+    ) => (
+        <>
+            <Controller
+                name={key}
+                control={control}
+                render={() => render(key)}
+            />
+
+            <Typography variant="caption" color={"red"}>
+                {errors[key]?.message}
+            </Typography>
+        </>
+    );
     const renderTextField = (key: FilterKeysType) => {
         return (
             <TextField
@@ -111,7 +126,10 @@ const ProductFilterForm = () => {
                     width: "100%",
                     alignSelf: "right",
                 }}
-                label={key}
+                label={key
+                    .split(/(?=[A-Z])/)
+                    .join(" ")
+                    .toLowerCase()}
                 id={key}
                 variant="standard"
                 size="small"
@@ -121,27 +139,58 @@ const ProductFilterForm = () => {
         );
     };
 
-    const renderSelect = (key: FilterKeysType) => (
-        <TextField
-            sx={{
-                width: "100%",
-                alignSelf: "right",
-            }}
-            id={key}
-            label="Select category"
-            select
-            size="small"
-            defaultValue=""
-            variant="standard"
-            {...register(key)}
-        >
-            {[...Object.values(ProductsCategory), ""].map((option) => (
-                <MenuItem key={option} value={option}>
-                    {option}
+    const renderCategorySelect = (key: FilterKeysType) => {
+        return (
+            <TextField
+                sx={{
+                    width: "100%",
+                    alignSelf: "right",
+                }}
+                id={key}
+                label="Select category"
+                select
+                size="small"
+                defaultValue="all"
+                variant="standard"
+                {...register(key)}
+            >
+                {[...Object.values(ProductsCategory), "all"].map((option) => (
+                    <MenuItem key={option} value={option}>
+                        {option}
+                    </MenuItem>
+                ))}
+            </TextField>
+        );
+    };
+
+    const renderIsActiveSelect = (key: FilterKeysType) => {
+        return (
+            <TextField
+                sx={{
+                    width: "100%",
+                    alignSelf: "right",
+                }}
+                id={key}
+                label={key
+                    .split(/(?=[A-Z])/)
+                    .join(" ")
+                    .toLowerCase()}
+                select
+                size="small"
+                defaultValue={true as any}
+                variant="standard"
+                {...register(key)}
+            >
+                <MenuItem key={"active"} value={true as any}>
+                    {"active"}
                 </MenuItem>
-            ))}
-        </TextField>
-    );
+
+                <MenuItem key={"inactive"} value={false as any}>
+                    {"inactive"}
+                </MenuItem>
+            </TextField>
+        );
+    };
 
     return (
         <Paper
@@ -153,7 +202,12 @@ const ProductFilterForm = () => {
                 p: 2,
             }}
         >
-            <Typography fontWeight={"bold"} align={"center"} color="primary">
+            <Typography
+                fontWeight={"bold"}
+                align={"center"}
+                color="primary"
+                pb={1}
+            >
                 Filter product
             </Typography>
 
@@ -165,23 +219,33 @@ const ProductFilterForm = () => {
                     gap: 10,
                 }}
             >
-                {fields.map((key: FilterKeysType) => (
-                    <Box key={key}>
-                        <Controller
-                            name={key}
-                            control={control}
-                            render={
-                                key !== "category"
-                                    ? () => renderTextField(key)
-                                    : () => renderSelect(key)
-                            }
-                        />
+                {renderController("category", renderCategorySelect)}
 
-                        <Typography variant="caption" color={"red"}>
-                            {errors[key]?.message}
-                        </Typography>
-                    </Box>
-                ))}
+                {renderController("name", renderTextField)}
+
+                {renderController("brand", renderTextField)}
+
+                <Box
+                    sx={{
+                        display: "flex",
+                        gap: 1,
+                    }}
+                >
+                    {renderController("minPrice", renderTextField)}
+                    {renderController("maxPrice", renderTextField)}
+                </Box>
+
+                <Box
+                    sx={{
+                        display: "flex",
+                        gap: 1,
+                    }}
+                >
+                    {renderController("minQuantity", renderTextField)}
+                    {renderController("maxQuantity", renderTextField)}
+                </Box>
+
+                {renderController("isActive", renderIsActiveSelect)}
 
                 <Box
                     sx={{
@@ -218,7 +282,6 @@ const ProductFilterForm = () => {
                         Reset
                     </Button>
                 </Box>
-
                 <Box
                     sx={{
                         display: "flex",
