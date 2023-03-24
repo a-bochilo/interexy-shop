@@ -2,7 +2,7 @@
 import React, { FC } from "react";
 
 // ========================== mui ==========================
-import { Grid, styled } from "@mui/material";
+import { Button, Grid, styled } from "@mui/material";
 
 // ======== components ============
 import PageAsideComp from "../../components/aside.comp";
@@ -11,6 +11,7 @@ import PageFooterComp from "../../components/page-footer.comp";
 // ======== routes ============
 import RolesRoutes from "./roles.routes";
 import PageNavBarComp from "../../components/navbar.comp";
+import { useNavigate } from "react-router-dom";
 
 const MainGrid = styled(Grid)`
   display: flex;
@@ -29,14 +30,27 @@ const ContentGrid = styled(Grid)`
 `;
 
 const RolesPage: FC = () => {
+  const navigate = useNavigate();
   return (
     <MainGrid>
       <PageNavBarComp />
-        <ContentGrid>
-          <RolesRoutes />
-          <PageAsideComp />
-        </ContentGrid>
-        <PageFooterComp />
+      <ContentGrid>
+        <RolesRoutes />
+        <PageAsideComp>
+          <Button
+            sx={{
+              width: "100%",
+            }}
+            type="submit"
+            variant="contained"
+            color="success"
+            onClick={() => navigate("create")}
+          >
+            CREATE ROLE
+          </Button>
+        </PageAsideComp>
+      </ContentGrid>
+      <PageFooterComp />
     </MainGrid>
   );
 };

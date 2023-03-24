@@ -8,6 +8,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import DoneIcon from "@mui/icons-material/Done";
 
 import {
   Accordion,
@@ -15,6 +16,7 @@ import {
   AccordionSummary,
   Box,
   Checkbox,
+  CircularProgress,
   FormControl,
   MenuItem,
   Paper,
@@ -25,7 +27,9 @@ import {
 import { UserPermissions } from "../app/roles/types/user-permissions.enum";
 import { UserRoles } from "../app/roles/types/user-roles.enum";
 import { RolesDto } from "../app/roles/types/roles.dto";
-import { formEditSchema } from "../app/roles/types/roles-form.const";
+import { formSchema } from "../app/roles/types/roles-form.const";
+import { IRoleState } from "../app/roles/types/role-state.interface";
+import TemporaryTypography from "./temporary-typography.component";
 
 interface IFormInput {
   id: number;
@@ -36,7 +40,10 @@ interface IFormInput {
 
 const RoleForm = ({
   role,
+  pending,
+  fetchingErrors,
   isEditable,
+  isClicked,
   handleDelete,
   handleSave,
   handleBack,
@@ -44,15 +51,16 @@ const RoleForm = ({
 }: {
   role: RolesDto;
   isEditable: boolean;
+  pending: IRoleState["pending"];
+  fetchingErrors: IRoleState["errors"];
+  isClicked: boolean;
   handleDelete: (s: number) => void;
   handleSave: (s: RolesDto) => void;
   handleBack: () => void;
   setIsEditable: (s: boolean) => void;
 }) => {
-  const superuser = Boolean(role.type === UserRoles.superadmin);
-
   const permissions = [role?.permissions].flat();
-
+  
   const enumsRoleTypes = Object.keys(UserRoles).slice(1);
 
   const enumsRolePermissions = Object.keys(UserPermissions);
@@ -64,11 +72,11 @@ const RoleForm = ({
 
   const { register, control, handleSubmit } = useForm<IFormInput>({
     mode: "onChange",
-    resolver: yupResolver(formEditSchema),
+    resolver: yupResolver(formSchema),
   });
 
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    handleSave({...data, id: role.id});
+    handleSave({ ...data, id: role.id });
   };
 
   return (
@@ -114,7 +122,7 @@ const RoleForm = ({
                   width: "100%",
                 }}
                 disabled={true}
-                value={role?.id}
+                value={role?.id ?? null}
                 id="id"
                 variant="standard"
                 {...register("id")}
@@ -147,8 +155,8 @@ const RoleForm = ({
                 sx={{
                   width: "100%",
                 }}
-                disabled={superuser || !isEditable}
-                defaultValue={role.name}
+                disabled={!isEditable}
+                defaultValue={role?.name ?? null}
                 id="standard-basic"
                 variant="standard"
                 {...register("name")}
@@ -180,10 +188,10 @@ const RoleForm = ({
               <Select
                 labelId="demo-simple-select-label"
                 id="type"
-                defaultValue={role.type}
+                defaultValue={role?.type ?? null}
                 label="Type"
                 variant="standard"
-                disabled={superuser || !isEditable}
+                disabled={!isEditable}
                 sx={{
                   width: "100%",
                 }}
@@ -220,7 +228,7 @@ const RoleForm = ({
 
           <Accordion
             variant="outlined"
-            disabled={superuser || !isEditable}
+            disabled={!isEditable}
             sx={{
               width: "100%",
             }}
@@ -272,11 +280,43 @@ const RoleForm = ({
             flexFlow: "column",
             alignItems: "center",
             justifyContent: "center",
-            width: "100%",
+            width: "50%",
             marginTop: "50px",
             gap: 2,
           }}
         >
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "50%",
+            }}
+          >
+            {pending.roles && <CircularProgress />}
+            {isClicked && !pending.roles && !fetchingErrors.roles && (
+              <TemporaryTypography
+                variant="overline"
+                align="center"
+                color="success.main"
+                duration={2}
+              >
+                <DoneIcon />
+              </TemporaryTypography>
+            )}
+
+            {fetchingErrors.roles && (
+              <TemporaryTypography
+                variant="overline"
+                align="center"
+                color="error"
+                duration={30}
+              >
+                {fetchingErrors.roles}
+              </TemporaryTypography>
+            )}
+          </Box>
+
           <Button
             sx={{
               width: "100%",

@@ -6,6 +6,7 @@ import {
     IsPositive,
     IsOptional,
     IsUrl,
+    Min,
 } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
 
@@ -64,7 +65,7 @@ export class ProductOptionalDto {
     })
     @IsOptional()
     @IsNumber()
-    @IsPositive()
+    @Min(0)
     quantity?: number;
 
     @ApiProperty({

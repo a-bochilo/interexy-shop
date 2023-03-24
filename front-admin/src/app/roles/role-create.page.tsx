@@ -24,8 +24,8 @@ const RoleViewPage: FC<string> = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   const handleCreate = (data: RolesDto) => {
-    console.log(data);
     dispatch(fetchRoleCreate(data));
+    navigate("/roles");
   };
 
   const handleBack = () => {

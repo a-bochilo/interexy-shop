@@ -3,34 +3,26 @@ import React, { FC } from "react";
 
 // ========================== mui ==========================
 import Box from "@mui/material/Box";
-import { Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 
-const PageAsideComp: FC = () => {
-  const navigate = useNavigate();
-  return (
-    <>
-      <Box
-        component={"aside"}
-        sx={{
-          width: 300,
-          backgroundColor: "secondary.main",
-        }}
-      >
-        <Button
-          sx={{
-            width: "100%",
-            marginTop: "4px",
-          }}
-          variant="contained"
-          color="success"
-          onClick={() => navigate("create")}
+const PageAsideComp = (props: { children: JSX.Element | JSX.Element[] }) => {
+    return (
+        <Box
+            component={"aside"}
+            sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                width: 300,
+                minHeight: "100%",
+                flexGrow: 1,
+                backgroundColor: "secondary.main",
+                p: 2,
+                gap: 1,
+            }}
         >
-          CREATE NEW ROLE
-        </Button>
-      </Box>
-    </>
-  );
+            {props.children}
+        </Box>
+    );
 };
 
 export default PageAsideComp;

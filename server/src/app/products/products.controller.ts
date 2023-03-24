@@ -5,6 +5,7 @@ import {
     Get,
     HttpStatus,
     Param,
+    ParseUUIDPipe,
     Post,
     Put,
     Query,
@@ -75,7 +76,7 @@ export class ProductsController {
     @Get("/filter")
     @UsePipes(new ValidationPipe())
     async getFiltredProducts(
-        @Body() filter: ProductsFilterDto
+        @Query() filter: ProductsFilterDto
     ): Promise<ProductDto[]> {
         const products = await this.productsService.getFiltredProducts(filter);
 
@@ -92,7 +93,7 @@ export class ProductsController {
     @Get("/:productId")
     @UsePipes(new ValidationPipe())
     async getProductDetials(
-        @Param("productId") productId: string
+        @Param("productId", ParseUUIDPipe) productId: string
     ): Promise<ProductDetailsDto> {
         const productDetails = await this.productsService.getProductDetails(
             productId

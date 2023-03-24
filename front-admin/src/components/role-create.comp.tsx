@@ -24,7 +24,7 @@ import {
 import { UserPermissions } from "../app/roles/types/user-permissions.enum";
 import { UserRoles } from "../app/roles/types/user-roles.enum";
 import { RolesDto } from "../app/roles/types/roles.dto";
-import { formCreateSchema } from "../app/roles/types/roles-form.const";
+import { formSchema } from "../app/roles/types/roles-form.const";
 
 interface IFormInput {
   id: number;
@@ -46,7 +46,7 @@ const CreateRoleForm = ({
 
   const { register, control, handleSubmit } = useForm<IFormInput>({
     mode: "onChange",
-    resolver: yupResolver(formCreateSchema),
+    resolver: yupResolver(formSchema),
   });
 
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
@@ -95,7 +95,7 @@ const CreateRoleForm = ({
                 sx={{
                   width: "100%",
                 }}
-                defaultValue={""}
+                defaultValue={null}
                 id="name"
                 variant="standard"
                 {...register("name")}
@@ -127,7 +127,7 @@ const CreateRoleForm = ({
               <Select
                 labelId="demo-simple-select-label"
                 id="type"
-                defaultValue={UserRoles.user}
+                defaultValue={UserRoles?.user ?? null}
                 label="Type"
                 variant="standard"
                 sx={{
@@ -196,7 +196,6 @@ const CreateRoleForm = ({
                     render={() => (
                       <Checkbox
                         id={enumsRolePermissions[index]}
-                        defaultChecked={false}
                         value={enumsRolePermissions[index]}
                         color="success"
                         {...register("permissions")}

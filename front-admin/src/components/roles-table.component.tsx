@@ -13,15 +13,16 @@ import Paper from "@mui/material/Paper";
 // =========================== Interfaces & DTO's ===========================
 import { RolesDto } from "../app/roles/types/roles.dto";
 import { useNavigate } from "react-router";
+import { UserRoles } from "../app/roles/types/user-roles.enum";
+
+interface ColumnData {
+  dataKey: keyof RolesDto;
+  label: string;
+  width: number;
+}
 
 const RolesTable = ({ roles }: { roles: RolesDto[] }) => {
   const navigate = useNavigate();
-
-  interface ColumnData {
-    dataKey: keyof RolesDto;
-    label: string;
-    width: number;
-  }
 
   const capitalizeFirstLetter = (string: string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -51,7 +52,13 @@ const RolesTable = ({ roles }: { roles: RolesDto[] }) => {
     ),
     TableHead,
     TableRow: ({ item: _item, ...props }) => (
-      <TableRow {...props} sx={{ cursor: "pointer" }} 
+      _item.type === UserRoles.superadmin ? 
+      <TableRow 
+      {...props} 
+      /> :
+      <TableRow 
+      {...props} 
+      sx={{ cursor: "pointer" }} 
       onClick={() => navigate(`${_item.id}`)}
       />
     ),
