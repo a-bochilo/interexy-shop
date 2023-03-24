@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchAuth } from "./auth.actions";
+import { fetchSignIn } from "./auth.actions";
 
 const initialState = {
   token: "",
-  authFetchingStatus: "loading",
+  pending: false,
 };
 
 const authSlice = createSlice({
@@ -16,15 +16,15 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchAuth.pending, (state) => {
-        state.authFetchingStatus = "loading";
+      .addCase(fetchSignIn.pending, (state) => {
+        state.pending = false;
       })
-      .addCase(fetchAuth.fulfilled, (state, action) => {
-        state.authFetchingStatus = "idle";
+      .addCase(fetchSignIn.fulfilled, (state, action) => {
+        state.pending = true;
         state.token = action.payload;
       })
-      .addCase(fetchAuth.rejected, (state) => {
-        state.authFetchingStatus = "error";
+      .addCase(fetchSignIn.rejected, (state) => {
+        state.pending = false;
         state.token = "";
       })
       .addDefaultCase(() => {});
@@ -32,4 +32,3 @@ const authSlice = createSlice({
 });
 export const authReducer = authSlice.reducer;
 export const { logout } = authSlice.actions;
-export { fetchAuth };

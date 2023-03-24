@@ -23,14 +23,20 @@ const Suspended: FC<PropsWithChildren & { element: any }> = ({
 };
 
 // ======= pages ======= //
-const LoginPage = React.lazy(
-  () => import(/* webpackChunkName: "LoginPage" */ "../login/login.page")
+
+const SignInPage = React.lazy(
+  () => import(/* webpackChunkName: "LoginPage" */ "./signIn.page")
+);
+
+const SignUpPage = React.lazy(
+  () => import(/* webpackChunkName: "LoginPage" */ "./signUp.page")
 );
 
 const LoginRoutes: FC = () => {
   return (
     <Routes>
-      <Route path={"/"} element={<Suspended element={LoginPage} />} />
+      <Route path={"/signIn"} element={<Suspended element={SignInPage} />} />
+      <Route path={"/signUp"} element={<Suspended element={SignUpPage} />} />
 
       {/* DEFAULT */}
       <Route path="*" element={<Navigate to="/" />} />

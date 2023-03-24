@@ -2,17 +2,17 @@
 import { FC } from "react";
 
 // ========================== components ==========================
-import LoginForm from "../../components/login-form.comp";
+import SignUpForm from "../../components/signUp-form.component";
 
 // ========================== mui ==========================
 import Box from "@mui/material/Box";
 
-const LoginPage: FC = () => {
+const SignUpPage: FC = () => {
   return (
     <Box>
-      <LoginForm />
+      <SignUpForm/>
     </Box>
   );
 };
 
-export default LoginPage;
+export default SignUpPage;

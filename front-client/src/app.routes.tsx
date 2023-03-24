@@ -8,68 +8,67 @@ import Box from "@mui/material/Box";
 
 // ======= private route ======= //
 const PrivateRoute: FC<{ element: any }> = ({ element: Element }) => {
-    return true ? (
-        <Suspense
-            fallback={
-                <Box
-                    sx={{
-                        display: "flex",
-                        minHeight: "100vh",
-                        minWidth: "100vw",
-                        alignItems: "center",
-                        justifyContent: "center",
-                    }}
-                >
-                    <CircularProgress />
-                </Box>
-            }
+  return true ? (
+    <Suspense
+      fallback={
+        <Box
+          sx={{
+            display: "flex",
+            minHeight: "100vh",
+            minWidth: "100vw",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
         >
-            <div>
-                <Element />
-            </div>
-        </Suspense>
-    ) : (
-        <Navigate to={"/"} />
-    );
+          <CircularProgress />
+        </Box>
+      }
+    >
+      <div>
+        <Element />
+      </div>
+    </Suspense>
+  ) : (
+    <Navigate to={"/"} />
+  );
 };
 
 // ======= public route ======= //
 const PublicRoute: FC<{ element: any }> = ({ element: Element }) => (
-    <Suspense
-        fallback={
-            <Box
-                sx={{
-                    display: "flex",
-                    minHeight: "100vh",
-                    minWidth: "100vw",
-                    alignItems: "center",
-                    justifyContent: "center",
-                }}
-            >
-                <CircularProgress />
-            </Box>
-        }
-    >
-        <Element />
-    </Suspense>
+  <Suspense
+    fallback={
+      <Box
+        sx={{
+          display: "flex",
+          minHeight: "100vh",
+          minWidth: "100vw",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    }
+  >
+    <Element />
+  </Suspense>
 );
 
 // ======= pages ======= //
 const ProductsPage = React.lazy(() => import("./app/products"));
+const AuthPage = React.lazy(() => import("./app/auth"));
 
 const AppRoutes = () => {
-    return (
-        <Routes>
-            {/* PUBLIC */}
-            <Route
-                path={"products/*"}
-                element={<PublicRoute element={ProductsPage} />}
-            />
+  return (
+    <Routes>
+      {/* PUBLIC */}
+      <Route path={"products/*"} element={<PublicRoute element={ProductsPage} />} />
+      <Route path={"auth/*"} element={<PublicRoute element={AuthPage} />} /> 
 
-            {/* DEFAULT */}
-            <Route path="*" element={<Navigate to="/products" />} />
-        </Routes>
-    );
+      {/* DEFAULT */}
+      <Route path="*" element={<Navigate to="/products" />} />
+    </Routes>
+  );
 };
 
 export default AppRoutes;

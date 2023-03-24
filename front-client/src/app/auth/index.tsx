@@ -6,20 +6,18 @@ import { Grid } from "@mui/material";
 import Container from "@mui/material/Container";
 
 // ======== components ============
-import PageHeaderComp from "../../components/page-header.comp";
 
 // ======== routes ============
-import LoginRoutes from "./login.routes";
+import AuthRoutes from "./auth.routes";
 
-const LoginPage: FC = () => {
+const AuthPage: FC = () => {
   return (
     <Grid>
-      <PageHeaderComp />
       <Container maxWidth="sm" sx={{ p: 10 }}>
-        <LoginRoutes />
+        <AuthRoutes />
       </Container>
     </Grid>
   );
 };
 
-export default LoginPage;
+export default AuthPage;

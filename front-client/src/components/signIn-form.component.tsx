@@ -5,23 +5,23 @@ import { useNavigate } from "react-router-dom";
 
 // ========================== yup ==========================
 import { yupResolver } from "@hookform/resolvers/yup";
-import { formSchema } from "./login-form.const";
+import { formSchema } from "./lsignIn-form.const";
 import { decodeToken } from "react-jwt";
 
 // ========================== mui ==========================
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Box, Paper, Typography } from "@mui/material";
-import { fetchAuth } from "../app/login/store/auth.slice";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store";
+import { fetchSignIn } from "../app/auth/store/auth.actions";
 
 interface IFormInput {
   email: string;
   password: string;
 }
 
-const LoginForm: FC = () => {
+const SignInForm: FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const [error, setError] = useState(false);
@@ -41,7 +41,7 @@ const LoginForm: FC = () => {
   });
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    const newToken = await dispatch(fetchAuth(data));
+    const newToken = await dispatch(fetchSignIn(data));
     if (!newToken.payload) {
       //ERROR: FAILED TO SIGNIN
       setError(true);
@@ -148,4 +148,4 @@ const LoginForm: FC = () => {
   );
 };
 
-export default LoginForm;
+export default SignInForm;
