@@ -5,7 +5,8 @@
         "cartIsEmpty": "Cart is empty"
     },
     "user": {
-        "userDoesNotExist": "User does not exist"
+        "userDoesNotExist": "User does not exist",
+        "userIsSuperuser": "User is superuser"
     },
     "products": {
         "productDoesNotExist": "Product does not exist",
@@ -14,7 +15,8 @@
     },
     "roles": {
         "roleAlreadyExist": "Role already exist",
-        "roleDoesNotExist": "Role does not exist"
+        "roleDoesNotExist": "Role does not exist",
+        "roleSuperuserLimit": "Limit on creating a superuser role"
     },
     "details": {
         "detailsDoesNotExist": "Details does not exist"

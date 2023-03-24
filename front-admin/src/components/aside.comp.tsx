@@ -4,8 +4,10 @@ import React, { FC } from "react";
 // ========================== mui ==========================
 import Box from "@mui/material/Box";
 import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const PageAsideComp: FC = () => {
+  const navigate = useNavigate();
   return (
     <>
       <Box
@@ -18,10 +20,11 @@ const PageAsideComp: FC = () => {
         <Button
           sx={{
             width: "100%",
-            marginTop: "4px"
+            marginTop: "4px",
           }}
           variant="contained"
           color="success"
+          onClick={() => navigate("create")}
         >
           CREATE NEW ROLE
         </Button>

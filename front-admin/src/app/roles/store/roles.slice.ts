@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchCurrentRole, fetchRoleDelete, fetchRoleUpdate, fetchRoles } from "./roles.actions";
+import { fetchCurrentRole, fetchRoleCreate, fetchRoleDelete, fetchRoleUpdate, fetchRoles } from "./roles.actions";
 import { RolesDto } from "../types/roles.dto";
 
 type IInitialState = {
@@ -62,6 +62,17 @@ const rolesSlice = createSlice({
         state.rolesFetchingStatus = "idle";
       })
       .addCase(fetchRoleDelete.rejected, (state) => {
+        state.rolesFetchingStatus = "error";
+      })
+
+      builder
+      .addCase(fetchRoleCreate.pending, (state) => {
+        state.rolesFetchingStatus = "loading";
+      })
+      .addCase(fetchRoleCreate.fulfilled, (state, action) => {
+        state.rolesFetchingStatus = "idle";
+      })
+      .addCase(fetchRoleCreate.rejected, (state) => {
         state.rolesFetchingStatus = "error";
       })
 

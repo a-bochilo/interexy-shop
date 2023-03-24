@@ -31,12 +31,16 @@ const RolesViewPage = React.lazy(
   () => import(/* webpackChunkName: "RolesPage" */ "../roles/role-view.page")
 );
 
+const RoleCreatePage = React.lazy(
+  () => import (/* webpackChunkName: "RolesPage" */ "../roles/role-create.page")
+)
+
 const RolesRoutes: FC = () => {
   return (
     <Routes>
       <Route path={"/*"} element={<Suspended element={RolesListPage} />} />
-      <Route path={"/:id"} element={<Suspended element={RolesViewPage} />}
-      />
+      <Route path={"/:id"} element={<Suspended element={RolesViewPage} />}/>
+      <Route path={"/create"} element={<Suspended element={RoleCreatePage} />}/>
 
       {/* DEFAULT */}
       {/* <Route path="*" element={<Navigate to="/" />} /> */}

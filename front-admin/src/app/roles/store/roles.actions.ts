@@ -2,6 +2,7 @@ import $api from "../../../api/api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosResponse } from "axios";
 import { RolesDto } from "../types/roles.dto";
+import { CreateRoleDto } from "../types/create-role.dt";
 
 export const fetchRoles = createAsyncThunk(
   "roles/fetchRoles",
@@ -48,6 +49,18 @@ export const fetchRoleDelete = createAsyncThunk<number, number>(
   async (id: number, { rejectWithValue }) => {
     try {
       const response = await $api.delete(`/roles/${id}`);
+      return response.status;
+    } catch (error: any) {
+      return rejectWithValue(error?.response?.data?.message as string);
+    }
+  }
+);
+
+export const fetchRoleCreate = createAsyncThunk<number, CreateRoleDto>(
+  "roles/fetchCreateRole",
+  async (role: CreateRoleDto, { rejectWithValue }) => {
+    try {
+      const response = await $api.post(`/roles`, role);
       return response.status;
     } catch (error: any) {
       return rejectWithValue(error?.response?.data?.message as string);

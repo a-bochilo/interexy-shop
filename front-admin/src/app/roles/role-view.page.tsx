@@ -37,6 +37,7 @@ const RoleViewPage: FC<string> = () => {
   };
 
   const handleSave = (data: RolesDto) => {
+    console.log(data)
     dispatch(fetchRoleUpdate(data))
   }
 

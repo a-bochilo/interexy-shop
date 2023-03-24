@@ -14,6 +14,16 @@ export const user = {
   details_id: "1",
 };
 
+export const userDto = {
+  created: "2023-03-17T09:31:34.416Z",
+  email: "test@test.com",
+  id: "23a2cacc-62e8-497c-ab35-34b58af133e6",
+  phone: "+375 29 000 00 00",
+  role_id: 1,
+  role_type: "user",
+  updated: "2023-03-17T09:31:34.416Z",
+};
+
 export const userSessionDto = {
   id: "23a2cacc-62e8-497c-ab35-34b58af133e6",
   created: 20230317,
@@ -23,10 +33,10 @@ export const userSessionDto = {
   phone: "+375 29 000 00 00",
   password: "123123123",
   details_id: "1",
-  role_id: 1, 
-  role_type: UserRoles.user, 
-  permissions: [UserPermissions.all]
-}
+  role_id: 1,
+  role_type: UserRoles.user,
+  permissions: [UserPermissions.all],
+};
 
 export const dto = {
   id: "23a2cacc-62e8-497c-ab35-34b58af133e6",

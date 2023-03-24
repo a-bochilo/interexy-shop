@@ -5,27 +5,26 @@ import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 // ========================== mui ==========================
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Box,
+  Button,
   Checkbox,
   FormControl,
   MenuItem,
   Paper,
   Select,
+  TextField,
   Typography,
 } from "@mui/material";
 
 import { UserPermissions } from "../app/roles/types/user-permissions.enum";
 import { UserRoles } from "../app/roles/types/user-roles.enum";
 import { RolesDto } from "../app/roles/types/roles.dto";
-import { formEditSchema } from "../app/roles/types/roles-form.const";
+import { formCreateSchema } from "../app/roles/types/roles-form.const";
 
 interface IFormInput {
   id: number;
@@ -34,41 +33,24 @@ interface IFormInput {
   permissions: UserPermissions[];
 }
 
-const RoleForm = ({
-  role,
-  isEditable,
-  handleDelete,
-  handleSave,
+const CreateRoleForm = ({
+  handleCreate,
   handleBack,
-  setIsEditable,
 }: {
-  role: RolesDto;
-  isEditable: boolean;
-  handleDelete: (s: number) => void;
-  handleSave: (s: RolesDto) => void;
+  handleCreate: (s: RolesDto) => void;
   handleBack: () => void;
-  setIsEditable: (s: boolean) => void;
 }) => {
-  const superuser = Boolean(role.type === UserRoles.superadmin);
-
-  const permissions = [role?.permissions].flat();
-
   const enumsRoleTypes = Object.keys(UserRoles).slice(1);
 
   const enumsRolePermissions = Object.keys(UserPermissions);
 
-  let isEnougth = enumsRolePermissions.map((item) => {
-    if (permissions.includes(item as UserPermissions)) return true;
-    return false;
-  });
-
   const { register, control, handleSubmit } = useForm<IFormInput>({
     mode: "onChange",
-    resolver: yupResolver(formEditSchema),
+    resolver: yupResolver(formCreateSchema),
   });
 
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    handleSave({...data, id: role.id});
+    handleCreate(data);
   };
 
   return (
@@ -82,47 +64,13 @@ const RoleForm = ({
       }}
     >
       <Typography variant="h6" fontWeight={"bold"} pb={1}>
-        Edit role: {role.name}
+        Create role
       </Typography>
 
       <form
         onSubmit={handleSubmit(onSubmit)}
         style={{ display: "flex", flexDirection: "column", gap: 10 }}
       >
-        <FormControl
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            gap: "10px",
-            alignItems: "center",
-          }}
-        >
-          <Typography
-            sx={{
-              minWidth: "150px",
-            }}
-          >
-            ID:{" "}
-          </Typography>
-
-          <Controller
-            name="id"
-            control={control}
-            render={() => (
-              <TextField
-                sx={{
-                  width: "100%",
-                }}
-                disabled={true}
-                value={role?.id}
-                id="id"
-                variant="standard"
-                {...register("id")}
-              />
-            )}
-          />
-        </FormControl>
-
         <FormControl
           sx={{
             display: "flex",
@@ -147,9 +95,8 @@ const RoleForm = ({
                 sx={{
                   width: "100%",
                 }}
-                disabled={superuser || !isEditable}
-                defaultValue={role.name}
-                id="standard-basic"
+                defaultValue={""}
+                id="name"
                 variant="standard"
                 {...register("name")}
               />
@@ -180,10 +127,9 @@ const RoleForm = ({
               <Select
                 labelId="demo-simple-select-label"
                 id="type"
-                defaultValue={role.type}
+                defaultValue={UserRoles.user}
                 label="Type"
                 variant="standard"
-                disabled={superuser || !isEditable}
                 sx={{
                   width: "100%",
                 }}
@@ -220,7 +166,6 @@ const RoleForm = ({
 
           <Accordion
             variant="outlined"
-            disabled={superuser || !isEditable}
             sx={{
               width: "100%",
             }}
@@ -233,7 +178,7 @@ const RoleForm = ({
               <Typography>Permissions</Typography>
             </AccordionSummary>
 
-            {isEnougth.map((item: boolean, index: number) => {
+            {enumsRolePermissions.map((item: string, index: number) => {
               return (
                 <AccordionDetails
                   key={index}
@@ -251,8 +196,7 @@ const RoleForm = ({
                     render={() => (
                       <Checkbox
                         id={enumsRolePermissions[index]}
-                        disabled={!isEditable}
-                        defaultChecked={item}
+                        defaultChecked={false}
                         value={enumsRolePermissions[index]}
                         color="success"
                         {...register("permissions")}
@@ -266,72 +210,29 @@ const RoleForm = ({
           </Accordion>
         </FormControl>
 
-        <Box
+        <Button
           sx={{
-            display: "flex",
-            flexFlow: "column",
-            alignItems: "center",
-            justifyContent: "center",
             width: "100%",
-            marginTop: "50px",
-            gap: 2,
           }}
+          type="submit"
+          variant="contained"
+          color="success"
         >
-          <Button
-            sx={{
-              width: "100%",
-              display: isEditable ? "none" : null,
-            }}
-            variant="contained"
-            color="success"
-            disabled={isEditable}
-            onClick={() => {
-              setIsEditable(!isEditable);
-            }}
-          >
-            EDIT
-          </Button>
-
-          <Button
-            sx={{
-              width: "100%",
-              display: !isEditable ? "none" : null,
-            }}
-            type="submit"
-            variant="contained"
-            color="success"
-            onClick={() => {
-              setIsEditable(!isEditable);
-            }}
-          >
-            SAVE
-          </Button>
-
-          <Button
-            variant="contained"
-            color="error"
-            sx={{
-              width: "100%",
-            }}
-            onClick={() => handleDelete(role.id)}
-          >
-            DELETE
-          </Button>
-
-          <Button
-            sx={{
-              width: "100%",
-            }}
-            variant="contained"
-            color="primary"
-            onClick={handleBack}
-          >
-            BACK TO ROLES
-          </Button>
-        </Box>
+          CREATE
+        </Button>
+        <Button
+          sx={{
+            width: "100%",
+          }}
+          variant="contained"
+          color="primary"
+          onClick={handleBack}
+        >
+          BACK TO ROLES
+        </Button>
       </form>
     </Paper>
   );
 };
 
-export default RoleForm;
+export default CreateRoleForm;
