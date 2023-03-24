@@ -17,7 +17,6 @@ import ProductCard from "../../components/product-card.component";
 
 const MainGrid = styled(Grid)`
     display: flex;
-    // align-items: top;
     gap: 15px;
     flex-flow: row wrap;
     justify-content: space-around;
@@ -43,7 +42,7 @@ const ProductListPage: FC = () => {
     };
 
     return (
-        <MainGrid>
+        <MainGrid container spacing={8}>
             {pending.products && (
                 <CircularProgress sx={{ alignSelf: "center" }} />
             )}
@@ -51,6 +50,7 @@ const ProductListPage: FC = () => {
                 !pending.products &&
                 products.map((product) => (
                     <ProductCard
+                        key={product.id}
                         product={product}
                         handleClickCard={handleClickCard}
                         handleAddToCart={handleAddToCart}

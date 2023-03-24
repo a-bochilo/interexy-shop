@@ -28,16 +28,6 @@ import { clearErrors } from "./store/products.slice";
 // =========================== DTO's ===========================
 import { ProductWithDetailsDto } from "./types/product-with-details.dto";
 
-const MainGrid = styled(Grid)`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 10px;
-    justify-content: center;
-    width: 100%;
-    min-height: 100%;
-`;
-
 const ProductViewPage: FC = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -77,56 +67,105 @@ const ProductViewPage: FC = () => {
         navigate("/products");
     };
 
-    const renderField = (key: keyof typeof productWithDetails, value: any) => {
+    const renderField = (
+        obj: ProductWithDetailsDto,
+        key: keyof ProductWithDetailsDto
+    ) => {
+        const value = obj[key];
+
         return (
-            <Box>
-                <Typography variant="h5">{key}</Typography>
-                <Typography variant="h5">{value}</Typography>
-            </Box>
+            <Grid container>
+                <Typography
+                    variant="caption"
+                    sx={{
+                        minWidth: 90,
+                        fontWeight: "bold",
+                    }}
+                >
+                    {key.toUpperCase()}
+                </Typography>
+                <Typography>
+                    {typeof value === "string" ? value.toUpperCase() : value}
+                </Typography>
+            </Grid>
         );
     };
 
     return (
-        <MainGrid>
+        <Grid container spacing={10} justifyContent="center" p={5}>
             {(pending.products || pending.productDetails) && (
                 <CircularProgress sx={{ alignSelf: "center" }} />
             )}
             {productWithDetails && (
-                <Box
-                    key={productWithDetails.id}
-                    sx={{
-                        width: 1200,
-                        maxWidth: "90%",
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                    }}
-                >
-                    <CardMedia
-                        component="img"
-                        alt={productWithDetails.name}
-                        image={productWithDetails.image}
-                        sx={{
-                            width: 650,
-                            maxWidth: "65%",
-                        }}
-                    />
-                    <Box
-                        sx={{
-                            width: 350,
-                            minWidth: "30%",
-                        }}
+                <>
+                    <Grid item xs={6}>
+                        <CardMedia
+                            component="img"
+                            alt={productWithDetails.name}
+                            image={productWithDetails.image}
+                            sx={{
+                                maxWidth: 650,
+                            }}
+                        />
+                    </Grid>
+                    <Grid
+                        item
+                        xs={5}
+                        container
+                        direction="column"
+                        justifyContent="flex-start"
+                        alignItems="flex-start"
+                        spacing={2}
                     >
-                        <Typography variant="h4">
-                            {productWithDetails.name.toUpperCase()}
-                        </Typography>
+                        <Grid item>
+                            <Typography variant="h5" component="h2" pb={3}>
+                                {productWithDetails.name.toUpperCase()}
+                            </Typography>
+                        </Grid>
 
-                        <Typography variant="h5" color="text.secondary">
-                            ${productWithDetails.price}
-                        </Typography>
-                        <Box>
-                            <ShoppingCartIcon
+                        <Grid item>
+                            {renderField(productWithDetails, "category")}
+                        </Grid>
+
+                        <Grid item>
+                            {renderField(productWithDetails, "brand")}
+                        </Grid>
+
+                        <Grid item>
+                            {renderField(productWithDetails, "color")}
+                        </Grid>
+
+                        <Grid item>
+                            {renderField(productWithDetails, "material")}
+                        </Grid>
+
+                        <Grid item>
+                            {renderField(productWithDetails, "size")}
+                        </Grid>
+
+                        <Grid item>
+                            {renderField(productWithDetails, "description")}
+                        </Grid>
+
+                        <Grid
+                            item
+                            container
+                            alignItems={"center"}
+                            gap={2}
+                            mt={3}
+                        >
+                            <Typography
+                                variant="h4"
+                                color="text.secondary"
+                                display={"inline-block"}
+                            >
+                                ${productWithDetails.price}
+                            </Typography>
+
+                            <Button
+                                variant="outlined"
                                 color="success"
+                                sx={{ minWidth: 170 }}
                                 //! change quantity arg
                                 onClick={() => {
                                     handleAddToCart(
@@ -134,17 +173,25 @@ const ProductViewPage: FC = () => {
                                         1
                                     );
                                 }}
-                            />
+                            >
+                                <ShoppingCartIcon
+                                    color="success"
+                                    fontSize="large"
+                                />
+                            </Button>
 
-                            <UndoIcon
-                                color="primary"
+                            <Button
+                                variant="outlined"
+                                color="primary" //! change quantity arg
                                 onClick={() => handleBack()}
-                            />
-                        </Box>
-                    </Box>
-                </Box>
+                            >
+                                <UndoIcon color="primary" fontSize="large" />
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </>
             )}
-        </MainGrid>
+        </Grid>
     );
 };
 
