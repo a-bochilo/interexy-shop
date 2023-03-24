@@ -1,5 +1,6 @@
 // ========================== redux ==========================
 import { configureStore } from "@reduxjs/toolkit";
+import reducer from "./app/roles/store/roles.slice";
 
 // ========================== store ==========================
 import { usersSlice } from "./app/users/store/users.slice";
@@ -7,6 +8,7 @@ import { usersSlice } from "./app/users/store/users.slice";
 const store = configureStore({
   reducer: {
     users: usersSlice.reducer,
+    roles: reducer,
   },
 });
 

@@ -29,12 +29,22 @@ const UserListPage = React.lazy(
 const UserEditPage = React.lazy(
   () => import(/* webpackChunkName: "UserEditPage" */ "../users/user-edit.page")
 );
+const UserAssignRolePage = React.lazy(
+  () =>
+    import(
+      /* webpackChunkName: "UserAssignRolePage" */ "../users/user-assign-role.page"
+    )
+);
 
 const UsersRoutes: FC = () => {
   return (
     <Routes>
       <Route path={"/*"} element={<Suspended element={UserListPage} />} />
       <Route path={"/:userId"} element={<Suspended element={UserEditPage} />} />
+      <Route
+        path={"/assignRole/:userId"}
+        element={<Suspended element={UserAssignRolePage} />}
+      />
 
       {/* DEFAULT */}
       <Route path="*" element={<Navigate to="/" />} />

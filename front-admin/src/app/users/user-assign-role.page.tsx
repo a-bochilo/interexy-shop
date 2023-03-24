@@ -9,7 +9,7 @@ import { Grid } from "@mui/material";
 import { CircularProgress } from "@mui/material";
 
 // ========================== components ==========================
-import UserEditFormComp from "../../components/user-edit-form.comp";
+import UserAssignRoleFormComp from "../../components/user-assign-role-form.comp";
 
 // ========================== store ==========================
 import { AppDispatch } from "../../store";
@@ -18,12 +18,9 @@ import {
   usersSelector,
   usersLoadingSelector,
 } from "./store/users.selectors";
-import {
-  deleteUser,
-  getUserInfo,
-  getUsers,
-  updateUserInfo,
-} from "./store/users.actions";
+import { getUserInfo, getUsers, updateUserInfo } from "./store/users.actions";
+import { fetchRoles } from "../roles/store/roles.actions";
+import { RolesSelector } from "../roles/store/roles.selector";
 
 const MainGrid = styled(Grid)`
   justify-content: center;
@@ -34,12 +31,12 @@ const MainGrid = styled(Grid)`
   min-height: 100%;
 `;
 
-const UserEditPage: FC = () => {
+const UserAssignRolePage: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const [disabled, setDisabled] = useState(true);
   const userList = useSelector(usersSelector);
-  const userInfo = useSelector(userInfoSelector);
+  const userRoles = useSelector(RolesSelector);
   const usersLoading = useSelector(usersLoadingSelector);
   const { userId } = useParams<string>();
 
@@ -48,9 +45,8 @@ const UserEditPage: FC = () => {
   }, []);
 
   useEffect(() => {
-    if (!userId) return;
-    dispatch(getUserInfo(userId));
-  }, [userId]);
+    dispatch(fetchRoles());
+  }, []);
 
   const buttonOnclick = () => {
     setDisabled(!disabled);
@@ -58,39 +54,32 @@ const UserEditPage: FC = () => {
 
   const handleSave = (data: any) => {
     if (!userId) return;
-    dispatch(updateUserInfo(data));
-  };
-
-  const handleDelete = () => {
-    if (!userId) return;
-    dispatch(deleteUser(userId));
+    dispatch(updateUserInfo(data)); // post запрос на assign role
   };
 
   const handleBack = () => {
     navigate(-1);
   };
 
-  const handleAsignRole = () => {
-    navigate(`/users/assignRole/${userId}`);
-  };
-
   const selectedUser = userList.find((user) => user.id === userId);
+  const selectedUserRole = userRoles.find(
+    (role) => role.id === selectedUser?.roleId
+  );
 
   return (
     <MainGrid>
-      {userInfo && selectedUser ? (
-        <UserEditFormComp
-          formName={"Edit user"}
-          userInfo={userInfo}
+      {selectedUserRole && selectedUser ? (
+        <UserAssignRoleFormComp
+          formName={"User Assign Role"}
+          userRoles={userRoles}
           selectedUser={selectedUser}
           disabled={disabled}
+          selectedUserRole={selectedUserRole}
           pending={usersLoading}
           setDisabled={setDisabled}
           buttonOnclick={buttonOnclick}
           handleSave={handleSave}
-          handleDelete={handleDelete}
           handleBack={handleBack}
-          handleAsignRole={handleAsignRole}
         />
       ) : (
         <CircularProgress />
@@ -99,4 +88,4 @@ const UserEditPage: FC = () => {
   );
 };
 
-export default UserEditPage;
+export default UserAssignRolePage;

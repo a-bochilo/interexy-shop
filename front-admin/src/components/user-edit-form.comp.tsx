@@ -18,10 +18,10 @@ import {
 
 // ========================== yup ==========================
 import { yupResolver } from "@hookform/resolvers/yup";
-import { formSchema } from "./login-form.const";
+import { formSchema } from "./user-edit-form.const";
 
 // ========================== enum ==========================
-import { UserRoles } from "../app/roles/enums/user-roles.enum";
+import { UserRoles } from "../app/roles/types/user-roles.enum";
 import { UserDetailsDto } from "../app/users/types/user-details.type";
 import { UserDto } from "../app/users/types/user-dto.type";
 
@@ -51,6 +51,7 @@ interface FormProps {
   handleSave: (e: Partial<IUserWithDetails>) => void;
   handleDelete: (e: string) => void;
   handleBack: () => void;
+  handleAsignRole: () => void;
 }
 
 const userRoles = [
@@ -90,6 +91,7 @@ const UserEditFormComp: FC<FormProps> = ({
   handleSave,
   handleDelete,
   handleBack,
+  handleAsignRole,
 }) => {
   const removeEmptyFields = (
     obj: Partial<IUserWithDetails>
@@ -125,7 +127,7 @@ const UserEditFormComp: FC<FormProps> = ({
       ...user,
       details: info,
     };
-    console.log(outputData);
+    console.log("submit");
     handleSave(outputData);
     setDisabled(!disabled);
   };
@@ -365,7 +367,7 @@ const UserEditFormComp: FC<FormProps> = ({
             )}
           />
           <Typography variant="caption" color={"red"}>
-            {errors.phone?.message }
+            {errors.phone?.message}
           </Typography>
         </Box>
 
@@ -465,7 +467,7 @@ const UserEditFormComp: FC<FormProps> = ({
                   width: "100%",
                   alignSelf: "right",
                 }}
-                disabled={disabled}
+                disabled
                 id="outlined-select"
                 select
                 defaultValue={selectedUser.roleId}
@@ -506,7 +508,7 @@ const UserEditFormComp: FC<FormProps> = ({
                   width: "100%",
                   alignSelf: "right",
                 }}
-                disabled={disabled}
+                disabled
                 id="outlined-select"
                 select
                 defaultValue={selectedUser.roleType}
@@ -596,6 +598,16 @@ const UserEditFormComp: FC<FormProps> = ({
               gap: 2,
             }}
           >
+            <Button
+              sx={{
+                width: "100%",
+              }}
+              onClick={handleAsignRole}
+              variant="contained"
+            >
+              Assign role
+            </Button>
+
             <Button
               sx={{
                 width: "100%",
