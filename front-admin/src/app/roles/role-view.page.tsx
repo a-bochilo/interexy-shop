@@ -1,23 +1,31 @@
 // ========================== react ==========================
 import { FC, useEffect, useState } from "react";
-import RoleForm from "../../components/roles-form.comp";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+
+// ============================ MUI ============================
+import styled from "@emotion/styled";
+import { Grid } from "@mui/material";
+
+// ======================== Components =========================
+import RoleForm from "../../components/roles-form.component";
+
+// =========================== Store ===========================
 import {
   ChosenRoleSelector,
   getErrorSelector,
   getPendingSelector,
 } from "./store/roles.selector";
+import { clearErrors, clearRole } from "./store/roles.slice";
 import {
   fetchCurrentRole,
   fetchRoleDelete,
   fetchRoleUpdate,
 } from "./store/roles.actions";
 import { AppDispatch } from "../../store";
-import { useNavigate, useParams } from "react-router-dom";
-import styled from "@emotion/styled";
-import { Grid } from "@mui/material";
+
+// ====================== Interfaces & DTO's ===================
 import { RolesDto } from "./types/roles.dto";
-import { clearErrors, clearRole } from "./store/roles.slice";
 
 const MainGrid = styled(Grid)`
   display: flex;
@@ -64,7 +72,7 @@ const RoleViewPage: FC<string> = () => {
   useEffect(() => {
     if (!id) return;
     dispatch(fetchCurrentRole(id));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   return (

@@ -1,10 +1,10 @@
 // ========================== react ==========================
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 
-// ========================== yup ==========================
+// ========================== YUP ==========================
 import { yupResolver } from "@hookform/resolvers/yup";
 
-// ========================== mui ==========================
+// ========================== MUI ==========================
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import {
@@ -21,6 +21,7 @@ import {
   Typography,
 } from "@mui/material";
 
+// ====================== Interfaces & DTO's ==================
 import { UserPermissions } from "../app/roles/types/user-permissions.enum";
 import { UserRoles } from "../app/roles/types/user-roles.enum";
 import { RolesDto } from "../app/roles/types/roles.dto";

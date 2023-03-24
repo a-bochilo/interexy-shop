@@ -1,19 +1,18 @@
 // ========================== react ==========================
 import { FC, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 
 // ============================ MUI ============================
 import styled from "@emotion/styled";
 import { CircularProgress, Grid } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
 
 // =========================== Store ===========================
-import { fetchRoles } from "./store/roles.actions";
-import { RolesSelector, getPendingSelector } from "./store/roles.selector";
 import { AppDispatch } from "../../store";
-import { clearRole } from "./store/roles.slice";
+import { OrdersSelector, getPendingSelector } from "./store/orders.selector";
+import { fetchOrders } from "./store/orders.actions";
 
 // ======================== Components =========================
-import RolesTable from "../../components/roles-table.component";
+import OrdersTable from "../../components/orders-table.component";
 
 const MainGrid = styled(Grid)`
   display: flex;
@@ -23,22 +22,21 @@ const MainGrid = styled(Grid)`
   min-height: 100%;
 `;
 
-const RolesListPage: FC = () => {
+const OrdersListPage: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const roles = useSelector(RolesSelector);
+  const orders = useSelector(OrdersSelector);
   const pending = useSelector(getPendingSelector);
 
   useEffect(() => {
-    dispatch(clearRole());
-    dispatch(fetchRoles());
+    dispatch(fetchOrders());
   }, []);
 
   return (
     <MainGrid>
-      {pending.roles && <CircularProgress sx={{ alignSelf: "center" }} />}
-      {!!roles.length && !pending.roles && <RolesTable roles={roles} />}
+      {pending.orders && <CircularProgress sx={{ alignSelf: "center" }} />}
+      {!!orders.length && !pending.orders && <OrdersTable orders={orders} />}
     </MainGrid>
   );
 };
 
-export default RolesListPage;
+export default OrdersListPage;

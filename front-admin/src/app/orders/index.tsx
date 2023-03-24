@@ -1,17 +1,15 @@
 // ========================== React ===========================
 import React, { FC } from "react";
-import { useNavigate } from "react-router-dom";
-
-// ========================== Routes ==========================
-import RolesRoutes from "./roles.routes";
 
 // ============================ MUI ============================
-import { Button, Grid, styled } from "@mui/material";
+import { Grid, styled } from "@mui/material";
 
 // ======================== Components =========================
-import PageAsideComp from "../../components/aside.comp";
 import PageFooterComp from "../../components/page-footer.comp";
+
+// ========================== Routes ==========================
 import PageNavBarComp from "../../components/navbar.comp";
+import OrdersRoutes from "./orders.routes";
 
 const MainGrid = styled(Grid)`
   display: flex;
@@ -29,30 +27,16 @@ const ContentGrid = styled(Grid)`
   min-height: 100vh;
 `;
 
-const RolesPage: FC = () => {
-  const navigate = useNavigate();
+const OrdersPage: FC = () => {
   return (
     <MainGrid>
       <PageNavBarComp />
       <ContentGrid>
-        <RolesRoutes />
-        <PageAsideComp>
-          <Button
-            sx={{
-              width: "100%",
-            }}
-            type="submit"
-            variant="contained"
-            color="success"
-            onClick={() => navigate("create")}
-          >
-            CREATE ROLE
-          </Button>
-        </PageAsideComp>
+        <OrdersRoutes />
       </ContentGrid>
       <PageFooterComp />
     </MainGrid>
   );
 };
 
-export default RolesPage;
+export default OrdersPage;

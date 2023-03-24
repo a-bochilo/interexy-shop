@@ -1,4 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
+
+// ====================== Interfaces & DTO's =========================
+import { RolesDto } from "../types/roles.dto";
+
+// =========================== Actions ===============================
 import {
   fetchCurrentRole,
   fetchRoleCreate,
@@ -6,7 +11,7 @@ import {
   fetchRoleUpdate,
   fetchRoles,
 } from "./roles.actions";
-import { RolesDto } from "../types/roles.dto";
+
 
 type IInitialState = {
   roles: RolesDto[];

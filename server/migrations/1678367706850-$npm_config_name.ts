@@ -78,7 +78,6 @@ const getProductsTable = () => new Table({
         {
             name: 'image',
             type: 'varchar',
-            length: "50",
             isNullable: false,
         },
         {

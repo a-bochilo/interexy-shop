@@ -4,12 +4,14 @@ import { useForm, SubmitHandler, Controller } from "react-hook-form";
 // ========================== yup ==========================
 import { yupResolver } from "@hookform/resolvers/yup";
 
-// ========================== mui ==========================
+// ======================== Components =========================
+import TemporaryTypography from "./temporary-typography.component";
+
+// ============================ MUI ============================
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import DoneIcon from "@mui/icons-material/Done";
-
 import {
   Accordion,
   AccordionDetails,
@@ -24,12 +26,12 @@ import {
   Typography,
 } from "@mui/material";
 
+// ====================== Interfaces & DTO's ==================
 import { UserPermissions } from "../app/roles/types/user-permissions.enum";
 import { UserRoles } from "../app/roles/types/user-roles.enum";
 import { RolesDto } from "../app/roles/types/roles.dto";
 import { formSchema } from "../app/roles/types/roles-form.const";
 import { IRoleState } from "../app/roles/types/role-state.interface";
-import TemporaryTypography from "./temporary-typography.component";
 
 interface IFormInput {
   id: number;
@@ -60,7 +62,7 @@ const RoleForm = ({
   setIsEditable: (s: boolean) => void;
 }) => {
   const permissions = [role?.permissions].flat();
-  
+
   const enumsRoleTypes = Object.keys(UserRoles).slice(1);
 
   const enumsRolePermissions = Object.keys(UserPermissions);
