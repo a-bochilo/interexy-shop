@@ -53,7 +53,7 @@ const UserAssignRoleFormComp: FC<FormProps> = ({
 }) => {
   const removeEmptyFields = (
     obj: Partial<IUserAssignRole>
-  ): Partial<IUserAssignRole> => {
+  ) => {
     const newObj = Object.fromEntries(
       Object.entries(obj).filter(([_, v]) => v !== (null || undefined))
     );
@@ -72,15 +72,15 @@ const UserAssignRoleFormComp: FC<FormProps> = ({
 
   const onSubmit: SubmitHandler<Partial<IUserAssignRole>> = (data) => {
     const notNullFields = removeEmptyFields(data);
-    // const { name, permissions, ...user } = notNullFields;
+    const { name, ...user } = notNullFields;
 
     const outputData = {
       id: selectedUser.id,
-      // name: userRoles.,
-      // permissions: ,
-      // ...user,
+      name: selectedUserRole.name,
+      
+      ...user,
     };
-    console.log(data);
+    // console.log(outputData);
     // handleSave(outputData);
     setDisabled(!disabled);
   };

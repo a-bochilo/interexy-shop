@@ -12,6 +12,7 @@ import {
   getUserInfo,
   updateUserInfo,
   deleteUser,
+  assignRole,
 } from "./users.actions";
 
 const initialState: UserState = {
@@ -81,8 +82,6 @@ export const usersSlice = createSlice({
 
           users.push(user);
           state.users = users;
-          console.log(state.userInfo);
-          console.log(action.payload);
           if (!state.userInfo) return;
           state.userInfo = {
             ...state.userInfo,
@@ -101,15 +100,41 @@ export const usersSlice = createSlice({
     // ============ DELETE USER ============ //
     builder
       .addCase(deleteUser.pending, (state) => {
-        state.pending.userInfo = true;
-        state.errors.userInfo = null;
+        state.pending.users = true;
+        state.errors.users = null;
       })
       .addCase(deleteUser.fulfilled, (state, { payload }) => {
         state.users.filter((user: UserDto) => user.id !== payload);
       })
       .addCase(deleteUser.rejected, (state, action: any & { payload: any }) => {
-        state.pending.userInfo = false;
-        state.errors.userInfo = action.payload.message;
+        state.pending.users = false;
+        state.errors.users = action.payload.message;
+      });
+
+    // ============ ASSIGN ROLE ============ //
+    builder
+      .addCase(assignRole.pending, (state) => {
+        state.pending.users = true;
+        state.errors.users = null;
+      })
+      .addCase(assignRole.fulfilled, (state, action) => {
+        const users = state.users.filter(
+        (user: UserDto) => user.id !== action.payload.id
+      );
+      const { newRole, ...user } = action.payload;
+
+      users.push(user);
+      state.users = users;
+      console.log(action.payload);
+      // if (!state.users) return;
+      // state.users = {
+      //   ...state.users,
+      //   newRole,
+      // };
+    })
+      .addCase(assignRole.rejected, (state, action: any & { payload: any }) => {
+        state.pending.users = false;
+        state.errors.users = action.payload.message;
       });
   },
 });

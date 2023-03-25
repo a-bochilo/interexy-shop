@@ -18,7 +18,7 @@ import {
   usersSelector,
   usersLoadingSelector,
 } from "./store/users.selectors";
-import { getUserInfo, getUsers, updateUserInfo } from "./store/users.actions";
+import { assignRole, getUserInfo, getUsers, updateUserInfo } from "./store/users.actions";
 import { fetchRoles } from "../roles/store/roles.actions";
 import { RolesSelector } from "../roles/store/roles.selector";
 
@@ -54,7 +54,7 @@ const UserAssignRolePage: FC = () => {
 
   const handleSave = (data: any) => {
     if (!userId) return;
-    dispatch(updateUserInfo(data)); // post запрос на assign role
+    dispatch(assignRole(data)); // post запрос на assign role
   };
 
   const handleBack = () => {

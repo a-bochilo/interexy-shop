@@ -1,11 +1,12 @@
 // ========================== redux ==========================
-import { AxiosResponse } from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { AxiosResponse } from "axios";
 
 // ========================== types ==========================
 import { UserDto } from "../../users/types/user-dto.type";
 import { UserDetailsDto } from "../types/user-details.type";
 import { UserUpdateDto } from "../types/user-details-update.type";
+import { UserAssignRoleDto } from "../types/user-assign-role-dto.type";
 
 // ========================== store ==========================
 import $api from "../../../api/api";
@@ -60,14 +61,17 @@ export const deleteUser = createAsyncThunk(
   }
 );
 
-export const assignRole = createAsyncThunk<UserUpdateDto, UserUpdateDto>(
-  "PUT/users/:userId",
-  async (userData) => {
-    try {
-      const response = await $api.put(`/users/${userData.id}`, userData);
-      return response.data;
-    } catch (error: any) {
-      return error.response?.data?.message as string;
-    }
+export const assignRole = createAsyncThunk<
+  UserAssignRoleDto,
+  UserAssignRoleDto
+>("POST/users/assignRole/:userId", async (newRole) => {
+  try {
+    const response = await $api.post(
+      `/users/assignRole/${newRole.id}`,
+      newRole
+    );
+    return response.data;
+  } catch (error: any) {
+    return error.response?.data?.message as string;
   }
-);
+});
