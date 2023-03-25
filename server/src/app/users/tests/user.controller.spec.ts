@@ -17,6 +17,7 @@ import {
   userWithRole,
   userWithDetails,
   userSessionDto,
+  userDto,
 } from "./mocks/data.mock";
 
 
@@ -49,7 +50,7 @@ describe("User controller", () => {
 
   describe("endpoint: Get all users", () => {
     it("should be return array with users", async () => {
-      expect(await controller.getAllUsers(true)).toEqual([user]);
+      expect(await controller.getAllUsers(true)).toEqual([userDto]);
     });
   });
 

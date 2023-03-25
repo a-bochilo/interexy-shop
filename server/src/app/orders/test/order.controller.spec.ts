@@ -9,7 +9,7 @@ import { JwtAuthGuard } from "../../security/guards/jwt-auth.guard";
 import { RolesGuard } from "../../security/guards/roles.guard";
 
 // ============================== Mocks =================================
-import { cartDto, mockedServices, order, user } from "./mocks/data.mock";
+import { cartDto, mockedServices, order, orderItem, user } from "./mocks/data.mock";
 
 
 describe("Order controller", () => {
@@ -55,6 +55,12 @@ describe("Order controller", () => {
   describe("endpoint: Get all orders", () => {
     it("should be return all orders", async () => {
       expect(await controller.getAllOrders()).toEqual([order]);
+    });
+  });
+
+  describe("endpoint: Get order item by order id", () => {
+    it("should be return all order items", async () => {
+      expect(await controller.getOrderItemByOrderId(order.id)).toEqual([orderItem]);
     });
   });
 });

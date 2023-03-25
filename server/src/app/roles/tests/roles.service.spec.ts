@@ -12,14 +12,19 @@ import { UserRoles } from "../../../shared/types/user-roles.enum";
 import { RoleRepository } from "../repos/role.repository";
 
 // ============================== Mocks =================================
-import { newUserRole, roleRepositoryFake, userRoleDto } from "./mocks/data.mock";
+import {
+  newUserRole,
+  roleRepositoryFake,
+  superadminRoleDto,
+  userRoleDto,
+} from "./mocks/data.mock";
 import { role } from "../../orders/test/mocks/data.mock";
 
 jest.mock("nestjs-i18n", () => ({
   I18nContext: {
-      current: () => ({
-          t: () => "text",
-      }),
+    current: () => ({
+      t: () => "text",
+    }),
   },
 }));
 
@@ -43,8 +48,19 @@ describe("Roles services", () => {
     expect(service).toBeDefined();
   });
 
+  describe("method: Get all roles", () => {
+    it("should be return array with roles", async () => {
+      expect(await service.getAll()).toEqual([newUserRole]);
+    });
+  });
+
   describe("method: Create role", () => {
-    it("should be return error", async () => {
+    it("should be return new role", async () => {
+      roleRepositoryFake.getRoleByName = jest.fn().mockResolvedValue(false);
+      expect(await service.createRole(userRoleDto)).toEqual(newUserRole);
+    });
+
+    it("should be return error: Role does not exist", async () => {
       roleRepositoryFake.getRoleByName = jest.fn().mockResolvedValue(true);
       try {
         await service.createRole(userRoleDto);
@@ -53,23 +69,27 @@ describe("Roles services", () => {
       }
     });
 
-    it("should be return new role", async () => {
+    it("should be return error: Limit on creating a superuser role", async () => {
       roleRepositoryFake.getRoleByName = jest.fn().mockResolvedValue(false);
-      expect(await service.createRole(userRoleDto)).toEqual(newUserRole);
+      try {
+        await service.createRole(superadminRoleDto);
+      } catch (error) {
+        expect(error).toBeInstanceOf(HttpException);
+      }
     });
   });
 
   describe("method: Get role by type", () => {
     it("should be return specific role", async () => {
-      roleRepositoryFake.getById = jest.fn().mockResolvedValue(role)
+      roleRepositoryFake.getById = jest.fn().mockResolvedValue(role);
       expect(await service.getRoleByType(UserRoles.user)).toEqual(newUserRole);
     });
 
     it("should be return error", async () => {
-      roleRepositoryFake.getById = jest.fn().mockResolvedValue(false)
+      roleRepositoryFake.getRoleByType = jest.fn().mockResolvedValue(false);
       try {
-        await service.getRoleByType(UserRoles.user)
-      } catch(error) {
+        await service.getRoleByType(UserRoles.user);
+      } catch (error) {
         expect(error).toBeInstanceOf(HttpException);
       }
     });
@@ -77,37 +97,42 @@ describe("Roles services", () => {
 
   describe("method: Get role by id", () => {
     it("should be return specific role", async () => {
-      roleRepositoryFake.getById = jest.fn().mockResolvedValue(newUserRole)
-      expect(await service.getRoleById(1)).toEqual(newUserRole);
+      roleRepositoryFake.getById = jest.fn().mockResolvedValue(newUserRole);
+      expect(await service.getRoleById(role.id)).toEqual(newUserRole);
     });
 
     it("should be return error", async () => {
-      roleRepositoryFake.getById = jest.fn().mockResolvedValue(false)
+      roleRepositoryFake.getById = jest.fn().mockResolvedValue(false);
       try {
-        await service.getRoleById(1)
-      } catch(error) {
+        await service.getRoleById(role.id);
+      } catch (error) {
         expect(error).toBeInstanceOf(HttpException);
       }
     });
   });
 
-  describe("method: Get all roles", () => {
-    it("should be return array with roles", async () => {
-      expect(await service.getAll()).toEqual([newUserRole]);
-    });
-  });
-
   describe("method: Update role", () => {
     it("should be return new role", async () => {
-      roleRepositoryFake.getById = jest.fn().mockResolvedValue(role)
-      expect(await service.updateRole(1, userRoleDto)).toEqual(newUserRole);
+      roleRepositoryFake.getById = jest.fn().mockResolvedValue(role);
+      expect(await service.updateRole(role.id, userRoleDto)).toEqual(newUserRole);
     });
 
     it("should be return error", async () => {
-      roleRepositoryFake.getById = jest.fn().mockResolvedValue(false)
+      roleRepositoryFake.getById = jest.fn().mockResolvedValue(false);
       try {
-        await service.updateRole(1, userRoleDto)
-      } catch(error) {
+        await service.updateRole(role.id, userRoleDto);
+      } catch (error) {
+        expect(error).toBeInstanceOf(HttpException);
+      }
+    });
+
+    it("should be return error: Limit on creating a superuser role", async () => {
+      roleRepositoryFake.getById = jest
+        .fn()
+        .mockResolvedValue({ ...role, type: UserRoles.superadmin });
+      try {
+        await service.updateRole(role.id, userRoleDto);
+      } catch (error) {
         expect(error).toBeInstanceOf(HttpException);
       }
     });
@@ -115,15 +140,26 @@ describe("Roles services", () => {
 
   describe("method: Delete role", () => {
     it("should be return http status 200", async () => {
-      roleRepositoryFake.getById = jest.fn().mockResolvedValue(role)
-      expect(await service.deleteRole(1)).toEqual(HttpStatus.OK);
+      roleRepositoryFake.getById = jest.fn().mockResolvedValue(role);
+      expect(await service.deleteRole(role.id)).toEqual(HttpStatus.OK);
     });
 
     it("should be return error", async () => {
-      roleRepositoryFake.getById = jest.fn().mockResolvedValue(false)
+      roleRepositoryFake.getById = jest.fn().mockResolvedValue(false);
       try {
-        await service.deleteRole(1)
-      } catch(error) {
+        await service.deleteRole(role.id);
+      } catch (error) {
+        expect(error).toBeInstanceOf(HttpException);
+      }
+    });
+
+    it("should be return error: Limit on deleting a superuser role", async () => {
+      roleRepositoryFake.getById = jest
+        .fn()
+        .mockResolvedValue({ ...role, type: UserRoles.superadmin });
+      try {
+        await service.deleteRole(role.id);
+      } catch (error) {
         expect(error).toBeInstanceOf(HttpException);
       }
     });

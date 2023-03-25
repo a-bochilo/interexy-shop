@@ -66,6 +66,7 @@ const ProductViewPage: FC = () => {
         if (!productWithDetails?.id) return;
         //!add to cart logic
         console.log("productId", productWithDetails.id);
+
         console.log("quantity", quantity);
     };
 
@@ -97,6 +98,7 @@ const ProductViewPage: FC = () => {
                     {typeof value === "string" ? value.toUpperCase() : value}
                 </Typography>
             </Grid>
+
         );
     };
 

@@ -10,6 +10,7 @@ import {
     Grid,
     Tooltip,
 } from "@mui/material";
+
 import LaunchIcon from "@mui/icons-material/Launch";
 
 // =========================== Interfaces & DTO's ===========================
@@ -27,6 +28,7 @@ const ProductCard = ({
     handleClickCard: (id: string) => void;
     handleAddToCart: (id: string, quantity: number) => void;
 }) => {
+
     const handleAddToCartLocal = (quantity: number) => {
         handleAddToCart(product.id, quantity);
     };
