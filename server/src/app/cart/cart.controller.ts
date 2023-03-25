@@ -41,7 +41,7 @@ export class CartController {
     @ApiResponse({
         status: HttpStatus.OK,
         description: "HttpStatus:200:OK",
-        type: CartEntity,
+        type: CartSessionDto,
         isArray: false,
     })
     @Get()
@@ -57,7 +57,7 @@ export class CartController {
     @ApiResponse({
         status: HttpStatus.OK,
         description: "HttpStatus:200:OK",
-        type: CartEntity,
+        type: CartSessionDto,
         isArray: false,
     })
     @Post()
@@ -75,7 +75,7 @@ export class CartController {
     @ApiResponse({
         status: HttpStatus.OK,
         description: "HttpStatus:200:OK",
-        type: CartEntity,
+        type: CartSessionDto,
         isArray: false,
     })
     @Put()
@@ -94,7 +94,7 @@ export class CartController {
     @ApiResponse({
         status: HttpStatus.OK,
         description: "HttpStatus:200:OK",
-        type: CartEntity,
+        type: CartSessionDto,
         isArray: false,
     })
     @Delete("")
@@ -110,7 +110,7 @@ export class CartController {
     @ApiResponse({
         status: HttpStatus.OK,
         description: "HttpStatus:200:OK",
-        type: CartEntity,
+        type: CartSessionDto,
         isArray: false,
     })
     @Delete(":productId")
