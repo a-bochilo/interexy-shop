@@ -3,9 +3,15 @@ import { Typography, TypographyProps } from "@mui/material";
 
 interface ITypographyProps extends TypographyProps {
     duration: number;
+    timeoutFunction?: (b: boolean) => void;
 }
 
-const TemporaryTypography = ({ duration, ...props }: ITypographyProps) => {
+const TemporaryTypography = (props: ITypographyProps) => {
+    const { duration, timeoutFunction, ...typographyProps } = props;
+
+    if (timeoutFunction)
+        setTimeout(() => timeoutFunction(false), duration * 1000);
+
     const CustomTypography = styled(Typography)`
         animation: dissapear ${duration}s 1 forwards ease-in;
             
@@ -21,7 +27,7 @@ const TemporaryTypography = ({ duration, ...props }: ITypographyProps) => {
         } 
     `;
 
-    return <CustomTypography {...props} />;
+    return <CustomTypography {...typographyProps} />;
 };
 
 export default TemporaryTypography;

@@ -7,8 +7,6 @@ import $api from "../../../api/api";
 // =========================== Interfaces & DTO's ===========================
 import { ProductDto } from "../types/product.dto";
 import { ProductDetailsDto } from "../types/product-details.dto";
-import { ProductWithDetailsDto } from "../types/product-with-details.dto";
-import { ProductCreateDto } from "../types/product-create.dto";
 import { ProductFilterDto } from "../types/product-filter.dto";
 
 export const fetchProducts = createAsyncThunk<ProductDto[]>(
@@ -37,60 +35,6 @@ export const fetchProductDetials = createAsyncThunk<ProductDetailsDto, string>(
                 AxiosResponse<ProductDetailsDto, any>,
                 any
             >(`/products/${id}`);
-            return data;
-        } catch (e: any) {
-            console.error(e);
-            return rejectWithValue(e.response?.data?.message as string);
-        }
-    }
-);
-
-export const deleteProduct = createAsyncThunk<ProductDto, string>(
-    "products/deleteProduct",
-    async (id: string, { rejectWithValue }) => {
-        try {
-            const { data } = await $api.delete<
-                any,
-                AxiosResponse<ProductDto, any>,
-                any
-            >(`/products/${id}`);
-            return data;
-        } catch (e: any) {
-            console.error(e);
-            return rejectWithValue(e.response?.data?.message as string);
-        }
-    }
-);
-
-export const updateProduct = createAsyncThunk<
-    ProductWithDetailsDto,
-    Partial<ProductWithDetailsDto>
->(
-    "products/updateProduct",
-    async (product: Partial<ProductWithDetailsDto>, { rejectWithValue }) => {
-        try {
-            const { data } = await $api.put<
-                any,
-                AxiosResponse<ProductWithDetailsDto, any>,
-                any
-            >(`/products/${product.id}`, product);
-            return data;
-        } catch (e: any) {
-            console.error(e);
-            return rejectWithValue(e.response?.data?.message as string);
-        }
-    }
-);
-
-export const createProduct = createAsyncThunk<ProductDto, ProductCreateDto>(
-    "products/createProduct",
-    async (product: ProductCreateDto, { rejectWithValue }) => {
-        try {
-            const { data } = await $api.post<
-                any,
-                AxiosResponse<ProductDto, any>,
-                any
-            >("/products", product);
             return data;
         } catch (e: any) {
             console.error(e);

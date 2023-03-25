@@ -251,36 +251,37 @@ const ProductFilterForm = () => {
                         Reset
                     </Button>
                 </Box>
+                
                 <Box
                     sx={{
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
                         width: "100%",
+                        height: 35,
                     }}
                 >
-                    {pending.products && <CircularProgress />}
-                    {isClicked &&
-                        !pending.products &&
-                        !fetchingErrors.products && (
-                            <TemporaryTypography
-                                variant="overline"
-                                align="center"
-                                color="success.main"
-                                duration={2}
-                            >
-                                <DoneIcon />
-                            </TemporaryTypography>
-                        )}
+                    {pending.filter && <CircularProgress />}
+                    {isClicked && !pending.filter && !fetchingErrors.filter && (
+                        <TemporaryTypography
+                            variant="overline"
+                            align="center"
+                            color="success.main"
+                            duration={2}
+                            timeoutFunction={setIsClicked}
+                        >
+                            <DoneIcon />
+                        </TemporaryTypography>
+                    )}
 
-                    {fetchingErrors.products && (
+                    {fetchingErrors.filter && (
                         <TemporaryTypography
                             variant="overline"
                             align="center"
                             color="error"
                             duration={30}
                         >
-                            {fetchingErrors.products}
+                            {fetchingErrors.filter}
                         </TemporaryTypography>
                     )}
                 </Box>

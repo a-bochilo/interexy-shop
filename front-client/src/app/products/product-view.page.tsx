@@ -9,6 +9,7 @@ import {
     CardMedia,
     CircularProgress,
     Grid,
+    Tooltip,
     Typography,
 } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
@@ -27,6 +28,9 @@ import { clearErrors } from "./store/products.slice";
 
 // =========================== DTO's ===========================
 import { ProductWithDetailsDto } from "./types/product-with-details.dto";
+
+// =========================== Components ===========================
+import CartButton from "../../components/cart-button.compoent";
 
 const ProductViewPage: FC = () => {
     const dispatch = useAppDispatch();
@@ -56,9 +60,12 @@ const ProductViewPage: FC = () => {
         productWithDetails = { ...product, ...productDetailsWithoutId };
     }
 
-    const handleAddToCart = (productId: string, quantity: number) => {
+    // const isInCart = !cart.find(item => item.id === product?.id);
+
+    const handleAddToCart = (quantity: number) => {
+        if (!productWithDetails?.id) return;
         //!add to cart logic
-        console.log("productId", productId);
+        console.log("productId", productWithDetails.id);
         console.log("quantity", quantity);
     };
 
@@ -76,13 +83,15 @@ const ProductViewPage: FC = () => {
         return (
             <Grid container>
                 <Typography
-                    variant="caption"
+                    variant="body2"
+                    align="right"
+                    pr={2}
                     sx={{
                         minWidth: 90,
                         fontWeight: "bold",
                     }}
                 >
-                    {key.toUpperCase()}
+                    {key.toLowerCase()}
                 </Typography>
                 <Typography>
                     {typeof value === "string" ? value.toUpperCase() : value}
@@ -162,31 +171,23 @@ const ProductViewPage: FC = () => {
                                 ${productWithDetails.price}
                             </Typography>
 
-                            <Button
-                                variant="outlined"
-                                color="success"
-                                sx={{ minWidth: 170 }}
-                                //! change quantity arg
-                                onClick={() => {
-                                    handleAddToCart(
-                                        productWithDetails?.id as string,
-                                        1
-                                    );
-                                }}
-                            >
-                                <ShoppingCartIcon
-                                    color="success"
-                                    fontSize="large"
-                                />
-                            </Button>
-
-                            <Button
-                                variant="outlined"
-                                color="primary" //! change quantity arg
-                                onClick={() => handleBack()}
-                            >
-                                <UndoIcon color="primary" fontSize="large" />
-                            </Button>
+                            <CartButton
+                                size="large"
+                                handleAddToCartLocal={handleAddToCart}
+                                //isInCart={isInCart}
+                            />
+                            <Tooltip title="Back to all">
+                                <Button
+                                    variant="outlined"
+                                    color="primary" //! change quantity arg
+                                    onClick={() => handleBack()}
+                                >
+                                    <UndoIcon
+                                        color="primary"
+                                        fontSize="large"
+                                    />
+                                </Button>
+                            </Tooltip>
                         </Grid>
                     </Grid>
                 </>
