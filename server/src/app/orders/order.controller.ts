@@ -98,7 +98,9 @@ export class OrderController {
     isArray: true,
   })
   @UsePipes(new ValidationPipe())
-  async getOrderItemByOrderId(@Param("orderId") orderId: string): Promise<OrderItemDto[]> {
+  async getOrderItemByOrderId(
+    @Param("orderId") orderId: string
+  ): Promise<OrderItemDto[]> {
     return await this.orderService.getOrderItemByOrderId(orderId);
   }
 }

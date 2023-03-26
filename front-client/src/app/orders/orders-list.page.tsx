@@ -1,5 +1,5 @@
 // ========================== react ==========================
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 
 // ============================ MUI ============================
 import styled from "@emotion/styled";
@@ -8,33 +8,61 @@ import { useDispatch, useSelector } from "react-redux";
 
 // =========================== Store ===========================
 import { AppDispatch } from "../../store";
-import { OrdersSelector, getPendingSelector } from "./store/orders.selector";
-import { fetchOrders } from "./store/orders.actions";
+import { fetchOrderItems, fetchOrders } from "./store/orders.actions";
 
 // ======================== Components =========================
-import OrdersTable from "../../components/orders-table.component";
+import OrdersList from "../../components/orders-list.component";
+import { OrderItemsSelector, OrdersSelector } from "./store/orders.selector";
+import { decodeToken } from "react-jwt";
+import OrderViewForm from "../../components/order-view.component";
 
 const MainGrid = styled(Grid)`
   display: flex;
   align-items: top;
-  justify-content: space-around;
+  justify-content: space-between;
   width: 100%;
   min-height: 100%;
 `;
 
+interface User {
+  id: string;
+}
+
 const OrdersListPage: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const orders = useSelector(OrdersSelector);
-  const pending = useSelector(getPendingSelector);
+  const order = useSelector(OrderItemsSelector);
+  const [id, setId] = useState<string>("");
 
   useEffect(() => {
-    dispatch(fetchOrders());
-  }, []);
+    const token = window.localStorage.getItem("token");
+    if (token) {
+      const user: User | null = decodeToken(token);
+      if (user !== null) {
+        setId(user.id);
+      }
+    }
+    dispatch(fetchOrders(id));
+  }, [dispatch, id]);
+
+  const handleClickOnOrder = (orderId: string) => {
+    dispatch(fetchOrderItems(orderId));
+  };
 
   return (
     <MainGrid>
-      {pending.orders && <CircularProgress sx={{ alignSelf: "center" }} />}
-      {!!orders.length && !pending.orders && <OrdersTable orders={orders} />}
+      <Grid item xs={6}>
+        {orders.length > 0 ? (
+          <OrdersList orders={orders} handleClickOnOrder={handleClickOnOrder} />
+        ) : (
+          <h2>
+            YOU HAVE NO ORDERS
+          </h2>
+        )}
+      </Grid>
+      <Grid item xs={6}>
+        <OrderViewForm order={order} />
+      </Grid>
     </MainGrid>
   );
 };

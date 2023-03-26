@@ -27,16 +27,16 @@ const OrdersListPage = React.lazy(
   () => import(/* webpackChunkName: "RolesPage" */ "../orders/orders-list.page")
 );
 
-const OrderItemsPage = React.lazy(
-  () => import(/* webpackChunkName: "RolesPage" */ "../orders/orders-view.page")
-);
+// const OrderItemsPage = React.lazy(
+//   () => import(/* webpackChunkName: "RolesPage" */ "../orders/orders-view.page")
+// );
 
 
 const RolesRoutes: FC = () => {
   return (
     <Routes>
       <Route path={"/*"} element={<Suspended element={OrdersListPage} />} />
-      <Route path={"/:orderId"} element={<Suspended element={OrderItemsPage}/>}/>
+      {/* <Route path={"/:orderId"} element={<Suspended element={OrderItemsPage}/>}/> */}
       
       {/* DEFAULT */}
       {/* <Route path="*" element={<Navigate to="/" />} /> */}
