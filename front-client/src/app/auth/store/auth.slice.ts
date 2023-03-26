@@ -56,6 +56,7 @@ const authSlice = createSlice({
         state.token = action.payload;
       })
       .addCase(fetchSignUp.rejected, (state, action: any & { payload: any }) => {
+        console.log(action.payload)
         state.pending.token = false;
         state.token = "";
         state.errors.token = action.payload;
@@ -64,4 +65,4 @@ const authSlice = createSlice({
   },
 });
 export const authReducer = authSlice.reducer;
-export const { logout } = authSlice.actions;
+export const { logout, clearErrors } = authSlice.actions;

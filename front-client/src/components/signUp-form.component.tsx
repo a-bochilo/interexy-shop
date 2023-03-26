@@ -9,7 +9,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 // ========================== mui ==========================
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import DoneIcon from "@mui/icons-material/Done";
 import { Box, CircularProgress, Paper, Typography } from "@mui/material";
 import { IFormInput } from "../app/auth/types/form-input.interface";
@@ -161,6 +160,7 @@ const SignUpForm = ({
               variant="outlined"
               {...register("password")}
               placeholder="password"
+              type="password"
             />
           )}
         />
@@ -179,6 +179,7 @@ const SignUpForm = ({
               variant="outlined"
               {...register("confirmPassword")}
               placeholder="password"
+              type="password"
             />
           )}
         />
@@ -187,35 +188,12 @@ const SignUpForm = ({
           {errors.confirmPassword?.message}
         </Typography>
 
-        {/* <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: "50%",
-          }}
-        >
-          {fetchingErrors && (
-            <TemporaryTypography
-              variant="overline"
-              align="center"
-              color="error"
-              duration={30}
-            >
-              {fetchingErrors}
-            </TemporaryTypography>
-          )}
-          <Button type="submit" disabled={!isValid} variant="contained">
-            Sign Up
-          </Button>
-        </Box> */}
-
         <Box
           sx={{
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            width: "50%",
+            width: "100%",
           }}
         >
           {fetchingPending && <CircularProgress />}

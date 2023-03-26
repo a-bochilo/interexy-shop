@@ -12,7 +12,7 @@ export const fetchSignIn = createAsyncThunk(
       const response = await $api.post(`/auth/signIn`, data);
       return response.data.token;
     } catch (error: any) {
-      return rejectWithValue(error);
+      return rejectWithValue(error?.response?.data?.message as string);
     }
   }
 );
@@ -24,7 +24,7 @@ export const fetchSignUp = createAsyncThunk(
       const response = await $api.post(`/auth/signUp`, data);
       return response.data.token;
     } catch (error: any) {
-      return rejectWithValue(error);
+      return rejectWithValue(error?.response?.data?.message as string);
     }
   } 
 );

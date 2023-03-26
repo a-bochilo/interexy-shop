@@ -5,7 +5,6 @@ import { FC } from "react";
 import SignUpForm from "../../components/signUp-form.component";
 
 // ========================== mui ==========================
-import Box from "@mui/material/Box";
 import { Grid } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { IFormInput } from "./types/form-input.interface";
@@ -14,6 +13,7 @@ import { ISignUpTemplate } from "./types/signUp.interface";
 import { AppDispatch } from "../../store";
 import { useNavigate } from "react-router-dom";
 import { AuthErrorSelector, AuthPendingSelector } from "./store/auth.selector";
+import { clearErrors } from "./store/auth.slice";
 
 const SignUpPage: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -32,8 +32,12 @@ const SignUpPage: FC = () => {
         lastname: data?.lastName || "",
       },
     };
+    dispatch(clearErrors());
     dispatch(fetchSignUp(user));
-    // navigate('/')
+    const token = window.localStorage.getItem("token");
+    if (token) {
+      navigate("/");
+    }
   };
   return (
     <Grid
@@ -45,8 +49,8 @@ const SignUpPage: FC = () => {
     >
       <SignUpForm
         handleSignUp={handleSignUp}
-        fetchingErrors={fetchingErrors}
-        fetchingPending={fetchingPending}
+        fetchingErrors={fetchingErrors.token}
+        fetchingPending={fetchingPending.token}
       />
     </Grid>
   );
