@@ -18,6 +18,7 @@ import {
 const initialState: UserState = {
   users: [],
   userInfo: null,
+  newRole: null,
   pending: {
     users: false,
     userInfo: false,
@@ -122,15 +123,15 @@ export const usersSlice = createSlice({
         (user: UserDto) => user.id !== action.payload.id
       );
       const { newRole, ...user } = action.payload;
+      console.log(`action.payload`, action.payload);
 
       users.push(user);
       state.users = users;
-      console.log(action.payload);
-      // if (!state.users) return;
-      // state.users = {
-      //   ...state.users,
-      //   newRole,
-      // };
+      if (!state.newRole) return;
+      state.newRole = {
+        ...state.newRole,
+        newRole
+      };
     })
       .addCase(assignRole.rejected, (state, action: any & { payload: any }) => {
         state.pending.users = false;

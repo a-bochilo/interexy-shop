@@ -13,10 +13,6 @@ import {
   Button,
 } from "@mui/material";
 
-// ========================== yup ==========================
-import { yupResolver } from "@hookform/resolvers/yup";
-import { formSchema } from "./user-edit-form.const";
-
 // ========================== enum ==========================
 import { UserDto } from "../app/users/types/user-dto.type";
 import { RolesDto } from "../app/roles/types/roles.dto";
@@ -51,9 +47,7 @@ const UserAssignRoleFormComp: FC<FormProps> = ({
   handleSave,
   handleBack,
 }) => {
-  const removeEmptyFields = (
-    obj: Partial<IUserAssignRole>
-  ) => {
+  const removeEmptyFields = (obj: Partial<IUserAssignRole>) => {
     const newObj = Object.fromEntries(
       Object.entries(obj).filter(([_, v]) => v !== (null || undefined))
     );
@@ -64,24 +58,18 @@ const UserAssignRoleFormComp: FC<FormProps> = ({
     register,
     control,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { isValid },
   } = useForm<IUserAssignRole>({
     mode: "onChange",
-    resolver: yupResolver(formSchema),
   });
 
   const onSubmit: SubmitHandler<Partial<IUserAssignRole>> = (data) => {
-    const notNullFields = removeEmptyFields(data);
-    const { name, ...user } = notNullFields;
-
-    const outputData = {
+    const outputData = Object.assign(removeEmptyFields(data), {
       id: selectedUser.id,
       name: selectedUserRole.name,
-      
-      ...user,
-    };
-    // console.log(outputData);
-    // handleSave(outputData);
+    });
+    console.log(outputData);
+    handleSave(outputData);
     setDisabled(!disabled);
   };
 
@@ -166,7 +154,7 @@ const UserAssignRoleFormComp: FC<FormProps> = ({
                 disabled={!disabled}
                 id="outlined-select"
                 select
-                defaultValue={selectedUserRole.id}
+                defaultValue={selectedUserRole.name}
                 variant="outlined"
                 {...register("name")}
               >
@@ -213,11 +201,11 @@ const UserAssignRoleFormComp: FC<FormProps> = ({
                 width: "100%",
               }}
               type="submit"
+              onClick={buttonOnclick}
               disabled={!isValid}
               color="success"
               variant="contained"
               form="userAssignRole"
-              onClick={buttonOnclick}
             >
               Save
             </Button>

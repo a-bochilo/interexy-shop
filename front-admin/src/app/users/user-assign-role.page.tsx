@@ -54,7 +54,7 @@ const UserAssignRolePage: FC = () => {
 
   const handleSave = (data: any) => {
     if (!userId) return;
-    dispatch(assignRole(data)); // post запрос на assign role
+    dispatch(assignRole(data));
   };
 
   const handleBack = () => {
@@ -65,6 +65,7 @@ const UserAssignRolePage: FC = () => {
   const selectedUserRole = userRoles.find(
     (role) => role.id === selectedUser?.roleId
   );
+  console.log(`selectedUserRole`, selectedUserRole)
 
   return (
     <MainGrid>
