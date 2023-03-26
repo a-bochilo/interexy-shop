@@ -6,13 +6,18 @@ import SignInForm from "../../components/signIn-form.component";
 
 // ========================== mui ==========================
 import Box from "@mui/material/Box";
+import { Grid } from "@mui/material";
 
 
 const SignInPage: FC = () => {
   return (
-    <Box>
+    <Grid sx={{
+      display: 'flex',
+      flexDirection: "column",
+      minWidth:"400px"
+    }}>
       <SignInForm/>
-    </Box>
+    </Grid>
   );
 };
 

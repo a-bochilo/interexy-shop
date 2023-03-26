@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 // ========================== yup ==========================
 import { yupResolver } from "@hookform/resolvers/yup";
-import { formSchema } from "./lsignIn-form.const";
+import { formSchema } from "./signIn-form.const";
 import { decodeToken } from "react-jwt";
 
 // ========================== mui ==========================
@@ -50,7 +50,7 @@ const SignInForm: FC = () => {
       const user: any = decodeToken(newToken.payload);
       if (user.role_type === "user") {
         window.localStorage.setItem("token", newToken.payload);
-        window.location.replace("https://http://localhost:3001/")
+        window.location.replace("https://http://localhost:3001/");
         console.log("Redirect to shop");
         navigate("/");
         setError(false);
@@ -124,9 +124,18 @@ const SignInForm: FC = () => {
           {errors.password?.message}
         </Typography>
 
-        <Button type="submit" disabled={!isValid} variant="contained">
-          Login
-        </Button>
+        <Box sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "8px",
+        }}>
+          <Button type="submit" disabled={!isValid} variant="contained">
+            Sign In
+          </Button>
+          <Button variant="contained" onClick={() => navigate("/auth/signUp")}>
+            Sign Up
+          </Button>
+        </Box>
 
         {error === true ? (
           <Box

@@ -1,33 +1,9 @@
 import $api from "../../../api/api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { ISignInTemplate } from "../types/signIn.interface";
+import { ISignUpTemplate } from "../types/signUp.interface";
 
-export interface ISignUpTemplateDetails {
-  firstname: string;
-  middlename?: string;
-  lastname: string;
-}
 
-export interface ISignUpTemplate {
-  email: string;
-  password: string;
-  phone?: string;
-  details: ISignUpTemplateDetails;
-}
-
-export interface ISignUpTemplateDetails {
-  firstname: string;
-  middlename?: string;
-  lastname: string;
-}
-
-export interface ISignInTemplate {
-  email: string;
-  password: string;
-}
-
-export interface IToken {
-  token: string;
-}
 
 export const fetchSignIn = createAsyncThunk(
   "auth/fetchSignIn",
@@ -50,5 +26,5 @@ export const fetchSignUp = createAsyncThunk(
     } catch (error: any) {
       return rejectWithValue(error);
     }
-  }
+  } 
 );

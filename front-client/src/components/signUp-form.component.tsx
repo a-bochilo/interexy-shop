@@ -9,19 +9,21 @@ import { yupResolver } from "@hookform/resolvers/yup";
 // ========================== mui ==========================
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { Paper, Typography } from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import DoneIcon from "@mui/icons-material/Done";
+import { Box, CircularProgress, Paper, Typography } from "@mui/material";
+import { IFormInput } from "../app/auth/types/form-input.interface";
+import TemporaryTypography from "./temporary-typography.component";
 
-interface IFormInput {
-  firstName: string;
-  lastName: string;
-  middleName: string;
-  email: string;
-  phone: string;
-  password: string;
-  confirmPassword: string;
-}
-
-const SignUpForm: FC = () => {
+const SignUpForm = ({
+  handleSignUp,
+  fetchingErrors,
+  fetchingPending,
+}: {
+  handleSignUp: (s: IFormInput) => void;
+  fetchingErrors: string | null;
+  fetchingPending: boolean;
+}) => {
   const {
     register,
     control,
@@ -41,18 +43,15 @@ const SignUpForm: FC = () => {
     resolver: yupResolver(formSchema),
   });
 
-  const onSubmit: SubmitHandler<IFormInput> = (data: any) => {
-    /*
-     Тут нужно допилить регу
-     */
-    console.log(data)
-  }
+  const onSubmit: SubmitHandler<IFormInput> = (data: IFormInput) => {
+    handleSignUp(data);
+  };
 
   return (
     <Paper
       sx={{
         maxWidth: 400,
-        height: 400,
+        minHeight: 400,
         backgroundColor: "lightblue",
         justifyContent: "center",
         p: 3,
@@ -188,9 +187,64 @@ const SignUpForm: FC = () => {
           {errors.confirmPassword?.message}
         </Typography>
 
-        <Button type="submit" disabled={!isValid} variant="contained">
-          Sign Up
-        </Button>
+        {/* <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "50%",
+          }}
+        >
+          {fetchingErrors && (
+            <TemporaryTypography
+              variant="overline"
+              align="center"
+              color="error"
+              duration={30}
+            >
+              {fetchingErrors}
+            </TemporaryTypography>
+          )}
+          <Button type="submit" disabled={!isValid} variant="contained">
+            Sign Up
+          </Button>
+        </Box> */}
+
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "50%",
+          }}
+        >
+          {fetchingPending && <CircularProgress />}
+          {fetchingPending && !fetchingErrors && (
+            <TemporaryTypography
+              variant="overline"
+              align="center"
+              color="success.main"
+              duration={2}
+            >
+              <DoneIcon />
+            </TemporaryTypography>
+          )}
+
+          {fetchingErrors && (
+            <TemporaryTypography
+              variant="overline"
+              align="center"
+              color="error"
+              duration={30}
+            >
+              {fetchingErrors}
+            </TemporaryTypography>
+          )}
+
+          <Button type="submit" disabled={!isValid} variant="contained">
+            Sign Up
+          </Button>
+        </Box>
       </form>
     </Paper>
   );

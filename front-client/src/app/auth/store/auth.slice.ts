@@ -1,10 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchSignIn } from "./auth.actions";
+import { fetchSignIn, fetchSignUp } from "./auth.actions";
+
+type IInitialState = {
+  token: string;
+  errors: {
+    token: string | null;
+  };
+  pending: {
+    token: boolean;
+  };
+};
 
 const initialState = {
   token: "",
-  pending: false,
-};
+  errors: {
+    token: null,
+  },
+  pending: {
+    token: false,
+  },
+} as IInitialState;
 
 const authSlice = createSlice({
   name: "auth",
@@ -13,19 +28,37 @@ const authSlice = createSlice({
     logout: (state) => {
       state.token = "";
     },
+    clearErrors: (state) => {
+      state.errors.token = null;
+    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchSignIn.pending, (state) => {
-        state.pending = false;
+        state.pending.token = false;
       })
       .addCase(fetchSignIn.fulfilled, (state, action) => {
-        state.pending = true;
+        state.pending.token = true;
         state.token = action.payload;
       })
-      .addCase(fetchSignIn.rejected, (state) => {
-        state.pending = false;
+      .addCase(fetchSignIn.rejected, (state, action: any & { payload: any }) => {
+        state.pending.token = false;
         state.token = "";
+        state.errors.token = action.payload;
+      });
+
+    builder
+      .addCase(fetchSignUp.pending, (state) => {
+        state.pending.token = false;
+      })
+      .addCase(fetchSignUp.fulfilled, (state, action) => {
+        state.pending.token = true;
+        state.token = action.payload;
+      })
+      .addCase(fetchSignUp.rejected, (state, action: any & { payload: any }) => {
+        state.pending.token = false;
+        state.token = "";
+        state.errors.token = action.payload;
       })
       .addDefaultCase(() => {});
   },

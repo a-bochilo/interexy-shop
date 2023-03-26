@@ -1,5 +1,5 @@
 // ========================== react ==========================
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 
 // ========================== mui ==========================
 import { styled, useTheme } from "@mui/material/styles";
@@ -15,9 +15,11 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import SearchIcon from "@mui/icons-material/Search";
+import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import {
   alpha,
+  Button,
   Container,
   CssBaseline,
   InputBase,
@@ -27,10 +29,11 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import Avatar from "@mui/material/Avatar";
 import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+import { logout } from "../app/auth/store/auth.slice";
 
-const settings = ["Account", "Sign In", "Sign Up"];
+const settings = ["Account", "My orders", "Logout"];
 
 const drawerWidth = 200;
 interface AppBarProps extends MuiAppBarProps {
@@ -105,9 +108,11 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const PageNavBarComp: FC = () => {
+const PageNavBarComp = ({isAuth}: {isAuth: boolean}) => {
   const theme = useTheme();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [open, setOpen] = useState(false);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -124,17 +129,22 @@ const PageNavBarComp: FC = () => {
   };
 
   const handleCloseUserMenu = (field: string) => {
-    switch(field){
-        case "Sign Up":
-            navigate("/auth/signUp");
-            break;
-        case "Sign In":
-            navigate("/auth/signIn");
-            break;
-        case "Account":
-            navigate("/profile");
-            break;
-        default: break;
+    switch (field) {
+      case "Account":
+        navigate("/profile");
+        break;
+      case "My orders":
+        navigate("/orders/profile");
+        break;
+      case "Logout":
+        if (window.confirm("Are you sure you want to logout?")) {
+          dispatch(logout());
+          window.localStorage.removeItem("token");
+          navigate("/");
+        }
+        break;
+      default:
+        break;
     }
     setAnchorElUser(null);
   };
@@ -201,40 +211,52 @@ const PageNavBarComp: FC = () => {
                 />
               </Search>
 
-              <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar
-                    alt="Elvis Presley"
-                    src="https://img.freepik.com/premium-vector/flat-style-vector-icons-set-modern-beautiful-avatar-of-man-real-people-portraits-hand-drawn-flat-style-vector-design-concept-illustration-of-men-male-faces-and-shoulders-avatars_419010-13.jpg?w=740"
-                  />
-                </IconButton>
-              </Tooltip>
+              {isAuth ? (
+                <>
+                  <Tooltip title="Open settings">
+                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                      <VerifiedUserIcon
+                      color="success"
+                       />
+                    </IconButton>
+                  </Tooltip>
 
-
-              <Menu
-                sx={{ mt: "45px" }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-                {settings.map((setting) => (
-                  <MenuItem value={setting} key={setting} onClick={() => handleCloseUserMenu(setting)}>
-                    <Typography textAlign="center">{setting}</Typography>
-                  </MenuItem>
-                ))}
-              </Menu>
-
-
+                  <Menu
+                    sx={{ mt: "45px" }}
+                    id="menu-appbar"
+                    anchorEl={anchorElUser}
+                    anchorOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    open={Boolean(anchorElUser)}
+                    onClose={handleCloseUserMenu}
+                  >
+                    {settings.map((setting) => (
+                      <MenuItem
+                        value={setting}
+                        key={setting}
+                        onClick={() => handleCloseUserMenu(setting)}
+                      >
+                        <Typography textAlign="center">{setting}</Typography>
+                      </MenuItem>
+                    ))}
+                  </Menu>
+                </>
+              ) : (
+                <Button
+                  variant="contained"
+                  color="success"
+                  onClick={() => navigate("/auth/signIn")}
+                >
+                  Sign in
+                </Button>
+              )}
             </Box>
           </Container>
         </Toolbar>
