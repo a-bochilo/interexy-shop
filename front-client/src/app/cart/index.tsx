@@ -117,7 +117,7 @@ const CartPage: FC = () => {
 
     return (
         <MainGrid>
-            <PageNavBarComp />
+            <PageNavBarComp/>
             <ContentGrid
                 sx={{ flexDirection: { xs: "column-reverse", md: "row" } }}
             >

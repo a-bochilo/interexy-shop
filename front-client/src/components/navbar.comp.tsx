@@ -1,5 +1,5 @@
 // ========================== react ==========================
-import React, { FC, useEffect, useState } from "react";
+import React, { useState } from "react";
 
 // ========================== mui ==========================
 import { styled, useTheme } from "@mui/material/styles";
@@ -20,16 +20,16 @@ import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import Badge from "@mui/material/Badge";
 import {
-    alpha,
-    Button,
-    Container,
-    CssBaseline,
-    InputBase,
-    Menu,
-    MenuItem,
-    Toolbar,
-    Tooltip,
-    Typography,
+  alpha,
+  Button,
+  Container,
+  CssBaseline,
+  InputBase,
+  Menu,
+  MenuItem,
+  Toolbar,
+  Tooltip,
+  Typography,
 } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { logout } from "../app/auth/store/auth.slice";
@@ -38,7 +38,6 @@ import { useAppSelector } from "../store";
 import { cartSelector } from "../app/cart/store/cart.selectors";
 
 // ========================== store ==========================
-import { getUserInfo } from "../app/users/store/users.actions";
 import { AppDispatch } from "../store";
 
 const settings = ["Account", "My orders", "Logout"];
@@ -153,11 +152,9 @@ const PageNavBarComp = () => {
         navigate("/orders/profile");
         break;
       case "Logout":
-        if (window.confirm("Are you sure you want to logout?")) {
-          dispatch(logout());
-          window.localStorage.removeItem("token");
-          navigate("/");
-        }
+        dispatch(logout());
+        window.localStorage.removeItem("token");
+        navigate("/");
         break;
       default:
         break;
@@ -295,6 +292,7 @@ const PageNavBarComp = () => {
           </Container>
         </Toolbar>
       </AppBar>
+
       <Drawer
         sx={{
           width: drawerWidth,

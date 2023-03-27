@@ -5,16 +5,14 @@ import { FC } from "react";
 import { Grid } from "@mui/material";
 import Container from "@mui/material/Container";
 
-// ======== components ============
-import PageHeaderComp from "../../components/page-header.comp";
-
 // ======== routes ============
 import LoginRoutes from "./login.routes";
+import PageNavBarComp from "../../components/navbar.comp";
 
 const LoginPage: FC = () => {
   return (
     <Grid>
-      <PageHeaderComp />
+      <PageNavBarComp />
       <Container maxWidth="sm" sx={{ p: 10 }}>
         <LoginRoutes />
       </Container>

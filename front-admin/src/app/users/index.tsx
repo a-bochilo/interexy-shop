@@ -3,12 +3,11 @@ import React, { FC } from "react";
 
 // ========================== mui ==========================
 import { Grid } from "@mui/material";
-import Container from "@mui/material/Container";
 import styled from "@emotion/styled";
 
 // ======== components ============
-import PageHeaderComp from "../../components/page-header.comp";
 import UsersRoutes from "./users.routes";
+import PageNavBarComp from "../../components/navbar.comp";
 
 // ======== routes ============
 
@@ -31,7 +30,7 @@ const ContentGrid = styled(Grid)`
 const LoginPage: FC = () => {
   return (
     <MainGrid>
-      <PageHeaderComp />
+      <PageNavBarComp/>
       <ContentGrid>
         <UsersRoutes />
       </ContentGrid>
