@@ -14,6 +14,7 @@ import { CartItemRepository } from "./repos/cart-item.repository";
 // ========================== DTO's ==========================
 import { CartItemDto } from "./dtos/cart-item.dto";
 import { UserSessionDto } from "../users/dtos/user-session.dto";
+import { CartItemCreateDto } from "./dtos/cart-item-create.dto";
 
 @Injectable()
 export class CartService {
@@ -26,7 +27,7 @@ export class CartService {
 
     async addCartItem(
         user: UserSessionDto,
-        cartItemDto: CartItemDto
+        cartItemDto: CartItemCreateDto
     ): Promise<CartEntity> {
         const cart = await this.getUserCart(user);
         const item = await this.createCartItem(cart, cartItemDto);
@@ -73,12 +74,12 @@ export class CartService {
 
     async deleteCartItem(
         user: UserSessionDto,
-        productId: string
+        itemId: string
     ): Promise<CartEntity> {
         const cart = await this.getUserCart(user);
 
         const existedItem = cart.items.find((item) => {
-            return item.product_id === productId;
+            return item.id === itemId;
         });
         if (!existedItem) {
             throw new HttpException(
@@ -87,9 +88,7 @@ export class CartService {
             );
         }
 
-        const items = cart.items.filter(
-            (item) => item.product_id !== productId
-        );
+        const items = cart.items.filter((item) => item.id !== itemId);
 
         await this.cartItemRepository.deleteCartItem(existedItem.id);
 
@@ -132,7 +131,7 @@ export class CartService {
 
     async createCartItem(
         cart: CartEntity,
-        cartItemDto: CartItemDto
+        cartItemDto: CartItemCreateDto
     ): Promise<CartItemEntity> {
         const product = await this.productsRepository.getProductById(
             cartItemDto.productId

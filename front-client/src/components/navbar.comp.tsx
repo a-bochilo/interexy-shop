@@ -17,6 +17,7 @@ import ListItemText from "@mui/material/ListItemText";
 import SearchIcon from "@mui/icons-material/Search";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import Badge from "@mui/material/Badge";
 import {
     alpha,
     Container,
@@ -29,6 +30,9 @@ import {
     Typography,
 } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
+import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../store";
+import { cartSelector } from "../app/cart/store/cart.selectors";
 
 const settings = ["Account", "Login"];
 
@@ -106,6 +110,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const PageNavBarComp: FC = () => {
+    const navigate = useNavigate();
+    const cartItemsQuantity = useAppSelector(cartSelector)?.items.length;
+
     const theme = useTheme();
     const [open, setOpen] = useState(false);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
@@ -189,11 +196,25 @@ const PageNavBarComp: FC = () => {
                                     inputProps={{ "aria-label": "search" }}
                                 />
                             </Search>
+
                             <Tooltip title="Open cart">
-                                <ShoppingCartOutlinedIcon
-                                    sx={{ cursor: "pointer" }}
-                                />
+                                <IconButton>
+                                    <Badge
+                                        badgeContent={cartItemsQuantity}
+                                        color="error"
+                                    >
+                                        <ShoppingCartOutlinedIcon
+                                            fontSize="large"
+                                            sx={{
+                                                cursor: "pointer",
+                                                color: "white",
+                                            }}
+                                            onClick={() => navigate("/cart")}
+                                        />
+                                    </Badge>
+                                </IconButton>
                             </Tooltip>
+
                             <Tooltip title="Open settings">
                                 <IconButton
                                     onClick={handleOpenUserMenu}

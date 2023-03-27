@@ -1,4 +1,9 @@
+// ========================== redux ==========================
 import { configureStore } from "@reduxjs/toolkit";
+import reducer from "./app/roles/store/roles.slice";
+
+// ========================== store ==========================
+import { usersSlice } from "./app/users/store/users.slice";
 import { useDispatch, TypedUseSelectorHook, useSelector } from "react-redux";
 
 // =========================== Slices ===========================
@@ -9,6 +14,7 @@ import orders from "./app/orders/store/order.slice";
 
 const store = configureStore({
   reducer: {
+    users: usersSlice.reducer,
     auth: authReducer,
     roles,
     products,

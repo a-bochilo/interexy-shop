@@ -16,17 +16,17 @@ import AppRoutes from "./app.routes";
 import "./app.css";
 
 function App() {
-  return (
-    <ErrorBoundaryComp>
-      <Provider store={store}>
-        <ThemeProvider theme={theme}>
-          <Router>
-            <AppRoutes />
-          </Router>
-        </ThemeProvider>
-      </Provider>
-    </ErrorBoundaryComp>
-  );
+    return (
+        <ErrorBoundaryComp>
+            <Provider store={store}>
+                <ThemeProvider theme={theme}>
+                    <Router>
+                        <AppRoutes />
+                    </Router>
+                </ThemeProvider>
+            </Provider>
+        </ErrorBoundaryComp>
+    );
 }
 
 export default App;
