@@ -15,6 +15,7 @@ import { UserRoles } from "../../../shared/types/user-roles.enum";
 import { UserEntity } from "../entities/user.entity";
 import { UUIDDto } from "../../../shared/dtos/uuid.dto";
 import { ApiProperty } from "@nestjs/swagger";
+import { UserViewEntity } from "../entities/user-view.entity";
 ;
 export class UserSessionDto extends UUIDDto {
 
@@ -49,16 +50,16 @@ export class UserSessionDto extends UUIDDto {
     @IsEnum(UserRoles)
     role_type: UserRoles;
 
-    @ApiProperty({
-        description: "User permissions",
-        enum: [UserPermissions],
-    })
-    @IsNotEmpty()
-    @IsArray()
-    @IsEnum(UserPermissions, { each: true })
-    permissions: UserPermissions[];
+    // @ApiProperty({
+    //     description: "User permissions",
+    //     enum: [UserPermissions],
+    // })
+    // @IsNotEmpty()
+    // @IsArray()
+    // @IsEnum(UserPermissions, { each: true })
+    // permissions: UserPermissions[];
 
-    public static fromEntity(entity: UserEntity) {
+    public static fromEntity(entity: UserEntity | UserViewEntity) {
         return {
             id: entity.id,
             email: entity.email,
@@ -67,7 +68,6 @@ export class UserSessionDto extends UUIDDto {
             updated: entity.updated.valueOf(),
             role_id: entity.roleId,
             role_type: entity.roleType,
-            permissions: entity.role.permissions,
         }
     }
 
@@ -80,7 +80,6 @@ export class UserSessionDto extends UUIDDto {
             outputDto.email = dto.email;
             outputDto.role_id = dto.role_id;
             outputDto.role_type = dto.role_type;
-            outputDto.permissions = dto.permissions;
             return dto;
     }
 }

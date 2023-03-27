@@ -33,14 +33,12 @@ export class RolesGuard implements CanActivate {
         const request = context.switchToHttp().getRequest<IRequest>();
 
         const user = await this.securityService.getUser(request.user.id);
-
         if (!user) {
             throw new HttpException(
                 I18nContext.current().t("errors.user.userDoesNotExist"),
                 HttpStatus.BAD_REQUEST
             );
         }
-
         if (user.role.type === "superadmin") return true;
 
         const userPermissions = user.role.permissions;

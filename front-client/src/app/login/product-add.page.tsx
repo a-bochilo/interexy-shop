@@ -7,7 +7,7 @@ import { Grid } from "@mui/material";
 
 // =========================== Store ===========================
 import { useAppDispatch, useAppSelector } from "../../store";
-import { createProduct } from "./store/products.actions";
+import { createProduct } from "../products/store/products.actions";
 import {
     productsErrorsSelector,
     productsPendingSelector,
@@ -18,7 +18,7 @@ import { clearErrors } from "./store/products.slice";
 import ProductAddForm from "../../components/product-add-form.component";
 
 // =========================== DTO's ===========================
-import { ProductCreateDto } from "./types/product-create.dto";
+import { ProductCreateDto } from "../products/types/product-create.dto";
 
 const MainGrid = styled(Grid)`
     display: flex;

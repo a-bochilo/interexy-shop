@@ -2,9 +2,8 @@
 import React, { FC, Suspense } from "react";
 import { Navigate, Routes, Route } from "react-router-dom";
 
-// ========================== mui ==========================
-import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
+// ========================== components ==========================
+import FallbackComponent from "./components/fallback.component";
 
 // ======= private route ======= //
 const PrivateRoute: FC<{ element: any }> = ({ element: Element }) => {
@@ -70,10 +69,10 @@ const AppRoutes = () => {
       {/* PRIVATE
       <Route path={"/users/profile/*"} element={<PrivateRoute element={UserPage} />} /> */}
 
-      {/* DEFAULT */}
-      <Route path="*" element={<Navigate to="/" />} />
-    </Routes>
-  );
+            {/* DEFAULT */}
+            <Route path="*" element={<Navigate to="/products" />} />
+        </Routes>
+    );
 };
 
 export default AppRoutes;

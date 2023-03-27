@@ -163,35 +163,6 @@ const ProductFilterForm = () => {
         );
     };
 
-    const renderIsActiveSelect = (key: FilterKeysType) => {
-        return (
-            <TextField
-                sx={{
-                    width: "100%",
-                    alignSelf: "right",
-                }}
-                id={key}
-                label={key
-                    .split(/(?=[A-Z])/)
-                    .join(" ")
-                    .toLowerCase()}
-                select
-                size="small"
-                defaultValue={true as any}
-                variant="standard"
-                {...register(key)}
-            >
-                <MenuItem key={"active"} value={true as any}>
-                    {"active"}
-                </MenuItem>
-
-                <MenuItem key={"inactive"} value={false as any}>
-                    {"inactive"}
-                </MenuItem>
-            </TextField>
-        );
-    };
-
     return (
         <Paper
             sx={{
@@ -245,8 +216,6 @@ const ProductFilterForm = () => {
                     {renderController("maxQuantity", renderTextField)}
                 </Box>
 
-                {renderController("isActive", renderIsActiveSelect)}
-
                 <Box
                     sx={{
                         display: "flex",
@@ -282,36 +251,37 @@ const ProductFilterForm = () => {
                         Reset
                     </Button>
                 </Box>
+                
                 <Box
                     sx={{
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
                         width: "100%",
+                        height: 35,
                     }}
                 >
-                    {pending.products && <CircularProgress />}
-                    {isClicked &&
-                        !pending.products &&
-                        !fetchingErrors.products && (
-                            <TemporaryTypography
-                                variant="overline"
-                                align="center"
-                                color="success.main"
-                                duration={2}
-                            >
-                                <DoneIcon />
-                            </TemporaryTypography>
-                        )}
+                    {pending.filter && <CircularProgress />}
+                    {isClicked && !pending.filter && !fetchingErrors.filter && (
+                        <TemporaryTypography
+                            variant="overline"
+                            align="center"
+                            color="success.main"
+                            duration={2}
+                            timeoutFunction={setIsClicked}
+                        >
+                            <DoneIcon />
+                        </TemporaryTypography>
+                    )}
 
-                    {fetchingErrors.products && (
+                    {fetchingErrors.filter && (
                         <TemporaryTypography
                             variant="overline"
                             align="center"
                             color="error"
                             duration={30}
                         >
-                            {fetchingErrors.products}
+                            {fetchingErrors.filter}
                         </TemporaryTypography>
                     )}
                 </Box>

@@ -9,9 +9,11 @@ export interface IProductsState extends BaseState {
     pending: {
         products: boolean;
         productDetails: boolean;
+        filter: boolean;
     };
     errors: {
         products: string | null;
         productDetails: string | null;
+        filter: string | null;
     };
 }

@@ -62,17 +62,6 @@ const ProductFilterForm = () => {
         return newObj as ProductFilterDto;
     };
 
-    const fields: FilterKeysType[] = [
-        "category",
-        "name",
-        "brand",
-        "minPrice",
-        "maxPrice",
-        "minQuantity",
-        "maxQuantity",
-        "isActive",
-    ];
-
     const {
         register,
         control,
@@ -97,7 +86,6 @@ const ProductFilterForm = () => {
 
     const onSubmit: SubmitHandler<ProductFilterDto> = async (data) => {
         const outputData = removeEmptyFields(data);
-        console.log(outputData);
         const isPositive = await handleFilter(outputData);
 
         if (isPositive) navigate("/products");
@@ -220,11 +208,8 @@ const ProductFilterForm = () => {
                 }}
             >
                 {renderController("category", renderCategorySelect)}
-
                 {renderController("name", renderTextField)}
-
                 {renderController("brand", renderTextField)}
-
                 <Box
                     sx={{
                         display: "flex",
@@ -234,7 +219,6 @@ const ProductFilterForm = () => {
                     {renderController("minPrice", renderTextField)}
                     {renderController("maxPrice", renderTextField)}
                 </Box>
-
                 <Box
                     sx={{
                         display: "flex",
@@ -244,9 +228,7 @@ const ProductFilterForm = () => {
                     {renderController("minQuantity", renderTextField)}
                     {renderController("maxQuantity", renderTextField)}
                 </Box>
-
                 {renderController("isActive", renderIsActiveSelect)}
-
                 <Box
                     sx={{
                         display: "flex",
@@ -288,30 +270,30 @@ const ProductFilterForm = () => {
                         alignItems: "center",
                         justifyContent: "center",
                         width: "100%",
+                        height: 35,
                     }}
                 >
-                    {pending.products && <CircularProgress />}
-                    {isClicked &&
-                        !pending.products &&
-                        !fetchingErrors.products && (
-                            <TemporaryTypography
-                                variant="overline"
-                                align="center"
-                                color="success.main"
-                                duration={2}
-                            >
-                                <DoneIcon />
-                            </TemporaryTypography>
-                        )}
+                    {pending.filter && <CircularProgress />}
+                    {isClicked && !pending.filter && !fetchingErrors.filter && (
+                        <TemporaryTypography
+                            variant="overline"
+                            align="center"
+                            color="success.main"
+                            duration={2}
+                            timeoutFunction={setIsClicked}
+                        >
+                            <DoneIcon />
+                        </TemporaryTypography>
+                    )}
 
-                    {fetchingErrors.products && (
+                    {fetchingErrors.filter && (
                         <TemporaryTypography
                             variant="overline"
                             align="center"
                             color="error"
                             duration={30}
                         >
-                            {fetchingErrors.products}
+                            {fetchingErrors.filter}
                         </TemporaryTypography>
                     )}
                 </Box>

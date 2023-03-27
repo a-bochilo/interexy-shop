@@ -3,8 +3,8 @@ import { FC } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 
 // ========================== yup ==========================
-import { yupResolver } from "@hookform/resolvers/yup";
 import { formSchema } from "./reg-form.const";
+import { yupResolver } from '@hookform/resolvers/yup';
 
 // ========================== mui ==========================
 import TextField from "@mui/material/TextField";
@@ -41,17 +41,7 @@ const SignUpForm: FC = () => {
     resolver: yupResolver(formSchema),
   });
 
-  const onSubmit: SubmitHandler<IFormInput> = (data) => console.log(data);
-
-  //   const onSubmit = async (values) => {
-  //     const data = await dispatch(fetchRegister(values));
-  //     if (!data.payload) {
-  //         alert("Failed to register");
-  //     }
-  //     if ('token' in data.payload) {
-  //         window.localStorage.setItem('token', data.payload.token);
-  //     }
-  // };
+  const onSubmit: SubmitHandler<IFormInput> = (data: any) => console.log(data);
 
   // if (isAuth) {
   //   return <Navigate to={'/'}/>
