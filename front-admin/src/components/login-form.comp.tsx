@@ -12,9 +12,9 @@ import { decodeToken } from "react-jwt";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Box, Paper, Typography } from "@mui/material";
-import { fetchAuth } from "../app/login/store/auth.slice";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store";
+import { fetchAuth } from "../app/login/store/auth.slice";
 
 interface IFormInput {
   email: string;
@@ -50,9 +50,7 @@ const LoginForm: FC = () => {
       const user: any = decodeToken(newToken.payload);
       if (user.role_type === "user") {
         window.localStorage.setItem("token", newToken.payload);
-        window.location.replace("https://http://localhost:3001/")
-        console.log("Redirect to shop");
-        navigate("/");
+        window.location.replace("https://google.com/");
         setError(false);
       } else {
         window.localStorage.setItem("token", newToken.payload);
@@ -67,7 +65,7 @@ const LoginForm: FC = () => {
     <Paper
       sx={{
         maxWidth: 400,
-        height: 340,
+        minHeight: 340,
         backgroundColor: "lightblue",
         justifyContent: "center",
         p: 3,

@@ -20,22 +20,26 @@ import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import Badge from "@mui/material/Badge";
 import {
-  alpha,
-  Button,
-  Container,
-  CssBaseline,
-  InputBase,
-  Menu,
-  MenuItem,
-  Toolbar,
-  Tooltip,
-  Typography,
+    alpha,
+    Button,
+    Container,
+    CssBaseline,
+    InputBase,
+    Menu,
+    MenuItem,
+    Toolbar,
+    Tooltip,
+    Typography,
 } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { logout } from "../app/auth/store/auth.slice";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../store";
 import { cartSelector } from "../app/cart/store/cart.selectors";
+
+// ========================== store ==========================
+import { getUserInfo } from "../app/users/store/users.actions";
+import { AppDispatch } from "../store";
 
 const settings = ["Account", "My orders", "Logout"];
 
@@ -117,7 +121,7 @@ const PageNavBarComp = () => {
 
   const theme = useTheme();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const [open, setOpen] = useState(false);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
