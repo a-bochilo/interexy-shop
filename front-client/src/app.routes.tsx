@@ -79,7 +79,6 @@ const AppRoutes = () => {
                 element={<PublicRoute element={OrdersPage} />}
             />
 
-
             {/* PRIVATE */}
             <Route
                 path={"cart/*"}

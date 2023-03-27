@@ -4,7 +4,7 @@ import { useSearchParams } from "react-router-dom";
 
 // =========================== MUI ===========================
 import styled from "@emotion/styled";
-import { AppBar, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 
 // =========================== Components ===========================
 import PageAsideComp from "../../components/aside.component";
@@ -20,6 +20,7 @@ import { fetchProductsInCategory } from "./store/products.actions";
 // =========================== Routes ===========================
 import ProductsRoutes from "./products.routes";
 import { ProductsCategory } from "./types/products-category.enum";
+import { fetchCart } from "../cart/store/cart.actions";
 
 const MainGrid = styled(Grid)`
     display: flex;
@@ -44,6 +45,7 @@ const ProductsPage: FC = () => {
     const category = searchParams.get("category") as ProductsCategory;
 
     useEffect(() => {
+        if (window.localStorage.getItem("token")) dispatch(fetchCart());
         if (category) {
             dispatch(fetchProductsInCategory(category));
             return;

@@ -8,11 +8,14 @@ const $api = axios.create({
     },
 });
 
-interface expireIn {
-    exp: number | null;
-}
+const $serviceApi = axios.create({
+    headers: {
+        "Access-Control-Allow-Origin": "http://localhost:3001",
+        "Content-type": "application/json",
+    },
+});
 
-$api.interceptors.request.use(
+$serviceApi.interceptors.request.use(
     async (config) => {
         config.headers.Authorization = `Bearer ${localStorage.getItem(
             "token"
@@ -24,23 +27,35 @@ $api.interceptors.request.use(
     }
 );
 
-$api.interceptors.response.use(async (response) => {
-    const token = window.localStorage.getItem("token");
-    if (token) {
-        const newUser: expireIn | null = await decodeToken(token);
-        if (newUser !== null && newUser.exp !== null) {
-            const res = (newUser.exp - Date.now() / 1000) / 60;
+interface expireIn {
+    exp: number | null;
+}
 
-            if (res <= 30) {
-                localStorage.setItem(
-                    "token",
-                    await $api.get("/auth/refresh-token")
-                );
-            }
+$api.interceptors.request.use(
+    async (config) => {
+        const token = window.localStorage.getItem("token");
+        if (!token) return config;
+
+        const decodedToken: expireIn | null = await decodeToken(token);
+        if (!decodedToken || decodedToken.exp === null) return config;
+
+        const res = (decodedToken.exp - Date.now() / 1000) / 60;
+
+        if (res <= 30) {
+            const newToken = await (
+                await $serviceApi.get("/auth/refresh-token")
+            ).data.token;
+            console.log(newToken);
+            localStorage.setItem("token", newToken);
         }
+
+        config.headers.Authorization = `Bearer ${token}`;
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
     }
-    return response;
-});
+);
 
 $api.interceptors.response.use(
     async (response) => response,

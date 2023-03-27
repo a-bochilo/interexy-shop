@@ -45,6 +45,9 @@ import { useAppSelector } from "../store";
 import { AppDispatch } from "../store";
 import { cartSelector } from "../app/cart/store/cart.selectors";
 
+// ========================== components ==========================
+import SearchComponent from "./search.component";
+
 const settings = ["Account", "My orders", "Logout"];
 
 const drawerWidth = 200;
@@ -223,15 +226,7 @@ const PageNavBarComp = () => {
                                 gap: 3,
                             }}
                         >
-                            <Search>
-                                <SearchIconWrapper>
-                                    <SearchIcon />
-                                </SearchIconWrapper>
-                                <StyledInputBase
-                                    placeholder="Search…"
-                                    inputProps={{ "aria-label": "search" }}
-                                />
-                            </Search>
+                            <SearchComponent />
 
                             {isAuth ? (
                                 <>

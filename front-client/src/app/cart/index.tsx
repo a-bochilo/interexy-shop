@@ -30,6 +30,7 @@ import {
 } from "./store/cart.selectors";
 import { fetchProducts } from "../products/store/products.actions";
 import { productsSelector } from "../products/store/products.selectors";
+import { fetchCreateOrder } from "../orders/store/orders.actions";
 
 // =========================== DTO's ===========================
 import { CartItemDto } from "./types/cart.dto";
@@ -110,7 +111,7 @@ const CartPage: FC = () => {
     const handleCreateOrder = debounce(async () => {
         if (!cart?.items.length) return;
         //! replace with create order logic
-        const { type } = await dispatch(fetchCart());
+        const { type } = await dispatch(fetchCreateOrder(cart));
         setIsClicked(true);
         if (!type.endsWith("rejected")) dispatch(clearCart());
     }, 300);

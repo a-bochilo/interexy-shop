@@ -198,16 +198,6 @@ const ProductFilterForm = () => {
                 <Box
                     sx={{
                         display: "flex",
-                        gap: 1,
-                    }}
-                >
-                    {renderController("minQuantity", renderTextField)}
-                    {renderController("maxQuantity", renderTextField)}
-                </Box>
-
-                <Box
-                    sx={{
-                        display: "flex",
                         flexFlow: "column",
                         alignItems: "center",
                         justifyContent: "center",

@@ -15,6 +15,7 @@ import {
 
 const initialState: IProductsState = {
     products: [],
+    filtredProducts: [],
     productDetails: undefined,
     pending: {
         products: false,
@@ -36,6 +37,9 @@ const productsSlice = createSlice({
             state.errors.products = null;
             state.errors.productDetails = null;
         },
+        setFiltredProducts: (state, action: PayloadAction<ProductDto[]>) => {
+            state.filtredProducts = action.payload;
+        },
     },
     extraReducers: (builder) => {
         // ================== Get products ==================
@@ -50,6 +54,7 @@ const productsSlice = createSlice({
                     state.errors.products = null;
 
                     state.products = action.payload;
+                    state.filtredProducts = action.payload;
                 }
             )
             .addCase(
@@ -71,6 +76,7 @@ const productsSlice = createSlice({
                     state.errors.products = null;
 
                     state.products = action.payload;
+                    state.filtredProducts = action.payload;
                 }
             )
             .addCase(
@@ -116,7 +122,7 @@ const productsSlice = createSlice({
 
                     state.errors.filter = null;
 
-                    state.products = action.payload;
+                    state.filtredProducts = action.payload;
                 }
             )
             .addCase(
@@ -134,4 +140,4 @@ const { actions, reducer } = productsSlice;
 
 export default reducer;
 
-export const { clearErrors } = actions;
+export const { clearErrors, setFiltredProducts } = actions;

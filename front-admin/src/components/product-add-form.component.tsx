@@ -67,7 +67,8 @@ const ProductAddForm = ({
     const onSubmit: SubmitHandler<ProductCreateDto> = async (data) => {
         const isPositive = await handleSave(data);
         if (isPositive) {
-            reset();
+            // could be used in case it neccessary
+            // reset();
         }
     };
 

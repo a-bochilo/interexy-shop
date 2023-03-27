@@ -19,8 +19,6 @@ import { formSchema } from "./user-profile-form.const";
 // ========================== enum ==========================
 import { UserDetailsDto } from "../app/users/types/user-details.type";
 import { UserDto } from "../app/users/types/user-dto.type";
-import { UserSessionDto } from "../app/users/types/user-session-dto";
-import { UserFromTokenDto } from "../app/users/types/user-dto-from-token.type";
 
 interface IUserWithDetails {
   firstname: string;
@@ -83,8 +81,6 @@ const UserProfileFormComp: FC<FormProps> = ({
       ...userFullData,
       details: info,
     };
-
-    console.log(outputData);
     handleSave(outputData);
     setDisabled(!disabled);
   };
@@ -160,7 +156,8 @@ const UserProfileFormComp: FC<FormProps> = ({
             align="left"
             sx={{ minWidth: 90, width: 120 }}
           >
-            middle name
+            M
+            iddle name
           </Typography>
           <Controller
             control={control}
