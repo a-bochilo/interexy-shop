@@ -1,3 +1,7 @@
+import { user } from "./../../../../../server/src/app/orders/test/mocks/data.mock";
+// ========================== react ==========================
+import { decodeToken } from "react-jwt";
+
 // ========================== redux ==========================
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
@@ -7,87 +11,86 @@ import { UserDto } from "../types/user-dto.type";
 import { UserUpdateDto } from "../types/user-details-update.type";
 
 // ========================== store ==========================
-import {  getUser } from "./users.actions";
+import { getUserInfo, updateUserDetails } from "./users.actions";
+import { RootState } from "../../../store";
+import { UserFromTokenDto } from "../types/user-dto-from-token.type";
 
 const initialState: UserState = {
-  users: [],
   user: null,
+  userInfo: null,
   pending: {
-    users: false,
     user: false,
+    userInfo: false,
   },
   errors: {
-    users: null,
     user: null,
+    userInfo: null,
   },
 };
 
 export const usersSlice = createSlice({
   name: "users",
   initialState,
-  reducers: {},
-  extraReducers: (builder) => {
-    // builder
-      // // ============ GET USERS ============ //
-      // .addCase(getUsers.pending, (state) => {
-      //   state.pending.users = true;
-      //   state.errors.users = null;
-      // })
-      // .addCase(getUsers.fulfilled, (state, action) => {
-      //   state.pending.users = false;
-      //   state.users = action.payload;
-      // })
-      // .addCase(getUsers.rejected, (state, action: any & { payload: any }) => {
-      //   state.pending.users = false;
-      //   state.errors.users = action.payload.message;
-      // });
-
+  reducers: {
     // ============ GET USER ============ //
+    getUser: (state) => {
+      const token = window.localStorage.getItem("token");
+      if (token) {
+        const userFromToken: UserFromTokenDto | null = decodeToken(token);
+        console.log(`userFromToken`, userFromToken);
+        const user = {
+          id: userFromToken?.id,
+          phone: userFromToken?.phone,
+          email: userFromToken?.email,
+          created: userFromToken?.created,
+          updated: userFromToken?.updated,
+          roleId: userFromToken?.roleId,
+          roleType: userFromToken?.roleType,
+        };
+        if (user !== null) {
+          state.user = user as UserDto;
+        }
+      }
+    },
+  },
+  extraReducers: (builder) => {
+    // ============ GET USER INFO ============ //
     builder
-      .addCase(getUser.pending, (state) => {
-        state.pending.user = true;
-        state.errors.user = null;
+      .addCase(getUserInfo.pending, (state) => {
+        state.pending.userInfo = true;
+        state.errors.userInfo = null;
       })
-      .addCase(getUser.fulfilled, (state, action) => {
-        state.pending.user = false;
-        state.user = action.payload;
-        console.log(action.payload)
+      .addCase(getUserInfo.fulfilled, (state, action) => {
+        state.pending.userInfo = false;
+        state.userInfo = action.payload;
       })
-      .addCase(getUser.rejected, (state, action: any & { payload: any }) => {
-        state.pending.user = false;
-        state.errors.user = action.payload.message;
-      });
+      .addCase(
+        getUserInfo.rejected,
+        (state, action: any & { payload: any }) => {
+          state.pending.userInfo = false;
+          state.errors.userInfo = action.payload.message;
+        }
+      );
 
-    // // ============ UPDATE USER INFO ============ //
-    // builder
-    //   .addCase(updateUserInfo.pending, (state) => {
-    //     state.pending.userInfo = true;
-    //     state.errors.userInfo = null;
-    //   })
-    //   .addCase(
-    //     updateUserInfo.fulfilled,
-    //     (state, action: PayloadAction<UserUpdateDto>) => {
-    //       const users = state.users.filter(
-    //         (user: UserDto) => user.id !== action.payload.id
-    //       );
-    //       const { details, ...user } = action.payload;
-
-    //       users.push(user);
-    //       state.users = users;
-    //       if (!state.userInfo) return;
-    //       state.userInfo = {
-    //         ...state.userInfo,
-    //         ...details,
-    //       };
-    //     }
-    //   )
-    //   .addCase(
-    //     updateUserInfo.rejected,
-    //     (state, action: any & { payload: any }) => {
-    //       state.pending.userInfo = false;
-    //       state.errors.userInfo = action.payload.message;
-    //     }
-    //   );
+    //============ UPDATE USER INFO ============
+    builder
+      .addCase(updateUserDetails.pending, (state) => {
+        state.pending.userInfo = true;
+        state.errors.userInfo = null;
+      })
+      .addCase(
+        updateUserDetails.fulfilled,
+        (state, action: PayloadAction<UserUpdateDto>) => {
+          state.user = action.payload;
+        }
+      )
+      .addCase(
+        updateUserDetails.rejected,
+        (state, action: any & { payload: any }) => {
+          state.pending.userInfo = false;
+          state.errors.userInfo = action.payload.message;
+        }
+      );
   },
 });
 

@@ -14,11 +14,12 @@ import UserProfileFormComp from "../../components/user-profile-form.comp";
 // ========================== store ==========================
 import { AppDispatch } from "../../store";
 import {
-  usersSelector,
-  usersLoadingSelector,
+  userInfoSelector,
   userSelector,
+  userLoadingSelector,
 } from "./store/users.selectors";
-import { getUser } from "./store/users.actions";
+import { getUserInfo, updateUserDetails } from "./store/users.actions";
+import { usersActions } from "./store/users.slice";
 
 // ========================== dto ==========================
 import { UserDto } from "./types/user-dto.type";
@@ -36,10 +37,15 @@ const UserEditPage: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const [disabled, setDisabled] = useState(true);
+  const userInfo = useSelector(userInfoSelector);
   const user = useSelector(userSelector);
-  const userList = useSelector(usersSelector);
-  const usersLoading = useSelector(usersLoadingSelector);
+  const usersLoading = useSelector(userLoadingSelector);
   const { userId } = useParams<string>();
+  const getUser = usersActions.getUser;
+
+  useEffect(() => {
+    dispatch(getUserInfo());
+  }, []);
 
   useEffect(() => {
     dispatch(getUser());
@@ -49,10 +55,11 @@ const UserEditPage: FC = () => {
     setDisabled(!disabled);
   };
 
-  // const handleSave = (data: any) => {
-  //   if (!userId) return;
-  //   dispatch(updateUserInfo(data));
-  // };
+  const handleSave = (data: any) => {
+    // if (!userId) return;
+    dispatch(updateUserDetails(data));
+    console.log(data)
+  };
 
   const handleBack = () => {
     navigate(-1);
@@ -60,15 +67,16 @@ const UserEditPage: FC = () => {
 
   return (
     <MainGrid>
-      {user ? (
+      {userInfo && user ? (
         <UserProfileFormComp
           formName={"USER PROFILE"}
           user={user}
+          userInfo={userInfo}
           disabled={disabled}
           pending={usersLoading}
           setDisabled={setDisabled}
           buttonOnclick={buttonOnclick}
-          // handleSave={handleSave}
+          handleSave={handleSave}
           handleBack={handleBack}
         />
       ) : (

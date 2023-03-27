@@ -20,6 +20,7 @@ import { formSchema } from "./user-profile-form.const";
 import { UserDetailsDto } from "../app/users/types/user-details.type";
 import { UserDto } from "../app/users/types/user-dto.type";
 import { UserSessionDto } from "../app/users/types/user-session-dto";
+import { UserFromTokenDto } from "../app/users/types/user-dto-from-token.type";
 
 interface IUserWithDetails {
   firstname: string;
@@ -31,23 +32,25 @@ interface IUserWithDetails {
 
 interface FormProps {
   formName: string;
-  user: UserDetailsDto;
+  user: UserDto;
+  userInfo: UserDetailsDto;
   disabled: boolean;
   pending: boolean;
   setDisabled: (e: boolean) => void;
   buttonOnclick: () => void;
-  // handleSave: (e: Partial<IUserWithDetails>) => void;
+  handleSave: (e: Partial<IUserWithDetails>) => void;
   handleBack: () => void;
 }
 
 const UserProfileFormComp: FC<FormProps> = ({
   formName,
   user,
+  userInfo,
   disabled,
   pending,
   setDisabled,
   buttonOnclick,
-  // handleSave,
+  handleSave,
   handleBack,
 }) => {
   const removeEmptyFields = (
@@ -71,17 +74,18 @@ const UserProfileFormComp: FC<FormProps> = ({
 
   const onSubmit: SubmitHandler<Partial<IUserWithDetails>> = (data) => {
     const notNullFields = removeEmptyFields(data);
-    const { firstname, lastname, middlename, ...user } = notNullFields;
+    const { firstname, lastname, middlename, ...userFullData } = notNullFields;
     const info = removeEmptyFields({ firstname, lastname, middlename });
 
     const outputData = {
       email: user.email,
       phone: user.phone,
-      ...user,
+      ...userFullData,
       details: info,
     };
-    console.log(data);
-    // handleSave(outputData);
+
+    console.log(outputData);
+    handleSave(outputData);
     setDisabled(!disabled);
   };
 
@@ -130,7 +134,7 @@ const UserProfileFormComp: FC<FormProps> = ({
                   alignSelf: "right",
                 }}
                 disabled={disabled}
-                defaultValue={user?.firstname}
+                defaultValue={userInfo?.firstname}
                 id="outlined-basic"
                 variant="outlined"
                 {...register("firstname")}
@@ -168,7 +172,7 @@ const UserProfileFormComp: FC<FormProps> = ({
                   alignSelf: "right",
                 }}
                 disabled={disabled}
-                defaultValue={user?.middlename}
+                defaultValue={userInfo?.middlename}
                 id="outlined-basic"
                 variant="outlined"
                 {...register("middlename")}
@@ -202,7 +206,7 @@ const UserProfileFormComp: FC<FormProps> = ({
                   alignSelf: "right",
                 }}
                 disabled={disabled}
-                defaultValue={user?.lastname}
+                defaultValue={userInfo?.lastname}
                 id="outlined-basic"
                 variant="outlined"
                 {...register("lastname")}
@@ -212,6 +216,82 @@ const UserProfileFormComp: FC<FormProps> = ({
 
           <Typography variant="caption" color={"red"}>
             {errors.lastname?.message}
+          </Typography>
+        </Box>
+
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", md: "row" },
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Typography
+            variant="overline"
+            align="left"
+            sx={{ minWidth: 90, width: 120 }}
+          >
+            email
+          </Typography>
+          <Controller
+            name="email"
+            control={control}
+            render={() => (
+              <TextField
+                sx={{
+                  width: "100%",
+                  alignSelf: "right",
+                }}
+                disabled={disabled}
+                defaultValue={user.email}
+                id="outlined-basic"
+                variant="outlined"
+                {...register("email")}
+              />
+            )}
+          />
+
+          <Typography variant="caption" color={"red"}>
+            {errors.email?.message}
+          </Typography>
+        </Box>
+
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", md: "row" },
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Typography
+            variant="overline"
+            align="left"
+            sx={{ minWidth: 90, width: 120 }}
+          >
+            phone
+          </Typography>
+          <Controller
+            name="phone"
+            control={control}
+            render={() => (
+              <TextField
+                sx={{
+                  width: "100%",
+                  alignSelf: "right",
+                }}
+                disabled={disabled}
+                defaultValue={user.phone}
+                id="outlined-basic"
+                variant="outlined"
+                {...register("phone")}
+              />
+            )}
+          />
+
+          <Typography variant="caption" color={"red"}>
+            {errors.phone?.message}
           </Typography>
         </Box>
 

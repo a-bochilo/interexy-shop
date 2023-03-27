@@ -1,3 +1,5 @@
+
+
 // ========================== redux ==========================
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosResponse } from "axios";
@@ -9,24 +11,16 @@ import { UserUpdateDto } from "../types/user-details-update.type";
 // ========================== store ==========================
 import $api from "../../../api/api";
 import { UserDetailsDto } from "../types/user-details.type";
+import { UserSessionDto } from "../types/user-session-dto";
 
-// export const getUsers = createAsyncThunk<UserDto[]>(
-//   "GET/users",
-//   async (_, { rejectWithValue }) => {
-//     try {
-//       const response = await $api.get("/users");
-//       return response.data;
-//     } catch (error: any) {
-//       return rejectWithValue(error.response?.data?.message as string);
-//     }
-//   }
-// );
 
-export const getUser = createAsyncThunk(
+export const getUserInfo = createAsyncThunk(
   "GET/users/profile",
   async (_, { rejectWithValue }) => {
     try {
-      const response: AxiosResponse<UserDetailsDto> = await $api.get(`/users/profile`);
+      const response: AxiosResponse<UserDetailsDto> = await $api.get(
+        `/users/profile`
+      );
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message as string);
@@ -34,14 +28,14 @@ export const getUser = createAsyncThunk(
   }
 );
 
-// export const updateUserInfo = createAsyncThunk<UserUpdateDto, UserUpdateDto>(
-//   "PUT/users/:userId",
-//   async (userData) => {
-//     try {
-//       const response = await $api.put(`/users/${userData.id}`, userData);
-//       return response.data;
-//     } catch (error: any) {
-//       return error.response?.data?.message as string;
-//     }
-//   }
-// );
+export const updateUserDetails = createAsyncThunk<UserUpdateDto, UserUpdateDto>(
+  "PUT/users/profile",
+  async (userData) => {
+    try {
+      const response = await $api.put(`/users/profile`, userData);
+      return response.data;
+    } catch (error: any) {
+      return error.response?.data?.message as string;
+    }
+  }
+);

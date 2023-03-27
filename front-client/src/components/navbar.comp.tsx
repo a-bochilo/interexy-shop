@@ -32,7 +32,7 @@ import {
 import Avatar from "@mui/material/Avatar";
 
 // ========================== store ==========================
-import { getUser } from "../app/users/store/users.actions";
+import { getUserInfo } from "../app/users/store/users.actions";
 import { AppDispatch } from "../store";
 
 const settings = ["Account", "Login"];
@@ -140,7 +140,7 @@ const PageNavBarComp: FC = () => {
   };
 
   useEffect(() => {
-    dispatch(getUser());
+    dispatch(getUserInfo());
   }, []);
 
   return (
