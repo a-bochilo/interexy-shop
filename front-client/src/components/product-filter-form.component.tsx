@@ -152,35 +152,6 @@ const ProductFilterForm = () => {
         );
     };
 
-    const renderIsActiveSelect = (key: FilterKeysType) => {
-        return (
-            <TextField
-                sx={{
-                    width: "100%",
-                    alignSelf: "right",
-                }}
-                id={key}
-                label={key
-                    .split(/(?=[A-Z])/)
-                    .join(" ")
-                    .toLowerCase()}
-                select
-                size="small"
-                defaultValue={true as any}
-                variant="standard"
-                {...register(key)}
-            >
-                <MenuItem key={"active"} value={true as any}>
-                    {"active"}
-                </MenuItem>
-
-                <MenuItem key={"inactive"} value={false as any}>
-                    {"inactive"}
-                </MenuItem>
-            </TextField>
-        );
-    };
-
     return (
         <Paper
             sx={{
@@ -233,8 +204,6 @@ const ProductFilterForm = () => {
                     {renderController("minQuantity", renderTextField)}
                     {renderController("maxQuantity", renderTextField)}
                 </Box>
-
-                {renderController("isActive", renderIsActiveSelect)}
 
                 <Box
                     sx={{

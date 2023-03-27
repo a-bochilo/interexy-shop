@@ -21,12 +21,14 @@ const PublicRoute: FC<{ element: any }> = ({ element: Element }) => (
     <Suspense fallback={<FallbackComponent />}>
         <Element />
     </Suspense>
+
 );
 
 // ======= pages ======= //
 const LoginPage = React.lazy(() => import("./app/login"));
 const ProductsPage = React.lazy(() => import("./app/products"));
 const RolesPage = React.lazy(() => import("./app/roles"));
+const UsersPage = React.lazy(() => import("./app/users"));
 
 const AppRoutes = () => {
   return (
@@ -36,6 +38,7 @@ const AppRoutes = () => {
       <Route path={"products/*"} element={<PublicRoute element={ProductsPage} />} />
       <Route path={"roles/*"} element={<PublicRoute element={RolesPage} />} />
       <Route path={"orders/*"} element={<PublicRoute element={OrdersPage} />} />
+      <Route path={"/users/*"} element={<PublicRoute element={UsersPage} />} />
 
       {/* DEFAULT */}
       <Route path="*" element={<Navigate to="/" />} />
