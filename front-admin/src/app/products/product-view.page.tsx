@@ -83,26 +83,28 @@ const ProductViewPage: FC = () => {
     navigate("/products");
   };
 
-  return (
-    <MainGrid>
-      {(pending.products || pending.productDetails) && (
-        <CircularProgress sx={{ alignSelf: "center" }} />
-      )}
-      {!!productWithDetails && (
-        <ProductEditForm
-          product={productWithDetails}
-          pending={pending}
-          fetchingErrors={errors}
-          isEditable={isEditable}
-          isClicked={isClicked}
-          setIsEditable={setIsEditable}
-          handleDelete={handleDelete}
-          handleSave={handleSave}
-          handleBack={handleBack}
-        />
-      )}
-    </MainGrid>
-  );
+    return (
+        <MainGrid>
+            {!productWithDetails &&
+                (pending.products || pending.productDetails) && (
+                    <CircularProgress sx={{ alignSelf: "center" }} />
+                )}
+            {!!productWithDetails && (
+                <ProductEditForm
+                    product={productWithDetails}
+                    pending={pending}
+                    fetchingErrors={errors}
+                    isEditable={isEditable}
+                    isClicked={isClicked}
+                    setIsEditable={setIsEditable}
+                    handleDelete={handleDelete}
+                    handleSave={handleSave}
+                    handleBack={handleBack}
+                />
+            )}
+        </MainGrid>
+    );
+
 };
 
 export default ProductViewPage;

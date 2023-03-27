@@ -1,55 +1,28 @@
 import React, { FC, Suspense } from "react";
 import { Navigate, Routes, Route } from "react-router-dom";
 
-// ========================== mui ==========================
-import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
-import OrdersPage from "./app/orders";
+
+// ========================== components ==========================
+import FallbackComponent from "./components/fallback.component";
 
 // ======= private route ======= //
 const PrivateRoute: FC<{ element: any }> = ({ element: Element }) => {
-  return true ? (
-    <Suspense
-      fallback={
-        <Box
-          sx={{
-            display: "flex",
-            minHeight: "100vh",
-            minWidth: "100vw",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <CircularProgress />
-        </Box>
-      }
-    >
-      <Element />
-    </Suspense>
-  ) : (
-    <Navigate to={"/"} />
-  );
+    return true ? (
+        <Suspense fallback={<FallbackComponent />}>
+            <Element />
+        </Suspense>
+    ) : (
+        <Navigate to={"/"} />
+    );
 };
 
 // ======= public route ======= //
 const PublicRoute: FC<{ element: any }> = ({ element: Element }) => (
-  <Suspense
-    fallback={
-      <Box
-        sx={{
-          display: "flex",
-          minHeight: "100vh",
-          minWidth: "100vw",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    }
-  >
-    <Element />
-  </Suspense>
+
+    <Suspense fallback={<FallbackComponent />}>
+        <Element />
+    </Suspense>
+
 );
 
 // ======= pages ======= //
