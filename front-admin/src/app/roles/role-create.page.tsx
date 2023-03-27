@@ -11,14 +11,11 @@ import { Grid } from "@mui/material";
 import CreateRoleForm from "../../components/role-create.component";
 
 // =========================== Store ===========================
-import {
-  fetchRoleCreate,
-} from "./store/roles.actions";
+import { fetchRoleCreate } from "./store/roles.actions";
 import { AppDispatch } from "../../store";
 
 // ====================== Interfaces & DTO's ==================
 import { RolesDto } from "./types/roles.dto";
-
 
 const MainGrid = styled(Grid)`
   display: flex;
@@ -40,13 +37,10 @@ const RoleViewPage: FC<string> = () => {
   const handleBack = () => {
     navigate("/roles");
   };
-  
+
   return (
     <MainGrid>
-      <CreateRoleForm
-        handleCreate={handleCreate}
-        handleBack={handleBack}
-      />
+      <CreateRoleForm handleCreate={handleCreate} handleBack={handleBack} />
     </MainGrid>
   );
 };

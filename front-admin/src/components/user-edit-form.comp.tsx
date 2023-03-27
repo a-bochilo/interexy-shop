@@ -2,9 +2,6 @@
 import { FC } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 
-// ========================== moment ==========================
-import moment from "moment";
-
 // ========================== mui ==========================
 import {
   Box,
@@ -79,6 +76,10 @@ const userStatuses = [
     name: "false",
   },
 ];
+
+const dateFormat = (date: number) => {
+  return new Date(date);
+}
 
 const UserEditFormComp: FC<FormProps> = ({
   formName,
@@ -396,9 +397,7 @@ const UserEditFormComp: FC<FormProps> = ({
                   alignSelf: "right",
                 }}
                 disabled
-                defaultValue={moment(selectedUser?.created).format(
-                  "DD/MM/YYYY"
-                )}
+                defaultValue={dateFormat(selectedUser.created)}
                 id="outlined-basic"
                 variant="outlined"
                 {...register("created")}
@@ -432,9 +431,7 @@ const UserEditFormComp: FC<FormProps> = ({
                   alignSelf: "right",
                 }}
                 disabled
-                defaultValue={moment(selectedUser?.updated).format(
-                  "DD/MM/YYYY"
-                )}
+                defaultValue={dateFormat(selectedUser.updated)}
                 id="outlined-basic"
                 variant="outlined"
                 {...register("updated")}

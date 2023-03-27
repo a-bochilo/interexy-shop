@@ -81,8 +81,6 @@ const UserProfileFormComp: FC<FormProps> = ({
       ...userFullData,
       details: info,
     };
-
-    console.log(outputData);
     handleSave(outputData);
     setDisabled(!disabled);
   };
@@ -158,7 +156,8 @@ const UserProfileFormComp: FC<FormProps> = ({
             align="left"
             sx={{ minWidth: 90, width: 120 }}
           >
-            middle name
+            M
+            iddle name
           </Typography>
           <Controller
             control={control}

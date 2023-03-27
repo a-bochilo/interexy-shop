@@ -1,5 +1,5 @@
 // ========================== react ==========================
-import React, { FC, useEffect, useState } from "react";
+import React, { useState } from "react";
 
 // ========================== mui ==========================
 import { styled, useTheme } from "@mui/material/styles";

@@ -49,14 +49,10 @@ const LoginForm: FC = () => {
     if (newToken.payload) {
       const user: any = decodeToken(newToken.payload);
       if (user.role_type === "user") {
-        window.localStorage.setItem("token", newToken.payload);
-        window.location.replace("https://http://localhost:3001/")
-        console.log("Redirect to shop");
-        navigate("/");
+        window.location.replace("http://localhost:3001")
         setError(false);
       } else {
         window.localStorage.setItem("token", newToken.payload);
-        console.log("Redirect to roles table");
         navigate("/products");
         setError(false);
       }

@@ -21,9 +21,6 @@ import {
 import { getUserInfo, updateUserDetails } from "./store/users.actions";
 import { usersActions } from "./store/users.slice";
 
-// ========================== dto ==========================
-import { UserDto } from "./types/user-dto.type";
-
 const MainGrid = styled(Grid)`
   justify-content: center;
   align-items: center;

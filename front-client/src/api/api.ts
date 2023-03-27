@@ -29,7 +29,7 @@ $api.interceptors.response.use(async (response) => {
     if (newUser !== null && newUser.exp !== null) {
       const res = (newUser.exp - Date.now() / 1000) / 60;
       if (res <= 30) {
-        localStorage.setItem(await $api.get("/auth/refresh-token"), "token");
+        window.localStorage.setItem("token", await $api.get("/auth/refresh-token"));
       }
     }
   }
