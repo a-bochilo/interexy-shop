@@ -20,6 +20,7 @@ import { UserRoles } from "../../shared/types/user-roles.enum";
 // ========================== Services & Controllers ====================
 import { SecurityService } from "../security/security.service";
 import { CartRepository } from "../cart/repos/cart.repository";
+import { I18nContext } from "nestjs-i18n";
 
 @Injectable()
 export class AuthService {
@@ -28,19 +29,20 @@ export class AuthService {
     private readonly roleRepository: RoleRepository,
     private readonly userDetailsRepository: UserDetailsRepository,
     private readonly cartRepository: CartRepository,
-    private readonly securityService: SecurityService,
+    private readonly securityService: SecurityService
   ) {}
 
   async signUp(dto: CreateUserDto): Promise<TokenDto> {
     const userFromDB = await this.userRepository.getUserByEmail(dto.email);
 
     if (userFromDB)
-      throw new HttpException("User exist", HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        `${I18nContext.current().t(`errors.user.userAlreadyExist`)}: ${dto.email}`,
+        HttpStatus.BAD_REQUEST
+      );
 
     const role = await this.roleRepository.getRoleByType(UserRoles.user);
-    const details = await this.userDetailsRepository.createUserDetails(
-      dto.details
-    );
+    const details = await this.userDetailsRepository.createUserDetails(dto.details);
 
     const hashPassword = await hashSync(dto.password, 5);
     const newUser = await this.userRepository.createUser({
@@ -53,7 +55,7 @@ export class AuthService {
     const cart = await this.cartRepository.createCart(newUser);
 
     newUser.cart = cart;
-    await this.userRepository.save(newUser)
+    await this.userRepository.save(newUser);
 
     const access_token = await this.securityService.generateJwt(newUser);
     return access_token;
@@ -63,7 +65,10 @@ export class AuthService {
     const userFromDB = await this.userRepository.getUserByEmail(dto.email);
 
     if (!userFromDB) {
-      throw new HttpException("User not found", HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        `${I18nContext.current().t("errors.roles.roleDoesNotExist")}`,
+        HttpStatus.NOT_FOUND
+      );
     }
 
     const role = await this.roleRepository.getById(userFromDB.roleId);
@@ -72,10 +77,7 @@ export class AuthService {
     const isPasswordCorrect = await compare(dto.password, userFromDB.password);
 
     if (!isPasswordCorrect)
-      throw new HttpException(
-        "Wrong password",
-        HttpStatus.UNPROCESSABLE_ENTITY
-      );
+      throw new HttpException("Wrong password", HttpStatus.UNPROCESSABLE_ENTITY);
     const access_token = await this.securityService.generateJwt(userFromDB);
     return access_token;
   }

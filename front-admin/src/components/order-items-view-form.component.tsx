@@ -1,8 +1,5 @@
-
-
 import * as React from "react";
 import { TableVirtuoso, TableComponents } from "react-virtuoso";
-import { useNavigate } from "react-router-dom";
 
 // =========================== MUI ===========================
 import Table from "@mui/material/Table";
@@ -13,24 +10,32 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
-// ====================== Interfaces & DTO's ==================
-import { OrderDto } from "../app/orders/types/order.dto";
-
+// =========================== Interfaces & DTO's ===========================
+import { RolesDto } from "../app/roles/types/roles.dto";
+import { useNavigate } from "react-router";
+import { UserRoles } from "../app/roles/types/user-roles.enum";
+import { OrderItemDto } from "../app/orders/types/order-item.dto";
+import { Button } from "@mui/material";
 
 interface ColumnData {
-  dataKey: keyof OrderDto;
+  dataKey: keyof OrderItemDto;
   label: string;
   width: number;
 }
 
-const OrdersTable = ({ orders }: { orders: OrderDto[] }) => {
-  const navigate = useNavigate();
+const OrderItemsViewTable = ({
+  orderItems,
+  handleBack,
+}: {
+  orderItems: OrderItemDto[];
+  handleBack: () => void;
+}) => {
   const capitalizeFirstLetter = (string: string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
-  const getColumns = (role: OrderDto): ColumnData[] => {
-    const keys = Object.keys(role) as (keyof OrderDto)[];
+  const getColumns = (orderItems: OrderItemDto): ColumnData[] => {
+    const keys = Object.keys(orderItems) as (keyof OrderItemDto)[];
     const columns = keys.map((key) => {
       return {
         width: 120,
@@ -41,33 +46,24 @@ const OrdersTable = ({ orders }: { orders: OrderDto[] }) => {
     return columns;
   };
 
-  const VirtuosoTableComponents: TableComponents<OrderDto> = {
+  const VirtuosoTableComponents: TableComponents<OrderItemDto> = {
     Scroller: React.forwardRef<HTMLDivElement>((props, ref) => (
       <TableContainer component={Paper} {...props} ref={ref} />
     )),
     Table: (props) => (
-      <Table
-        {...props}
-        sx={{ borderCollapse: "separate", tableLayout: "fixed" }}
-      />
+      <Table {...props} sx={{ borderCollapse: "separate", tableLayout: "fixed" }} />
     ),
     TableHead,
-    TableRow: ({ item: _item, ...props }) => (
-      <TableRow 
-      {...props}
-      sx={{ cursor: "pointer" }} 
-      onClick={() => navigate(`${_item.id}`)}
-      />
-    ),
+    TableRow: ({ item: _item, ...props }) => <TableRow {...props} />,
     TableBody: React.forwardRef<HTMLTableSectionElement>((props, ref) => (
       <TableBody {...props} ref={ref} />
     )),
   };
 
   const fixedHeaderContent = () => {
-    return orders.length > 0 ? (
+    return orderItems.length > 0 ? (
       <TableRow>
-        {getColumns(orders[0]).map((column) => (
+        {getColumns(orderItems[0]).map((column) => (
           <TableCell
             key={column.dataKey}
             variant="head"
@@ -86,14 +82,12 @@ const OrdersTable = ({ orders }: { orders: OrderDto[] }) => {
     );
   };
 
-  const rowContent = (_index: number, row: OrderDto) => {
-    return orders.length > 0 ? (
+  const rowContent = (_index: number, row: OrderItemDto) => {
+    return orderItems.length > 0 ? (
       <>
-        {getColumns(orders[0]).map((column) => {
+        {getColumns(orderItems[0]).map((column) => {
           return (
-            <TableCell key={column.dataKey} 
-            align="center"
-            >
+            <TableCell key={column.dataKey} align="center">
               {`${row[column.dataKey]}`}
             </TableCell>
           );
@@ -106,8 +100,18 @@ const OrdersTable = ({ orders }: { orders: OrderDto[] }) => {
 
   return (
     <Paper style={{ minHeight: "calc(100vh - 64px)", minWidth: "100%" }}>
+      <Button
+        onClick={handleBack}
+        sx={{
+          width: "100%",
+        }}
+        variant="contained"
+        color="primary"
+      >
+        BACK TO ORDERS
+      </Button>
       <TableVirtuoso
-        data={orders}
+        data={orderItems}
         components={VirtuosoTableComponents}
         fixedHeaderContent={fixedHeaderContent}
         itemContent={rowContent}
@@ -116,4 +120,4 @@ const OrdersTable = ({ orders }: { orders: OrderDto[] }) => {
   );
 };
 
-export default OrdersTable;
+export default OrderItemsViewTable;
