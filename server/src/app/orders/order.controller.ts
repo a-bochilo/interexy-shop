@@ -88,7 +88,7 @@ export class OrderController {
     return await this.orderService.getOrdersByUserId(userId);
   }
 
-  @Get("item/:orderId")
+  @Get("items/:orderId")
   @AuthPermissionsGuard(UserPermissions.getOrderItemByOrderId)
   @ApiOperation({ summary: "Get orderItem by orderId" })
   @ApiResponse({
@@ -98,7 +98,9 @@ export class OrderController {
     isArray: true,
   })
   @UsePipes(new ValidationPipe())
-  async getOrderItemByOrderId(@Param("orderId") orderId: string): Promise<OrderItemDto[]> {
+  async getOrderItemByOrderId(
+    @Param("orderId") orderId: string
+  ): Promise<OrderItemDto[]> {
     return await this.orderService.getOrderItemByOrderId(orderId);
   }
 }

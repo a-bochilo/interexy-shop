@@ -1,4 +1,6 @@
 // ========================== react ==========================
+import { CircularProgress } from "@mui/material";
+import { Box } from "@mui/system";
 import React, { FC, Suspense } from "react";
 import { Navigate, Routes, Route } from "react-router-dom";
 
@@ -55,24 +57,31 @@ const PublicRoute: FC<{ element: any }> = ({ element: Element }) => (
 
 // ======= pages ======= //
 const ProductsPage = React.lazy(() => import("./app/products"));
+const CartPage = React.lazy(() => import("./app/cart"));
+const AuthPage = React.lazy(() => import("./app/auth"));
+const OrdersPage = React.lazy(() => import("./app/orders"));
 const UserPage = React.lazy(() => import("./app/users"));
 
 const AppRoutes = () => {
   return (
     <Routes>
       {/* PUBLIC */}
-      <Route path={"/"} element={<PublicRoute element={ProductsPage} />} />
-      <Route
-        path={"/users/profile/*"}
-        element={<PublicRoute element={UserPage} />}
-      />
-      {/* PRIVATE
-      <Route path={"/users/profile/*"} element={<PrivateRoute element={UserPage} />} /> */}
+      <Route path={"products/*"} element={<PublicRoute element={ProductsPage} />} />
+      <Route path={"auth/*"} element={<PublicRoute element={AuthPage} />} />
+      <Route path={"orders/*"} element={<PublicRoute element={OrdersPage} />} />
 
-            {/* DEFAULT */}
-            <Route path="*" element={<Navigate to="/products" />} />
-        </Routes>
-    );
+
+            {/* PRIVATE */}
+            <Route
+                path={"cart/*"}
+                element={<PrivateRoute element={CartPage} />}
+            />
+             <Route path={"/users/profile/*"} element={<PrivateRoute element={UserPage} />} />
+
+      {/* DEFAULT */}
+      <Route path="*" element={<Navigate to="/products" />} />
+    </Routes>
+  );
 };
 
 export default AppRoutes;

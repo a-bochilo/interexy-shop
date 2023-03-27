@@ -1,7 +1,5 @@
 // ========================== react ==========================
 import React, { FC, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 
 // ========================== mui ==========================
 import { styled, useTheme } from "@mui/material/styles";
@@ -17,26 +15,33 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import SearchIcon from "@mui/icons-material/Search";
+import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import Badge from "@mui/material/Badge";
 import {
-  alpha,
-  Container,
-  CssBaseline,
-  InputBase,
-  Menu,
-  MenuItem,
-  Toolbar,
-  Tooltip,
-  Typography,
+    alpha,
+    Button,
+    Container,
+    CssBaseline,
+    InputBase,
+    Menu,
+    MenuItem,
+    Toolbar,
+    Tooltip,
+    Typography,
 } from "@mui/material";
-import Avatar from "@mui/material/Avatar";
+import { useDispatch } from "react-redux";
+import { logout } from "../app/auth/store/auth.slice";
+import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../store";
+import { cartSelector } from "../app/cart/store/cart.selectors";
 
 // ========================== store ==========================
 import { getUserInfo } from "../app/users/store/users.actions";
 import { AppDispatch } from "../store";
 
-const settings = ["Account", "Login"];
+const settings = ["Account", "My orders", "Logout"];
 
 const drawerWidth = 200;
 interface AppBarProps extends MuiAppBarProps {
@@ -111,14 +116,21 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const PageNavBarComp: FC = () => {
+const PageNavBarComp = () => {
+  const cartItemsQuantity = useAppSelector(cartSelector)?.items.length;
+
   const theme = useTheme();
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+
   const [open, setOpen] = useState(false);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-    null
-  );
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+
+  const token = window.localStorage.getItem("token");
+  let isAuth = false;
+  if (token) {
+    isAuth = true;
+  }
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -132,17 +144,26 @@ const PageNavBarComp: FC = () => {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = (field: string) => {
+    switch (field) {
+      case "Account":
+        navigate("/profile");
+        break;
+      case "My orders":
+        navigate("/orders/profile");
+        break;
+      case "Logout":
+        if (window.confirm("Are you sure you want to logout?")) {
+          dispatch(logout());
+          window.localStorage.removeItem("token");
+          navigate("/");
+        }
+        break;
+      default:
+        break;
+    }
     setAnchorElUser(null);
   };
-
-  const handleGoToProfile = () => {
-    navigate("/users/profile");
-  };
-
-  useEffect(() => {
-    dispatch(getUserInfo());
-  }, []);
 
   return (
     <Box component={"nav"} sx={{ display: "flex" }}>
@@ -205,41 +226,71 @@ const PageNavBarComp: FC = () => {
                   inputProps={{ "aria-label": "search" }}
                 />
               </Search>
-                            <Tooltip title="Open cart">
-                                <ShoppingCartOutlinedIcon
-                                    sx={{ cursor: "pointer" }}
-                                />
-                            </Tooltip>
-              <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar
-                    alt="Elvis Presley"
-                    src="https://img.freepik.com/premium-vector/flat-style-vector-icons-set-modern-beautiful-avatar-of-man-real-people-portraits-hand-drawn-flat-style-vector-design-concept-illustration-of-men-male-faces-and-shoulders-avatars_419010-13.jpg?w=740"
-                  />
-                </IconButton>
-              </Tooltip>
-              <Menu
-                sx={{ mt: "45px" }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-                {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleGoToProfile}>
-                    <Typography textAlign="center">{setting}</Typography>
-                  </MenuItem>
-                ))}
-              </Menu>
+
+              {isAuth ? (
+                <>
+                  <Tooltip title="Open cart">
+                    <IconButton>
+                      <Badge badgeContent={cartItemsQuantity} color="error">
+                        <ShoppingCartOutlinedIcon
+                          fontSize="large"
+                          sx={{
+                            cursor: "pointer",
+                            color: "white",
+                          }}
+                          onClick={() => navigate("/cart")}
+                        />
+                      </Badge>
+                    </IconButton>
+                  </Tooltip>
+
+                  <Tooltip title="Open settings">
+                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                      <VerifiedUserIcon
+                        fontSize="large"
+                        sx={{
+                          color: "success.light",
+                        }}
+                      />
+                    </IconButton>
+                  </Tooltip>
+
+                  <Menu
+                    sx={{ mt: "45px" }}
+                    id="menu-appbar"
+                    anchorEl={anchorElUser}
+                    anchorOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    open={Boolean(anchorElUser)}
+                    onClose={handleCloseUserMenu}
+                  >
+                    {settings.map((setting) => (
+                      <MenuItem
+                        value={setting}
+                        key={setting}
+                        onClick={() => handleCloseUserMenu(setting)}
+                      >
+                        <Typography textAlign="center">{setting}</Typography>
+                      </MenuItem>
+                    ))}
+                  </Menu>
+                </>
+              ) : (
+                <Button
+                  variant="contained"
+                  color="success"
+                  onClick={() => navigate("/auth/signIn")}
+                >
+                  Sign in
+                </Button>
+              )}
             </Box>
           </Container>
         </Toolbar>
@@ -259,18 +310,14 @@ const PageNavBarComp: FC = () => {
       >
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "ltr" ? (
-              <ChevronLeftIcon />
-            ) : (
-              <ChevronRightIcon />
-            )}
+            {theme.direction === "ltr" ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
         </DrawerHeader>
         <Divider />
         <List>
-          {["Catalog", "Cart", "Login"].map((text, index) => (
+          {["Catalog"].map((text, index) => (
             <ListItem key={text} disablePadding>
-              <ListItemButton>
+              <ListItemButton onClick={() => navigate("/")}>
                 <ListItemText primary={text} />
               </ListItemButton>
             </ListItem>

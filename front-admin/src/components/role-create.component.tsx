@@ -25,7 +25,7 @@ import {
 import { UserPermissions } from "../app/roles/types/user-permissions.enum";
 import { UserRoles } from "../app/roles/types/user-roles.enum";
 import { RolesDto } from "../app/roles/types/roles.dto";
-import { formSchema } from "../app/roles/types/roles-form.const";
+import { formSchema } from "./roles-form.const";
 
 interface IFormInput {
   id: number;

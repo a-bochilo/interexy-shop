@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // =========================== MUI ===========================
 import { Button, Box, Menu, TextField } from "@mui/material";
@@ -6,17 +6,28 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 
+// =========================== Components ===========================
+import TemporaryTypography from "./temporary-typography.component";
+
 const CartButton = ({
     size,
     handleAddToCartLocal,
-}: //isInCart
-{
+    isInCart,
+    cartItemQuantity,
+    error,
+}: {
     size: "medium" | "small" | "large";
     handleAddToCartLocal: (n: number) => void;
-    //isInCart: boolean;
+    isInCart: boolean;
+    cartItemQuantity: number;
+    error?: string | null;
 }) => {
     const [quantity, setQuantity] = useState<number>(1);
     const [anchorElCart, setAnchorElCart] = useState<null | HTMLElement>(null);
+
+    useEffect(() => {
+        setQuantity(cartItemQuantity);
+    }, [cartItemQuantity]);
 
     const handleOpenCartMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElCart(event.currentTarget);
@@ -29,11 +40,11 @@ const CartButton = ({
     return (
         <>
             <Button
-                variant="outlined"
+                variant={isInCart ? "contained" : "outlined"}
                 color="success"
                 onClick={handleOpenCartMenu}
             >
-                <ShoppingCartIcon fontSize={size} color="success" />
+                <ShoppingCartIcon fontSize={size} color="inherit" />
             </Button>
 
             <Menu
@@ -99,11 +110,19 @@ const CartButton = ({
                         onClick={() => setQuantity((quantity) => quantity + 1)}
                     />
                 </Box>
-
+                <Box>
+                    <TemporaryTypography
+                        variant="overline"
+                        align="center"
+                        color="error"
+                        duration={30}
+                    >
+                        {!!error && error}
+                    </TemporaryTypography>
+                </Box>
                 <Button
                     size={size}
-                    // variant={isInCart ? "contained" : "outlined"}
-                    variant="outlined"
+                    variant={isInCart ? "contained" : "outlined"}
                     color="success"
                     onClick={() => {
                         handleAddToCartLocal(quantity);

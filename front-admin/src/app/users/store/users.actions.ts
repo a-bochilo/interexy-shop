@@ -64,12 +64,13 @@ export const deleteUser = createAsyncThunk(
 export const assignRole = createAsyncThunk<
   UserAssignRoleDto,
   UserAssignRoleDto
->("POST/users/assignRole/:userId", async (newRole) => {
+>("POST/users/assignRole/:userId", async (data) => {
   try {
-    const response = await $api.post(
-      `/users/assignRole/${newRole.id}`,
-      newRole
-    );
+    const newRole = {
+      newRole: data.name,
+    };
+    const response = await $api.post(`/users/assignRole/${data.id}`, newRole);
+    console.log(`response.data`, response.data);
     return response.data;
   } catch (error: any) {
     return error.response?.data?.message as string;

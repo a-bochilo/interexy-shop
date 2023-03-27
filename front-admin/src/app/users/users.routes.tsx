@@ -12,7 +12,15 @@ const Suspended: FC<PropsWithChildren & { element: any }> = ({
   return (
     <Suspense
       fallback={
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <Box
+          sx={{
+            display: "flex",
+            minHeight: "100vh",
+            minWidth: "100vw",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
           <CircularProgress />
         </Box>
       }

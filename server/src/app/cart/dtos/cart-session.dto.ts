@@ -28,6 +28,7 @@ export class CartSessionDto extends UUIDDto {
         dto.created = cart.created.valueOf();
         dto.updated = cart.updated.valueOf();
         dto.items = cart.items.map((item) => ({
+            id: item.id,
             productId: item.product_id,
             quantity: item.quantity,
         }));

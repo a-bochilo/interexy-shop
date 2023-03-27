@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { TableVirtuoso, TableComponents } from "react-virtuoso";
+import { useNavigate } from "react-router-dom";
 
 // =========================== MUI ===========================
 import Table from "@mui/material/Table";
@@ -15,6 +16,7 @@ import Paper from "@mui/material/Paper";
 // ====================== Interfaces & DTO's ==================
 import { OrderDto } from "../app/orders/types/order.dto";
 
+
 interface ColumnData {
   dataKey: keyof OrderDto;
   label: string;
@@ -22,6 +24,7 @@ interface ColumnData {
 }
 
 const OrdersTable = ({ orders }: { orders: OrderDto[] }) => {
+  const navigate = useNavigate();
   const capitalizeFirstLetter = (string: string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
@@ -51,7 +54,9 @@ const OrdersTable = ({ orders }: { orders: OrderDto[] }) => {
     TableHead,
     TableRow: ({ item: _item, ...props }) => (
       <TableRow 
-      {...props} 
+      {...props}
+      sx={{ cursor: "pointer" }} 
+      onClick={() => navigate(`${_item.id}`)}
       />
     ),
     TableBody: React.forwardRef<HTMLTableSectionElement>((props, ref) => (

@@ -13,10 +13,6 @@ import {
   Button,
 } from "@mui/material";
 
-// ========================== yup ==========================
-import { yupResolver } from "@hookform/resolvers/yup";
-import { formSchema } from "./user-edit-form.const";
-
 // ========================== enum ==========================
 import { UserDto } from "../app/users/types/user-dto.type";
 import { RolesDto } from "../app/roles/types/roles.dto";
@@ -28,21 +24,21 @@ interface IUserAssignRole {
 
 interface FormProps {
   formName: string;
-  selectedUser: UserDto;
+  userId: string;
   selectedUserRole: RolesDto;
   userRoles: RolesDto[];
   disabled: boolean;
   pending: boolean;
   setDisabled: (e: boolean) => void;
   buttonOnclick: () => void;
-  handleSave: (e: Partial<IUserAssignRole>) => void;
+  handleSave: (e: IUserAssignRole) => void;
   handleBack: () => void;
 }
 
 const UserAssignRoleFormComp: FC<FormProps> = ({
   formName,
   userRoles,
-  selectedUser,
+  userId,
   selectedUserRole,
   disabled,
   pending,
@@ -51,37 +47,21 @@ const UserAssignRoleFormComp: FC<FormProps> = ({
   handleSave,
   handleBack,
 }) => {
-  const removeEmptyFields = (
-    obj: Partial<IUserAssignRole>
-  ) => {
-    const newObj = Object.fromEntries(
-      Object.entries(obj).filter(([_, v]) => v !== (null || undefined))
-    );
-    return newObj as Partial<IUserAssignRole>;
-  };
-
   const {
     register,
     control,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { isValid },
   } = useForm<IUserAssignRole>({
     mode: "onChange",
-    resolver: yupResolver(formSchema),
   });
 
-  const onSubmit: SubmitHandler<Partial<IUserAssignRole>> = (data) => {
-    const notNullFields = removeEmptyFields(data);
-    const { name, ...user } = notNullFields;
-
-    const outputData = {
-      id: selectedUser.id,
-      name: selectedUserRole.name,
-      
-      ...user,
+  const onSubmit: SubmitHandler<IUserAssignRole> = (data) => {
+    const userWithNewRole = {
+      ...data,
+      id: userId,
     };
-    // console.log(outputData);
-    // handleSave(outputData);
+    handleSave(userWithNewRole);
     setDisabled(!disabled);
   };
 
@@ -119,6 +99,7 @@ const UserAssignRoleFormComp: FC<FormProps> = ({
           >
             user id
           </Typography>
+
           <Controller
             name="id"
             control={control}
@@ -128,10 +109,10 @@ const UserAssignRoleFormComp: FC<FormProps> = ({
                   width: "100%",
                   alignSelf: "right",
                 }}
-                disabled
-                defaultValue={selectedUser?.id}
+                disabled={true}
                 size="small"
-                id="outlined-basic"
+                value={userId ? userId : null}
+                id="id"
                 variant="outlined"
                 {...register("id")}
               />
@@ -166,15 +147,17 @@ const UserAssignRoleFormComp: FC<FormProps> = ({
                 disabled={!disabled}
                 id="outlined-select"
                 select
-                defaultValue={selectedUserRole.id}
+                defaultValue={selectedUserRole.name}
                 variant="outlined"
                 {...register("name")}
               >
-                {userRoles.map((role) => (
-                  <MenuItem key={role.id} value={role.id}>
-                    {role.name}
-                  </MenuItem>
-                ))}
+                {userRoles
+                  .filter((role) => role.name !== "superadmin")
+                  .map((role) => (
+                    <MenuItem key={role.id} value={role.name}>
+                      {role.name}
+                    </MenuItem>
+                  ))}
               </TextField>
             )}
           />
@@ -213,11 +196,11 @@ const UserAssignRoleFormComp: FC<FormProps> = ({
                 width: "100%",
               }}
               type="submit"
+              onClick={buttonOnclick}
               disabled={!isValid}
               color="success"
               variant="contained"
               form="userAssignRole"
-              onClick={buttonOnclick}
             >
               Save
             </Button>

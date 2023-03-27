@@ -1,6 +1,8 @@
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { debounce } from "lodash";
+
 // =========================== MUI ===========================
 import styled from "@emotion/styled";
 import { CircularProgress, Grid } from "@mui/material";
@@ -10,7 +12,13 @@ import {
     productsSelector,
     productsPendingSelector,
 } from "./store/products.selectors";
-import { useAppSelector } from "../../store";
+import { useAppDispatch, useAppSelector } from "../../store";
+import { cartErrorsSelector, cartSelector } from "../cart/store/cart.selectors";
+import {
+    addCartItem,
+    fetchCart,
+    updateCartItem,
+} from "../cart/store/cart.actions";
 
 // =========================== Components ===========================
 import ProductCard from "../../components/product-card.component";
@@ -27,19 +35,34 @@ const MainGrid = styled(Grid)`
 
 const ProductListPage: FC = () => {
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
 
     const products = useAppSelector(productsSelector);
     const pending = useAppSelector(productsPendingSelector);
+    const cart = useAppSelector(cartSelector);
+    const cartErrors = useAppSelector(cartErrorsSelector);
 
-    const handleClickCard = (productId: string) => {
-        navigate(`${productId}`);
-    };
+  const handleClickCard = (productId: string) => {
+    navigate(`${productId}`);
+  };
 
-    const handleAddToCart = (productId: string, quantity: number) => {
-        //! add to cart logic
-        console.log("productId", productId);
-        console.log("quantity", quantity);
-    };
+    const handleAddToCart = debounce(
+        async (productId: string, quantity: number, isInCart: boolean) => {
+            if (!cart) {
+                dispatch(fetchCart());
+                return;
+            }
+            if (!isInCart) {
+                dispatch(addCartItem({ productId, quantity }));
+                return;
+            }
+            const item = cart.items.find(
+                (item) => item.productId === productId
+            );
+            dispatch(updateCartItem({ id: item?.id, productId, quantity }));
+        },
+        300
+    );
 
     return (
         <MainGrid container spacing={8}>
@@ -54,6 +77,8 @@ const ProductListPage: FC = () => {
                         product={product}
                         handleClickCard={handleClickCard}
                         handleAddToCart={handleAddToCart}
+                        cart={cart}
+                        error={cartErrors.cart}
                     />
                 ))}
         </MainGrid>

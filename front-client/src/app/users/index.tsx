@@ -6,7 +6,6 @@ import { Grid } from "@mui/material";
 import styled from "@emotion/styled";
 
 // ======== components ============
-import PageHeaderComp from "../../components/page-header.comp";
 import UsersRoutes from "./users.routes";
 import PageNavBarComp from "../../components/navbar.comp";
 import PageFooterComp from "../../components/page-footer.comp";
