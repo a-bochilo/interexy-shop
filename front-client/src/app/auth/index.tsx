@@ -39,7 +39,7 @@ const token = window.localStorage.getItem("token");
 const AuthPage: FC = () => {
   return (
     <MainGrid> 
-      <PageNavBarComp isAuth={isAuth} />
+      <PageNavBarComp/>
       <ContentGrid sx={{ flexDirection: { xs: "column-reverse", md: "row" } }}>
         <AuthRoutes />
       </ContentGrid>

@@ -27,16 +27,10 @@ const ContentGrid = styled(Grid)`
   min-height: 100vh;
 `;
 
-const token = window.localStorage.getItem("token");
-  let isAuth = false;
-  if (token) {
-    isAuth = true;
-  }
-
 const OrdersPage = () => {
   return (
     <MainGrid>
-      <PageNavBarComp isAuth={isAuth} />
+      <PageNavBarComp/>
       <ContentGrid>
         <OrdersRoutes />
       </ContentGrid>

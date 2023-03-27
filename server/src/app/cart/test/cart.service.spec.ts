@@ -165,8 +165,9 @@ describe("CartService", () => {
             it("should return cart entity", async () => {
                 const returnedCart = await cartService.deleteCartItem(
                     userSessionDto,
-                    cartEntity.items[0].product_id
+                    cartEntity.items[0].id
                 );
+                console.log(returnedCart);
                 expect(returnedCart).toBeDefined();
                 expect(returnedCart.items).toMatchObject([]);
             });

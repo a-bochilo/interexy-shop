@@ -22,10 +22,12 @@ const initialState: IProductsState = {
     pending: {
         products: false,
         productDetails: false,
+        filter: false,
     },
     errors: {
         products: null,
         productDetails: null,
+        filter: null,
     },
 };
 
@@ -174,14 +176,14 @@ const productsSlice = createSlice({
         // ================== Filter product ==================
         builder
             .addCase(filterProduct.pending, (state) => {
-                state.pending.products = true;
+                state.pending.filter = true;
             })
             .addCase(
                 filterProduct.fulfilled,
                 (state, action: PayloadAction<ProductDto[]>) => {
-                    state.pending.products = false;
+                    state.pending.filter = false;
 
-                    state.errors.products = null;
+                    state.errors.filter = null;
 
                     state.products = action.payload;
                 }
@@ -189,9 +191,9 @@ const productsSlice = createSlice({
             .addCase(
                 filterProduct.rejected,
                 (state, action: any & { payload: any }) => {
-                    state.pending.products = false;
+                    state.pending.filter = false;
 
-                    state.errors.products = action.payload;
+                    state.errors.filter = action.payload;
                 }
             );
     },

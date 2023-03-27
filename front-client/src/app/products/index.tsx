@@ -1,10 +1,9 @@
 // =========================== React ===========================
 import { FC, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
 // =========================== MUI ===========================
 import styled from "@emotion/styled";
-import { Grid } from "@mui/material";
+import { AppBar, Grid } from "@mui/material";
 
 // =========================== Components ===========================
 import PageAsideComp from "../../components/aside.component";
@@ -37,11 +36,6 @@ const ContentGrid = styled(Grid)`
 
 const ProductsPage: FC = () => {
   const dispatch = useAppDispatch();
-  const token = window.localStorage.getItem("token");
-  let isAuth = false;
-  if (token) {
-    isAuth = true;
-  }
 
   useEffect(() => {
     dispatch(fetchProducts());
@@ -49,7 +43,7 @@ const ProductsPage: FC = () => {
 
   return (
     <MainGrid>
-      <PageNavBarComp isAuth={isAuth} />
+      <PageNavBarComp/>
       <ContentGrid sx={{ flexDirection: { xs: "column-reverse", md: "row" } }}>
         <ProductsRoutes />
         <PageAsideComp>

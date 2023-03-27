@@ -15,8 +15,10 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import SearchIcon from "@mui/icons-material/Search";
-import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
+import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import Badge from "@mui/material/Badge";
 import {
   alpha,
   Button,
@@ -29,9 +31,11 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { logout } from "../app/auth/store/auth.slice";
+import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../store";
+import { cartSelector } from "../app/cart/store/cart.selectors";
 
 const settings = ["Account", "My orders", "Logout"];
 
@@ -108,13 +112,21 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const PageNavBarComp = ({isAuth}: {isAuth: boolean}) => {
+const PageNavBarComp = () => {
+  const cartItemsQuantity = useAppSelector(cartSelector)?.items.length;
+
   const theme = useTheme();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [open, setOpen] = useState(false);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+
+  const token = window.localStorage.getItem("token");
+  let isAuth = false;
+  if (token) {
+    isAuth = true;
+  }
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -213,11 +225,29 @@ const PageNavBarComp = ({isAuth}: {isAuth: boolean}) => {
 
               {isAuth ? (
                 <>
+                  <Tooltip title="Open cart">
+                    <IconButton>
+                      <Badge badgeContent={cartItemsQuantity} color="error">
+                        <ShoppingCartOutlinedIcon
+                          fontSize="large"
+                          sx={{
+                            cursor: "pointer",
+                            color: "white",
+                          }}
+                          onClick={() => navigate("/cart")}
+                        />
+                      </Badge>
+                    </IconButton>
+                  </Tooltip>
+
                   <Tooltip title="Open settings">
                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                       <VerifiedUserIcon
-                      color="success"
-                       />
+                        fontSize="large"
+                        sx={{
+                          color: "success.light",
+                        }}
+                      />
                     </IconButton>
                   </Tooltip>
 
@@ -283,7 +313,7 @@ const PageNavBarComp = ({isAuth}: {isAuth: boolean}) => {
         <List>
           {["Catalog"].map((text, index) => (
             <ListItem key={text} disablePadding>
-              <ListItemButton onClick={() => navigate('/')}>
+              <ListItemButton onClick={() => navigate("/")}>
                 <ListItemText primary={text} />
               </ListItemButton>
             </ListItem>

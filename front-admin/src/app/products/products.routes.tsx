@@ -2,29 +2,14 @@
 import React, { FC, PropsWithChildren, Suspense } from "react";
 import { Navigate, Routes, Route } from "react-router-dom";
 
-// ========================== mui ==========================
-import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
+// ========================== components ==========================
+import FallbackComponent from "../../components/fallback.component";
 
 const Suspended: FC<PropsWithChildren & { element: any }> = ({
     element: Element,
 }) => {
     return (
-        <Suspense
-            fallback={
-                <Box
-                    sx={{
-                        display: "flex",
-                        minHeight: "100vh",
-                        minWidth: "100vw",
-                        alignItems: "center",
-                        justifyContent: "center",
-                    }}
-                >
-                    <CircularProgress />
-                </Box>
-            }
-        >
+        <Suspense fallback={<FallbackComponent />}>
             <Element />
         </Suspense>
     );

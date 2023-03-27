@@ -4,16 +4,12 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IProductsState } from "../types/products-state.interface";
 import { ProductDto } from "../types/product.dto";
 import { ProductDetailsDto } from "../types/product-details.dto";
-import { ProductWithDetailsDto } from "../types/product-with-details.dto";
 
 // =========================== Actions ===========================
 import {
-    createProduct,
-    deleteProduct,
     fetchProductDetials,
     fetchProducts,
     filterProduct,
-    updateProduct,
 } from "./products.actions";
 
 const initialState: IProductsState = {
@@ -22,10 +18,12 @@ const initialState: IProductsState = {
     pending: {
         products: false,
         productDetails: false,
+        filter: false,
     },
     errors: {
         products: null,
         productDetails: null,
+        filter: null,
     },
 };
 
@@ -82,106 +80,18 @@ const productsSlice = createSlice({
                     state.errors.productDetails = action.payload;
                 }
             );
-        // ================== Delete product ==================
-        builder
-            .addCase(deleteProduct.pending, (state) => {
-                state.pending.products = true;
-            })
-            .addCase(
-                deleteProduct.fulfilled,
-                (state, action: PayloadAction<ProductDto>) => {
-                    state.pending.products = false;
-
-                    state.errors.products = null;
-
-                    state.products = state.products.filter(
-                        ({ id }) => id !== action.payload.id
-                    );
-                    state.productDetails = undefined;
-                }
-            )
-            .addCase(
-                deleteProduct.rejected,
-                (state, action: any & { payload: any }) => {
-                    state.pending.products = false;
-
-                    state.errors.products = action.payload;
-                }
-            );
-        // ================== Update product ==================
-        builder
-            .addCase(updateProduct.pending, (state) => {
-                state.pending.products = true;
-            })
-            .addCase(
-                updateProduct.fulfilled,
-                (state, action: PayloadAction<ProductWithDetailsDto>) => {
-                    state.pending.products = false;
-
-                    state.errors.products = null;
-
-                    const products = state.products.filter(
-                        ({ id }) => id !== action.payload.id
-                    );
-                    const { color, material, size, description, ...product } =
-                        action.payload;
-
-                    products.push(product);
-                    state.products = products;
-
-                    if (!state.productDetails) return;
-                    state.productDetails = {
-                        ...state.productDetails,
-                        color,
-                        material,
-                        size,
-                        description,
-                    };
-                }
-            )
-            .addCase(
-                updateProduct.rejected,
-                (state, action: any & { payload: any }) => {
-                    state.pending.products = false;
-
-                    state.errors.products = action.payload;
-                }
-            );
-        // ================== Create product ==================
-        builder
-            .addCase(createProduct.pending, (state) => {
-                state.pending.products = true;
-            })
-            .addCase(
-                createProduct.fulfilled,
-                (state, action: PayloadAction<ProductDto>) => {
-                    state.pending.products = false;
-
-                    state.errors.products = null;
-
-                    state.products.push(action.payload);
-                }
-            )
-            .addCase(
-                createProduct.rejected,
-                (state, action: any & { payload: any }) => {
-                    state.pending.products = false;
-
-                    state.errors.products = action.payload;
-                }
-            );
 
         // ================== Filter product ==================
         builder
             .addCase(filterProduct.pending, (state) => {
-                state.pending.products = true;
+                state.pending.filter = true;
             })
             .addCase(
                 filterProduct.fulfilled,
                 (state, action: PayloadAction<ProductDto[]>) => {
-                    state.pending.products = false;
+                    state.pending.filter = false;
 
-                    state.errors.products = null;
+                    state.errors.filter = null;
 
                     state.products = action.payload;
                 }
@@ -189,9 +99,9 @@ const productsSlice = createSlice({
             .addCase(
                 filterProduct.rejected,
                 (state, action: any & { payload: any }) => {
-                    state.pending.products = false;
+                    state.pending.filter = false;
 
-                    state.errors.products = action.payload;
+                    state.errors.filter = action.payload;
                 }
             );
     },
