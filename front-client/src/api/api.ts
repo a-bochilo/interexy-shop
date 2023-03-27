@@ -45,7 +45,6 @@ $api.interceptors.request.use(
             const newToken = await (
                 await $serviceApi.get("/auth/refresh-token")
             ).data.token;
-            console.log(newToken);
             localStorage.setItem("token", newToken);
         }
 

@@ -18,17 +18,12 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-import SearchIcon from "@mui/icons-material/Search";
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import Badge from "@mui/material/Badge";
 import {
-    alpha,
     Button,
     Container,
     CssBaseline,
-    InputBase,
     Menu,
     MenuItem,
     Toolbar,
@@ -47,6 +42,7 @@ import { cartSelector } from "../app/cart/store/cart.selectors";
 
 // ========================== components ==========================
 import SearchComponent from "./search.component";
+import CartIconComponent from "./cart-icon.component";
 
 const settings = ["Account", "My orders", "Logout"];
 
@@ -79,48 +75,6 @@ const DrawerHeader = styled("div")(({ theme }) => ({
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
     justifyContent: "flex-end",
-}));
-
-const Search = styled("div")(({ theme }) => ({
-    position: "relative",
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
-    "&:hover": {
-        backgroundColor: alpha(theme.palette.common.white, 0.25),
-    },
-    marginLeft: 0,
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-        marginLeft: theme.spacing(1),
-        width: "auto",
-    },
-}));
-
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-    padding: theme.spacing(0, 2),
-    height: "100%",
-    position: "absolute",
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: "inherit",
-    "& .MuiInputBase-input": {
-        padding: theme.spacing(1, 1, 1, 0),
-        // vertical padding + font size from searchIcon
-        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-        transition: theme.transitions.create("width"),
-        width: "100%",
-        [theme.breakpoints.up("sm")]: {
-            width: "12ch",
-            "&:focus": {
-                width: "20ch",
-            },
-        },
-    },
 }));
 
 const PageNavBarComp = () => {
@@ -230,25 +184,10 @@ const PageNavBarComp = () => {
 
                             {isAuth ? (
                                 <>
-                                    <Tooltip title="Open cart">
-                                        <IconButton>
-                                            <Badge
-                                                badgeContent={cartItemsQuantity}
-                                                color="error"
-                                            >
-                                                <ShoppingCartOutlinedIcon
-                                                    fontSize="large"
-                                                    sx={{
-                                                        cursor: "pointer",
-                                                        color: "white",
-                                                    }}
-                                                    onClick={() =>
-                                                        navigate("/cart")
-                                                    }
-                                                />
-                                            </Badge>
-                                        </IconButton>
-                                    </Tooltip>
+                                    <CartIconComponent
+                                        itemsQuantity={cartItemsQuantity}
+                                        navigate={navigate}
+                                    />
 
                                     <Tooltip title="Open settings">
                                         <IconButton
