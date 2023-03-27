@@ -11,16 +11,17 @@ import { AppDispatch } from "../../store";
 import { decodeToken } from "react-jwt";
 import { fetchSignIn } from "./store/auth.actions";
 import { useNavigate } from "react-router-dom";
+import { fetchCart } from "../cart/store/cart.actions";
 
 interface IFormInput {
-  email: string;
-  password: string;
+    email: string;
+    password: string;
 }
 
 const SignInPage: FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate();
-  const [error, setError] = useState(false);
+    const dispatch = useDispatch<AppDispatch>();
+    const navigate = useNavigate();
+    const [error, setError] = useState(false);
 
   const handleSignIn = async (data: IFormInput) => {
     const newToken = await dispatch(fetchSignIn(data));
@@ -36,7 +37,8 @@ const SignInPage: FC = () => {
         setError(false);
       } else {
         window.localStorage.setItem("token", newToken.payload);
-        navigate("/roles");
+        dispatch(fetchCart());
+        navigate("/products");
         setError(false);
       }
     }

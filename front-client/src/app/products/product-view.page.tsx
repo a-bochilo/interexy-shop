@@ -80,6 +80,7 @@ const ProductViewPage: FC = () => {
             dispatch(
                 addCartItem({ productId: productWithDetails.id, quantity })
             );
+            return;
         }
         dispatch(
             updateCartItem({
