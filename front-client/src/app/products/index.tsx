@@ -35,11 +35,11 @@ const ContentGrid = styled(Grid)`
 `;
 
 const ProductsPage: FC = () => {
-  const dispatch = useAppDispatch();
+    const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(fetchProducts());
-  }, []);
+    useEffect(() => {
+        dispatch(fetchProducts());
+    }, [dispatch]);
 
   return (
     <MainGrid>

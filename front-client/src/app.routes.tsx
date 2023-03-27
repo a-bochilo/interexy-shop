@@ -63,12 +63,21 @@ const OrdersPage = React.lazy(() => import("./app/orders"));
 const UserPage = React.lazy(() => import("./app/users"));
 
 const AppRoutes = () => {
-  return (
-    <Routes>
-      {/* PUBLIC */}
-      <Route path={"products/*"} element={<PublicRoute element={ProductsPage} />} />
-      <Route path={"auth/*"} element={<PublicRoute element={AuthPage} />} />
-      <Route path={"orders/*"} element={<PublicRoute element={OrdersPage} />} />
+    return (
+        <Routes>
+            {/* PUBLIC */}
+            <Route
+                path={"products/*"}
+                element={<PublicRoute element={ProductsPage} />}
+            />
+            <Route
+                path={"auth/*"}
+                element={<PublicRoute element={AuthPage} />}
+            />
+            <Route
+                path={"orders/*"}
+                element={<PublicRoute element={OrdersPage} />}
+            />
 
 
             {/* PRIVATE */}
@@ -78,10 +87,10 @@ const AppRoutes = () => {
             />
              <Route path={"/users/profile/*"} element={<PrivateRoute element={UserPage} />} />
 
-      {/* DEFAULT */}
-      <Route path="*" element={<Navigate to="/products" />} />
-    </Routes>
-  );
+            {/* DEFAULT */}
+            <Route path="*" element={<Navigate to="/products" />} />
+        </Routes>
+    );
 };
 
 export default AppRoutes;
