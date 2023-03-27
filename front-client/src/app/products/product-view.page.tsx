@@ -1,10 +1,10 @@
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
+import { debounce } from "lodash";
+
 // =========================== MUI ===========================
-import styled from "@emotion/styled";
 import {
-    Box,
     Button,
     CardMedia,
     CircularProgress,
@@ -12,7 +12,6 @@ import {
     Tooltip,
     Typography,
 } from "@mui/material";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import UndoIcon from "@mui/icons-material/Undo";
 
 // =========================== Store ===========================
@@ -20,11 +19,16 @@ import { useAppDispatch, useAppSelector } from "../../store";
 import { fetchProductDetials } from "./store/products.actions";
 import {
     productDetailsSelector,
-    productsErrorsSelector,
     productsPendingSelector,
     productsSelector,
 } from "./store/products.selectors";
 import { clearErrors } from "./store/products.slice";
+import {
+    addCartItem,
+    fetchCart,
+    updateCartItem,
+} from "../cart/store/cart.actions";
+import { cartErrorsSelector, cartSelector } from "../cart/store/cart.selectors";
 
 // =========================== DTO's ===========================
 import { ProductWithDetailsDto } from "./types/product-with-details.dto";
@@ -42,7 +46,8 @@ const ProductViewPage: FC = () => {
     const products = useAppSelector(productsSelector);
     const productDetails = useAppSelector(productDetailsSelector);
     const pending = useAppSelector(productsPendingSelector);
-    const errors = useAppSelector(productsErrorsSelector);
+    const cart = useAppSelector(cartSelector);
+    const cartErrors = useAppSelector(cartErrorsSelector);
 
     useEffect(() => {
         if (!productId) return;
@@ -60,14 +65,26 @@ const ProductViewPage: FC = () => {
         productWithDetails = { ...product, ...productDetailsWithoutId };
     }
 
-    // const isInCart = !cart.find(item => item.id === product?.id);
+    const cartItem = cart?.items.find((item) => item.productId === product?.id);
 
-    const handleAddToCart = (quantity: number) => {
+    const cartItemQuantity = !!cartItem ? cartItem.quantity : 1;
+
+    const handleAddToCart = debounce(async (quantity: number) => {
         if (!productWithDetails?.id) return;
-        //!add to cart logic
-        console.log("productId", productWithDetails.id);
-        console.log("quantity", quantity);
-    };
+
+        if (!cart) {
+            dispatch(fetchCart());
+            return;
+        }
+        if (!cartItem) {
+            dispatch(
+                addCartItem({ productId: productWithDetails.id, quantity })
+            );
+        }
+        dispatch(
+            updateCartItem({ productId: productWithDetails.id, quantity })
+        );
+    }, 300);
 
     const handleBack = () => {
         dispatch(clearErrors());
@@ -174,12 +191,14 @@ const ProductViewPage: FC = () => {
                             <CartButton
                                 size="large"
                                 handleAddToCartLocal={handleAddToCart}
-                                //isInCart={isInCart}
+                                isInCart={!!cartItem}
+                                cartItemQuantity={cartItemQuantity}
+                                error={cartErrors.cart}
                             />
                             <Tooltip title="Back to all">
                                 <Button
                                     variant="outlined"
-                                    color="primary" //! change quantity arg
+                                    color="primary"
                                     onClick={() => handleBack()}
                                 >
                                     <UndoIcon

@@ -27,6 +27,7 @@ const PublicRoute: FC<{ element: any }> = ({ element: Element }) => (
 
 // ======= pages ======= //
 const ProductsPage = React.lazy(() => import("./app/products"));
+const CartPage = React.lazy(() => import("./app/cart"));
 
 const AppRoutes = () => {
     return (
@@ -35,6 +36,12 @@ const AppRoutes = () => {
             <Route
                 path={"products/*"}
                 element={<PublicRoute element={ProductsPage} />}
+            />
+
+            {/* PRIVATE */}
+            <Route
+                path={"cart/*"}
+                element={<PrivateRoute element={CartPage} />}
             />
 
             {/* DEFAULT */}

@@ -1,17 +1,13 @@
 // =========================== Interfaces & DTO's ===========================
 import { BaseState } from "../../../types/base-state.type";
+import { CartDto } from "./cart.dto";
 
 export interface ICartState extends BaseState {
-    products: [];
-    productDetails: undefined;
+    cart: CartDto | null;
     pending: {
-        products: boolean;
-        productDetails: boolean;
-        filter: boolean;
+        cart: boolean;
     };
     errors: {
-        products: string | null;
-        productDetails: string | null;
-        filter: string | null;
+        cart: string | null;
     };
 }

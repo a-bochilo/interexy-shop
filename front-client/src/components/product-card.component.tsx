@@ -14,24 +14,31 @@ import LaunchIcon from "@mui/icons-material/Launch";
 
 // =========================== Interfaces & DTO's ===========================
 import { ProductDto } from "../app/products/types/product.dto";
+import { CartDto } from "../app/cart/types/cart.dto";
 
 // =========================== Components ===========================
 import CartButton from "./cart-button.compoent";
 
 const ProductCard = ({
     product,
+    cart,
     handleClickCard,
     handleAddToCart,
+    error,
 }: {
     product: ProductDto;
+    cart: CartDto | null;
     handleClickCard: (id: string) => void;
-    handleAddToCart: (id: string, quantity: number) => void;
+    handleAddToCart: (id: string, quantity: number, isInCart: boolean) => void;
+    error?: string | null;
 }) => {
-    const handleAddToCartLocal = (quantity: number) => {
-        handleAddToCart(product.id, quantity);
-    };
+    const cartItem = cart?.items.find((item) => item.productId === product.id);
 
-    // const isInCart = !cart.find(item => item.id === product.id);
+    const cartItemQuantity = !!cartItem ? cartItem.quantity : 1;
+
+    const handleAddToCartLocal = (quantity: number) => {
+        handleAddToCart(product.id, quantity, !!cartItem);
+    };
 
     return (
         <Grid item xs={11} sm={6} md={4} xl={3}>
@@ -77,7 +84,9 @@ const ProductCard = ({
                         <CartButton
                             size="small"
                             handleAddToCartLocal={handleAddToCartLocal}
-                            //isInCart={isInCart}
+                            isInCart={!!cartItem}
+                            cartItemQuantity={cartItemQuantity}
+                            error={error}
                         />
                         <Tooltip title="Learn details">
                             <Button
