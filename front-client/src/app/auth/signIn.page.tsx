@@ -30,10 +30,9 @@ const SignInPage: FC = () => {
     }
     if (newToken.payload) {
       const user: any = decodeToken(newToken.payload);
-      if (user.role_type === "user") {
+      if (user.role_type === "superadmin") {
         window.localStorage.setItem("token", newToken.payload);
-        //window.location.replace("https://http://localhost:3001/");
-        navigate("/");
+        window.location.replace("https:localhost:3000/");
         setError(false);
       } else {
         window.localStorage.setItem("token", newToken.payload);

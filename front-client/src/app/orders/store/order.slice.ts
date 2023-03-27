@@ -4,7 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { OrderDto } from "../types/order.dto";
 
 // =========================== Actions ===============================
-import { fetchOrderItems, fetchOrders } from "./orders.actions";
+import { fetchCreateOrder, fetchOrderItems, fetchOrders } from "./orders.actions";
 import { OrderItemDto } from "../types/order-item.dto";
 
 type IInitialState = {
@@ -67,6 +67,19 @@ const ordersSlice = createSlice({
         state.orderItems = action.payload;
       })
       .addCase(fetchOrderItems.rejected, (state, action: any & { payload: any }) => {
+        state.pending.orders = false;
+        state.errors.orders = action.payload;
+      })
+
+      builder
+      .addCase(fetchCreateOrder.pending, (state) => {
+        state.pending.orders = true;
+      })
+      .addCase(fetchCreateOrder.fulfilled, (state, action) => {
+        state.pending.orders = false;
+        state.orderItems = action.payload;
+      })
+      .addCase(fetchCreateOrder.rejected, (state, action: any & { payload: any }) => {
         state.pending.orders = false;
         state.errors.orders = action.payload;
       })
