@@ -9,6 +9,7 @@ import { ProductDetailsDto } from "../types/product-details.dto";
 import {
     fetchProductDetials,
     fetchProducts,
+    fetchProductsInCategory,
     filterProduct,
 } from "./products.actions";
 
@@ -58,6 +59,28 @@ const productsSlice = createSlice({
                     state.errors.products = action.payload;
                 }
             );
+        // ================== Get products in category ==================
+        builder
+            .addCase(fetchProductsInCategory.pending, (state) => {
+                state.pending.products = true;
+            })
+            .addCase(
+                fetchProductsInCategory.fulfilled,
+                (state, action: PayloadAction<ProductDto[]>) => {
+                    state.pending.products = false;
+                    state.errors.products = null;
+
+                    state.products = action.payload;
+                }
+            )
+            .addCase(
+                fetchProductsInCategory.rejected,
+                (state, action: any & { payload: any }) => {
+                    state.pending.products = false;
+                    state.errors.products = action.payload;
+                }
+            );
+
         // ================== Get product details ==================
         builder
             .addCase(fetchProductDetials.pending, (state) => {

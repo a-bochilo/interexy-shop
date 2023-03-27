@@ -351,9 +351,10 @@ const PageNavBarComp = () => {
                     {Object.values(ProductsCategory).map((category) => (
                         <ListItem key={category} disablePadding>
                             <ListItemButton
-                                onClick={() =>
-                                    navigate(`/products?category=${category}`)
-                                }
+                                onClick={() => {
+                                    navigate(`/products?category=${category}`);
+                                    navigate(0);
+                                }}
                             >
                                 <ListItemText
                                     primary={`> ${startCase(category)}`}

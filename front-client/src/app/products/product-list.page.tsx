@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { debounce } from "lodash";
 
@@ -42,9 +42,9 @@ const ProductListPage: FC = () => {
     const cart = useAppSelector(cartSelector);
     const cartErrors = useAppSelector(cartErrorsSelector);
 
-  const handleClickCard = (productId: string) => {
-    navigate(`${productId}`);
-  };
+    const handleClickCard = (productId: string) => {
+        navigate(`${productId}`);
+    };
 
     const handleAddToCart = debounce(
         async (productId: string, quantity: number, isInCart: boolean) => {
