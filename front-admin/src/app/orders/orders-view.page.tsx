@@ -11,7 +11,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store";
 import { fetchOrderItems } from "./store/orders.actions";
 import { getPendingSelector, OrderItemsSelector } from "./store/orders.selector";
-import { clearErrors } from "./store/order.slice";
 import OrderItemsViewTable from "../../components/order-items-view-form.component";
 
 // =========================== DTO's ===========================
@@ -19,9 +18,7 @@ import OrderItemsViewTable from "../../components/order-items-view-form.componen
 const MainGrid = styled(Grid)`
   display: flex;
   flex-direction: column;
-  align-items: center;
   padding: 10px;
-  justify-content: center;
   width: 100%;
   min-height: 100%;
 `;
@@ -37,7 +34,7 @@ const OrderItemsViewPage: FC = () => {
     useEffect(() => {
         if(orderId)
             dispatch(fetchOrderItems(orderId))
-    }, [orderId])
+    }, [dispatch, orderId])
 
     const handleBack = () => {
         navigate("/roles");

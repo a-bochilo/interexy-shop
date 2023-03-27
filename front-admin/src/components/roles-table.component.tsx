@@ -45,23 +45,19 @@ const RolesTable = ({ roles }: { roles: RolesDto[] }) => {
       <TableContainer component={Paper} {...props} ref={ref} />
     )),
     Table: (props) => (
-      <Table
-        {...props}
-        sx={{ borderCollapse: "separate", tableLayout: "fixed" }}
-      />
+      <Table {...props} sx={{ borderCollapse: "separate", tableLayout: "fixed" }} />
     ),
     TableHead,
-    TableRow: ({ item: _item, ...props }) => (
-      _item.type === UserRoles.superadmin ? 
-      <TableRow 
-      {...props} 
-      /> :
-      <TableRow 
-      {...props} 
-      sx={{ cursor: "pointer" }} 
-      onClick={() => navigate(`${_item.id}`)}
-      />
-    ),
+    TableRow: ({ item: _item, ...props }) =>
+      _item.type === UserRoles.superadmin ? (
+        <TableRow {...props} />
+      ) : (
+        <TableRow
+          {...props}
+          sx={{ cursor: "pointer" }}
+          onClick={() => navigate(`${_item.id}`)}
+        />
+      ),
     TableBody: React.forwardRef<HTMLTableSectionElement>((props, ref) => (
       <TableBody {...props} ref={ref} />
     )),
@@ -91,14 +87,12 @@ const RolesTable = ({ roles }: { roles: RolesDto[] }) => {
 
   const rowContent = (_index: number, row: RolesDto) => {
     const stringPermissions = row["permissions"]?.join(", ");
-    const newRow = {...row, permissions: stringPermissions};
+    const newRow = { ...row, permissions: stringPermissions };
     return roles.length > 0 ? (
       <>
         {getColumns(roles[0]).map((column) => {
           return (
-            <TableCell key={column.dataKey} 
-            align="center"
-            >
+            <TableCell key={column.dataKey} align="center">
               {`${newRow[column.dataKey]}`}
             </TableCell>
           );
@@ -110,7 +104,7 @@ const RolesTable = ({ roles }: { roles: RolesDto[] }) => {
   };
 
   return (
-    <Paper style={{ minHeight: "calc(100vh - 64px)", minWidth: "100%" }}>
+    <Paper style={{ minWidth: "100%" }}>
       <TableVirtuoso
         data={roles}
         components={VirtuosoTableComponents}

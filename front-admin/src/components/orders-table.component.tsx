@@ -1,5 +1,3 @@
-
-
 import * as React from "react";
 import { TableVirtuoso, TableComponents } from "react-virtuoso";
 import { useNavigate } from "react-router-dom";
@@ -15,7 +13,6 @@ import Paper from "@mui/material/Paper";
 
 // ====================== Interfaces & DTO's ==================
 import { OrderDto } from "../app/orders/types/order.dto";
-
 
 interface ColumnData {
   dataKey: keyof OrderDto;
@@ -46,17 +43,14 @@ const OrdersTable = ({ orders }: { orders: OrderDto[] }) => {
       <TableContainer component={Paper} {...props} ref={ref} />
     )),
     Table: (props) => (
-      <Table
-        {...props}
-        sx={{ borderCollapse: "separate", tableLayout: "fixed" }}
-      />
+      <Table {...props} sx={{ borderCollapse: "separate", tableLayout: "fixed" }} />
     ),
     TableHead,
     TableRow: ({ item: _item, ...props }) => (
-      <TableRow 
-      {...props}
-      sx={{ cursor: "pointer" }} 
-      onClick={() => navigate(`${_item.id}`)}
+      <TableRow
+        {...props}
+        sx={{ cursor: "pointer" }}
+        onClick={() => navigate(`${_item.id}`)}
       />
     ),
     TableBody: React.forwardRef<HTMLTableSectionElement>((props, ref) => (
@@ -91,9 +85,7 @@ const OrdersTable = ({ orders }: { orders: OrderDto[] }) => {
       <>
         {getColumns(orders[0]).map((column) => {
           return (
-            <TableCell key={column.dataKey} 
-            align="center"
-            >
+            <TableCell key={column.dataKey} align="center">
               {`${row[column.dataKey]}`}
             </TableCell>
           );
@@ -105,7 +97,7 @@ const OrdersTable = ({ orders }: { orders: OrderDto[] }) => {
   };
 
   return (
-    <Paper style={{ minHeight: "calc(100vh - 64px)", minWidth: "100%" }}>
+    <Paper style={{ minWidth: "100%" }}>
       <TableVirtuoso
         data={orders}
         components={VirtuosoTableComponents}

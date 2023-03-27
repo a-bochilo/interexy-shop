@@ -6,9 +6,7 @@ import { Routes, Route } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 
-const Suspended: FC<PropsWithChildren & { element: any }> = ({
-  element: Element,
-}) => {
+const Suspended: FC<PropsWithChildren & { element: any }> = ({ element: Element }) => {
   return (
     <Suspense
       fallback={
@@ -31,15 +29,11 @@ const OrderItemsPage = React.lazy(
   () => import(/* webpackChunkName: "RolesPage" */ "../orders/orders-view.page")
 );
 
-
 const RolesRoutes: FC = () => {
   return (
     <Routes>
       <Route path={"/*"} element={<Suspended element={OrdersListPage} />} />
-      <Route path={"/:orderId"} element={<Suspended element={OrderItemsPage}/>}/>
-      
-      {/* DEFAULT */}
-      {/* <Route path="*" element={<Navigate to="/" />} /> */}
+      <Route path={"/:orderId"} element={<Suspended element={OrderItemsPage} />} />
     </Routes>
   );
 };
