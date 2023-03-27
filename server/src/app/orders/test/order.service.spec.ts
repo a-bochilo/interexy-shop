@@ -123,4 +123,10 @@ describe("Order service", () => {
       expect(await service.createOrderItem(order, product, 20)).toEqual(orderItem);
     });
   });
+
+  describe("method: Get order items by orderId", () => {
+    it("should be return order items", async () => {
+      expect(await service.getOrderItemByOrderId(order.id)).toEqual([orderItem]);
+    })
+  })
 });

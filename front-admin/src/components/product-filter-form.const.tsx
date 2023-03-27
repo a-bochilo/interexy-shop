@@ -5,7 +5,7 @@ export const formSchema = yup
     .object({
         category: yup
             .mixed()
-            .oneOf([...Object.values(ProductsCategory), ""])
+            .oneOf([...Object.values(ProductsCategory), "all"])
             .nullable(),
 
         name: yup.string().nullable(),

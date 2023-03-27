@@ -15,15 +15,20 @@ export class RoleService {
   constructor(private readonly roleRepository: RoleRepository) {}
 
   async createRole(createRoleDto: CreateRoleDto): Promise<RoleEntity> {
-    const existedRole = await this.roleRepository.getRoleByName(
-      createRoleDto.name
-    );
+    const existedRole = await this.roleRepository.getRoleByName(createRoleDto.name);
     if (existedRole) {
       throw new HttpException(
         `${I18nContext.current().t("errors.roles.roleAlreadyExist")}: '${
           existedRole.name
         }'`,
         HttpStatus.BAD_REQUEST
+      );
+    }
+
+    if (createRoleDto.type === UserRoles.superadmin) {
+      throw new HttpException(
+        `${I18nContext.current().t("errors.roles.roleSuperuserLimit")}`,
+        HttpStatus.NOT_FOUND
       );
     }
     return await this.roleRepository.createRole(createRoleDto);
@@ -33,9 +38,7 @@ export class RoleService {
     const role = await this.roleRepository.getRoleByType(roleType);
     if (!role) {
       throw new HttpException(
-        `${I18nContext.current().t(
-          "errors.roles.roleDoesNotExist"
-        )}: '${roleType}'`,
+        `${I18nContext.current().t("errors.roles.roleDoesNotExist")}: '${roleType}'`,
         HttpStatus.BAD_REQUEST
       );
     }
@@ -58,6 +61,15 @@ export class RoleService {
   }
 
   async deleteRole(id: number) {
+    const role = await this.roleRepository.getById(id);
+
+    if (role.type === UserRoles.superadmin) {
+      throw new HttpException(
+        `${I18nContext.current().t("errors.roles.roleSuperuserLimit")}`,
+        HttpStatus.NOT_FOUND
+      );
+    }
+
     if (await this.roleRepository.deleteRole(id)) {
       return HttpStatus.OK;
     } else {
@@ -70,13 +82,21 @@ export class RoleService {
 
   async updateRole(id: number, createRoleDto: CreateRoleDto) {
     const role = await this.roleRepository.getById(id);
+    if (role.type === UserRoles.superadmin) {
+      throw new HttpException(
+        `${I18nContext.current().t("errors.roles.roleSuperuserLimit")}`,
+        HttpStatus.NOT_FOUND
+      );
+    }
+
     if (!role) {
       throw new HttpException(
         `${I18nContext.current().t("errors.roles.roleDoesNotExist")}: '${id}'`,
         HttpStatus.BAD_REQUEST
       );
+    } else {
+      Object.assign(role, createRoleDto);
+      return await this.roleRepository.updateRole(role);
     }
-    Object.assign(role, createRoleDto);
-    return await this.roleRepository.updateRole(role);
   }
 }
