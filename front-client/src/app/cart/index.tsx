@@ -12,8 +12,8 @@ import DoneIcon from "@mui/icons-material/Done";
 // =========================== Components ===========================
 import PageFooterComp from "../../components/page-footer.comp";
 import PageNavBarComp from "../../components/navbar.comp";
-import PageAsideComp from "../../components/aside.comp";
 import CartItem from "../../components/cart-item.component";
+import PageAsideComp from "../../components/aside.component";
 
 // =========================== Store ===========================
 import { useAppDispatch, useAppSelector } from "../../store";
@@ -117,7 +117,7 @@ const CartPage: FC = () => {
 
     return (
         <MainGrid>
-            <PageNavBarComp />
+            <PageNavBarComp/>
             <ContentGrid
                 sx={{ flexDirection: { xs: "column-reverse", md: "row" } }}
             >

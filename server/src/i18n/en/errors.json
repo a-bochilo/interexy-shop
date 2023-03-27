@@ -6,7 +6,8 @@
     },
     "user": {
         "userDoesNotExist": "User does not exist",
-        "userIsSuperuser": "User is superuser"
+        "userIsSuperuser": "User is superuser",
+        "userAlreadyExist": "User already exist"
     },
     "products": {
         "productDoesNotExist": "Product does not exist",

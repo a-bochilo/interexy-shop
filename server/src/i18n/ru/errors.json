@@ -6,7 +6,8 @@
     },
     "user": {
         "userDoesNotExist": "Такого пользователя не существует",
-        "userIsSuperuser": "Пользователь является суперпользователем"
+        "userIsSuperuser": "Пользователь является суперпользователем",
+        "userAlreadyExist": "Пользователь уже существует"
     },
     "products": {
         "productDoesNotExist": "Такого товара не существует",

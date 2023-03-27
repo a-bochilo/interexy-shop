@@ -1,6 +1,6 @@
 // ========================== react ==========================
 import React from "react";
-import { Provider } from "react-redux";
+
 import { BrowserRouter as Router } from "react-router-dom";
 
 // ========================== mui ==========================
@@ -14,6 +14,7 @@ import theme from "./theme/mainTheme";
 import store from "./store";
 import AppRoutes from "./app.routes";
 import "./app.css";
+import { Provider } from "react-redux";
 
 function App() {
     return (
