@@ -62,17 +62,6 @@ const ProductFilterForm = () => {
         return newObj as ProductFilterDto;
     };
 
-    const fields: FilterKeysType[] = [
-        "category",
-        "name",
-        "brand",
-        "minPrice",
-        "maxPrice",
-        "minQuantity",
-        "maxQuantity",
-        "isActive",
-    ];
-
     const {
         register,
         control,
@@ -251,7 +240,7 @@ const ProductFilterForm = () => {
                         Reset
                     </Button>
                 </Box>
-                
+
                 <Box
                     sx={{
                         display: "flex",

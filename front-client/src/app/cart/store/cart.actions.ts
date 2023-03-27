@@ -74,3 +74,20 @@ export const clearCart = createAsyncThunk<CartDto>(
         }
     }
 );
+
+export const deleteCartItem = createAsyncThunk<CartDto, CartItemDto>(
+    "cart/deleteCartItem",
+    async (item: CartItemDto, { rejectWithValue }) => {
+        try {
+            const { data } = await $api.delete<
+                any,
+                AxiosResponse<CartDto, any>,
+                any
+            >(`/cart/${item.id}`);
+            return data;
+        } catch (e: any) {
+            console.error(e);
+            return rejectWithValue(e.response?.data?.message as string);
+        }
+    }
+);

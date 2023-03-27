@@ -82,7 +82,11 @@ const ProductViewPage: FC = () => {
             );
         }
         dispatch(
-            updateCartItem({ productId: productWithDetails.id, quantity })
+            updateCartItem({
+                id: cartItem?.id,
+                productId: productWithDetails.id,
+                quantity,
+            })
         );
     }, 300);
 

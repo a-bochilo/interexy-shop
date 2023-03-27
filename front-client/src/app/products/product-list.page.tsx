@@ -56,7 +56,10 @@ const ProductListPage: FC = () => {
                 dispatch(addCartItem({ productId, quantity }));
                 return;
             }
-            dispatch(updateCartItem({ productId, quantity }));
+            const item = cart.items.find(
+                (item) => item.productId === productId
+            );
+            dispatch(updateCartItem({ id: item?.id, productId, quantity }));
         },
         300
     );

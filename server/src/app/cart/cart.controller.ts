@@ -14,11 +14,11 @@ import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
 // ========================== Entities ==========================
 import { CartItemDto } from "./dtos/cart-item.dto";
-import { CartEntity } from "./entities/cart.entity";
 
 // ========================== DTO's ==========================
 import { UserSessionDto } from "../users/dtos/user-session.dto";
 import { CartSessionDto } from "./dtos/cart-session.dto";
+import { CartItemCreateDto } from "./dtos/cart-item-create.dto";
 
 // ========================== Decorators ==========================
 import { User } from "../users/decorators/user.decorator";
@@ -65,7 +65,7 @@ export class CartController {
     @UsePipes(new ValidationPipe())
     async addCartItem(
         @User() user: UserSessionDto,
-        @Body() cartItemDto: CartItemDto
+        @Body() cartItemDto: CartItemCreateDto
     ): Promise<CartSessionDto> {
         const cart = await this.cartService.addCartItem(user, cartItemDto);
         return CartSessionDto.fromEntity(cart);
@@ -97,7 +97,7 @@ export class CartController {
         type: CartSessionDto,
         isArray: false,
     })
-    @Delete("")
+    @Delete()
     @AuthPermissionsGuard(UserPermissions.cleanCart)
     @UsePipes(new ValidationPipe())
     async cleanCart(@User() user: UserSessionDto): Promise<CartSessionDto> {
@@ -113,14 +113,14 @@ export class CartController {
         type: CartSessionDto,
         isArray: false,
     })
-    @Delete(":productId")
+    @Delete(":itemId")
     @AuthPermissionsGuard(UserPermissions.deleteCartItem)
     @UsePipes(new ValidationPipe())
     async deleteCartItem(
         @User() user: UserSessionDto,
-        @Param("productId") productId: string
+        @Param("itemId") itemId: string
     ): Promise<CartSessionDto> {
-        const cart = await this.cartService.deleteCartItem(user, productId);
+        const cart = await this.cartService.deleteCartItem(user, itemId);
 
         return CartSessionDto.fromEntity(cart);
     }

@@ -8,6 +8,7 @@ import { CartDto } from "../types/cart.dto";
 import {
     addCartItem,
     clearCart,
+    deleteCartItem,
     fetchCart,
     updateCartItem,
 } from "./cart.actions";
@@ -109,6 +110,27 @@ const cartSlice = createSlice({
             )
             .addCase(
                 clearCart.rejected,
+                (state, action: any & { payload: any }) => {
+                    state.pending.cart = false;
+                    state.errors.cart = action.payload;
+                }
+            );
+
+        // ================== Delete cart item ==================
+        builder
+            .addCase(deleteCartItem.pending, (state) => {
+                state.pending.cart = true;
+            })
+            .addCase(
+                deleteCartItem.fulfilled,
+                (state, action: PayloadAction<CartDto>) => {
+                    state.pending.cart = false;
+                    state.errors.cart = null;
+                    state.cart = action.payload;
+                }
+            )
+            .addCase(
+                deleteCartItem.rejected,
                 (state, action: any & { payload: any }) => {
                     state.pending.cart = false;
                     state.errors.cart = action.payload;

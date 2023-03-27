@@ -14,15 +14,18 @@ const CartItem = ({
     product,
     handleUpdateCartItem,
     handleDeleteCartItem,
+    handleNavigate,
 }: {
     item: CartItemDto;
     product: ProductDto;
     handleUpdateCartItem: (item: CartItemDto) => void;
     handleDeleteCartItem: (item: CartItemDto) => void;
+    handleNavigate: (productId: string) => void;
 }) => {
     const [quantity, setQuantity] = useState<number>(item.quantity);
 
     useEffect(() => {
+        if (item.quantity === quantity) return;
         handleUpdateCartItem({ ...item, quantity });
     }, [quantity]);
 
@@ -50,14 +53,22 @@ const CartItem = ({
                 <>
                     <Grid item xs={3} md={2}>
                         <CardMedia
+                            sx={{ cursor: "pointer" }}
                             component="img"
                             alt={product.name}
                             image={product.image}
+                            onClick={() => handleNavigate(product.id)}
                         />
                     </Grid>
                     <Grid item xs={4} container direction="column" spacing={2}>
                         <Grid item>
-                            <Typography variant="h5" component="h2" pb={3}>
+                            <Typography
+                                variant="h5"
+                                component="h2"
+                                sx={{ cursor: "pointer" }}
+                                pb={3}
+                                onClick={() => handleNavigate(product.id)}
+                            >
                                 {product.name.toUpperCase()}
                             </Typography>
                         </Grid>
