@@ -3,7 +3,7 @@ import { FC, useEffect } from "react";
 
 // =========================== MUI ===========================
 import styled from "@emotion/styled";
-import { Grid } from "@mui/material";
+import { AppBar, Grid } from "@mui/material";
 
 // =========================== Components ===========================
 import PageAsideComp from "../../components/aside.comp";

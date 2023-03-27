@@ -1,9 +1,9 @@
 import React, { FC, Suspense } from "react";
 import { Navigate, Routes, Route } from "react-router-dom";
 
-
 // ========================== components ==========================
 import FallbackComponent from "./components/fallback.component";
+import OrdersPage from "./app/orders";
 
 // ======= private route ======= //
 const PrivateRoute: FC<{ element: any }> = ({ element: Element }) => {
@@ -18,7 +18,6 @@ const PrivateRoute: FC<{ element: any }> = ({ element: Element }) => {
 
 // ======= public route ======= //
 const PublicRoute: FC<{ element: any }> = ({ element: Element }) => (
-
     <Suspense fallback={<FallbackComponent />}>
         <Element />
     </Suspense>

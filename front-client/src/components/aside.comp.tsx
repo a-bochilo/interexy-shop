@@ -4,7 +4,9 @@ import React, { FC } from "react";
 // ========================== mui ==========================
 import Box from "@mui/material/Box";
 
-const PageAsideComp = (props: { children: JSX.Element | JSX.Element[] }) => {
+const PageAsideComp = (props: {
+    children: JSX.Element | (JSX.Element | null)[];
+}) => {
     return (
         <Box
             component={"aside"}
