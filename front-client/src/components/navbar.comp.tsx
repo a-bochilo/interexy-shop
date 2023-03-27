@@ -281,9 +281,9 @@ const PageNavBarComp = ({isAuth}: {isAuth: boolean}) => {
         </DrawerHeader>
         <Divider />
         <List>
-          {["Catalog", "Cart", "Login"].map((text, index) => (
+          {["Catalog"].map((text, index) => (
             <ListItem key={text} disablePadding>
-              <ListItemButton>
+              <ListItemButton onClick={() => navigate('/')}>
                 <ListItemText primary={text} />
               </ListItemButton>
             </ListItem>

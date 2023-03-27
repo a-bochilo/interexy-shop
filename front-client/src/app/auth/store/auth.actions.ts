@@ -3,8 +3,6 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { ISignInTemplate } from "../types/signIn.interface";
 import { ISignUpTemplate } from "../types/signUp.interface";
 
-
-
 export const fetchSignIn = createAsyncThunk(
   "auth/fetchSignIn",
   async (data: ISignInTemplate, { rejectWithValue }) => {
@@ -26,5 +24,17 @@ export const fetchSignUp = createAsyncThunk(
     } catch (error: any) {
       return rejectWithValue(error?.response?.data?.message as string);
     }
-  } 
+  }
 );
+
+// export const fetchRefreshToken = createAsyncThunk(
+//   "auth/fetchRefreshToken",
+//   async (_, { rejectWithValue }) => {
+//     try {
+//       const response = await $api.get("/auth/refresh-token");
+//       return response.data;
+//     } catch (error: any) {
+//       return rejectWithValue(error?.response?.data?.message as string);
+//     }
+//   }
+// );

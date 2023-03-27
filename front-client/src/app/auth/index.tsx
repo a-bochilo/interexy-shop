@@ -30,10 +30,16 @@ const ContentGrid = styled(Grid)`
   min-height: 100%;
 `;
 
+const token = window.localStorage.getItem("token");
+  let isAuth = false;
+  if (token) {
+    isAuth = true;
+  }
+
 const AuthPage: FC = () => {
   return (
     <MainGrid> 
-      <PageNavBarComp isAuth={false} />
+      <PageNavBarComp isAuth={isAuth} />
       <ContentGrid sx={{ flexDirection: { xs: "column-reverse", md: "row" } }}>
         <AuthRoutes />
       </ContentGrid>

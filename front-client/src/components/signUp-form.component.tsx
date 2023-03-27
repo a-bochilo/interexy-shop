@@ -197,7 +197,7 @@ const SignUpForm = ({
           }}
         >
           {fetchingPending && <CircularProgress />}
-          {fetchingPending && !fetchingErrors && (
+          {fetchingPending && fetchingErrors && (
             <TemporaryTypography
               variant="overline"
               align="center"

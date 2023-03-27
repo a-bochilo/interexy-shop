@@ -14,6 +14,7 @@ import { AppDispatch } from "../../store";
 import { useNavigate } from "react-router-dom";
 import { AuthErrorSelector, AuthPendingSelector } from "./store/auth.selector";
 import { clearErrors } from "./store/auth.slice";
+import { decodeToken } from "react-jwt";
 
 const SignUpPage: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -21,7 +22,8 @@ const SignUpPage: FC = () => {
   const fetchingPending = useSelector(AuthPendingSelector);
   const navigate = useNavigate();
 
-  const handleSignUp = (data: IFormInput) => {
+  const handleSignUp = async (data: IFormInput) => {
+    dispatch(clearErrors());
     const user: ISignUpTemplate = {
       email: data.email,
       password: data.password,
@@ -32,11 +34,10 @@ const SignUpPage: FC = () => {
         lastname: data?.lastName || "",
       },
     };
-    dispatch(clearErrors());
-    dispatch(fetchSignUp(user));
-    const token = window.localStorage.getItem("token");
-    if (token) {
-      navigate("/");
+    const newToken = await dispatch(fetchSignUp(user));
+    if (newToken.meta.requestStatus !== "rejected") {
+      window.localStorage.setItem("token", newToken.payload);
+      navigate("/products");
     }
   };
   return (

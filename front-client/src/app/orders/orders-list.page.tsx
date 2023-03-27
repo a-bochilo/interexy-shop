@@ -3,23 +3,22 @@ import { FC, useEffect, useState } from "react";
 
 // ============================ MUI ============================
 import styled from "@emotion/styled";
-import { CircularProgress, Grid } from "@mui/material";
+import { Grid, Paper, Stack } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 
 // =========================== Store ===========================
 import { AppDispatch } from "../../store";
-import { fetchOrderItems, fetchOrders } from "./store/orders.actions";
+import { fetchOrders } from "./store/orders.actions";
 
 // ======================== Components =========================
 import OrdersList from "../../components/orders-list.component";
-import { OrderItemsSelector, OrdersSelector } from "./store/orders.selector";
+import { OrdersSelector } from "./store/orders.selector";
 import { decodeToken } from "react-jwt";
-import OrderViewForm from "../../components/order-view.component";
 
 const MainGrid = styled(Grid)`
   display: flex;
-  align-items: top;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: space-between;
   width: 100%;
   min-height: 100%;
 `;
@@ -31,7 +30,6 @@ interface User {
 const OrdersListPage: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const orders = useSelector(OrdersSelector);
-  const order = useSelector(OrderItemsSelector);
   const [id, setId] = useState<string>("");
 
   useEffect(() => {
@@ -42,27 +40,33 @@ const OrdersListPage: FC = () => {
         setId(user.id);
       }
     }
-    dispatch(fetchOrders(id));
+    dispatch(fetchOrders());
   }, [dispatch, id]);
-
-  const handleClickOnOrder = (orderId: string) => {
-    dispatch(fetchOrderItems(orderId));
-  };
 
   return (
     <MainGrid>
-      <Grid item xs={6}>
-        {orders.length > 0 ? (
-          <OrdersList orders={orders} handleClickOnOrder={handleClickOnOrder} />
-        ) : (
-          <h2>
-            YOU HAVE NO ORDERS
-          </h2>
-        )}
-      </Grid>
-      <Grid item xs={6}>
-        <OrderViewForm order={order} />
-      </Grid>
+      <Stack spacing={2}>
+        <Paper
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            margin: "16px",
+          }}
+          elevation={0}
+        >
+          <h2>My orders</h2>
+        </Paper>
+      </Stack>
+      <Paper
+        sx={{
+          display: "flex",
+          margin: "36px",
+        }}
+        elevation={5}
+      >
+        {orders.length > 0 ? <OrdersList orders={orders} /> : <h2>YOU HAVE NO ORDERS</h2>}
+      </Paper>
     </MainGrid>
   );
 };

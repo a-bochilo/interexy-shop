@@ -7,7 +7,7 @@ import styled from "@emotion/styled";
 import { Grid } from "@mui/material";
 
 // =========================== Components ===========================
-import PageAsideComp from "../../components/aside.comp";
+import PageAsideComp from "../../components/aside.component";
 import PageFooterComp from "../../components/page-footer.comp";
 import PageNavBarComp from "../../components/navbar.comp";
 import ProductFilterForm from "../../components/product-filter-form.component";
