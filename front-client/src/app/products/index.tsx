@@ -1,10 +1,9 @@
 // =========================== React ===========================
 import { FC, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
 // =========================== MUI ===========================
 import styled from "@emotion/styled";
-import { Button, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 
 // =========================== Components ===========================
 import PageAsideComp from "../../components/aside.comp";
@@ -35,9 +34,8 @@ const ContentGrid = styled(Grid)`
     min-height: 100%;
 `;
 
-const ProductsPage: FC = () => {
+const CartPage: FC = () => {
     const dispatch = useAppDispatch();
-    const navigate = useNavigate();
 
     useEffect(() => {
         dispatch(fetchProducts());
@@ -59,4 +57,4 @@ const ProductsPage: FC = () => {
     );
 };
 
-export default ProductsPage;
+export default CartPage;

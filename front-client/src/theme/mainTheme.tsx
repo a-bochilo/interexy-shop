@@ -53,30 +53,11 @@ const theme: Theme = createTheme({
         fontFamily: ["Inter", "sans-serif"].join(","),
         fontSize: 12,
     },
+
     components: {
         MuiCssBaseline: {
             styleOverrides: `
-        @font-face {
-          font-family: 'Inter';
-          font-style: normal;
-          font-display: swap;
-          font-weight: 400;
-          src: local('Inter'), local('Inter-Regular'), url("Inter") format('truetype');
-        };
-        @font-face {
-          font-family: 'Inter';
-          font-style: normal;
-          font-display: swap;
-          font-weight: 700;
-          src: local('Inter'), local('Inter-SemiBold'), url("Inter") format('truetype');         
-        };
-         @font-face {
-          font-family: 'Inter';
-          font-style: normal;
-          font-display: swap;
-          font-weight: 700;
-          src: local('Inter'), local('Inter-SemiBold'), url("Inter") format('truetype');         
-        };
+        
         body {
           height: 100vh;
           font-family: 'Inter';
@@ -90,6 +71,12 @@ const theme: Theme = createTheme({
         .rdp {
           --rdp-accent-color: #ff3232;
           
+        }
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            opacity: 0;        
+            visibility: hidden;  
+            position: absolute;    
         }
         :root {
           --header-height: 92px;
