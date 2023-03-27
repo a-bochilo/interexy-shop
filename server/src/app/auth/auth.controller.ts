@@ -63,7 +63,6 @@ export class AuthController {
     @AuthPermissionsGuard(UserPermissions.refreshToken)
     async refreshToken(@User() currentUser: UserSessionDto): Promise<TokenDto> {
         const user = await this.securityService.getUser(currentUser.id);
-
         return await this.securityService.generateJwt(user);
     }
 }

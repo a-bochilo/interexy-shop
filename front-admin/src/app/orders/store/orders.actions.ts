@@ -4,11 +4,12 @@ import $api from "../../../api/api";
 
 // ====================== Interfaces & DTO's =========================
 import { OrderDto } from "../types/order.dto";
+import { OrderItemDto } from "../types/order-item.dto";
 
 
 
 export const fetchOrders = createAsyncThunk<OrderDto[]>(
-    "roles/fetchOrders",
+    "orders/fetchOrders",
     async (_, { rejectWithValue }) => {
       try {
         const response: AxiosResponse<OrderDto[]> = await $api.get(`/orders`);
@@ -18,3 +19,16 @@ export const fetchOrders = createAsyncThunk<OrderDto[]>(
       }
     }
   );
+
+
+  export const fetchOrderItems = createAsyncThunk<OrderItemDto[], string>(
+    "orders/fetchOrderItems",
+    async(orderId: string, {rejectWithValue}) => {
+      try {
+        const response: AxiosResponse<OrderItemDto[]> = await $api.get(`/orders/items/${orderId}`);
+        return response.data;
+      } catch(error: any) {
+        return rejectWithValue(error?.response?.data?.message as string);
+      }
+    }
+  )

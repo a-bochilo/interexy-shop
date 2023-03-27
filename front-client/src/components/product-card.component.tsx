@@ -14,10 +14,10 @@ import LaunchIcon from "@mui/icons-material/Launch";
 
 // =========================== Interfaces & DTO's ===========================
 import { ProductDto } from "../app/products/types/product.dto";
-import { CartDto } from "../app/cart/types/cart.dto";
 
 // =========================== Components ===========================
 import CartButton from "./cart-button.compoent";
+import { CartDto } from "../app/cart/types/cart.dto";
 
 const ProductCard = ({
     product,
