@@ -21,6 +21,7 @@ export class UpdateUserDto {
     readonly phone?: string;
 
     details?: UserDetailsDto;
+    
     readonly role?: RoleEntity;
     readonly roleId?: number;
     readonly details_id?: string;

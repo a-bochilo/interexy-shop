@@ -23,40 +23,39 @@ const SignInPage: FC = () => {
     const navigate = useNavigate();
     const [error, setError] = useState(false);
 
-    const handleSignIn = async (data: IFormInput) => {
-        const newToken = await dispatch(fetchSignIn(data));
-        if (!newToken.payload) {
-            //ERROR: FAILED TO SIGNIN
-            setError(true);
-        }
-        if (newToken.payload) {
-            const user: any = decodeToken(newToken.payload);
-            if (user.role_type === "user") {
-                window.localStorage.setItem("token", newToken.payload);
-                //window.location.replace("https://http://localhost:3001/");
-                console.log("token");
-                dispatch(fetchCart());
-                setError(false);
-                navigate("/");
-            } else {
-                window.localStorage.setItem("token", newToken.payload);
-                navigate("/roles");
-                setError(false);
-            }
-        }
-    };
+  const handleSignIn = async (data: IFormInput) => {
+    const newToken = await dispatch(fetchSignIn(data));
+    if (!newToken.payload) {
+      //ERROR: FAILED TO SIGNIN
+      setError(true);
+    }
+    if (newToken.payload) {
+      const user: any = decodeToken(newToken.payload);
+      if (user.role_type === "superadmin") {
+        window.localStorage.setItem("token", newToken.payload);
+        window.location.replace("https://localhost:3001/");
+        setError(false);
+      } else {
+        window.localStorage.setItem("token", newToken.payload);
+        dispatch(fetchCart());
+        navigate("/products");
+        setError(false);
+      }
+    }
+  };
 
-    return (
-        <Grid
-            sx={{
-                display: "flex",
-                flexDirection: "column",
-                minWidth: "400px",
-            }}
-        >
-            <SignInForm handleSignIn={handleSignIn} error={error} />
-        </Grid>
-    );
+  return (
+    <Grid
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        minWidth: "400px",
+        minHeight: "100%"
+      }}
+    >
+      <SignInForm handleSignIn={handleSignIn} error={error} />
+    </Grid>
+  );
 };
 
 export default SignInPage;
