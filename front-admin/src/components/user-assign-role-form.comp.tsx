@@ -24,21 +24,21 @@ interface IUserAssignRole {
 
 interface FormProps {
   formName: string;
-  selectedUser: UserDto;
+  userId: string;
   selectedUserRole: RolesDto;
   userRoles: RolesDto[];
   disabled: boolean;
   pending: boolean;
   setDisabled: (e: boolean) => void;
   buttonOnclick: () => void;
-  handleSave: (e: Partial<IUserAssignRole>) => void;
+  handleSave: (e: IUserAssignRole) => void;
   handleBack: () => void;
 }
 
 const UserAssignRoleFormComp: FC<FormProps> = ({
   formName,
   userRoles,
-  selectedUser,
+  userId,
   selectedUserRole,
   disabled,
   pending,
@@ -47,13 +47,6 @@ const UserAssignRoleFormComp: FC<FormProps> = ({
   handleSave,
   handleBack,
 }) => {
-  const removeEmptyFields = (obj: Partial<IUserAssignRole>) => {
-    const newObj = Object.fromEntries(
-      Object.entries(obj).filter(([_, v]) => v !== (null || undefined))
-    );
-    return newObj as Partial<IUserAssignRole>;
-  };
-
   const {
     register,
     control,
@@ -63,13 +56,12 @@ const UserAssignRoleFormComp: FC<FormProps> = ({
     mode: "onChange",
   });
 
-  const onSubmit: SubmitHandler<Partial<IUserAssignRole>> = (data) => {
-    const outputData = Object.assign(removeEmptyFields(data), {
-      id: selectedUser.id,
-      name: selectedUserRole.name,
-    });
-    console.log(outputData);
-    handleSave(outputData);
+  const onSubmit: SubmitHandler<IUserAssignRole> = (data) => {
+    const userWithNewRole = {
+      ...data,
+      id: userId,
+    };
+    handleSave(userWithNewRole);
     setDisabled(!disabled);
   };
 
@@ -107,6 +99,7 @@ const UserAssignRoleFormComp: FC<FormProps> = ({
           >
             user id
           </Typography>
+
           <Controller
             name="id"
             control={control}
@@ -116,10 +109,10 @@ const UserAssignRoleFormComp: FC<FormProps> = ({
                   width: "100%",
                   alignSelf: "right",
                 }}
-                disabled
-                defaultValue={selectedUser?.id}
+                disabled={true}
                 size="small"
-                id="outlined-basic"
+                value={userId ? userId : null}
+                id="id"
                 variant="outlined"
                 {...register("id")}
               />
@@ -158,11 +151,13 @@ const UserAssignRoleFormComp: FC<FormProps> = ({
                 variant="outlined"
                 {...register("name")}
               >
-                {userRoles.map((role) => (
-                  <MenuItem key={role.id} value={role.id}>
-                    {role.name}
-                  </MenuItem>
-                ))}
+                {userRoles
+                  .filter((role) => role.name !== "superadmin")
+                  .map((role) => (
+                    <MenuItem key={role.id} value={role.name}>
+                      {role.name}
+                    </MenuItem>
+                  ))}
               </TextField>
             )}
           />

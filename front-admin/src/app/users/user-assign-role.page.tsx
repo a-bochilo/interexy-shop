@@ -18,9 +18,19 @@ import {
   usersSelector,
   usersLoadingSelector,
 } from "./store/users.selectors";
-import { assignRole, getUserInfo, getUsers, updateUserInfo } from "./store/users.actions";
+import {
+  assignRole,
+  getUserInfo,
+  getUsers,
+  updateUserInfo,
+} from "./store/users.actions";
 import { fetchRoles } from "../roles/store/roles.actions";
 import { RolesSelector } from "../roles/store/roles.selector";
+
+interface IUserAssignRole {
+  id: string;
+  name: string;
+}
 
 const MainGrid = styled(Grid)`
   justify-content: center;
@@ -52,7 +62,7 @@ const UserAssignRolePage: FC = () => {
     setDisabled(!disabled);
   };
 
-  const handleSave = (data: any) => {
+  const handleSave = (data: IUserAssignRole) => {
     if (!userId) return;
     dispatch(assignRole(data));
   };
@@ -65,15 +75,15 @@ const UserAssignRolePage: FC = () => {
   const selectedUserRole = userRoles.find(
     (role) => role.id === selectedUser?.roleId
   );
-  console.log(`selectedUserRole`, selectedUserRole)
+  console.log(`selectedUserRole`, selectedUserRole);
 
   return (
     <MainGrid>
-      {selectedUserRole && selectedUser ? (
+      {selectedUserRole && userId ? (
         <UserAssignRoleFormComp
           formName={"User Assign Role"}
           userRoles={userRoles}
-          selectedUser={selectedUser}
+          userId={userId}
           disabled={disabled}
           selectedUserRole={selectedUserRole}
           pending={usersLoading}

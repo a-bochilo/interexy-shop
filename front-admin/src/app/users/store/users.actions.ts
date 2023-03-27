@@ -66,10 +66,10 @@ export const assignRole = createAsyncThunk<
   UserAssignRoleDto
 >("POST/users/assignRole/:userId", async (data) => {
   try {
-    const response = await $api.post(
-      `/users/assignRole/${data.id}`,
-      data
-    );
+    const newRole = {
+      newRole: data.name,
+    };
+    const response = await $api.post(`/users/assignRole/${data.id}`, newRole);
     console.log(`response.data`, response.data);
     return response.data;
   } catch (error: any) {
