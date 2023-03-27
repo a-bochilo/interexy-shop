@@ -3,7 +3,7 @@ import { FC, useEffect } from "react";
 
 // =========================== MUI ===========================
 import styled from "@emotion/styled";
-import { AppBar, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 
 // =========================== Components ===========================
 import PageAsideComp from "../../components/aside.component";
@@ -35,11 +35,11 @@ const ContentGrid = styled(Grid)`
 `;
 
 const ProductsPage: FC = () => {
-  const dispatch = useAppDispatch();
+    const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(fetchProducts());
-  }, []);
+    useEffect(() => {
+        dispatch(fetchProducts());
+    }, [dispatch]);
 
   return (
     <MainGrid>

@@ -56,9 +56,9 @@ const ordersSlice = createSlice({
       .addCase(fetchOrders.rejected, (state, action: any & { payload: any }) => {
         state.pending.orders = false;
         state.errors.orders = action.payload;
-      })
+      });
 
-      builder
+    builder
       .addCase(fetchOrderItems.pending, (state) => {
         state.pending.orders = true;
       })
@@ -69,9 +69,9 @@ const ordersSlice = createSlice({
       .addCase(fetchOrderItems.rejected, (state, action: any & { payload: any }) => {
         state.pending.orders = false;
         state.errors.orders = action.payload;
-      })
+      });
 
-      builder
+    builder
       .addCase(fetchCreateOrder.pending, (state) => {
         state.pending.orders = true;
       })
@@ -86,6 +86,7 @@ const ordersSlice = createSlice({
       .addDefaultCase(() => {});
   },
 });
+
 const { actions, reducer } = ordersSlice;
 export default reducer;
 export const { clearErrors } = actions;

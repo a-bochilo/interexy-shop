@@ -48,7 +48,7 @@ const SignInForm = ({
     <Paper
       sx={{
         maxWidth: 400,
-        height: 340,
+        minHeight: 340,
         backgroundColor: "lightblue",
         justifyContent: "center",
         p: 3,

@@ -11,16 +11,17 @@ import { AppDispatch } from "../../store";
 import { decodeToken } from "react-jwt";
 import { fetchSignIn } from "./store/auth.actions";
 import { useNavigate } from "react-router-dom";
+import { fetchCart } from "../cart/store/cart.actions";
 
 interface IFormInput {
-  email: string;
-  password: string;
+    email: string;
+    password: string;
 }
 
 const SignInPage: FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate();
-  const [error, setError] = useState(false);
+    const dispatch = useDispatch<AppDispatch>();
+    const navigate = useNavigate();
+    const [error, setError] = useState(false);
 
   const handleSignIn = async (data: IFormInput) => {
     const newToken = await dispatch(fetchSignIn(data));
@@ -32,11 +33,12 @@ const SignInPage: FC = () => {
       const user: any = decodeToken(newToken.payload);
       if (user.role_type === "superadmin") {
         window.localStorage.setItem("token", newToken.payload);
-        window.location.replace("https:localhost:3000/");
+        window.location.replace("https://localhost:3001/");
         setError(false);
       } else {
         window.localStorage.setItem("token", newToken.payload);
-        navigate("/roles");
+        dispatch(fetchCart());
+        navigate("/products");
         setError(false);
       }
     }
@@ -48,6 +50,7 @@ const SignInPage: FC = () => {
         display: "flex",
         flexDirection: "column",
         minWidth: "400px",
+        minHeight: "100%"
       }}
     >
       <SignInForm handleSignIn={handleSignIn} error={error} />

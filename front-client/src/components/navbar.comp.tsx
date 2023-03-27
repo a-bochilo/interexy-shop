@@ -37,6 +37,9 @@ import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../store";
 import { cartSelector } from "../app/cart/store/cart.selectors";
 
+// ========================== store ==========================
+import { AppDispatch } from "../store";
+
 const settings = ["Account", "My orders", "Logout"];
 
 const drawerWidth = 200;
@@ -117,7 +120,7 @@ const PageNavBarComp = () => {
 
   const theme = useTheme();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const [open, setOpen] = useState(false);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
@@ -149,11 +152,9 @@ const PageNavBarComp = () => {
         navigate("/orders/profile");
         break;
       case "Logout":
-        if (window.confirm("Are you sure you want to logout?")) {
-          dispatch(logout());
-          window.localStorage.removeItem("token");
-          navigate("/");
-        }
+        dispatch(logout());
+        window.localStorage.removeItem("token");
+        navigate("/");
         break;
       default:
         break;
@@ -291,6 +292,7 @@ const PageNavBarComp = () => {
           </Container>
         </Toolbar>
       </AppBar>
+
       <Drawer
         sx={{
           width: drawerWidth,

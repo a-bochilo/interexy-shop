@@ -12,8 +12,8 @@ import DoneIcon from "@mui/icons-material/Done";
 // =========================== Components ===========================
 import PageFooterComp from "../../components/page-footer.comp";
 import PageNavBarComp from "../../components/navbar.comp";
-import CartItem from "../../components/cart-item.component";
 import PageAsideComp from "../../components/aside.component";
+import CartItem from "../../components/cart-item.component";
 
 // =========================== Store ===========================
 import { useAppDispatch, useAppSelector } from "../../store";
@@ -137,7 +137,11 @@ const CartPage: FC = () => {
                         ml={3}
                         mt={2}
                     >
-                        Ordering
+                        {!!cart?.items.length ? (
+                            <>Ordering</>
+                        ) : (
+                            <>No products in cart</>
+                        )}
                     </Typography>
                     {!cart && pending.cart && (
                         <CircularProgress sx={{ alignSelf: "center" }} />

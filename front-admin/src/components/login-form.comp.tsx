@@ -12,9 +12,9 @@ import { decodeToken } from "react-jwt";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Box, Paper, Typography } from "@mui/material";
-import { fetchAuth } from "../app/login/store/auth.slice";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store";
+import { fetchAuth } from "../app/login/store/auth.slice";
 
 interface IFormInput {
   email: string;
@@ -57,7 +57,7 @@ const LoginForm: FC = () => {
       } else {
         window.localStorage.setItem("token", newToken.payload);
         console.log("Redirect to roles table");
-        navigate("/roles");
+        navigate("/products");
         setError(false);
       }
     }
@@ -67,7 +67,7 @@ const LoginForm: FC = () => {
     <Paper
       sx={{
         maxWidth: 400,
-        height: 340,
+        minHeight: 340,
         backgroundColor: "lightblue",
         justifyContent: "center",
         p: 3,

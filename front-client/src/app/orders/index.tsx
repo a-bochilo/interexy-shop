@@ -30,7 +30,7 @@ const ContentGrid = styled(Grid)`
 const OrdersPage = () => {
   return (
     <MainGrid>
-      <PageNavBarComp />
+      <PageNavBarComp/>
       <ContentGrid>
         <OrdersRoutes />
       </ContentGrid>
