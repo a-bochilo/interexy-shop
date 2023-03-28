@@ -14,14 +14,14 @@ import { useNavigate } from "react-router-dom";
 import { fetchCart } from "../cart/store/cart.actions";
 
 interface IFormInput {
-  email: string;
-  password: string;
+    email: string;
+    password: string;
 }
 
 const SignInPage: FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate();
-  const [error, setError] = useState(false);
+    const dispatch = useDispatch<AppDispatch>();
+    const navigate = useNavigate();
+    const [error, setError] = useState(false);
 
   const handleSignIn = async (data: IFormInput) => {
     const newToken = await dispatch(fetchSignIn(data));

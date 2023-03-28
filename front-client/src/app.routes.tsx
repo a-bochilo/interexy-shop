@@ -9,50 +9,22 @@ import FallbackComponent from "./components/fallback.component";
 
 // ======= private route ======= //
 const PrivateRoute: FC<{ element: any }> = ({ element: Element }) => {
-  return true ? (
-    <Suspense
-      fallback={
-        <Box
-          sx={{
-            display: "flex",
-            minHeight: "100vh",
-            minWidth: "100vw",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <CircularProgress />
-        </Box>
-      }
-    >
-      <div>
-        <Element />
-      </div>
-    </Suspense>
-  ) : (
-    <Navigate to={"/"} />
-  );
+    return true ? (
+        <Suspense fallback={<FallbackComponent />}>
+            <div>
+                <Element />
+            </div>
+        </Suspense>
+    ) : (
+        <Navigate to={"/"} />
+    );
 };
 
 // ======= public route ======= //
 const PublicRoute: FC<{ element: any }> = ({ element: Element }) => (
-  <Suspense
-    fallback={
-      <Box
-        sx={{
-          display: "flex",
-          minHeight: "100vh",
-          minWidth: "100vw",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    }
-  >
-    <Element />
-  </Suspense>
+    <Suspense fallback={<FallbackComponent />}>
+        <Element />
+    </Suspense>
 );
 
 // ======= pages ======= //
@@ -63,24 +35,36 @@ const OrdersPage = React.lazy(() => import("./app/orders"));
 const UserPage = React.lazy(() => import("./app/users"));
 
 const AppRoutes = () => {
-  return (
-    <Routes>
-      {/* PUBLIC */}
-      <Route path={"products/*"} element={<PublicRoute element={ProductsPage} />} />
-      <Route path={"auth/*"} element={<PublicRoute element={AuthPage} />} />
-      <Route path={"orders/*"} element={<PublicRoute element={OrdersPage} />} />
+    return (
+        <Routes>
+            {/* PUBLIC */}
+            <Route
+                path={"products/*"}
+                element={<PublicRoute element={ProductsPage} />}
+            />
+            <Route
+                path={"auth/*"}
+                element={<PublicRoute element={AuthPage} />}
+            />
+            <Route
+                path={"orders/*"}
+                element={<PublicRoute element={OrdersPage} />}
+            />
 
             {/* PRIVATE */}
             <Route
                 path={"cart/*"}
                 element={<PrivateRoute element={CartPage} />}
             />
-             <Route path={"/users/profile/*"} element={<PrivateRoute element={UserPage} />} />
+            <Route
+                path={"profile/*"}
+                element={<PrivateRoute element={UserPage} />}
+            />
 
-      {/* DEFAULT */}
-      <Route path="*" element={<Navigate to="/products" />} />
-    </Routes>
-  );
+            {/* DEFAULT */}
+            <Route path="*" element={<Navigate to="/products" />} />
+        </Routes>
+    );
 };
 
 export default AppRoutes;

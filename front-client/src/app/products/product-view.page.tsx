@@ -2,6 +2,7 @@ import { FC, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { debounce } from "lodash";
+import { useTranslation } from "react-i18next";
 
 // =========================== MUI ===========================
 import {
@@ -35,10 +36,28 @@ import { ProductWithDetailsDto } from "./types/product-with-details.dto";
 
 // =========================== Components ===========================
 import CartButton from "../../components/cart-button.compoent";
+import {
+    ICategoriesSelector,
+    ProductsCategory,
+} from "./types/products-category.enum";
 
 const ProductViewPage: FC = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    const { t } = useTranslation();
+
+    const productInfoTranslation: ProductWithDetailsDto = t(
+        "products.productInfo",
+        {
+            returnObjects: true,
+        }
+    );
+    const productsCategoriesTranslation: ICategoriesSelector = t(
+        "products.categories",
+        {
+            returnObjects: true,
+        }
+    );
 
     const isInitialLoading = useRef(true);
     const { productId } = useParams();
@@ -100,8 +119,10 @@ const ProductViewPage: FC = () => {
         obj: ProductWithDetailsDto,
         key: keyof ProductWithDetailsDto
     ) => {
-        const value = obj[key];
-
+        let value = obj[key];
+        if (key === "category") {
+            value = productsCategoriesTranslation[value as ProductsCategory];
+        }
         return (
             <Grid container>
                 <Typography
@@ -109,11 +130,11 @@ const ProductViewPage: FC = () => {
                     align="right"
                     pr={2}
                     sx={{
-                        minWidth: 90,
+                        minWidth: 110,
                         fontWeight: "bold",
                     }}
                 >
-                    {key.toLowerCase()}
+                    {(productInfoTranslation[key] as string).toLowerCase()}
                 </Typography>
                 <Typography>
                     {typeof value === "string" ? value.toUpperCase() : value}
