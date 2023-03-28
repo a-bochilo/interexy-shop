@@ -5,6 +5,7 @@ import { ProductDto } from "./product.dto";
 
 export interface IProductsState extends BaseState {
     products: ProductDto[];
+    filtredProducts: ProductDto[];
     productDetails: ProductDetailsDto | undefined;
     pending: {
         products: boolean;

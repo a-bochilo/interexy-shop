@@ -32,8 +32,7 @@ const SignInPage: FC = () => {
     if (newToken.payload) {
       const user: any = decodeToken(newToken.payload);
       if (user.role_type === "superadmin") {
-        window.localStorage.setItem("token", newToken.payload);
-        window.location.replace("https://localhost:3001/");
+        window.location.replace("http://localhost:3000");
         setError(false);
       } else {
         window.localStorage.setItem("token", newToken.payload);
@@ -50,7 +49,7 @@ const SignInPage: FC = () => {
         display: "flex",
         flexDirection: "column",
         minWidth: "400px",
-        minHeight: "100%"
+        minHeight: "100%",
       }}
     >
       <SignInForm handleSignIn={handleSignIn} error={error} />

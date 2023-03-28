@@ -14,7 +14,7 @@ import Button from "@mui/material/Button";
 import { Box, Paper, Typography } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store";
-import { fetchAuth } from "../app/login/store/auth.slice";
+import { fetchAuth } from "../app/login/store/auth.slice"
 
 interface IFormInput {
   email: string;
@@ -49,13 +49,11 @@ const LoginForm: FC = () => {
     if (newToken.payload) {
       const user: any = decodeToken(newToken.payload);
       if (user.role_type === "user") {
-        window.localStorage.setItem("token", newToken.payload);
-        window.location.replace("https://google.com/");
+        window.location.replace("http://localhost:3001")
         setError(false);
       } else {
         window.localStorage.setItem("token", newToken.payload);
-        console.log("Redirect to roles table");
-        navigate("/roles");
+        navigate("/products");
         setError(false);
       }
     }
@@ -110,7 +108,7 @@ const LoginForm: FC = () => {
                 required: true,
                 minLength: {
                   value: 5,
-                  message: "min length is 5",
+                  message: "min length is 6",
                 },
               })}
               placeholder="password"

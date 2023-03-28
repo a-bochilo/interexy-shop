@@ -26,7 +26,6 @@ const ContentGrid = styled(Grid)`
   display: flex;
   flex-grow: 1;
   min-width: 100%;
-  min-height: 100vh;
 `;
 
 const RolesPage: FC = () => {
