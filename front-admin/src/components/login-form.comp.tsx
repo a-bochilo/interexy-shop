@@ -1,31 +1,27 @@
 // ========================== react ==========================
-import { FC, useState } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 
 // ========================== yup ==========================
 import { yupResolver } from "@hookform/resolvers/yup";
 import { formSchema } from "./login-form.const";
-import { decodeToken } from "react-jwt";
 
 // ========================== mui ==========================
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Box, Paper, Typography } from "@mui/material";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../store";
-import { fetchAuth } from "../app/login/store/auth.slice"
 
 interface IFormInput {
   email: string;
   password: string;
 }
 
-const LoginForm: FC = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch<AppDispatch>();
-  const [error, setError] = useState(false);
-
+const LoginForm = ({
+  handleSave,
+  error,
+}: {
+  handleSave: (s: IFormInput) => void;
+  error: boolean;
+}) => {
   const {
     register,
     control,
@@ -40,23 +36,8 @@ const LoginForm: FC = () => {
     resolver: yupResolver(formSchema),
   });
 
-  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    const newToken = await dispatch(fetchAuth(data));
-    if (!newToken.payload) {
-      //ERROR: FAILED TO SIGNIN
-      setError(true);
-    }
-    if (newToken.payload) {
-      const user: any = decodeToken(newToken.payload);
-      if (user.role_type === "user") {
-        window.location.replace("http://localhost:3001")
-        setError(false);
-      } else {
-        window.localStorage.setItem("token", newToken.payload);
-        navigate("/products");
-        setError(false);
-      }
-    }
+  const onSubmit: SubmitHandler<IFormInput> = async (data: IFormInput) => {
+    handleSave(data);
   };
 
   return (
