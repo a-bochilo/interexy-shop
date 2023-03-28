@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { debounce } from "lodash";
 
@@ -9,7 +9,6 @@ import { CircularProgress, Grid } from "@mui/material";
 
 // =========================== Store ===========================
 import {
-    productsSelector,
     productsPendingSelector,
     filtredProductsSelector,
 } from "./store/products.selectors";
@@ -38,7 +37,6 @@ const ProductListPage: FC = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
-    const products = useAppSelector(productsSelector);
     const filtredProducts = useAppSelector(filtredProductsSelector);
     const pending = useAppSelector(productsPendingSelector);
     const cart = useAppSelector(cartSelector);

@@ -53,7 +53,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
-const SearchComponent = () => {
+const SearchComponent = ({ label }: { label: string }) => {
     const dispatch = useAppDispatch();
 
     const products = useAppSelector(productsSelector);
@@ -76,8 +76,7 @@ const SearchComponent = () => {
                 <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
-                placeholder="Search…"
-                inputProps={{ "aria-label": "search" }}
+                placeholder={label}
                 onChange={(e) => {
                     onChangeHandler(e);
                 }}

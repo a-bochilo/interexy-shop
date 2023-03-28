@@ -1,0 +1,41 @@
+{
+    "products": {
+        "productsFilterForm": {
+            "formTitle": "Фильтр продуктов",
+            "selectCategory": "Выберите категорию",
+            "name": "имя",
+            "brand": "торговая марка",
+            "minPrice": "минЦена",
+            "maxPrice": "максЦена",
+            "filterButtonTitle": "искать",
+            "resetButtonTitle": "сброс"
+        },
+        "productInfo": {
+            "category": "категория",
+            "name": "имя",
+            "brand": "торговая марка",
+            "color": "цвет",
+            "material": "материал",
+            "size": "размер",
+            "description": "описание"
+        },
+        "categories": {
+            "all": "все",
+            "trousers": "брюки",
+            "shirts": "майки",
+            "shoes": "обувь"
+        }
+    },
+    "cart": {
+        "pricePerPcs": "цена за ед.",
+        "total": "Всего",
+        "orderAmount": "Сумма заказа",
+        "confirmOrder": "Подтвердить заказ",
+        "ordering": "Оформление заказа",
+        "emptyCartStub": "Корзина пуста"
+    },
+    "links": {
+        "catalog": "Каталог"
+    },
+    "search": "Поиск..."
+}

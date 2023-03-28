@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { startCase } from "lodash";
+import { useTranslation } from "react-i18next";
 
 // ========================== mui ==========================
 import { styled, useTheme } from "@mui/material/styles";
@@ -33,6 +34,7 @@ import {
 
 // ========================== Enums ==========================
 import { ProductsCategory } from "../app/products/types/products-category.enum";
+import { ICategoriesSelector } from "../app/products/types/products-category.enum";
 
 // ========================== store ==========================
 import { logout } from "../app/auth/store/auth.slice";
@@ -43,6 +45,7 @@ import { cartSelector } from "../app/cart/store/cart.selectors";
 // ========================== components ==========================
 import SearchComponent from "./search.component";
 import CartIconComponent from "./cart-icon.component";
+import LanguageSwitcher from "./language-switcher.component";
 
 const settings = ["Account", "My orders", "Logout"];
 
@@ -83,6 +86,13 @@ const PageNavBarComp = () => {
     const theme = useTheme();
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
+    const { t } = useTranslation();
+    const categoriesTranslations: ICategoriesSelector = t(
+        "products.categories",
+        {
+            returnObjects: true,
+        }
+    );
 
     const [open, setOpen] = useState(false);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
@@ -180,7 +190,9 @@ const PageNavBarComp = () => {
                                 gap: 3,
                             }}
                         >
-                            <SearchComponent />
+                            <SearchComponent label={t("search")} />
+
+                            <LanguageSwitcher />
 
                             {isAuth ? (
                                 <>
@@ -276,7 +288,7 @@ const PageNavBarComp = () => {
                             <ListItemText
                                 primary={
                                     <Typography sx={{ fontWeight: "bold" }}>
-                                        Catalog
+                                        {t("links.catalog")}
                                     </Typography>
                                 }
                             />
@@ -291,7 +303,9 @@ const PageNavBarComp = () => {
                                 }}
                             >
                                 <ListItemText
-                                    primary={`> ${startCase(category)}`}
+                                    primary={`> ${startCase(
+                                        categoriesTranslations[category]
+                                    )}`}
                                     sx={{ ml: 3 }}
                                 />
                             </ListItemButton>

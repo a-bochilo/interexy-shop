@@ -8,6 +8,7 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { ProductDto } from "../app/products/types/product.dto";
 import { CartItemDto } from "../app/cart/types/cart.dto";
 import { useEffect, useState } from "react";
+import { ICartTranslations } from "../app/cart/types/cart-translation.interface";
 
 const CartItem = ({
     item,
@@ -15,12 +16,14 @@ const CartItem = ({
     handleUpdateCartItem,
     handleDeleteCartItem,
     handleNavigate,
+    translations,
 }: {
     item: CartItemDto;
     product: ProductDto;
     handleUpdateCartItem: (item: CartItemDto) => void;
     handleDeleteCartItem: (item: CartItemDto) => void;
     handleNavigate: (productId: string) => void;
+    translations: ICartTranslations;
 }) => {
     const [quantity, setQuantity] = useState<number>(item.quantity);
 
@@ -95,7 +98,7 @@ const CartItem = ({
                                 display={"inline-block"}
                                 mb={2}
                             >
-                                Price per pcs.: ${product.price}
+                                {translations.pricePerPcs}: ${product.price}
                             </Typography>
                         </Grid>
                         <Grid item container justifyContent="space-between">
@@ -151,7 +154,7 @@ const CartItem = ({
                                 color="text.secondary"
                                 display={"inline-block"}
                             >
-                                Total:
+                                {translations.total}:
                             </Typography>
                         </Grid>
 

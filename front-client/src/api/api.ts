@@ -41,7 +41,9 @@ $api.interceptors.request.use(
 
         const res = (decodedToken.exp - Date.now() / 1000) / 60;
 
-        if (res <= 30) {
+        if (res <= 0) localStorage.removeItem("token");
+
+        if (res <= 30 && res > 0) {
             const newToken = await (
                 await $serviceApi.get("/auth/refresh-token")
             ).data.token;
@@ -62,7 +64,7 @@ $api.interceptors.response.use(
         if (error.response.status === 401) {
             window.location.replace("/auth/signIn");
         }
-        return error;
+        return Promise.reject(error);
     }
 );
 
