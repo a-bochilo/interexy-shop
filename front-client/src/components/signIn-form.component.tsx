@@ -1,5 +1,4 @@
 // ========================== react ==========================
-import { FC, useState } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
@@ -11,6 +10,7 @@ import { formSchema } from "./signIn-form.const";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Box, Paper, Typography } from "@mui/material";
+import { IAuthTranslate } from "../app/auth/types/auth-translate.interface";
 
 interface IFormInput {
   email: string;
@@ -19,13 +19,15 @@ interface IFormInput {
 
 const SignInForm = ({
   handleSignIn,
+  handleRedirectToSignUp,
   error,
+  authWithTranslate,
 }: {
+  handleRedirectToSignUp: () => void;
   handleSignIn: (s: IFormInput) => void;
   error: boolean;
+  authWithTranslate: IAuthTranslate;
 }) => {
-  const navigate = useNavigate();
-
   const {
     register,
     control,
@@ -55,7 +57,7 @@ const SignInForm = ({
       }}
     >
       <Typography variant="h5" fontWeight={"bold"} pb={3}>
-        Login
+        {authWithTranslate.login}
       </Typography>
 
       <form
@@ -68,7 +70,7 @@ const SignInForm = ({
           render={() => (
             <TextField
               id="outlined-basic"
-              label="email"
+              label={authWithTranslate.email}
               variant="outlined"
               {...register("email")}
               placeholder="example@gmail.com"
@@ -86,7 +88,7 @@ const SignInForm = ({
           render={() => (
             <TextField
               id="outlined-basic"
-              label="password"
+              label={authWithTranslate.password}
               type="password"
               variant="outlined"
               {...register("password", {
@@ -113,28 +115,12 @@ const SignInForm = ({
           }}
         >
           <Button type="submit" disabled={!isValid} variant="contained">
-            Sign In
+            {authWithTranslate.signIn}
           </Button>
-          <Button variant="contained" onClick={() => navigate("/auth/signUp")}>
-            Sign Up
+          <Button variant="contained" onClick={handleRedirectToSignUp}>
+            {authWithTranslate.signUp}
           </Button>
         </Box>
-
-        {error === true ? (
-          <Box
-            sx={{
-              display: "flex",
-              border: "2px solid red",
-              padding: "5px",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Typography variant="caption" color={"red"}>
-              ERROR: FAILED TO SIGNIN
-            </Typography>
-          </Box>
-        ) : null}
       </form>
     </Paper>
   );

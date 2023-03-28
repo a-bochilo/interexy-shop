@@ -4,24 +4,38 @@ import { Navigate, Routes, Route } from "react-router-dom";
 // ========================== components ==========================
 import FallbackComponent from "./components/fallback.component";
 import OrdersPage from "./app/orders";
+import { UserRoles } from "./app/roles/types/user-roles.enum";
+import { decodeToken } from "react-jwt";
+
+interface User {
+  roleType: UserRoles;
+}
+
+const isAllowed = () => {
+  const token = window.localStorage.getItem("token");
+  if (token) {
+    const user: User | null = decodeToken(token);
+    if (user !== null && user.roleType !== UserRoles.user) return true;
+  }
+  return false;
+};
 
 // ======= private route ======= //
 const PrivateRoute: FC<{ element: any }> = ({ element: Element }) => {
-    return true ? (
-        <Suspense fallback={<FallbackComponent />}>
-            <Element />
-        </Suspense>
-    ) : (
-        <Navigate to={"/"} />
-    );
+  return isAllowed() ? (
+    <Suspense fallback={<FallbackComponent />}>
+      <Element />
+    </Suspense>
+  ) : (
+    <Navigate to={"/"} />
+  );
 };
 
 // ======= public route ======= //
 const PublicRoute: FC<{ element: any }> = ({ element: Element }) => (
-    <Suspense fallback={<FallbackComponent />}>
-        <Element />
-    </Suspense>
-
+  <Suspense fallback={<FallbackComponent />}>
+    <Element />
+  </Suspense>
 );
 
 // ======= pages ======= //
@@ -35,10 +49,12 @@ const AppRoutes = () => {
     <Routes>
       {/* PUBLIC */}
       <Route path={"/"} element={<PublicRoute element={LoginPage} />} />
-      <Route path={"products/*"} element={<PublicRoute element={ProductsPage} />} />
-      <Route path={"roles/*"} element={<PublicRoute element={RolesPage} />} />
-      <Route path={"orders/*"} element={<PublicRoute element={OrdersPage} />} />
-      <Route path={"/users/*"} element={<PublicRoute element={UsersPage} />} />
+
+      {/* PRIVATE */}
+      <Route path={"products/*"} element={<PrivateRoute element={ProductsPage} />} />
+      <Route path={"roles/*"} element={<PrivateRoute element={RolesPage} />} />
+      <Route path={"orders/*"} element={<PrivateRoute element={OrdersPage} />} />
+      <Route path={"/users/*"} element={<PrivateRoute element={UsersPage} />} />
 
       {/* DEFAULT */}
       <Route path="*" element={<Navigate to="/" />} />

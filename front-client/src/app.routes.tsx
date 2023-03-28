@@ -6,28 +6,22 @@ import { Navigate, Routes, Route } from "react-router-dom";
 
 // ========================== components ==========================
 import FallbackComponent from "./components/fallback.component";
+import { decodeToken } from "react-jwt";
+
+const isAllowed = () => {
+  const token = window.localStorage.getItem("token");
+  if (token) {
+    const user = decodeToken(token);
+    if (user) return true;
+  }
+  return false;
+};
 
 // ======= private route ======= //
 const PrivateRoute: FC<{ element: any }> = ({ element: Element }) => {
-  return true ? (
-    <Suspense
-      fallback={
-        <Box
-          sx={{
-            display: "flex",
-            minHeight: "100vh",
-            minWidth: "100vw",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <CircularProgress />
-        </Box>
-      }
-    >
-      <div>
-        <Element />
-      </div>
+  return isAllowed() ? (
+    <Suspense fallback={<FallbackComponent />}>
+      <Element />
     </Suspense>
   ) : (
     <Navigate to={"/"} />
@@ -36,21 +30,7 @@ const PrivateRoute: FC<{ element: any }> = ({ element: Element }) => {
 
 // ======= public route ======= //
 const PublicRoute: FC<{ element: any }> = ({ element: Element }) => (
-  <Suspense
-    fallback={
-      <Box
-        sx={{
-          display: "flex",
-          minHeight: "100vh",
-          minWidth: "100vw",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    }
-  >
+  <Suspense fallback={<FallbackComponent />}>
     <Element />
   </Suspense>
 );
@@ -68,14 +48,11 @@ const AppRoutes = () => {
       {/* PUBLIC */}
       <Route path={"products/*"} element={<PublicRoute element={ProductsPage} />} />
       <Route path={"auth/*"} element={<PublicRoute element={AuthPage} />} />
-      <Route path={"orders/*"} element={<PublicRoute element={OrdersPage} />} />
 
-            {/* PRIVATE */}
-            <Route
-                path={"cart/*"}
-                element={<PrivateRoute element={CartPage} />}
-            />
-             <Route path={"/users/profile/*"} element={<PrivateRoute element={UserPage} />} />
+      {/* PRIVATE */}
+      <Route path={"cart/*"} element={<PrivateRoute element={CartPage} />} />
+      <Route path={"profile/*"} element={<PrivateRoute element={UserPage} />} />
+      <Route path={"orders/*"} element={<PrivateRoute element={OrdersPage} />} />
 
       {/* DEFAULT */}
       <Route path="*" element={<Navigate to="/products" />} />

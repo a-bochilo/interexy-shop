@@ -3,6 +3,7 @@ import { FC, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { debounce } from "lodash";
+import { useTranslation } from "react-i18next";
 
 // =========================== MUI ===========================
 import styled from "@emotion/styled";
@@ -30,10 +31,12 @@ import {
 } from "./store/cart.selectors";
 import { fetchProducts } from "../products/store/products.actions";
 import { productsSelector } from "../products/store/products.selectors";
+import { fetchCreateOrder } from "../orders/store/orders.actions";
 
-// =========================== DTO's ===========================
+// =========================== DTO's & Types ===========================
 import { CartItemDto } from "./types/cart.dto";
 import TemporaryTypography from "../../components/temporary-typography.component";
+import { ICartTranslations } from "./types/cart-translation.interface";
 
 const MainGrid = styled(Grid)`
     display: flex;
@@ -60,6 +63,10 @@ const CartPage: FC = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const [isClicked, setIsClicked] = useState<boolean>(false);
+    const { t } = useTranslation();
+    const cartInfoTranslation: ICartTranslations = t("cart", {
+        returnObjects: true,
+    });
 
     const cart = useAppSelector(cartSelector);
     const products = useAppSelector(productsSelector);
@@ -109,9 +116,10 @@ const CartPage: FC = () => {
 
     const handleCreateOrder = debounce(async () => {
         if (!cart?.items.length) return;
-        //! replace with create order logic
-        const { type } = await dispatch(fetchCart());
+
+        const { type } = await dispatch(fetchCreateOrder(cart));
         setIsClicked(true);
+
         if (!type.endsWith("rejected")) dispatch(clearCart());
     }, 300);
 
@@ -138,9 +146,9 @@ const CartPage: FC = () => {
                         mt={2}
                     >
                         {!!cart?.items.length ? (
-                            <>Ordering</>
+                            <>{cartInfoTranslation.ordering}</>
                         ) : (
-                            <>No products in cart</>
+                            <>{cartInfoTranslation.emptyCartStub}</>
                         )}
                     </Typography>
                     {!cart && pending.cart && (
@@ -167,13 +175,14 @@ const CartPage: FC = () => {
                                     handleUpdateCartItem={handleUpdateCartItem}
                                     handleDeleteCartItem={handleDeleteCartItem}
                                     handleNavigate={handleNavigate}
+                                    translations={cartInfoTranslation}
                                 />
                             );
                         })}
                 </InsideGrid>
                 <PageAsideComp>
                     <Typography variant="h5" color="success.light">
-                        Order amount: ${total}
+                        {cartInfoTranslation.orderAmount}: ${total}
                     </Typography>
                     <Button
                         variant="contained"
@@ -182,7 +191,7 @@ const CartPage: FC = () => {
                         onClick={() => handleCreateOrder()}
                         disabled={!cart?.items.length}
                     >
-                        Confirm order
+                        {cartInfoTranslation.confirmOrder}
                     </Button>
                     {pending.cart ? (
                         <CircularProgress sx={{ alignSelf: "center" }} />

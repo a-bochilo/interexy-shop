@@ -1,0 +1,71 @@
+{
+  "products": {
+    "productsFilterForm": {
+      "formTitle": "Фильтр продуктов",
+      "selectCategory": "Выберите категорию",
+      "name": "имя",
+      "brand": "торговая марка",
+      "minPrice": "минЦена",
+      "maxPrice": "максЦена",
+      "filterButtonTitle": "искать",
+      "resetButtonTitle": "сброс"
+    },
+    "productInfo": {
+      "category": "категория",
+      "name": "имя",
+      "brand": "торговая марка",
+      "color": "цвет",
+      "material": "материал",
+      "size": "размер",
+      "description": "описание"
+    },
+    "categories": {
+      "all": "все",
+      "trousers": "брюки",
+      "shirts": "майки",
+      "shoes": "обувь"
+    }
+  },
+  "cart": {
+    "pricePerPcs": "цена за ед.",
+    "total": "Всего",
+    "orderAmount": "Сумма заказа",
+    "confirmOrder": "Подтвердить заказ",
+    "ordering": "Оформление заказа",
+    "emptyCartStub": "Корзина пуста"
+  },
+  "links": {
+    "catalog": "Каталог"
+  },
+  "search": "Поиск...",
+  "orders": {
+    "myOrders": "Мои заказы",
+    "emptyOrders": "Тут ничего нет...",
+    "columns": {
+      "orderNumber": "Номер заказа",
+      "orderCreated": "Дата создания",
+      "orderTotal": "Сумма",
+      "product": "Наименование продукта",
+      "quantity": "Количество",
+      "price": "Стоимость за одну единицу"
+    }
+  },
+  "headerSettings": {
+    "account": "Профиль",
+    "myOrders": "Мои заказы",
+    "logout": "Выход",
+    "signIn": "Войти"
+  },
+  "auth": {
+    "login": "Вход",
+    "email": "Почта",
+    "password": "Пароль",
+    "confirmPassword": "Подтверждение пароля",
+    "signIn": "Вход",
+    "signUp": "Регистрация",
+    "firstName": "Имя",
+    "middleName": "Отчество",
+    "lastName": "Фамилия",
+    "phone": "Телефон"
+  }
+}

@@ -1,5 +1,4 @@
 // ========================== react ==========================
-import { FC } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 
 // ========================== yup ==========================
@@ -13,15 +12,18 @@ import DoneIcon from "@mui/icons-material/Done";
 import { Box, CircularProgress, Paper, Typography } from "@mui/material";
 import { IFormInput } from "../app/auth/types/form-input.interface";
 import TemporaryTypography from "./temporary-typography.component";
+import { IAuthTranslate } from "../app/auth/types/auth-translate.interface";
 
 const SignUpForm = ({
   handleSignUp,
   fetchingErrors,
   fetchingPending,
+  authWithTranslate,
 }: {
   handleSignUp: (s: IFormInput) => void;
   fetchingErrors: string | null;
   fetchingPending: boolean;
+  authWithTranslate: IAuthTranslate
 }) => {
   const {
     register,
@@ -29,15 +31,6 @@ const SignUpForm = ({
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<IFormInput>({
-    defaultValues: {
-      firstName: "",
-      lastName: "",
-      middleName: "",
-      email: "",
-      phone: "",
-      password: "",
-      confirmPassword: "",
-    },
     mode: "onChange",
     resolver: yupResolver(formSchema),
   });
@@ -57,7 +50,7 @@ const SignUpForm = ({
       }}
     >
       <Typography variant="h5" fontWeight={"bold"} pb={3}>
-        Sign Up
+        {authWithTranslate.signUp}
       </Typography>
 
       <form
@@ -69,8 +62,8 @@ const SignUpForm = ({
           control={control}
           render={() => (
             <TextField
-              id="outlined-basic"
-              label="first name"
+              id="outlined-firstName"
+              label={authWithTranslate.firstName}
               variant="outlined"
               {...register("firstName")}
               placeholder="Elvis"
@@ -88,7 +81,7 @@ const SignUpForm = ({
           render={() => (
             <TextField
               id="outlined-basic"
-              label="middle name"
+              label={authWithTranslate.middleName}
               variant="outlined"
               {...register("middleName")}
               placeholder="Aaron"
@@ -102,7 +95,7 @@ const SignUpForm = ({
           render={() => (
             <TextField
               id="outlined-basic"
-              label="last name"
+              label={authWithTranslate.lastName}
               variant="outlined"
               {...register("lastName")}
               placeholder="Presley"
@@ -120,7 +113,7 @@ const SignUpForm = ({
           render={() => (
             <TextField
               id="outlined-basic"
-              label="email"
+              label={authWithTranslate.email}
               variant="outlined"
               {...register("email")}
               placeholder="example@gmail.com"
@@ -138,7 +131,7 @@ const SignUpForm = ({
           render={() => (
             <TextField
               id="outlined-basic"
-              label="phone"
+              label={authWithTranslate.phone}
               variant="outlined"
               {...register("phone")}
               placeholder="+375 XX XXX XX XX"
@@ -156,7 +149,7 @@ const SignUpForm = ({
           render={() => (
             <TextField
               id="outlined-basic"
-              label="password"
+              label={authWithTranslate.password}
               variant="outlined"
               {...register("password")}
               placeholder="password"
@@ -175,11 +168,11 @@ const SignUpForm = ({
           render={() => (
             <TextField
               id="outlined-basic"
-              label="confirm password"
+              label={authWithTranslate.confirmPassword}
               variant="outlined"
               {...register("confirmPassword")}
-              placeholder="password"
-              type="password"
+              placeholder="confirmpass"
+              //type="password"
             />
           )}
         />
@@ -220,7 +213,7 @@ const SignUpForm = ({
           )}
 
           <Button type="submit" disabled={!isValid} variant="contained">
-            Sign Up
+            {authWithTranslate.signUp}
           </Button>
         </Box>
       </form>

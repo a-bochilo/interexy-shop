@@ -12,6 +12,8 @@ import { decodeToken } from "react-jwt";
 import { fetchSignIn } from "./store/auth.actions";
 import { useNavigate } from "react-router-dom";
 import { fetchCart } from "../cart/store/cart.actions";
+import { useTranslation } from "react-i18next";
+import { IAuthTranslate } from "./types/auth-translate.interface";
 
 interface IFormInput {
   email: string;
@@ -22,6 +24,11 @@ const SignInPage: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const [error, setError] = useState(false);
+  const { t } = useTranslation();
+
+  const authWithTranslate: IAuthTranslate = t("auth", {
+    returnObjects: true,
+  });
 
   const handleSignIn = async (data: IFormInput) => {
     const newToken = await dispatch(fetchSignIn(data));
@@ -43,6 +50,10 @@ const SignInPage: FC = () => {
     }
   };
 
+  const handleRedirectToSignUp = () => {
+    navigate("/auth/signUp");
+  };
+
   return (
     <Grid
       sx={{
@@ -52,7 +63,12 @@ const SignInPage: FC = () => {
         minHeight: "100%",
       }}
     >
-      <SignInForm handleSignIn={handleSignIn} error={error} />
+      <SignInForm
+        handleSignIn={handleSignIn}
+        error={error}
+        authWithTranslate={authWithTranslate}
+        handleRedirectToSignUp={handleRedirectToSignUp}
+      />
     </Grid>
   );
 };

@@ -8,6 +8,7 @@ import $api from "../../../api/api";
 import { ProductDto } from "../types/product.dto";
 import { ProductDetailsDto } from "../types/product-details.dto";
 import { ProductFilterDto } from "../types/product-filter.dto";
+import { ProductsCategory } from "../types/products-category.enum";
 
 export const fetchProducts = createAsyncThunk<ProductDto[]>(
     "products/fetchProducts",
@@ -18,6 +19,26 @@ export const fetchProducts = createAsyncThunk<ProductDto[]>(
                 AxiosResponse<ProductDto[], any>,
                 any
             >("/products");
+            return data;
+        } catch (e: any) {
+            console.error(e);
+            return rejectWithValue(e.response?.data?.message as string);
+        }
+    }
+);
+
+export const fetchProductsInCategory = createAsyncThunk<
+    ProductDto[],
+    ProductsCategory
+>(
+    "products/fetchProductsInCategory",
+    async (category: ProductsCategory, { rejectWithValue }) => {
+        try {
+            const { data } = await $api.get<
+                any,
+                AxiosResponse<ProductDto[], any>,
+                any
+            >(`/products?category=${category}`);
             return data;
         } catch (e: any) {
             console.error(e);

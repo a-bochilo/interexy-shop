@@ -14,13 +14,19 @@ import { AppDispatch } from "../../store";
 import { useNavigate } from "react-router-dom";
 import { AuthErrorSelector, AuthPendingSelector } from "./store/auth.selector";
 import { clearErrors } from "./store/auth.slice";
-import { decodeToken } from "react-jwt";
+import { useTranslation } from "react-i18next";
+import { IAuthTranslate } from "./types/auth-translate.interface";
 
 const SignUpPage: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const fetchingErrors = useSelector(AuthErrorSelector);
   const fetchingPending = useSelector(AuthPendingSelector);
   const navigate = useNavigate();
+  const { t } = useTranslation();
+
+  const authWithTranslate: IAuthTranslate = t("auth", {
+    returnObjects: true,
+  });
 
   const handleSignUp = async (data: IFormInput) => {
     dispatch(clearErrors());
@@ -52,6 +58,7 @@ const SignUpPage: FC = () => {
         handleSignUp={handleSignUp}
         fetchingErrors={fetchingErrors.token}
         fetchingPending={fetchingPending.token}
+        authWithTranslate={authWithTranslate}
       />
     </Grid>
   );

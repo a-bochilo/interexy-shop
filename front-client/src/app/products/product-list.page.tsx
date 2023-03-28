@@ -9,8 +9,8 @@ import { CircularProgress, Grid } from "@mui/material";
 
 // =========================== Store ===========================
 import {
-    productsSelector,
     productsPendingSelector,
+    filtredProductsSelector,
 } from "./store/products.selectors";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { cartErrorsSelector, cartSelector } from "../cart/store/cart.selectors";
@@ -37,14 +37,14 @@ const ProductListPage: FC = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
-    const products = useAppSelector(productsSelector);
+    const filtredProducts = useAppSelector(filtredProductsSelector);
     const pending = useAppSelector(productsPendingSelector);
     const cart = useAppSelector(cartSelector);
     const cartErrors = useAppSelector(cartErrorsSelector);
 
-  const handleClickCard = (productId: string) => {
-    navigate(`${productId}`);
-  };
+    const handleClickCard = (productId: string) => {
+        navigate(`${productId}`);
+    };
 
     const handleAddToCart = debounce(
         async (productId: string, quantity: number, isInCart: boolean) => {
@@ -69,9 +69,9 @@ const ProductListPage: FC = () => {
             {pending.products && (
                 <CircularProgress sx={{ alignSelf: "center" }} />
             )}
-            {!!products.length &&
+            {!!filtredProducts.length &&
                 !pending.products &&
-                products.map((product) => (
+                filtredProducts.map((product) => (
                     <ProductCard
                         key={product.id}
                         product={product}
