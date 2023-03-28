@@ -14,8 +14,8 @@ import {
 } from "@mui/material";
 
 // ========================== enum ==========================
-import { UserDto } from "../app/users/types/user-dto.type";
 import { RolesDto } from "../app/roles/types/roles.dto";
+import { UserState } from "../app/users/types/user-state.type";
 
 interface IUserAssignRole {
   id: string;
@@ -28,7 +28,7 @@ interface FormProps {
   selectedUserRole: RolesDto;
   userRoles: RolesDto[];
   disabled: boolean;
-  pending: boolean;
+  pending: UserState["pending"];
   setDisabled: (e: boolean) => void;
   buttonOnclick: () => void;
   handleSave: (e: IUserAssignRole) => void;

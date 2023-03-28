@@ -21,8 +21,9 @@ import { formSchema } from "./user-edit-form.const";
 import { UserRoles } from "../app/roles/types/user-roles.enum";
 import { UserDetailsDto } from "../app/users/types/user-details.type";
 import { UserDto } from "../app/users/types/user-dto.type";
+import { UserState } from "../app/users/types/user-state.type";
 
-interface IUserWithDetails {
+export interface IUserWithDetails {
   id: string;
   firstname: string;
   lastname: string;
@@ -42,7 +43,7 @@ interface FormProps {
   selectedUser: UserDto;
   userInfo: UserDetailsDto;
   disabled: boolean;
-  pending: boolean;
+  pending: UserState["pending"];
   setDisabled: (e: boolean) => void;
   buttonOnclick: () => void;
   handleSave: (e: Partial<IUserWithDetails>) => void;
