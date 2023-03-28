@@ -9,13 +9,10 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { Button } from "@mui/material";
 
 // =========================== Interfaces & DTO's ===========================
-import { RolesDto } from "../app/roles/types/roles.dto";
-import { useNavigate } from "react-router";
-import { UserRoles } from "../app/roles/types/user-roles.enum";
 import { OrderItemDto } from "../app/orders/types/order-item.dto";
-import { Button } from "@mui/material";
 
 interface ColumnData {
   dataKey: keyof OrderItemDto;
@@ -99,7 +96,12 @@ const OrderItemsViewTable = ({
   };
 
   return (
-    <Paper style={{ minHeight: "calc(100vh - 64px)", minWidth: "100%" }}>
+    <Paper
+      sx={{
+        minHeight: "90%",
+        minWidth: "100%",
+      }}
+    >
       <Button
         onClick={handleBack}
         sx={{

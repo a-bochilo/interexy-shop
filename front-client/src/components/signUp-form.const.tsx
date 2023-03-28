@@ -21,7 +21,7 @@ export const formSchema = yup
         password: yup
             .string()
             .required("⚠ This field is required")
-            .min(5, "⚠ Min length is 5"),
+            .min(6, "⚠ Min length is 6"),
         confirmPassword: yup
             .string()
             .required("⚠ This field is required")

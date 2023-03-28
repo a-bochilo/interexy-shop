@@ -14,7 +14,7 @@ import Button from "@mui/material/Button";
 import { Box, Paper, Typography } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store";
-import { fetchAuth } from "../app/login/store/auth.slice";
+import { fetchAuth } from "../app/login/store/auth.slice"
 
 interface IFormInput {
   email: string;
@@ -108,7 +108,7 @@ const LoginForm: FC = () => {
                 required: true,
                 minLength: {
                   value: 5,
-                  message: "min length is 5",
+                  message: "min length is 6",
                 },
               })}
               placeholder="password"
