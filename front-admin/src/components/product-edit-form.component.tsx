@@ -89,9 +89,11 @@ const ProductEditForm = ({
                     alignSelf: "right",
                 }}
                 id={key}
+                data-testid={`test-${key}`}
                 defaultValue={value}
                 variant="standard"
                 size="small"
+                aria-label={key}
                 disabled={
                     !isEditable ||
                     key === "id" ||
