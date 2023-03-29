@@ -10,10 +10,10 @@ import { CircularProgress, Grid } from "@mui/material";
 import { fetchRoles } from "./store/roles.actions";
 import { RolesSelector, getPendingSelector } from "./store/roles.selector";
 import { AppDispatch } from "../../store";
-import { clearRole } from "./store/roles.slice";
 
 // ======================== Components =========================
 import RolesTable from "../../components/roles-table.component";
+import { clearErrors, clearRole } from "./store/roles.slice";
 
 const MainGrid = styled(Grid)`
   display: flex;
@@ -29,7 +29,7 @@ const RolesListPage: FC = () => {
   const pending = useSelector(getPendingSelector);
 
   useEffect(() => {
-    dispatch(clearRole());
+    dispatch(clearErrors());
     dispatch(fetchRoles());
   }, []);
 

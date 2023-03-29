@@ -49,7 +49,7 @@ const RolesTable = ({ roles }: { roles: RolesDto[] }) => {
     ),
     TableHead,
     TableRow: ({ item: _item, ...props }) =>
-      _item.type === UserRoles.superadmin ? (
+      _item && _item?.type && _item.type === UserRoles.superadmin ? (
         <TableRow {...props} />
       ) : (
         <TableRow
@@ -86,21 +86,23 @@ const RolesTable = ({ roles }: { roles: RolesDto[] }) => {
   };
 
   const rowContent = (_index: number, row: RolesDto) => {
-    const stringPermissions = row["permissions"]?.join(", ");
-    const newRow = { ...row, permissions: stringPermissions };
-    return roles.length > 0 ? (
-      <>
-        {getColumns(roles[0]).map((column) => {
-          return (
-            <TableCell key={column.dataKey} align="center">
-              {`${newRow[column.dataKey]}`}
-            </TableCell>
-          );
-        })}
-      </>
-    ) : (
-      <></>
-    );
+    if (row && row?.permissions !== null) {
+      const stringPermissions = row.permissions?.join(", ") || null;
+      const newRow = { ...row, permissions: stringPermissions };
+      return roles.length > 0 ? (
+        <>
+          {getColumns(roles[0]).map((column) => {
+            return (
+              <TableCell key={column.dataKey} align="center">
+                {`${newRow[column.dataKey]}`}
+              </TableCell>
+            );
+          })}
+        </>
+      ) : (
+        <></>
+      );
+    }
   };
 
   return (
@@ -110,6 +112,7 @@ const RolesTable = ({ roles }: { roles: RolesDto[] }) => {
         components={VirtuosoTableComponents}
         fixedHeaderContent={fixedHeaderContent}
         itemContent={rowContent}
+        initialItemCount={1}
       />
     </Paper>
   );

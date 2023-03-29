@@ -7,7 +7,6 @@ import SignUpForm from "../../components/signUp-form.component";
 // ========================== mui ==========================
 import { Grid } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { IFormInput } from "./types/form-input.interface";
 import { fetchSignUp } from "./store/auth.actions";
 import { ISignUpTemplate } from "./types/signUp.interface";
 import { AppDispatch } from "../../store";

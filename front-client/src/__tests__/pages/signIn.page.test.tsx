@@ -47,18 +47,7 @@ test("handleSignIn sends fetch request with uncorrect arguments", async () => {
       </ThemeProvider>
     </Provider>
   );
-  // const buttons = screen.getAllByRole("button");
-  // await act(async () => fireEvent.click(buttons[1]));
-  // await waitFor(() => expect(window.location.pathname).toBe("/auth/signUp"));
+  const buttons = screen.getAllByRole("button");
+  await act(async () => fireEvent.click(buttons[1]));
+  await waitFor(() => expect(window.location.pathname).toBe("/auth/signUp"));
 });
-
-// fireEvent.change(screen.getByPlaceholderText(/example@gmail\.com/i), {
-//   target: { value: "123123@mail.com" },
-// });
-// fireEvent.change(screen.getByPlaceholderText(/password/i), {
-//   target: { value: "123123123" },
-// });
-
-// const buttons = screen.getAllByRole("button");
-// await act(async () => fireEvent.click(buttons[0]));
-// await expect(buttons[0]).toBeDefined()

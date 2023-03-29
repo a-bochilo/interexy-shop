@@ -5,7 +5,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import styled from "@emotion/styled";
 import { CircularProgress, Grid } from "@mui/material";
 
-
 // =========================== Components ===========================
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store";
@@ -24,33 +23,21 @@ const MainGrid = styled(Grid)`
 `;
 
 const OrderItemsViewPage: FC = () => {
-    const navigate = useNavigate();
-    const dispatch = useDispatch<AppDispatch>();
-    const { orderId } = useParams();
-    const pending = useSelector(getPendingSelector);
-    const orderItems = useSelector(OrderItemsSelector);
-    
+  const dispatch = useDispatch<AppDispatch>();
+  const { orderId } = useParams();
+  const pending = useSelector(getPendingSelector);
+  const orderItems = useSelector(OrderItemsSelector);
 
-    useEffect(() => {
-        if(orderId)
-            dispatch(fetchOrderItems(orderId))
-    }, [dispatch, orderId])
-
-    const handleBack = () => {
-        navigate("/roles");
-    }
+  useEffect(() => {
+    if (orderId) dispatch(fetchOrderItems(orderId));
+  }, [dispatch, orderId]);
 
   return (
     <MainGrid>
       {(pending.orders || pending.orderItems) && (
         <CircularProgress sx={{ alignSelf: "center" }} />
       )}
-      {orderItems && (
-        <OrderItemsViewTable
-          orderItems={orderItems}
-          handleBack={handleBack}
-        />
-      )}
+      {orderItems && <OrderItemsViewTable orderItems={orderItems} />}
     </MainGrid>
   );
 };

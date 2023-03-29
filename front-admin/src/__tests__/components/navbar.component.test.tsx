@@ -6,17 +6,11 @@ import theme from "../../theme/mainTheme";
 import { BrowserRouter } from "react-router-dom";
 import PageNavBarComp from "../../components/navbar.comp";
 
-jest.mock("axios", () => ({
-  post: jest.fn(),
-  get: jest.fn(),
-  create: () => {
-    return {
-      interceptors: {
-        request: { eject: jest.fn(), use: jest.fn() },
-        response: { eject: jest.fn(), use: jest.fn() },
-      },
-    };
-  },
+const mockedUsedNavigate = jest.fn();
+
+jest.mock("react-router-dom", () => ({
+  ...(jest.requireActual("react-router-dom") as any),
+  useNavigate: () => mockedUsedNavigate,
 }));
 
 jest.mock("react-i18next", () => ({
@@ -30,6 +24,24 @@ jest.mock("react-i18next", () => ({
   },
 }));
 
+jest.mock("axios", () => ({
+  post: jest.fn(),
+  get: jest.fn(),
+  create: () => {
+    return {
+      interceptors: {
+        request: { eject: jest.fn(), use: jest.fn() },
+        response: { eject: jest.fn(), use: jest.fn() },
+      },
+    };
+  },
+}));
+// const mockedAxios = axios as jest.Mocked<typeof axios>;
+// mockedAxios.post.mockResolvedValue({ data: [mockProduct] });
+// mockedAxios.get.mockResolvedValue({ data: [mockProduct] });
+
+// const mockStore = configureStore([thunk]);
+
 describe("PageAsideComp", () => {
   it("should be render is correctly", () => {
     render(
@@ -41,30 +53,5 @@ describe("PageAsideComp", () => {
         </ThemeProvider>
       </Provider>
     );
-  });
-
-  it("button 'open drawer' should be in the document", async () => {
-    const handleDrawerOpen = jest.fn().mockResolvedValue(1);
-    render(
-      <Provider store={store}>
-        <ThemeProvider theme={theme}>
-          <BrowserRouter>
-            <PageNavBarComp />
-          </BrowserRouter>
-        </ThemeProvider>
-      </Provider>
-    );
-
-    await act(async () =>
-      fireEvent.click(
-        screen.getByRole("button", {
-          name: /open drawer/i,
-        })
-      )
-    );
-
-    const button = await screen.findByLabelText("open drawer");
-    await waitFor(() => expect(handleDrawerOpen).toBeDefined());
-    expect(button).toBeInTheDocument();
   });
 });

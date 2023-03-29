@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // ========================== react ==========================
 import { FC, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -48,31 +49,28 @@ const RoleViewPage: FC<string> = () => {
   const [isClicked, setIsClicked] = useState<boolean>(false);
 
   const handleBack = () => {
-    dispatch(clearErrors());
     dispatch(clearRole());
-    navigate("/roles");
+    dispatch(clearErrors());
+    navigate(-1);
   };
 
   const handleDelete = (id: number) => {
-    dispatch(fetchRoleDelete(id));
-    dispatch(clearErrors());
     dispatch(clearRole());
-    navigate("/roles");
+    dispatch(clearErrors());
+    dispatch(fetchRoleDelete(id));
+    navigate(-1);
     setIsClicked(true);
   };
 
   const handleSave = (data: RolesDto) => {
-    dispatch(fetchRoleUpdate(data));
     dispatch(clearErrors());
-    dispatch(clearRole());
-    navigate("/roles");
+    dispatch(fetchRoleUpdate(data));
     setIsClicked(true);
   };
 
   useEffect(() => {
     if (!id) return;
     dispatch(fetchCurrentRole(id));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   return (

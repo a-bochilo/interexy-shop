@@ -37,7 +37,6 @@ const SignUpForm = ({
   });
 
   const onSubmit: SubmitHandler<IFormInput> = (data: IFormInput) => {
-    
     const user: ISignUpTemplate = {
       email: data.email,
       password: data.password,
@@ -48,7 +47,7 @@ const SignUpForm = ({
         lastname: data?.lastName || "",
       },
     };
-    return handleSignUp(user);
+    handleSignUp(user);
   };
 
   return (

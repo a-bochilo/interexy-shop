@@ -1,7 +1,7 @@
-import { IAuthTranslate } from "../../app/auth/types/auth-translate.interface";
 import { OrderItemDto } from "../../app/orders/types/order-item.dto";
 import { OrderDto } from "../../app/orders/types/order.dto";
-import { IOrdersColumnsTranslate } from "../../app/orders/types/orders-translate.enum";
+import { UserPermissions } from "../../app/roles/types/user-permissions.enum";
+import { UserRoles } from "../../app/roles/types/user-roles.enum";
 
 test.skip("skip", () => {});
 
@@ -25,7 +25,7 @@ export interface ISignUpTemplate {
   };
 }
 
-export const ordersWithColumnsTranslate: IOrdersColumnsTranslate = {
+export const ordersWithColumnsTranslate = {
   orderNumber: "4214234124",
   orderCreated: "34234",
   orderTotal: "10",
@@ -35,10 +35,10 @@ export const ordersWithColumnsTranslate: IOrdersColumnsTranslate = {
 };
 
 export const order: OrderDto = {
-  created: "2023-03-28T08:02:10.971Z",
+  created: 2023,
   id: "702dc101-653b-4b31-89d5-4d5250efc758",
   total: 294,
-  updated: "2023-03-28T08:02:10.971Z",
+  updated: 2023,
   user_id: "2de8fc3d-17fa-4a55-8473-6fe989dcd24e",
 };
 
@@ -50,7 +50,7 @@ export const orderItem: OrderItemDto = {
   product_quantity: 1,
 };
 
-export const authWithTranslate: IAuthTranslate = {
+export const authWithTranslate = {
   login: "Login",
   email: "Email",
   password: "Password",
@@ -73,7 +73,7 @@ export const mockRegisterData = {
   phone: "+375291111231",
 };
 
-export const FormSignInInpus = {
+export const FormSignInInput = {
   email: "test@test.com",
   password: "123123123",
 };
@@ -89,3 +89,10 @@ export const initialState = {
     },
   },
 };
+
+export const role = {
+    id: 1,
+    type: UserRoles.user,
+    name: 'user',
+    permissions: [UserPermissions.all],
+}

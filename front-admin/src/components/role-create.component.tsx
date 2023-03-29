@@ -6,11 +6,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 // ========================== MUI ==========================
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Box,
   Button,
   Checkbox,
   FormControl,
@@ -26,6 +27,8 @@ import { UserPermissions } from "../app/roles/types/user-permissions.enum";
 import { UserRoles } from "../app/roles/types/user-roles.enum";
 import { RolesDto } from "../app/roles/types/roles.dto";
 import { formSchema } from "./roles-form.const";
+import { CreateRoleDto } from "../app/roles/types/create-role.dto";
+import TemporaryTypography from "./temporary-typography.component";
 
 interface IFormInput {
   id: number;
@@ -37,15 +40,24 @@ interface IFormInput {
 const CreateRoleForm = ({
   handleCreate,
   handleBack,
+  fetchErrors,
+  isClicked,
 }: {
-  handleCreate: (s: RolesDto) => void;
+  handleCreate: (s: CreateRoleDto) => void;
   handleBack: () => void;
+  fetchErrors: string | null;
+  isClicked: boolean;
 }) => {
   const enumsRoleTypes = Object.keys(UserRoles).slice(1);
 
   const enumsRolePermissions = Object.keys(UserPermissions);
 
-  const { register, control, handleSubmit } = useForm<IFormInput>({
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { isValid },
+  } = useForm<IFormInput>({
     mode: "onChange",
     resolver: yupResolver(formSchema),
   });
@@ -210,13 +222,49 @@ const CreateRoleForm = ({
           </Accordion>
         </FormControl>
 
+        {fetchErrors && (
+          <TemporaryTypography
+            variant="overline"
+            align="center"
+            color="error"
+            duration={10}
+          >
+            {fetchErrors}
+          </TemporaryTypography>
+        )}
+
+        {isClicked && !fetchErrors && (
+          <TemporaryTypography
+            variant="overline"
+            align="center"
+            color="success.light"
+            duration={10}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                gap: "8px",
+                justifyContent: "center",
+              }}
+            >
+              <CheckCircleIcon />
+              <Typography>Role created</Typography>
+            </Box>
+          </TemporaryTypography>
+        )}
+
         <Button
           sx={{
             width: "100%",
           }}
+          data-testid="create-btn"
+          id="createRoleButton"
           type="submit"
           variant="contained"
           color="success"
+          placeholder="createRoleButton"
+          disabled={!isValid}
         >
           CREATE
         </Button>
@@ -224,8 +272,10 @@ const CreateRoleForm = ({
           sx={{
             width: "100%",
           }}
+          id="backToRolesButton"
           variant="contained"
           color="primary"
+          placeholder="backToRolesButton"
           onClick={handleBack}
         >
           BACK TO ROLES

@@ -11,8 +11,6 @@ import { RoleEntity } from "./entities/role.entity";
 
 // ========================== Repos ==========================
 import { RoleRepository } from "./repos/role.repository";
-import { UserDetailsRepository } from "../users/repos/user-details.repository";
-import { UserRepository } from "../users/repos/user.repository";
 
 // ========================== Services & Controllers ==========================
 import { RoleService } from "./role.service";

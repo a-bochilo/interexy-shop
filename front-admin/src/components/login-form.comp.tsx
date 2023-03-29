@@ -42,6 +42,7 @@ const LoginForm = ({
 
   return (
     <Paper
+      data-testid="login-form"
       sx={{
         maxWidth: 400,
         minHeight: 340,
@@ -101,7 +102,12 @@ const LoginForm = ({
           {errors.password?.message}
         </Typography>
 
-        <Button type="submit" disabled={!isValid} variant="contained">
+        <Button
+          type="submit"
+          disabled={!isValid}
+          variant="contained"
+          data-testId="loginButton"
+        >
           Login
         </Button>
 
