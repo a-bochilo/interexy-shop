@@ -1,7 +1,7 @@
 /* eslint-disable testing-library/no-node-access */
 /* eslint-disable testing-library/no-container */
 import { render, screen } from "@testing-library/react";
-import PageAsideComp from "../aside.component";
+import PageAsideComp from "../../components/aside.component";
 
 describe("PageAsideComp", () => {
   it("renders children correctly", () => {

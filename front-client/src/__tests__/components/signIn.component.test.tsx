@@ -1,7 +1,7 @@
 /* eslint-disable testing-library/no-unnecessary-act */
 import { render, waitFor, screen, act, fireEvent } from "@testing-library/react";
-import SignInForm from "../signIn-form.component";
-import { authWithTranslate } from "./mocks/data.mocks";
+import SignInForm from "../../components/signIn-form.component";
+import { authWithTranslate } from "../mocks/data.mocks";
 
 describe("Sign In component", () => {
   const SubmitHandler = jest.fn().mockResolvedValueOnce(1);
@@ -12,7 +12,7 @@ describe("Sign In component", () => {
     render(
       <SignInForm
         handleSignIn={handleSignIn}
-        error={false}
+        fecthErrors={null}
         handleRedirectToSignUp={handleRedirectToSignUp}
         authWithTranslate={authWithTranslate}
       />
@@ -28,7 +28,7 @@ describe("Sign In component", () => {
     render(
       <SignInForm
         handleSignIn={handleSignIn}
-        error={false}
+        fecthErrors={null}
         handleRedirectToSignUp={handleRedirectToSignUp}
         authWithTranslate={authWithTranslate}
       />
@@ -37,4 +37,16 @@ describe("Sign In component", () => {
     await act(async () => fireEvent.click(screen.getByText(/Sign In/i)));
     expect(await screen.findByText("Sign In")).toBeInTheDocument();
   });
+
+  it("should be show error", async () => {
+    render(
+      <SignInForm
+        handleSignIn={handleSignIn}
+        fecthErrors={"Error! Test error!"}
+        handleRedirectToSignUp={handleRedirectToSignUp}
+        authWithTranslate={authWithTranslate}
+      />
+    )
+    expect(screen.getByText("Error! Test error!")).toBeInTheDocument();
+  })
 });

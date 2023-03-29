@@ -11,6 +11,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Box, Paper, Typography } from "@mui/material";
 import { IAuthTranslate } from "../app/auth/types/auth-translate.interface";
+import TemporaryTypography from "./temporary-typography.component";
 
 interface IFormInput {
   email: string;
@@ -20,13 +21,13 @@ interface IFormInput {
 const SignInForm = ({
   handleSignIn,
   handleRedirectToSignUp,
-  error,
   authWithTranslate,
+  fecthErrors,
 }: {
   handleRedirectToSignUp: () => void;
   handleSignIn: (s: IFormInput) => void;
-  error: boolean;
   authWithTranslate: IAuthTranslate;
+  fecthErrors: string | null;
 }) => {
   const {
     register,
@@ -110,16 +111,36 @@ const SignInForm = ({
         <Box
           sx={{
             display: "flex",
-            flexDirection: "column",
+            flexDirection: "row",
             gap: "8px",
+            width: "100%",
           }}
         >
-          <Button type="submit" disabled={!isValid} variant="contained">
-            {authWithTranslate.signIn}
-          </Button>
-          <Button variant="contained" onClick={handleRedirectToSignUp}>
-            {authWithTranslate.signUp}
-          </Button>
+          {fecthErrors && (
+            <TemporaryTypography
+              variant="overline"
+              align="center"
+              color="error"
+              duration={30}
+            >
+              {fecthErrors}
+            </TemporaryTypography>
+          )}
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "8px",
+              width: "100%",
+            }}
+          >
+            <Button type="submit" disabled={!isValid} variant="contained">
+              {authWithTranslate.signIn}
+            </Button>
+            <Button variant="contained" onClick={handleRedirectToSignUp}>
+              {authWithTranslate.signUp}
+            </Button>
+          </Box>
         </Box>
       </form>
     </Paper>

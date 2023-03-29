@@ -1,8 +1,6 @@
 import { render, act, waitFor, fireEvent, screen } from "@testing-library/react";
-import SignUpForm from "../signUp-form.component";
-import { authWithTranslate } from "./mocks/data.mocks";
-import { Button } from "@mui/material";
-
+import SignUpForm from "../../components/signUp-form.component";
+import { authWithTranslate } from "../mocks/data.mocks";
 describe("Sign Up component", () => {
   const handleSignUp = jest.fn().mockResolvedValue(1);
   it("should be rendered", async () => {

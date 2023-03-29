@@ -66,7 +66,7 @@ export class AuthService {
 
     if (!userFromDB) {
       throw new HttpException(
-        `${I18nContext.current().t("errors.roles.roleDoesNotExist")}`,
+        `${I18nContext.current().t("errors.user.userDoesNotExist")}`,
         HttpStatus.NOT_FOUND
       );
     }

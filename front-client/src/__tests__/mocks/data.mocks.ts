@@ -1,7 +1,7 @@
-import { IAuthTranslate } from "../../../app/auth/types/auth-translate.interface";
-import { OrderItemDto } from "../../../app/orders/types/order-item.dto";
-import { OrderDto } from "../../../app/orders/types/order.dto";
-import { IOrdersColumnsTranslate } from "../../../app/orders/types/orders-translate.enum";
+import { IAuthTranslate } from "../../app/auth/types/auth-translate.interface";
+import { OrderItemDto } from "../../app/orders/types/order-item.dto";
+import { OrderDto } from "../../app/orders/types/order.dto";
+import { IOrdersColumnsTranslate } from "../../app/orders/types/orders-translate.enum";
 
 test.skip("skip", () => {});
 
@@ -51,4 +51,9 @@ export const mockRegisterData = {
   password: "111111",
   confirmPassword: "111111",
   phone: "+375291111231",
-}
+};
+
+export const FormSignInInpus = {
+  email: "test@test.com",
+  password: "123123123",
+};

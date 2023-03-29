@@ -13,6 +13,7 @@ import { Box, CircularProgress, Paper, Typography } from "@mui/material";
 import { IFormInput } from "../app/auth/types/form-input.interface";
 import TemporaryTypography from "./temporary-typography.component";
 import { IAuthTranslate } from "../app/auth/types/auth-translate.interface";
+import { ISignUpTemplate } from "../app/auth/types/signUp.interface";
 
 const SignUpForm = ({
   handleSignUp,
@@ -20,10 +21,10 @@ const SignUpForm = ({
   fetchingPending,
   authWithTranslate,
 }: {
-  handleSignUp: (s: IFormInput) => void;
+  handleSignUp: (s: ISignUpTemplate) => void;
   fetchingErrors: string | null;
   fetchingPending: boolean;
-  authWithTranslate: IAuthTranslate
+  authWithTranslate: IAuthTranslate;
 }) => {
   const {
     register,
@@ -36,7 +37,18 @@ const SignUpForm = ({
   });
 
   const onSubmit: SubmitHandler<IFormInput> = (data: IFormInput) => {
-    handleSignUp(data);
+    
+    const user: ISignUpTemplate = {
+      email: data.email,
+      password: data.password,
+      phone: data?.phone,
+      details: {
+        firstname: data?.firstName || "",
+        middlename: data?.middleName,
+        lastname: data?.lastName || "",
+      },
+    };
+    return handleSignUp(user);
   };
 
   return (
