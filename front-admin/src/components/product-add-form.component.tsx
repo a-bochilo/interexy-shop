@@ -57,7 +57,7 @@ const ProductAddForm = ({
         register,
         control,
         handleSubmit,
-        reset,
+        // reset,
         formState: { errors, isValid },
     } = useForm<ProductWithDetailsDto>({
         mode: "onChange",
@@ -66,6 +66,7 @@ const ProductAddForm = ({
 
     const onSubmit: SubmitHandler<ProductCreateDto> = async (data) => {
         const isPositive = await handleSave(data);
+
         if (isPositive) {
             // could be used in case it neccessary
             // reset();
@@ -80,6 +81,7 @@ const ProductAddForm = ({
                     alignSelf: "right",
                 }}
                 id={key}
+                aria-label={key}
                 defaultValue=""
                 variant="standard"
                 size="small"
@@ -96,6 +98,7 @@ const ProductAddForm = ({
             }}
             id={key}
             select
+            aria-label={key}
             defaultValue=""
             variant="standard"
             {...register(key)}
@@ -177,11 +180,14 @@ const ProductAddForm = ({
                             width: "50%",
                         }}
                     >
-                        {pending.products && <CircularProgress />}
+                        {pending.products && (
+                            <CircularProgress data-testid="pending-stub" />
+                        )}
                         {isClicked &&
                             !pending.products &&
                             !fetchingErrors.products && (
                                 <TemporaryTypography
+                                    data-testid="temp-done-icon"
                                     variant="overline"
                                     align="center"
                                     color="success.main"
@@ -217,6 +223,7 @@ const ProductAddForm = ({
                             sx={{
                                 width: "100%",
                             }}
+                            data-testid="save-btn"
                             size="small"
                             type="submit"
                             variant="contained"

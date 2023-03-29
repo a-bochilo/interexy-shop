@@ -36,7 +36,10 @@ const ProductListPage: FC = () => {
     return (
         <MainGrid>
             {pending.products && (
-                <CircularProgress sx={{ alignSelf: "center" }} />
+                <CircularProgress
+                    sx={{ alignSelf: "center" }}
+                    data-testid="pending-stub"
+                />
             )}
             {!!products.length && !pending.products && (
                 <ProductsTable
