@@ -119,6 +119,7 @@ const ProductFilterForm = () => {
                     .join(" ")
                     .toLowerCase()}
                 id={key}
+                aria-label={key}
                 variant="standard"
                 size="small"
                 defaultValue={null}
@@ -206,6 +207,7 @@ const ProductFilterForm = () => {
                     flexDirection: "column",
                     gap: 10,
                 }}
+                data-testid="form-test-id"
             >
                 {renderController("category", renderCategorySelect)}
                 {renderController("name", renderTextField)}
@@ -248,6 +250,7 @@ const ProductFilterForm = () => {
                         variant="contained"
                         color="primary"
                         disabled={!isValid}
+                        data-testid="filter-btn"
                     >
                         Filter
                     </Button>
@@ -260,6 +263,7 @@ const ProductFilterForm = () => {
                         variant="contained"
                         color="error"
                         onClick={() => reset()}
+                        data-testid="reset-btn"
                     >
                         Reset
                     </Button>
@@ -273,7 +277,9 @@ const ProductFilterForm = () => {
                         height: 35,
                     }}
                 >
-                    {pending.filter && <CircularProgress />}
+                    {pending.filter && (
+                        <CircularProgress data-testid="pending-stub" />
+                    )}
                     {isClicked && !pending.filter && !fetchingErrors.filter && (
                         <TemporaryTypography
                             variant="overline"
@@ -282,7 +288,7 @@ const ProductFilterForm = () => {
                             duration={2}
                             timeoutFunction={setIsClicked}
                         >
-                            <DoneIcon />
+                            <DoneIcon data-testid="done-icon-test" />
                         </TemporaryTypography>
                     )}
 
@@ -292,6 +298,7 @@ const ProductFilterForm = () => {
                             align="center"
                             color="error"
                             duration={30}
+                            data-testid="filter-error-test"
                         >
                             {fetchingErrors.filter}
                         </TemporaryTypography>
