@@ -6,12 +6,12 @@ import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import {
   Box,
   MenuItem,
-  CircularProgress,
   Paper,
   Typography,
   TextField,
   Button,
 } from "@mui/material";
+import DoneIcon from "@mui/icons-material/Done";
 
 // ========================== yup ==========================
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -22,6 +22,10 @@ import { UserRoles } from "../app/roles/types/user-roles.enum";
 import { UserDetailsDto } from "../app/users/types/user-details.type";
 import { UserDto } from "../app/users/types/user-dto.type";
 import { UserState } from "../app/users/types/user-state.type";
+import { UserStatus } from "../app/users/enum/user-status.enum";
+
+// ========================== components ==========================
+import TemporaryTypography from "./temporary-typography.component";
 
 export interface IUserWithDetails {
   id: string;
@@ -33,17 +37,19 @@ export interface IUserWithDetails {
   email: string;
   password: string;
   phone: string;
-  roleId: number;
-  roleType: UserRoles;
+  role_id: number;
+  role_type: UserRoles;
   isActive: boolean;
 }
 
 interface FormProps {
   formName: string;
   selectedUser: UserDto;
+  isClicked: boolean;
   userInfo: UserDetailsDto;
   disabled: boolean;
   pending: UserState["pending"];
+  fetchingErrors: UserState["errors"];
   setDisabled: (e: boolean) => void;
   buttonOnclick: () => void;
   handleSave: (e: Partial<IUserWithDetails>) => void;
@@ -52,35 +58,12 @@ interface FormProps {
   handleAsignRole: () => void;
 }
 
-const userRoles = [
-  {
-    id: "1",
-    name: "superadmin",
-  },
-  {
-    id: "2",
-    name: "user",
-  },
-  {
-    id: "3",
-    name: "admin",
-  },
-];
-
-const userStatuses = [
-  {
-    id: "1",
-    name: "true",
-  },
-  {
-    id: "2",
-    name: "false",
-  },
-];
+const enumsRoleTypes = Object.keys(UserRoles);
+const enumsStatusTypes = Object.keys(UserStatus);
 
 const dateFormat = (date: number) => {
   return new Date(date);
-}
+};
 
 const UserEditFormComp: FC<FormProps> = ({
   formName,
@@ -88,6 +71,8 @@ const UserEditFormComp: FC<FormProps> = ({
   selectedUser,
   disabled,
   pending,
+  isClicked,
+  fetchingErrors,
   setDisabled,
   buttonOnclick,
   handleSave,
@@ -118,18 +103,18 @@ const UserEditFormComp: FC<FormProps> = ({
     const notNullFields = removeEmptyFields(data);
     const { firstname, lastname, middlename, ...user } = notNullFields;
     const info = removeEmptyFields({ firstname, lastname, middlename });
-
+    console.log(user);
     const outputData = {
       id: selectedUser.id,
       email: selectedUser.email,
       phone: selectedUser.phone,
-      roleId: selectedUser.roleId,
-      roleType: selectedUser.roleType,
+      roleId: selectedUser.role_id,
+      roleType: selectedUser.role_type,
       isActive: selectedUser.isActive,
       ...user,
       details: info,
     };
-    console.log("submit");
+    console.log(`outputData`, outputData);
     handleSave(outputData);
     setDisabled(!disabled);
   };
@@ -252,7 +237,6 @@ const UserEditFormComp: FC<FormProps> = ({
                 }}
                 disabled={disabled}
                 defaultValue={userInfo?.middlename}
-                id="outlined-basic"
                 variant="outlined"
                 {...register("middlename")}
               />
@@ -286,7 +270,6 @@ const UserEditFormComp: FC<FormProps> = ({
                 }}
                 disabled={disabled}
                 defaultValue={userInfo?.lastname}
-                id="outlined-basic"
                 variant="outlined"
                 {...register("lastname")}
               />
@@ -324,7 +307,6 @@ const UserEditFormComp: FC<FormProps> = ({
                 }}
                 disabled={disabled}
                 defaultValue={selectedUser?.email}
-                id="outlined-basic"
                 variant="outlined"
                 {...register("email")}
               />
@@ -362,7 +344,6 @@ const UserEditFormComp: FC<FormProps> = ({
                 }}
                 disabled={disabled}
                 defaultValue={selectedUser?.phone}
-                id="outlined-basic"
                 variant="outlined"
                 {...register("phone")}
               />
@@ -399,7 +380,6 @@ const UserEditFormComp: FC<FormProps> = ({
                 }}
                 disabled
                 defaultValue={dateFormat(selectedUser.created)}
-                id="outlined-basic"
                 variant="outlined"
                 {...register("created")}
               />
@@ -433,7 +413,6 @@ const UserEditFormComp: FC<FormProps> = ({
                 }}
                 disabled
                 defaultValue={dateFormat(selectedUser.updated)}
-                id="outlined-basic"
                 variant="outlined"
                 {...register("updated")}
               />
@@ -454,51 +433,10 @@ const UserEditFormComp: FC<FormProps> = ({
             align="left"
             sx={{ minWidth: 90, width: 120 }}
           >
-            role id
-          </Typography>
-          <Controller
-            name="roleId"
-            control={control}
-            render={() => (
-              <TextField
-                sx={{
-                  width: "100%",
-                  alignSelf: "right",
-                }}
-                disabled
-                id="outlined-select"
-                select
-                defaultValue={selectedUser.roleId}
-                variant="outlined"
-                {...register("roleId")}
-              >
-                {userRoles.map((role) => (
-                  <MenuItem key={role.id} value={role.id}>
-                    {role.id}
-                  </MenuItem>
-                ))}
-              </TextField>
-            )}
-          />
-        </Box>
-
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: { xs: "column", md: "row" },
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <Typography
-            variant="overline"
-            align="left"
-            sx={{ minWidth: 90, width: 120 }}
-          >
             role type
           </Typography>
           <Controller
-            name="roleType"
+            name="role_type"
             control={control}
             render={() => (
               <TextField
@@ -507,15 +445,14 @@ const UserEditFormComp: FC<FormProps> = ({
                   alignSelf: "right",
                 }}
                 disabled
-                id="outlined-select"
                 select
-                defaultValue={selectedUser.roleType}
+                defaultValue={selectedUser.role_type}
                 variant="outlined"
-                {...register("roleType")}
+                {...register("role_type")}
               >
-                {userRoles.map((role) => (
-                  <MenuItem key={role.id} value={role.name}>
-                    {role.name}
+                {enumsRoleTypes.map((role) => (
+                  <MenuItem key={role} value={role}>
+                    {role}
                   </MenuItem>
                 ))}
               </TextField>
@@ -523,7 +460,7 @@ const UserEditFormComp: FC<FormProps> = ({
           />
 
           <Typography variant="caption" color={"red"}>
-            {errors.roleType?.message}
+            {errors.role_type?.message}
           </Typography>
         </Box>
 
@@ -552,15 +489,14 @@ const UserEditFormComp: FC<FormProps> = ({
                   alignSelf: "right",
                 }}
                 disabled={disabled}
-                id="outlined-select"
                 select
                 defaultValue={selectedUser.isActive}
                 variant="outlined"
                 {...register("isActive")}
               >
-                {userStatuses.map((role) => (
-                  <MenuItem key={role.id} value={role.name}>
-                    {role.name}
+                {enumsStatusTypes.map((status) => (
+                  <MenuItem key={status} value={status}>
+                    {status}
                   </MenuItem>
                 ))}
               </TextField>
@@ -584,7 +520,26 @@ const UserEditFormComp: FC<FormProps> = ({
               width: "50%",
             }}
           >
-            {pending && <CircularProgress />}
+            {isClicked && !pending.users && !fetchingErrors.users && (
+              <TemporaryTypography
+                variant="overline"
+                align="center"
+                color="success.main"
+                duration={2}
+              >
+                <DoneIcon />
+              </TemporaryTypography>
+            )}
+            {fetchingErrors.users && (
+              <TemporaryTypography
+                variant="overline"
+                align="center"
+                color="error"
+                duration={30}
+              >
+                {fetchingErrors.users}
+              </TemporaryTypography>
+            )}
           </Box>
           <Box
             sx={{

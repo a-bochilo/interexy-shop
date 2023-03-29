@@ -1,15 +1,21 @@
 // ======== react ============
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useLocation } from "react-router-dom";
 
 // ========================== mui ==========================
 import { Grid } from "@mui/material";
 import styled from "@emotion/styled";
+import { Button } from "@mui/material";
 
 // ======== components ============
 import UsersRoutes from "./users.routes";
 import PageNavBarComp from "../../components/navbar.comp";
+import PageAsideComp from "../../components/aside.comp";
 
-// ======== routes ============
+// ========================== store ==========================
+import { AppDispatch } from "../../store";
+import { getUsers, getAllUsers } from "./store/users.actions";
 
 const MainGrid = styled(Grid)`
   display: flex;
@@ -28,11 +34,44 @@ const ContentGrid = styled(Grid)`
 `;
 
 const LoginPage: FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    dispatch(getUsers());
+  }, []);
+
   return (
     <MainGrid>
-      <PageNavBarComp/>
+      <PageNavBarComp />
       <ContentGrid>
         <UsersRoutes />
+        {pathname === "/users" ? (
+          <PageAsideComp>
+            <Button
+              sx={{
+                width: "100%",
+              }}
+              onClick={() => dispatch(getUsers())}
+              color="success"
+              variant="contained"
+            >
+              Active users
+            </Button>
+            <Button
+              sx={{
+                width: "100%",
+              }}
+              onClick={() => dispatch(getAllUsers(false))}
+              color="success"
+              variant="contained"
+            >
+              Inactive users
+            </Button>
+          </PageAsideComp>
+        ) : (
+          ""
+        )}
       </ContentGrid>
     </MainGrid>
   );

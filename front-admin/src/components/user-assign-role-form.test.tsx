@@ -21,6 +21,7 @@ describe("User assign role form component",  () => {
     formName: "user assign role form",
     userId: "6966bd54-fe41-4e92-b15b-4f5fbac9ee1e",
     userRoles: [mockUserRoles],
+    isClicked: false,
     selectedUserRole: mockUserRoles,
     disabled: false,
     pending: { users: false, userInfo: false },

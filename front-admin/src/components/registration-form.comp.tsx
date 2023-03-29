@@ -3,7 +3,7 @@ import { FC } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 
 // ========================== yup ==========================
-import { formSchema } from "./reg-form.const";
+import { formSchema } from "./registration-form.const";
 import { yupResolver } from '@hookform/resolvers/yup';
 
 // ========================== mui ==========================
