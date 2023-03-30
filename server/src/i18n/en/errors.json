@@ -12,7 +12,7 @@
     "products": {
         "productDoesNotExist": "Product does not exist",
         "productAlreadyExist": "Product already exist",
-        "productNotEnough": "Product quantity less then required in request. Aviliable count"
+        "productNotEnough": "Product quantity less then required in request. Available count"
     },
     "roles": {
         "roleAlreadyExist": "Role already exist",

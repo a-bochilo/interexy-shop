@@ -1,5 +1,6 @@
 // ========================== Nest ==========================
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { I18nContext } from "nestjs-i18n";
 
 // ========================== bcrypt ==========================
 import { compare, hashSync } from "bcrypt";
@@ -55,7 +56,7 @@ export class AuthService {
     const cart = await this.cartRepository.createCart(newUser);
 
     newUser.cart = cart;
-    await this.userRepository.save(newUser);
+    await this.userRepository.save(newUser);;
 
     const access_token = await this.securityService.generateJwt(newUser);
     return access_token;
@@ -77,7 +78,8 @@ export class AuthService {
     const isPasswordCorrect = await compare(dto.password, userFromDB.password);
 
     if (!isPasswordCorrect)
-      throw new HttpException("Wrong password", HttpStatus.UNPROCESSABLE_ENTITY);
+      throw new HttpException(I18nContext.current().t("errors.authorization.wrongPassword"), 
+      HttpStatus.UNPROCESSABLE_ENTITY);
     const access_token = await this.securityService.generateJwt(userFromDB);
     return access_token;
   }
