@@ -52,7 +52,7 @@ const SignUpPage: FC = () => {
   const fetchingErrors = useSelector(AuthErrorSelector);
   const fetchingPending = useSelector(AuthPendingSelector);
 
-  const handleSignUp = async (data: ISignUpTemplate) => {
+  const handleSignUp = async (data: IFormInput) => {
     dispatch(clearErrors());
 
     const newToken = await dispatch(fetchSignUp(buildUserForDB(data)));

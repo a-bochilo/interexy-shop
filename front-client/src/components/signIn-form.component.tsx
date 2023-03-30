@@ -64,7 +64,7 @@ const SignInForm = ({
           control={control}
           render={() => (
             <TextField
-            inputProps={{ "data-testid": "email-stub" }}
+              inputProps={{ "data-testid": "email-stub" }}
               id="outlined-basic"
               label={authWithTranslate.email}
               variant="outlined"
@@ -83,7 +83,7 @@ const SignInForm = ({
           control={control}
           render={() => (
             <TextField
-            inputProps={{ "data-testid": "password-stub" }}
+              inputProps={{ "data-testid": "password-stub" }}
               id="outlined-basic"
               label={authWithTranslate.password}
               type="password"
@@ -112,16 +112,6 @@ const SignInForm = ({
             width: "100%",
           }}
         >
-          {fecthErrors && (
-            <TemporaryTypography
-              variant="overline"
-              align="center"
-              color="error"
-              duration={30}
-            >
-              {fecthErrors}
-            </TemporaryTypography>
-          )}
           <Box
             sx={{
               display: "flex",
@@ -130,10 +120,30 @@ const SignInForm = ({
               width: "100%",
             }}
           >
-            <Button type="submit" disabled={!isValid} variant="contained" data-testid="signin-button">
+            {fecthErrors !== undefined && (
+              <TemporaryTypography
+                variant="overline"
+                align="center"
+                color="error"
+                duration={10}
+                data-testid="error-stub"
+              >
+                {fecthErrors}
+              </TemporaryTypography>
+            )}
+            <Button
+              type="submit"
+              disabled={!isValid}
+              variant="contained"
+              data-testid="signin-button"
+            >
               {authWithTranslate.signIn}
             </Button>
-            <Button variant="contained" onClick={handleRedirectToSignUp} data-testid="signup-button">
+            <Button
+              variant="contained"
+              onClick={handleRedirectToSignUp}
+              data-testid="signup-button"
+            >
               {authWithTranslate.signUp}
             </Button>
           </Box>

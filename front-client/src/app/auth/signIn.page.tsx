@@ -71,7 +71,7 @@ const SignInPage: FC = () => {
     >
       <SignInForm
         handleSignIn={handleSignIn}
-        fecthErrors={fecthErrors.token || null}
+        fecthErrors={fecthErrors.token}
         authWithTranslate={authWithTranslate}
         handleRedirectToSignUp={handleRedirectToSignUp}
       />

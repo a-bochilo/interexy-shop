@@ -21,7 +21,7 @@ const SignUpForm = ({
   fetchingPending,
   authWithTranslate,
 }: {
-  handleSignUp: (s: ISignUpTemplate) => void;
+  handleSignUp: (s: IFormInput) => void;
   fetchingErrors: string | null;
   fetchingPending: boolean;
   authWithTranslate: IAuthTranslate;
@@ -195,9 +195,11 @@ const SignUpForm = ({
             width: "100%",
           }}
         >
-          {fetchingPending && <CircularProgress data-testid="pending-stub" />}
+          {fetchingPending !== undefined && (
+            <CircularProgress data-testid="pending-stub" />
+          )}
 
-          {fetchingPending && fetchingErrors && (
+          {fetchingPending !== undefined && fetchingErrors !== undefined && (
             <TemporaryTypography
               variant="overline"
               align="center"
@@ -209,7 +211,7 @@ const SignUpForm = ({
             </TemporaryTypography>
           )}
 
-          {fetchingErrors && (
+          {fetchingErrors !== undefined && (
             <TemporaryTypography
               variant="overline"
               align="center"
@@ -221,7 +223,12 @@ const SignUpForm = ({
             </TemporaryTypography>
           )}
 
-          <Button type="submit" disabled={!isValid} variant="contained" data-testid="signUp-stub">
+          <Button
+            type="submit"
+            disabled={!isValid}
+            variant="contained"
+            data-testid="signUp-stub"
+          >
             {authWithTranslate.signUp}
           </Button>
         </Box>

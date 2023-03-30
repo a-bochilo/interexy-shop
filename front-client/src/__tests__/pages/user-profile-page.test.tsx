@@ -21,7 +21,7 @@ import {
   initialState,
   initialStateWithUserInfoIsNull,
   mockUser,
-} from "../components/user-data-mock";
+} from "../mocks/user-data-mock";
 import UserEditPage from "../../app/users/user-profile.page";
 
 const mockedUsedNavigate = jest.fn();

@@ -54,6 +54,7 @@ describe("Sign In component", () => {
       />
     );
     expect(screen.getByText("Error! Test error!")).toBeInTheDocument();
+    expect(screen.getByTestId("error-stub")).toBeInTheDocument();
   });
 
   it("should have a submit button is enable", async () => {
