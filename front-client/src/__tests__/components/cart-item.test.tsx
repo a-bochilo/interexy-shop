@@ -11,11 +11,12 @@ import {
 } from "@testing-library/react";
 
 // =========================== Mocks ===========================
-import { mockCartItem, mockCartInfoTranslation } from "./cart.data.mocks";
-import { mockProduct } from "./products.data.mocks";
+import { mockProduct } from "../mocks/products.data.mocks";
+import { mockCartInfoTranslation, mockCartItem } from "../mocks/cart.data.mocks";
 
 // =========================== Component ===========================
 import CartItem from "../../components/cart-item.component";
+
 
 describe("CartItem", () => {
     let mockProps: any;

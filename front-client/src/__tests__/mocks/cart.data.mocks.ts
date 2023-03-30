@@ -4,6 +4,29 @@ import { ProductsCategory } from "../../app/products/types/products-category.enu
 
 test.skip("skip", () => {});
 
+export const mockCartItem = {
+    id: "string",
+    productId: "c06cbc27-26ee-4455-8983-33fff83c8be8",
+    quantity: 1,
+};
+
+export const mockCart = {
+    id: "string",
+    created: "string",
+    updated: "string",
+    items: [mockCartItem],
+};
+
+export const mockCartInfoTranslation = {
+    pricePerPcs: "price per pcs",
+    total: "Total",
+    orderAmount: "Order amount",
+    confirmOrder: "Confirm order",
+    ordering: "Ordering",
+    emptyCartStub: "Cart is empty",
+};
+
+
 export const mockProduct: ProductDto = {
     id: "c06cbc27-26ee-4455-8983-33fff83c8be8",
     created: 1679936346070,
@@ -23,19 +46,6 @@ export const mockProductDetails: ProductDetailsDto = {
     material: "material",
     size: "size",
     description: "description",
-};
-
-export const mockCartItem = {
-    id: "string",
-    productId: "c06cbc27-26ee-4455-8983-33fff83c8be8",
-    quantity: 1,
-};
-
-export const mockCart = {
-    id: "string",
-    created: "string",
-    updated: "string",
-    items: [mockCartItem],
 };
 
 export const initialState = {
@@ -70,3 +80,4 @@ export const initialState = {
         },
     },
 };
+

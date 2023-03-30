@@ -1,41 +1,71 @@
 {
-    "products": {
-        "productsFilterForm": {
-            "formTitle": "Filter products",
-            "selectCategory": "Select category",
-            "name": "name",
-            "brand": "brand",
-            "minPrice": "minPrice",
-            "maxPrice": "maxPrice",
-            "filterButtonTitle": "filter",
-            "resetButtonTitle": "reset"
-        },
-        "productInfo": {
-            "category": "category",
-            "name": "name",
-            "brand": "brand",
-            "color": "color",
-            "material": "material",
-            "size": "size",
-            "description": "description"
-        },
-        "categories": {
-            "all": "all",
-            "trousers": "trousers",
-            "shirts": "shirts",
-            "shoes": "shoes"
-        }
+  "products": {
+    "productsFilterForm": {
+      "formTitle": "Filter products",
+      "selectCategory": "Select category",
+      "name": "name",
+      "brand": "brand",
+      "minPrice": "minPrice",
+      "maxPrice": "maxPrice",
+      "filterButtonTitle": "filter",
+      "resetButtonTitle": "reset"
     },
-    "cart": {
-        "pricePerPcs": "price per pcs",
-        "total": "Total",
-        "orderAmount": "Order amount",
-        "confirmOrder": "Confirm order",
-        "ordering": "Ordering",
-        "emptyCartStub": "Cart is empty"
+    "productInfo": {
+      "category": "category",
+      "name": "name",
+      "brand": "brand",
+      "color": "color",
+      "material": "material",
+      "size": "size",
+      "description": "description"
     },
-    "links": {
-        "catalog": "Catalog"
-    },
-    "search": "Search..."
+    "categories": {
+      "all": "all",
+      "trousers": "trousers",
+      "shirts": "shirts",
+      "shoes": "shoes"
+    }
+  },
+  "cart": {
+    "pricePerPcs": "price per pcs",
+    "total": "Total",
+    "orderAmount": "Order amount",
+    "confirmOrder": "Confirm order",
+    "ordering": "Ordering",
+    "emptyCartStub": "Cart is empty"
+  },
+  "links": {
+    "catalog": "Catalog"
+  },
+  "search": "Search...",
+  "orders": {
+    "myOrders": "My orders",
+    "emptyOrders": "There's nothing here...",
+    "columns": {
+      "orderNumber": "Order number",
+      "orderCreated": "Order created",
+      "orderTotal": "Total",
+      "product": "Product",
+      "quantity": "Quantity",
+      "price": "Price per unit"
+    }
+  },
+  "headerSettings": {
+    "account": "Account",
+    "myOrders": "My orders",
+    "logout": "Logout",
+    "signIn": "Sign In"
+  },
+  "auth": {
+    "login": "Login",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "firstName": "First name",
+    "middleName": "Middle name",
+    "lastName": "Last name",
+    "phone": "Phone"
+  }
 }

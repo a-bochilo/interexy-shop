@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // ========================== react ==========================
 import { FC, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,10 +11,10 @@ import { CircularProgress, Grid } from "@mui/material";
 import { fetchRoles } from "./store/roles.actions";
 import { RolesSelector, getPendingSelector } from "./store/roles.selector";
 import { AppDispatch } from "../../store";
-import { clearRole } from "./store/roles.slice";
 
 // ======================== Components =========================
 import RolesTable from "../../components/roles-table.component";
+import { clearErrors, clearRole } from "./store/roles.slice";
 
 const MainGrid = styled(Grid)`
   display: flex;
@@ -29,14 +30,16 @@ const RolesListPage: FC = () => {
   const pending = useSelector(getPendingSelector);
 
   useEffect(() => {
-    dispatch(clearRole());
+    dispatch(clearErrors());
     dispatch(fetchRoles());
   }, []);
 
   return (
     <MainGrid>
-      {pending.roles && <CircularProgress sx={{ alignSelf: "center" }} />}
-      {!!roles.length && !pending.roles && <RolesTable roles={roles} />}
+      {pending?.roles && (
+        <CircularProgress data-testid="pending-stub" sx={{ alignSelf: "center" }} />
+      )}
+      {!!roles?.length && !pending?.roles && <RolesTable roles={roles} />}
     </MainGrid>
   );
 };

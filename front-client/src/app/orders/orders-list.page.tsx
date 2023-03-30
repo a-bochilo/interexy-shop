@@ -8,12 +8,14 @@ import { useDispatch, useSelector } from "react-redux";
 
 // =========================== Store ===========================
 import { AppDispatch } from "../../store";
-import { fetchOrders } from "./store/orders.actions";
+import { fetchOrderItems, fetchOrders } from "./store/orders.actions";
 
 // ======================== Components =========================
 import OrdersList from "../../components/orders-list.component";
-import { OrdersSelector } from "./store/orders.selector";
+import { OrderItemsSelector, OrdersSelector } from "./store/orders.selector";
 import { decodeToken } from "react-jwt";
+import { useTranslation } from "react-i18next";
+import { IOrdersColumnsTranslate, IOrdersTranslate } from "./types/orders-translate.enum";
 
 const MainGrid = styled(Grid)`
   display: flex;
@@ -30,7 +32,21 @@ interface User {
 const OrdersListPage: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const orders = useSelector(OrdersSelector);
+  const order = useSelector(OrderItemsSelector);
   const [id, setId] = useState<string>("");
+  const { t } = useTranslation();
+
+  const ordersWithTranslate: IOrdersTranslate = t("orders", {
+    returnObjects: true,
+  });
+
+  const ordersWithColumnsTranslate: IOrdersColumnsTranslate = t("orders.columns", {
+    returnObjects: true,
+  });
+
+  const handleGetOrderItem = (id: string) => {
+    dispatch(fetchOrderItems(id))
+  };
 
   useEffect(() => {
     const token = window.localStorage.getItem("token");
@@ -41,8 +57,9 @@ const OrdersListPage: FC = () => {
       }
     }
     dispatch(fetchOrders());
-  }, [dispatch, id]);
-
+  }, [id]);
+  console.log(orders)
+  console.log(order)
   return (
     <MainGrid>
       <Stack spacing={2}>
@@ -55,17 +72,28 @@ const OrdersListPage: FC = () => {
           }}
           elevation={0}
         >
-          <h2>My orders</h2>
+          <h2>{ordersWithTranslate.myOrders}</h2>
         </Paper>
       </Stack>
       <Paper
         sx={{
           display: "flex",
           margin: "36px",
+          justifyContent: "center",
+          alignItems: "center",
         }}
-        elevation={5}
+        elevation={orders.length > 0 ? 5 : 0}
       >
-        {orders.length > 0 ? <OrdersList orders={orders} /> : <h2>YOU HAVE NO ORDERS</h2>}
+        {orders.length > 0 ? (
+          <OrdersList
+            orders={orders}
+            order={order}
+            ordersWithColumnsTranslate={ordersWithColumnsTranslate}
+            handleGetOrderItem={handleGetOrderItem}
+          />
+        ) : (
+          <h2>{ordersWithTranslate.emptyOrders}</h2>
+        )}
       </Paper>
     </MainGrid>
   );

@@ -34,7 +34,7 @@ export class RoleService {
     return await this.roleRepository.createRole(createRoleDto);
   }
 
-  async getRoleByType(roleType: UserRoles) {
+  async getRoleByType(roleType: UserRoles): Promise<RoleEntity> {
     const role = await this.roleRepository.getRoleByType(roleType);
     if (!role) {
       throw new HttpException(
@@ -60,7 +60,7 @@ export class RoleService {
     return role;
   }
 
-  async deleteRole(id: number) {
+  async deleteRole(id: number): Promise<HttpStatus> {
     const role = await this.roleRepository.getById(id);
 
     if (role.type === UserRoles.superadmin) {
@@ -80,8 +80,28 @@ export class RoleService {
     }
   }
 
-  async updateRole(id: number, createRoleDto: CreateRoleDto) {
-    const role = await this.roleRepository.getById(id);
+  async updateRole(roleId: number, createRoleDto: CreateRoleDto): Promise<RoleEntity> {
+    const role = await this.roleRepository.getById(roleId);
+    if (!role) {
+      throw new HttpException(
+        `${I18nContext.current().t("errors.roles.roleDoesNotExist")}`,
+        HttpStatus.NOT_FOUND
+      );
+    }
+
+    const rolesByName = createRoleDto.name
+      ? await this.roleRepository.getRolesByName(createRoleDto?.name)
+      : null;
+    if (
+      rolesByName?.length &&
+      (rolesByName.length > 1 || rolesByName[0]?.id !== +roleId)
+    ) {
+      throw new HttpException(
+        `${I18nContext.current().t("errors.roles.roleAlreadyExist")}`,
+        HttpStatus.NOT_FOUND
+      );
+    }
+
     if (role.type === UserRoles.superadmin) {
       throw new HttpException(
         `${I18nContext.current().t("errors.roles.roleSuperuserLimit")}`,
@@ -89,14 +109,7 @@ export class RoleService {
       );
     }
 
-    if (!role) {
-      throw new HttpException(
-        `${I18nContext.current().t("errors.roles.roleDoesNotExist")}: '${id}'`,
-        HttpStatus.BAD_REQUEST
-      );
-    } else {
-      Object.assign(role, createRoleDto);
-      return await this.roleRepository.updateRole(role);
-    }
+    Object.assign(role, createRoleDto);
+    return await this.roleRepository.updateRole(role);
   }
 }

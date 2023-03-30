@@ -46,8 +46,7 @@ import { cartSelector } from "../app/cart/store/cart.selectors";
 import SearchComponent from "./search.component";
 import CartIconComponent from "./cart-icon.component";
 import LanguageSwitcher from "./language-switcher.component";
-
-const settings = ["Account", "My orders", "Logout"];
+import { ISettings, SettingsEnum } from "../app/auth/types/settings.enum";
 
 const drawerWidth = 200;
 interface AppBarProps extends MuiAppBarProps {
@@ -87,6 +86,13 @@ const PageNavBarComp = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
     const { t } = useTranslation();
+
+    const enumSettings = Object.values(SettingsEnum).slice(0, 3);
+
+    const settingsTranslations: ISettings = t("headerSettings", {
+        returnObjects: true,
+    });
+
     const categoriesTranslations: ICategoriesSelector = t(
         "products.categories",
         {
@@ -119,18 +125,16 @@ const PageNavBarComp = () => {
 
     const handleCloseUserMenu = (field: string) => {
         switch (field) {
-            case "Account":
+            case SettingsEnum.account:
                 navigate("/profile");
                 break;
-            case "My orders":
+            case SettingsEnum.myOrders:
                 navigate("/orders/profile");
                 break;
-            case "Logout":
-                if (window.confirm("Are you sure you want to logout?")) {
-                    dispatch(logout());
-                    window.localStorage.removeItem("token");
-                    navigate("/");
-                }
+            case SettingsEnum.logout:
+                dispatch(logout());
+                window.localStorage.removeItem("token");
+                navigate("/");
                 break;
             default:
                 break;
@@ -149,6 +153,7 @@ const PageNavBarComp = () => {
                         onClick={handleDrawerOpen}
                         edge="start"
                         sx={{ mr: 2, ...(open && { display: "none" }) }}
+                        data-testid="drawer-open-button-test"
                     >
                         <MenuIcon />
                     </IconButton>
@@ -201,7 +206,10 @@ const PageNavBarComp = () => {
                                         navigate={navigate}
                                     />
 
-                                    <Tooltip title="Open settings">
+                                    <Tooltip
+                                        title="Open settings"
+                                        data-testid="open-settings-button-test"
+                                    >
                                         <IconButton
                                             onClick={handleOpenUserMenu}
                                             sx={{ p: 0 }}
@@ -230,17 +238,19 @@ const PageNavBarComp = () => {
                                         }}
                                         open={Boolean(anchorElUser)}
                                         onClose={handleCloseUserMenu}
+                                        data-testid="hidden-menu-test"
                                     >
-                                        {settings.map((setting) => (
+                                        {enumSettings.map((item) => (
                                             <MenuItem
-                                                value={setting}
-                                                key={setting}
+                                                value={item}
+                                                key={item}
                                                 onClick={() =>
-                                                    handleCloseUserMenu(setting)
+                                                    handleCloseUserMenu(item)
                                                 }
+                                                data-testid={`hidden-menu-${item}`}
                                             >
                                                 <Typography textAlign="center">
-                                                    {setting}
+                                                    {settingsTranslations[item]}
                                                 </Typography>
                                             </MenuItem>
                                         ))}
@@ -251,8 +261,9 @@ const PageNavBarComp = () => {
                                     variant="contained"
                                     color="success"
                                     onClick={() => navigate("/auth/signIn")}
+                                    data-testid="sign-in-btn-test"
                                 >
-                                    Sign in
+                                    {settingsTranslations.signIn}
                                 </Button>
                             )}
                         </Box>
@@ -271,14 +282,14 @@ const PageNavBarComp = () => {
                 variant="persistent"
                 anchor="left"
                 open={open}
+                data-testid="drawer-test"
             >
                 <DrawerHeader>
-                    <IconButton onClick={handleDrawerClose}>
-                        {theme.direction === "ltr" ? (
-                            <ChevronLeftIcon />
-                        ) : (
-                            <ChevronRightIcon />
-                        )}
+                    <IconButton
+                        onClick={handleDrawerClose}
+                        data-testid="drawer-close-button-test"
+                    >
+                        <ChevronLeftIcon />
                     </IconButton>
                 </DrawerHeader>
                 <Divider />

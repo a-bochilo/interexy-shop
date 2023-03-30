@@ -11,7 +11,7 @@ import { act, fireEvent, render, screen } from "@testing-library/react";
 
 // =========================== Mocks ===========================
 import configureStore from "redux-mock-store";
-import { initialState, mockCart } from "./cart.data.mocks";
+import { initialState, mockCart } from "../mocks/cart.data.mocks";
 
 // =========================== Component ===========================
 import CartPage from "../../app/cart";
@@ -53,6 +53,7 @@ jest.mock("react-i18next", () => ({
 // =========================== Mock Store ===========================
 const mockStore = configureStore([thunk]);
 
+// =========================== Mock PageNavBar ===========================
 jest.mock("../../components/navbar.comp", () => () => {
     return <div></div>;
 });

@@ -7,39 +7,36 @@ import SignUpForm from "../../components/signUp-form.component";
 // ========================== mui ==========================
 import { Grid } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { IFormInput } from "./types/form-input.interface";
 import { fetchSignUp } from "./store/auth.actions";
 import { ISignUpTemplate } from "./types/signUp.interface";
 import { AppDispatch } from "../../store";
 import { useNavigate } from "react-router-dom";
 import { AuthErrorSelector, AuthPendingSelector } from "./store/auth.selector";
 import { clearErrors } from "./store/auth.slice";
-import { decodeToken } from "react-jwt";
+import { useTranslation } from "react-i18next";
+import { IAuthTranslate } from "./types/auth-translate.interface";
 
 const SignUpPage: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const { t } = useTranslation();
+
   const fetchingErrors = useSelector(AuthErrorSelector);
   const fetchingPending = useSelector(AuthPendingSelector);
-  const navigate = useNavigate();
 
-  const handleSignUp = async (data: IFormInput) => {
+  const handleSignUp = async (data: ISignUpTemplate) => {
     dispatch(clearErrors());
-    const user: ISignUpTemplate = {
-      email: data.email,
-      password: data.password,
-      phone: data?.phone || "",
-      details: {
-        firstname: data?.firstName || "",
-        middlename: data?.middleName || "",
-        lastname: data?.lastName || "",
-      },
-    };
-    const newToken = await dispatch(fetchSignUp(user));
+    const newToken = await dispatch(fetchSignUp(data));
     if (newToken.meta.requestStatus !== "rejected") {
       window.localStorage.setItem("token", newToken.payload);
       navigate("/products");
     }
   };
+
+  const authWithTranslate: IAuthTranslate = t("auth", {
+    returnObjects: true,
+  });
+
   return (
     <Grid
       sx={{
@@ -52,6 +49,7 @@ const SignUpPage: FC = () => {
         handleSignUp={handleSignUp}
         fetchingErrors={fetchingErrors.token}
         fetchingPending={fetchingPending.token}
+        authWithTranslate={authWithTranslate}
       />
     </Grid>
   );

@@ -13,6 +13,7 @@ import { Button } from "@mui/material";
 
 // =========================== Interfaces & DTO's ===========================
 import { OrderItemDto } from "../app/orders/types/order-item.dto";
+import { useNavigate } from "react-router-dom";
 
 interface ColumnData {
   dataKey: keyof OrderItemDto;
@@ -20,13 +21,8 @@ interface ColumnData {
   width: number;
 }
 
-const OrderItemsViewTable = ({
-  orderItems,
-  handleBack,
-}: {
-  orderItems: OrderItemDto[];
-  handleBack: () => void;
-}) => {
+const OrderItemsViewTable = ({ orderItems }: { orderItems: OrderItemDto[] }) => {
+  const navigate = useNavigate();
   const capitalizeFirstLetter = (string: string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
@@ -96,14 +92,9 @@ const OrderItemsViewTable = ({
   };
 
   return (
-    <Paper
-      sx={{
-        minHeight: "90%",
-        minWidth: "100%",
-      }}
-    >
+    <>
       <Button
-        onClick={handleBack}
+        onClick={() => navigate(-1)}
         sx={{
           width: "100%",
         }}
@@ -113,12 +104,14 @@ const OrderItemsViewTable = ({
         BACK TO ORDERS
       </Button>
       <TableVirtuoso
+        data-testid="order-items-table"
         data={orderItems}
         components={VirtuosoTableComponents}
         fixedHeaderContent={fixedHeaderContent}
         itemContent={rowContent}
+        initialItemCount={1}
       />
-    </Paper>
+    </>
   );
 };
 

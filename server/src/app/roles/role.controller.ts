@@ -71,7 +71,7 @@ export class RoleController {
     @UsePipes(new ValidationPipe())
     async getRoleById(
         @Param("id") id: number
-    ) {
+    ): Promise<RoleEntity> {
         return await this.roleService.getRoleById(id);
     }
 
@@ -104,7 +104,7 @@ export class RoleController {
     async updateRoleById(
         @Param('id') id: number,
         @Body() createRoleDto: CreateRoleDto
-    ) {
+    ): Promise<RoleEntity> {
         return await this.roleService.updateRole(id, createRoleDto)
     }
 }

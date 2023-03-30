@@ -4,21 +4,18 @@ import { useForm, SubmitHandler, Controller } from "react-hook-form";
 // ========================== yup ==========================
 import { yupResolver } from "@hookform/resolvers/yup";
 
-// ======================== Components =========================
-import TemporaryTypography from "./temporary-typography.component";
-
 // ============================ MUI ============================
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import DoneIcon from "@mui/icons-material/Done";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
   Box,
   Checkbox,
-  CircularProgress,
   FormControl,
   MenuItem,
   Paper,
@@ -32,6 +29,7 @@ import { UserRoles } from "../app/roles/types/user-roles.enum";
 import { RolesDto } from "../app/roles/types/roles.dto";
 import { formSchema } from "./roles-form.const";
 import { IRoleState } from "../app/roles/types/role-state.interface";
+import TemporaryTypography from "./temporary-typography.component";
 
 interface IFormInput {
   id: number;
@@ -72,7 +70,12 @@ const RoleForm = ({
     return false;
   });
 
-  const { register, control, handleSubmit } = useForm<IFormInput>({
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm<IFormInput>({
     mode: "onChange",
     resolver: yupResolver(formSchema),
   });
@@ -92,7 +95,7 @@ const RoleForm = ({
       }}
     >
       <Typography variant="h6" fontWeight={"bold"} pb={1}>
-        Edit role: {role.name}
+        Edit role: {role?.name}
       </Typography>
 
       <form
@@ -153,16 +156,31 @@ const RoleForm = ({
             name="name"
             control={control}
             render={() => (
-              <TextField
+              <Box
                 sx={{
+                  display: "flex",
+                  flexDirection: "column",
                   width: "100%",
                 }}
-                disabled={!isEditable}
-                defaultValue={role?.name ?? null}
-                id="standard-basic"
-                variant="standard"
-                {...register("name")}
-              />
+              >
+                <Typography
+                  variant="caption"
+                  color={"red"}
+                  display={isEditable ? "block" : "none"}
+                >
+                  {errors.name?.message}
+                </Typography>
+                <TextField
+                  sx={{
+                    width: "100%",
+                  }}
+                  disabled={!isEditable}
+                  defaultValue={role?.name ?? null}
+                  id="standard-basic"
+                  variant="standard"
+                  {...register("name")}
+                />
+              </Box>
             )}
           />
         </FormControl>
@@ -276,49 +294,49 @@ const RoleForm = ({
           </Accordion>
         </FormControl>
 
+        {fetchingErrors.chosenRole && (
+          <TemporaryTypography
+            variant="overline"
+            align="center"
+            color="error"
+            duration={10}
+          >
+            {fetchingErrors.chosenRole}
+          </TemporaryTypography>
+        )}
+
+        {isClicked && !fetchingErrors.chosenRole && (
+          <TemporaryTypography
+            variant="overline"
+            align="center"
+            color="success.light"
+            duration={10}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                gap: "8px",
+                justifyContent: "center",
+              }}
+            >
+              <CheckCircleIcon />
+              <Typography>Role updated</Typography>
+            </Box>
+          </TemporaryTypography>
+        )}
+
         <Box
           sx={{
             display: "flex",
             flexFlow: "column",
             alignItems: "center",
             justifyContent: "center",
-            width: "50%",
+            width: "100%",
             marginTop: "50px",
             gap: 2,
           }}
         >
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              width: "50%",
-            }}
-          >
-            {pending.roles && <CircularProgress />}
-            {isClicked && !pending.roles && !fetchingErrors.roles && (
-              <TemporaryTypography
-                variant="overline"
-                align="center"
-                color="success.main"
-                duration={2}
-              >
-                <DoneIcon />
-              </TemporaryTypography>
-            )}
-
-            {fetchingErrors.roles && (
-              <TemporaryTypography
-                variant="overline"
-                align="center"
-                color="error"
-                duration={30}
-              >
-                {fetchingErrors.roles}
-              </TemporaryTypography>
-            )}
-          </Box>
-
           <Button
             sx={{
               width: "100%",
@@ -342,6 +360,7 @@ const RoleForm = ({
             type="submit"
             variant="contained"
             color="success"
+            disabled={!isValid}
             onClick={() => {
               setIsEditable(!isEditable);
             }}

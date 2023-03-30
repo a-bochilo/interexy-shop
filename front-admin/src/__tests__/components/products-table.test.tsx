@@ -6,7 +6,7 @@ import { render } from "@testing-library/react";
 import ProductsTable from "../../components/products-table.component";
 
 // =========================== Mocks ===========================
-import { mockProductWithDetails } from "./products.data.mocks";
+import { mockProductWithDetails } from "../mocks/products.data.mocks";
 
 describe("ProductsTable", () => {
     let mockProps: any;
