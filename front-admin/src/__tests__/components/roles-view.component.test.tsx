@@ -1,12 +1,11 @@
+// =========================== React-testing ===========================
 import { render, screen } from "@testing-library/react";
-import RoleForm from "../../components/roles-form.component";
+
+// =========================== Mocks ===================================
 import { role } from "../mocks/role.data.mock";
 
-// =========================== React-testing ===========================
-// =========================== Mocks ===================================
 // =========================== Component ===============================
-// =========================== Mock useNavi ============================
-// =========================== Mock Store ==============================
+import RoleForm from "../../components/roles-form.component";
 
 describe("Role edit form", () => {
   const mockHandlers = {

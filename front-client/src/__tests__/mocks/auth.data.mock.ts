@@ -1,6 +1,7 @@
-test.skip("skip", () => {});
+import { IAuthTranslate } from "../../app/auth/types/auth-translate.interface";
 
-export const authWithTranslate = {
+test.skip("skip", () => {});
+export const authWithTranslate: IAuthTranslate = {
   login: "Login",
   email: "Email",
   password: "Password",
@@ -23,7 +24,7 @@ export const mockRegisterData = {
   phone: "+375291111231",
 };
 
-export const FormSignInInput = {
+export const FormSignInInpus = {
   email: "test@test.com",
   password: "123123123",
 };
@@ -38,9 +39,4 @@ export const initialState = {
       token: false,
     },
   },
-};
-
-export const mockedData = {
-  token: "fake token",
-  authFetchingStatus: "loaded",
 };

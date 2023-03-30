@@ -1,13 +1,19 @@
 /* eslint-disable testing-library/no-unnecessary-act */
+
+// =========================== React-testing ===========================
 import { render, waitFor, screen, act, fireEvent } from "@testing-library/react";
+
+// =========================== Mocks ===================================
+import { authWithTranslate } from "../mocks/auth.data.mock";
+
+// =========================== Component ===============================
 import SignInForm from "../../components/signIn-form.component";
-import { authWithTranslate } from "../mocks/data.mocks";
 
 describe("Sign In component", () => {
   const SubmitHandler = jest.fn().mockResolvedValueOnce(1);
   const handleSignIn = jest.fn().mockResolvedValueOnce(1);
   const handleRedirectToSignUp = jest.fn().mockRejectedValueOnce(1);
-  
+
   it("should be rendered", async () => {
     render(
       <SignInForm
@@ -46,7 +52,7 @@ describe("Sign In component", () => {
         handleRedirectToSignUp={handleRedirectToSignUp}
         authWithTranslate={authWithTranslate}
       />
-    )
+    );
     expect(screen.getByText("Error! Test error!")).toBeInTheDocument();
-  })
+  });
 });

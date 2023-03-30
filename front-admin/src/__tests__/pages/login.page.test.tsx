@@ -1,23 +1,24 @@
-// =========================== React-testing ===========================
-import { render } from "@testing-library/react";
+import axios from "axios";
+import { Provider } from "react-redux";
+import thunk from "redux-thunk";
 import configureStore from "redux-mock-store";
 import { MemoryRouter } from "react-router-dom";
 
+// =========================== React-testing ===========================
+import { render } from "@testing-library/react";
+
 // =========================== Mocks ===================================
+import { mockedData } from "../mocks/auth.data.mock";
+
 // =========================== Component ===============================
 import { fetchAuth } from "../../app/login/store/auth.slice";
 import { handleResponse } from "../../app/login/login.page";
 import LoginPage from "../../app/login";
 
-// =========================== Mock useNavi ============================
-// =========================== Mock Store ==============================
-import axios from "axios";
-import { Provider } from "react-redux";
-import thunk from "redux-thunk";
-
 // =========================== Enums ===================================
 import { UserRoles } from "../../app/roles/types/user-roles.enum";
 
+// =========================== Mock Axios ==============================
 jest.mock("axios", () => ({
   post: jest.fn(),
   get: jest.fn(),
@@ -31,11 +32,6 @@ jest.mock("axios", () => ({
   },
 }));
 
-const mockedData = {
-  token: "fake token",
-  authFetchingStatus: "loaded",
-};
-
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 mockedAxios.post.mockResolvedValue({ data: [mockedData] });
 
@@ -43,6 +39,7 @@ jest.mock("../../app/login/store/auth.slice", () => ({
   fetchAuth: jest.fn(),
 }));
 
+// =========================== Mock Store ==============================
 const mockStore = configureStore([thunk]);
 
 describe("LoginPage", () => {
@@ -64,6 +61,7 @@ describe("LoginPage", () => {
   });
 });
 
+// =========================== Mock Functions =============================
 const mockReplace = jest.fn();
 const mockSetItem = jest.fn();
 const mockGetItem = jest.fn();

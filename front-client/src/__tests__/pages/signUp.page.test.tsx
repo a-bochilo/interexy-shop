@@ -1,14 +1,19 @@
 /* eslint-disable testing-library/no-container */
 /* eslint-disable testing-library/no-node-access */
-import { render, screen } from "@testing-library/react";
-import SignUpPage from "../../app/auth/signUp.page";
-import { Provider } from "react-redux";
 import axios from "axios";
 import thunk from "redux-thunk";
 import configureStore from "redux-mock-store";
-import { initialState } from "../mocks/data.mocks";
 import { Grid } from "@mui/material";
+import { Provider } from "react-redux";
 
+// =========================== React-testing ===========================
+import { render, screen } from "@testing-library/react";
+// =========================== Mocks ===================================
+import { initialState } from "../mocks/auth.data.mock";
+// =========================== Component ===============================
+import SignUpPage from "../../app/auth/signUp.page";
+
+// =========================== Mock Axios ==============================
 jest.mock("axios", () => ({
   post: jest.fn(),
   get: jest.fn(),
@@ -22,6 +27,10 @@ jest.mock("axios", () => ({
   },
 }));
 
+const mockedAxios = axios as jest.Mocked<typeof axios>;
+mockedAxios.post.mockResolvedValue({ data: "fake token" });
+
+// =========================== Mock i18n ==============================
 jest.mock("react-i18next", () => ({
   useTranslation: () => {
     return {
@@ -33,16 +42,14 @@ jest.mock("react-i18next", () => ({
   },
 }));
 
+// =========================== Mock useNavi ============================]
 const mockedUsedNavigate = jest.fn();
-
 jest.mock("react-router-dom", () => ({
   ...(jest.requireActual("react-router-dom") as any),
   useNavigate: () => mockedUsedNavigate,
 }));
 
-const mockedAxios = axios as jest.Mocked<typeof axios>;
-mockedAxios.post.mockResolvedValue({ data: "fake token" });
-
+// =========================== Mock Store ==============================
 let mockStore = configureStore([thunk]);
 
 describe("Sign Up page", () => {

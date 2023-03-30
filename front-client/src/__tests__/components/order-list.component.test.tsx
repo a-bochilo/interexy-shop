@@ -1,9 +1,15 @@
 /* eslint-disable testing-library/no-node-access */
 /* eslint-disable testing-library/no-container */
 // eslint-disable-next-line testing-library/no-unnecessary-act
+
+// =========================== React-testing ===========================
 import { render, waitFor, screen, act, fireEvent } from "@testing-library/react";
+
+// =========================== Mocks ===================================
+import { order, orderItem, ordersWithColumnsTranslate } from "../mocks/order.data.mock";
+
+// =========================== Component ===============================
 import OrdersListTable from "../../components/orders-list.component";
-import { order, orderItem, ordersWithColumnsTranslate } from "../mocks/data.mocks";
 
 describe("Order list component with orders", () => {
   const handleGetOrderItem = jest.fn().mockResolvedValueOnce(0);

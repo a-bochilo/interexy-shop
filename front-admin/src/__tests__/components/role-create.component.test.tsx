@@ -1,9 +1,12 @@
 /* eslint-disable testing-library/no-unnecessary-act */
 /* eslint-disable testing-library/no-node-access */
-import { fireEvent, render, screen } from "@testing-library/react";
-import CreateRoleForm from "../../components/role-create.component";
-import { act } from "react-dom/test-utils";
 import { BrowserRouter } from "react-router-dom";
+
+// =========================== React-testing ===========================";
+import { fireEvent, render, screen, act } from "@testing-library/react";
+
+// =========================== Component ===============================
+import CreateRoleForm from "../../components/role-create.component";
 
 describe("Role edit form", () => {
   const mockHandlers = {
@@ -12,11 +15,25 @@ describe("Role edit form", () => {
   };
 
   it("should render component", () => {
-    render(<CreateRoleForm fetchErrors={null} isClicked={false} {...mockHandlers} />);
+    render(
+      <CreateRoleForm
+        fetchingPending={false}
+        fetchErrors={null}
+        isClicked={false}
+        {...mockHandlers}
+      />
+    );
   });
 
   it("should enable create button in case form in create mode", async () => {
-    render(<CreateRoleForm fetchErrors={null} isClicked={false} {...mockHandlers} />);
+    render(
+      <CreateRoleForm
+        fetchingPending={false}
+        fetchErrors={null}
+        isClicked={false}
+        {...mockHandlers}
+      />
+    );
     const button = screen.getByRole("button", {
       name: /back to roles/i,
     });
@@ -26,6 +43,7 @@ describe("Role edit form", () => {
   it("should be return error message", async () => {
     render(
       <CreateRoleForm
+        fetchingPending={false}
         fetchErrors={"Error! Test error!"}
         isClicked={false}
         {...mockHandlers}
@@ -35,7 +53,14 @@ describe("Role edit form", () => {
   });
 
   it("should call 'handleSave' when create button is clicked", async () => {
-    render(<CreateRoleForm fetchErrors={null} isClicked={false} {...mockHandlers} />);
+    render(
+      <CreateRoleForm
+        fetchingPending={false}
+        fetchErrors={null}
+        isClicked={false}
+        {...mockHandlers}
+      />
+    );
     const boxes = screen.getAllByRole("textbox");
     act(() => fireEvent.change(boxes[0], { target: { value: "string" } }));
 
@@ -45,7 +70,12 @@ describe("Role edit form", () => {
   it("should be have expand button", async () => {
     render(
       <BrowserRouter>
-        <CreateRoleForm fetchErrors={null} isClicked={false} {...mockHandlers} />
+        <CreateRoleForm
+          fetchingPending={false}
+          fetchErrors={null}
+          isClicked={false}
+          {...mockHandlers}
+        />
       </BrowserRouter>
     );
     const button = screen.getByTestId("ExpandMoreIcon");
@@ -53,4 +83,3 @@ describe("Role edit form", () => {
     expect(screen.getByDisplayValue(/createproduct/i)).toBeInTheDocument();
   });
 });
-

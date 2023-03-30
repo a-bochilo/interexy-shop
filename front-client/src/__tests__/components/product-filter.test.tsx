@@ -14,7 +14,7 @@ import {
 } from "@testing-library/react";
 
 // =========================== Mocks ===========================
-import { mockProduct, initialState } from "./products.data.mocks";
+import { mockProduct, initialState } from "../mocks/products.data.mocks";
 import configureStore from "redux-mock-store";
 
 // =========================== Component ===========================

@@ -1,14 +1,14 @@
 /* eslint-disable testing-library/no-unnecessary-act */
 import { BrowserRouter } from "react-router-dom";
-import OrderItemsViewTable from "../../components/order-items-view-form.component";
-import { render, screen, fireEvent, act } from "@testing-library/react";
-import { mockOrderItems } from "../mocks/order.data.mock";
 
 // =========================== React-testing ===========================
+import { render, screen, fireEvent, act } from "@testing-library/react";
+
 // =========================== Mocks ===================================
+import { mockOrderItems } from "../mocks/order.data.mock";
+
 // =========================== Component ===============================
-// =========================== Mock useNavi ============================
-// =========================== Mock Store ==============================
+import OrderItemsViewTable from "../../components/order-items-view-form.component";
 
 describe("Order table", () => {
   const mockedUsedNavigate = jest.fn();

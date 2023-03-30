@@ -8,10 +8,10 @@ import { render, screen } from "@testing-library/react";
 
 // =========================== Mocks ===========================
 import configureStore from "redux-mock-store";
-import { initialState } from "./products.data.mocks";
 
 // =========================== Component ===========================
 import ProductListPage from "../../app/products/product-list.page";
+import { initialState } from "../mocks/products.data.mocks";
 
 // ====================== Mock useNavi ======================
 const mockedUsedNavigate = jest.fn();

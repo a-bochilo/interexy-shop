@@ -13,7 +13,7 @@ import {
 import ProductCard from "../../components/product-card.component";
 
 // =========================== Mocks ===========================
-import { mockProduct } from "./products.data.mocks";
+import { mockProduct } from "../mocks/products.data.mocks";
 
 describe("ProductEditForm", () => {
     let mockProps: any;

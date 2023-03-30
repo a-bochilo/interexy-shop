@@ -11,7 +11,7 @@ import { act, fireEvent, render, screen } from "@testing-library/react";
 
 // =========================== Mocks ===========================
 import configureStore from "redux-mock-store";
-import { initialState, mockProduct } from "./products.data.mocks";
+import { initialStateWithCart } from "../mocks/products.data.mocks";
 
 // =========================== Component ===========================
 import ProductViewPage from "../../app/products/product-view.page";
@@ -99,7 +99,7 @@ describe("ProductView page", () => {
     let store: any;
 
     it("should render component", () => {
-        store = mockStore(initialState);
+        store = mockStore(initialStateWithCart);
 
         render(
             <Provider store={store}>
@@ -110,11 +110,11 @@ describe("ProductView page", () => {
 
     it("should render CircularProgress component in case of products pending", async () => {
         store = mockStore({
-            ...initialState,
+            ...initialStateWithCart,
             products: {
-                ...initialState.products,
+                ...initialStateWithCart.products,
                 pending: {
-                    ...initialState.products.pending,
+                    ...initialStateWithCart.products.pending,
                     products: true,
                 },
             },
@@ -130,7 +130,7 @@ describe("ProductView page", () => {
     });
 
     it("should handleBack in case button clicked", async () => {
-        store = mockStore(initialState);
+        store = mockStore(initialStateWithCart);
 
         render(
             <Provider store={store}>
@@ -146,9 +146,9 @@ describe("ProductView page", () => {
 
     it("should not render component", async () => {
         store = mockStore({
-            ...initialState,
+            ...initialStateWithCart,
             products: {
-                ...initialState.products,
+                ...initialStateWithCart.products,
                 products: [],
                 productDetails: undefined,
             },

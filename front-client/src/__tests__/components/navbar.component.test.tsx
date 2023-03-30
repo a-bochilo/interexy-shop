@@ -6,6 +6,12 @@ import theme from "../../theme/mainTheme";
 import { BrowserRouter } from "react-router-dom";
 import PageNavBarComp from "../../components/navbar.comp";
 
+// =========================== React-testing ===========================
+// =========================== Mocks ===================================
+// =========================== Component ===============================
+// =========================== Mock useNavi ============================
+// =========================== Mock Store ==============================
+
 jest.mock("axios", () => ({
   post: jest.fn(),
   get: jest.fn(),

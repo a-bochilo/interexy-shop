@@ -73,6 +73,7 @@ const SignUpForm = ({
           control={control}
           render={() => (
             <TextField
+              aria-label="First Name"
               id="outlined-firstName"
               label={authWithTranslate.firstName}
               variant="outlined"
@@ -91,6 +92,7 @@ const SignUpForm = ({
           control={control}
           render={() => (
             <TextField
+              aria-label="Middle Name"
               id="outlined-basic"
               label={authWithTranslate.middleName}
               variant="outlined"
@@ -105,6 +107,7 @@ const SignUpForm = ({
           control={control}
           render={() => (
             <TextField
+              aria-label="Last Name"
               id="outlined-basic"
               label={authWithTranslate.lastName}
               variant="outlined"
@@ -123,6 +126,7 @@ const SignUpForm = ({
           control={control}
           render={() => (
             <TextField
+              aria-label="Email"
               id="outlined-basic"
               label={authWithTranslate.email}
               variant="outlined"
@@ -141,6 +145,7 @@ const SignUpForm = ({
           control={control}
           render={() => (
             <TextField
+              aria-label="Phone"
               id="outlined-basic"
               label={authWithTranslate.phone}
               variant="outlined"
@@ -159,6 +164,7 @@ const SignUpForm = ({
           control={control}
           render={() => (
             <TextField
+              aria-label="Password"
               id="outlined-basic"
               label={authWithTranslate.password}
               variant="outlined"
@@ -178,6 +184,7 @@ const SignUpForm = ({
           control={control}
           render={() => (
             <TextField
+              aria-label="Confirm password"
               id="outlined-basic"
               label={authWithTranslate.confirmPassword}
               variant="outlined"

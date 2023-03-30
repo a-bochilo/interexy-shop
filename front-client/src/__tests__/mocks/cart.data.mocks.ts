@@ -1,9 +1,31 @@
 import { ProductDetailsDto } from "../../app/products/types/product-details.dto";
-import { ProductWithDetailsDto } from "../../app/products/types/product-with-details.dto";
 import { ProductDto } from "../../app/products/types/product.dto";
 import { ProductsCategory } from "../../app/products/types/products-category.enum";
 
 test.skip("skip", () => {});
+
+export const mockCartItem = {
+    id: "string",
+    productId: "c06cbc27-26ee-4455-8983-33fff83c8be8",
+    quantity: 1,
+};
+
+export const mockCart = {
+    id: "string",
+    created: "string",
+    updated: "string",
+    items: [mockCartItem],
+};
+
+export const mockCartInfoTranslation = {
+    pricePerPcs: "price per pcs",
+    total: "Total",
+    orderAmount: "Order amount",
+    confirmOrder: "Confirm order",
+    ordering: "Ordering",
+    emptyCartStub: "Cart is empty",
+};
+
 
 export const mockProduct: ProductDto = {
     id: "c06cbc27-26ee-4455-8983-33fff83c8be8",
@@ -26,36 +48,6 @@ export const mockProductDetails: ProductDetailsDto = {
     description: "description",
 };
 
-export const mockProductWithDetails: ProductWithDetailsDto = {
-    id: "c06cbc27-26ee-4455-8983-33fff83c8be8",
-    created: 1679936346070,
-    updated: 1679936346070,
-    category: ProductsCategory.shirts,
-    name: "name",
-    brand: "brand",
-    price: 10,
-    image: "https://image.com",
-    quantity: 10,
-    isActive: true,
-    color: "color",
-    material: "material",
-    size: "size",
-    description: "description",
-};
-
-export const nonEmptyCart = {
-    id: "string",
-    created: "string",
-    updated: "string",
-    items: [
-        {
-            id: "string",
-            productId: "c06cbc27-26ee-4455-8983-33fff83c8be8",
-            quantity: 5,
-        },
-    ],
-};
-
 export const initialState = {
     products: {
         products: [mockProduct],
@@ -73,7 +65,7 @@ export const initialState = {
         },
     },
     cart: {
-        cart: nonEmptyCart,
+        cart: mockCart,
         pending: {
             cart: false,
         },
@@ -81,4 +73,11 @@ export const initialState = {
             cart: null,
         },
     },
+    orders: {
+        errors: {
+            orders: null,
+            orderItems: null,
+        },
+    },
 };
+

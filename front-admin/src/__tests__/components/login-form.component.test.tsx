@@ -1,12 +1,8 @@
 /* eslint-disable testing-library/no-unnecessary-act */
 // =========================== React-testing ===========================
-// =========================== Mocks ===================================
-// =========================== Component ===============================
-// =========================== Mock useNavi ============================
-// =========================== Mock Store ==============================
-
-
 import { render, waitFor, screen, act, fireEvent } from "@testing-library/react";
+
+// =========================== Component ===============================
 import LoginForm from "../../components/login-form.comp";
 
 describe("Sign In component", () => {

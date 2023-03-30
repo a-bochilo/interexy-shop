@@ -1,3 +1,4 @@
+import { ProductDetailsDto } from "../../app/products/types/product-details.dto";
 import { ProductWithDetailsDto } from "../../app/products/types/product-with-details.dto";
 import { ProductDto } from "../../app/products/types/product.dto";
 import { ProductsCategory } from "../../app/products/types/products-category.enum";
@@ -50,3 +51,29 @@ export const initialState = {
         },
     },
 };
+
+export const mockProductDetails: ProductDetailsDto = {
+    id: "c06cbc27-26ee-4455-8983-33fff83c8be8",
+    color: "color",
+    material: "material",
+    size: "size",
+    description: "description",
+};
+
+// export const initialState = {
+//     products: {
+//         products: [mockProduct],
+//         productDetails: mockProductDetails,
+//         pending: {
+//             products: false,
+//             productDetails: false,
+//             filter: false,
+//         },
+//         errors: {
+//             products: null,
+//             productDetails: null,
+//             filter: null,
+//         },
+//     },
+// };
+
