@@ -1,5 +1,3 @@
-
-
 // ========================== redux ==========================
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosResponse } from "axios";
@@ -13,9 +11,8 @@ import $api from "../../../api/api";
 import { UserDetailsDto } from "../types/user-details.type";
 import { UserSessionDto } from "../types/user-session-dto";
 
-
 export const getUserInfo = createAsyncThunk(
-  "GET/users/profile",
+  "users/getUserInfo",
   async (_, { rejectWithValue }) => {
     try {
       const response: AxiosResponse<UserDetailsDto> = await $api.get(
@@ -29,7 +26,7 @@ export const getUserInfo = createAsyncThunk(
 );
 
 export const updateUserDetails = createAsyncThunk<UserUpdateDto, UserUpdateDto>(
-  "PUT/users/profile",
+  "users/updateUserDetails",
   async (userData) => {
     try {
       const response = await $api.put(`/users/profile`, userData);
