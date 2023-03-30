@@ -1,8 +1,14 @@
 /* eslint-disable testing-library/no-unnecessary-act */
 import { BrowserRouter } from "react-router-dom";
 import OrderItemsViewTable from "../../components/order-items-view-form.component";
-import { orderItem } from "../mocks/data.mocks";
 import { render, screen, fireEvent, act } from "@testing-library/react";
+import { mockOrderItems } from "../mocks/order.data.mock";
+
+// =========================== React-testing ===========================
+// =========================== Mocks ===================================
+// =========================== Component ===============================
+// =========================== Mock useNavi ============================
+// =========================== Mock Store ==============================
 
 describe("Order table", () => {
   const mockedUsedNavigate = jest.fn();
@@ -15,7 +21,7 @@ describe("Order table", () => {
   it("should render component with order items", () => {
     render(
       <BrowserRouter>
-        <OrderItemsViewTable orderItems={[orderItem]} />
+        <OrderItemsViewTable orderItems={mockOrderItems} />
       </BrowserRouter>
     );
   });
@@ -30,7 +36,7 @@ describe("Order table", () => {
   it("should render component with navigate button", async () => {
     render(
       <BrowserRouter>
-        <OrderItemsViewTable orderItems={[orderItem]} />
+        <OrderItemsViewTable orderItems={mockOrderItems} />
       </BrowserRouter>
     );
     act(() => {

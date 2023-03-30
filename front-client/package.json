@@ -43,11 +43,17 @@
         "react-virtuoso": "^4.1.0",
         "redux": "^4.2.0",
         "redux-mock-store": "^1.5.4",
+        "redux-thunk": "^2.4.2",
         "sass": "^1.56.2",
         "svgo": "^2.8.0",
         "typescript": "^4.9.4",
         "web-vitals": "^2.1.4",
         "yup": "^0.32.11"
+    },
+    "jest": {
+        "moduleNameMapper": {
+            "axios": "axios/dist/node/axios.cjs"
+        }
     },
     "scripts": {
         "start": "set PORT=3001 && react-scripts start",

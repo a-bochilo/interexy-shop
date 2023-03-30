@@ -1,12 +1,21 @@
-import { render, fireEvent, screen } from "@testing-library/react";
-import LoginPage from "../../app/login";
-import { Provider } from "react-redux";
-import axios from "axios";
+// =========================== React-testing ===========================
+import { render } from "@testing-library/react";
 import configureStore from "redux-mock-store";
-import thunk from "redux-thunk";
 import { MemoryRouter } from "react-router-dom";
+
+// =========================== Mocks ===================================
+// =========================== Component ===============================
 import { fetchAuth } from "../../app/login/store/auth.slice";
 import { handleResponse } from "../../app/login/login.page";
+import LoginPage from "../../app/login";
+
+// =========================== Mock useNavi ============================
+// =========================== Mock Store ==============================
+import axios from "axios";
+import { Provider } from "react-redux";
+import thunk from "redux-thunk";
+
+// =========================== Enums ===================================
 import { UserRoles } from "../../app/roles/types/user-roles.enum";
 
 jest.mock("axios", () => ({

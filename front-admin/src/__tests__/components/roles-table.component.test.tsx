@@ -1,11 +1,17 @@
 /* eslint-disable testing-library/no-node-access */
 /* eslint-disable testing-library/no-container */
 // eslint-disable-next-line testing-library/no-unnecessary-act
-import { render, act, fireEvent, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import RolesTable from "../../components/roles-table.component";
-import { role } from "../mocks/data.mocks";
 import { UserRoles } from "../../app/roles/types/user-roles.enum";
+import { role } from "../mocks/role.data.mock";
+
+// =========================== React-testing ===========================
+// =========================== Mocks ===================================
+// =========================== Component ===============================
+// =========================== Mock useNavi ============================
+// =========================== Mock Store ==============================
 
 describe("Roles table", () => {
   const mockedUsedNavigate = jest.fn();

@@ -2,6 +2,12 @@
 /* eslint-disable testing-library/no-node-access */
 import OrderItemsViewPage from "../../app/orders/orders-view.page";
 
+// =========================== React-testing ===========================
+// =========================== Mocks ===================================
+// =========================== Component ===============================
+// =========================== Mock useNavi ============================
+// =========================== Mock Store ==============================
+
 import { Provider } from "react-redux";
 import { render, screen } from "@testing-library/react";
 import axios from "axios";

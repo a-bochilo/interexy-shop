@@ -1,7 +1,12 @@
 /* eslint-disable testing-library/no-unnecessary-act */
+// =========================== React-testing ===========================
 import { render } from "@testing-library/react";
+
+// =========================== Component ===========================
 import ProductsTable from "../../components/products-table.component";
-import { mockProductWithDetails } from "./products.data.mocks";
+
+// =========================== Mocks ===========================
+import { mockProductWithDetails } from "../mocks/products.data.mocks";
 
 describe("ProductsTable", () => {
     let mockProps: any;

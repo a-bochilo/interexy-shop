@@ -9,6 +9,12 @@ import axios from "axios";
 import thunk from "redux-thunk";
 import { MemoryRouter } from "react-router-dom";
 
+// =========================== React-testing ===========================
+// =========================== Mocks ===================================
+// =========================== Component ===============================
+// =========================== Mock useNavi ============================
+// =========================== Mock Store ==============================
+
 const mockedUsedNavigate = jest.fn();
 
 jest.mock("react-router-dom", () => ({

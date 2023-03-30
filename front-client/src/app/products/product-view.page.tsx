@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef } from "react";
+import { FC, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { debounce } from "lodash";
@@ -59,7 +59,6 @@ const ProductViewPage: FC = () => {
         }
     );
 
-    const isInitialLoading = useRef(true);
     const { productId } = useParams();
 
     const products = useAppSelector(productsSelector);
@@ -70,10 +69,8 @@ const ProductViewPage: FC = () => {
 
     useEffect(() => {
         if (!productId) return;
-        if (!isInitialLoading.current) return;
 
         dispatch(fetchProductDetials(productId));
-        isInitialLoading.current = false;
     }, [dispatch, productId]);
 
     let productWithDetails: ProductWithDetailsDto | undefined = undefined;
@@ -89,6 +86,7 @@ const ProductViewPage: FC = () => {
     const cartItemQuantity = !!cartItem ? cartItem.quantity : 1;
 
     const handleAddToCart = debounce(async (quantity: number) => {
+        console.log("CLICK");
         if (!productWithDetails?.id) return;
 
         if (!cart) {
@@ -146,11 +144,14 @@ const ProductViewPage: FC = () => {
     return (
         <Grid container spacing={10} justifyContent="center" p={5}>
             {(pending.products || pending.productDetails) && (
-                <CircularProgress sx={{ alignSelf: "center" }} />
+                <CircularProgress
+                    sx={{ alignSelf: "center" }}
+                    data-testid="pending-stub"
+                />
             )}
             {productWithDetails && (
                 <>
-                    <Grid item xs={6}>
+                    <Grid item xs={6} data-testid="grid-test">
                         <CardMedia
                             component="img"
                             alt={productWithDetails.name}
@@ -226,6 +227,7 @@ const ProductViewPage: FC = () => {
                                     variant="outlined"
                                     color="primary"
                                     onClick={() => handleBack()}
+                                    data-testid="btn-back-test"
                                 >
                                     <UndoIcon
                                         color="primary"

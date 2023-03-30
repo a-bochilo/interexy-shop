@@ -1,9 +1,13 @@
 /* eslint-disable testing-library/no-node-access */
 /* eslint-disable testing-library/no-unnecessary-act */
+// =========================== React-testing ===========================
 import { render, screen, fireEvent, act } from "@testing-library/react";
 
+// =========================== Component ===========================
 import ProductAddForm from "../../components/product-add-form.component";
-import { mockProductWithDetails } from "./products.data.mocks";
+
+// =========================== Mocks ===========================
+import { mockProductWithDetails } from "../mocks/products.data.mocks";
 
 describe("ProductEditForm", () => {
     let mockProps: any;

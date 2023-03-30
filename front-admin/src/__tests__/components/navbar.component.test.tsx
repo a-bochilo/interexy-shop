@@ -1,10 +1,16 @@
-import { fireEvent, render, screen, act, waitFor } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import { ThemeProvider } from "@emotion/react";
 import { Provider } from "react-redux";
 import store from "../../store";
 import theme from "../../theme/mainTheme";
 import { BrowserRouter } from "react-router-dom";
 import PageNavBarComp from "../../components/navbar.comp";
+
+// =========================== React-testing ===========================
+// =========================== Mocks ===================================
+// =========================== Component ===============================
+// =========================== Mock useNavi ============================
+// =========================== Mock Store ==============================
 
 const mockedUsedNavigate = jest.fn();
 

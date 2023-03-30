@@ -10,6 +10,12 @@ import thunk from "redux-thunk";
 import { MemoryRouter } from "react-router-dom";
 import RoleViewPage from "../../app/roles/role-view.page";
 
+// =========================== React-testing ===========================
+// =========================== Mocks ===================================
+// =========================== Component ===============================
+// =========================== Mock useNavi ============================
+// =========================== Mock Store ==============================
+
 const mockedUsedNavigate = jest.fn();
 
 jest.mock("react-router-dom", () => ({
