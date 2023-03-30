@@ -14,6 +14,7 @@ import {
   Box,
   Button,
   Checkbox,
+  CircularProgress,
   FormControl,
   MenuItem,
   Paper,
@@ -41,11 +42,13 @@ const CreateRoleForm = ({
   handleCreate,
   handleBack,
   fetchErrors,
+  fetchingPending,
   isClicked,
 }: {
   handleCreate: (s: CreateRoleDto) => void;
   handleBack: () => void;
   fetchErrors: string | null;
+  fetchingPending: boolean;
   isClicked: boolean;
 }) => {
   const enumsRoleTypes = Object.keys(UserRoles).slice(1);
@@ -222,37 +225,44 @@ const CreateRoleForm = ({
           </Accordion>
         </FormControl>
 
-        {fetchErrors && (
-          <TemporaryTypography
-            variant="overline"
-            align="center"
-            color="error"
-            duration={10}
-          >
-            {fetchErrors}
-          </TemporaryTypography>
-        )}
+        <Box sx={{
+          display: "flex",
+          flexDirection: "column"
+        }}>
+          {fetchingPending && <CircularProgress data-testid="pending-stub" />}
 
-        {isClicked && !fetchErrors && (
-          <TemporaryTypography
-            variant="overline"
-            align="center"
-            color="success.light"
-            duration={10}
-          >
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                gap: "8px",
-                justifyContent: "center",
-              }}
+          {fetchErrors && (
+            <TemporaryTypography
+              variant="overline"
+              align="center"
+              color="error"
+              duration={10}
             >
-              <CheckCircleIcon />
-              <Typography>Role created</Typography>
-            </Box>
-          </TemporaryTypography>
-        )}
+              {fetchErrors}
+            </TemporaryTypography>
+          )}
+
+          {isClicked && !fetchErrors && (
+            <TemporaryTypography
+              variant="overline"
+              align="center"
+              color="success.light"
+              duration={10}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  gap: "8px",
+                  justifyContent: "center",
+                }}
+              >
+                <CheckCircleIcon />
+                <Typography>Role created</Typography>
+              </Box>
+            </TemporaryTypography>
+          )}
+        </Box>
 
         <Button
           sx={{

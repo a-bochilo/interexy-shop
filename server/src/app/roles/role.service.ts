@@ -81,35 +81,26 @@ export class RoleService {
   }
 
   async updateRole(roleId: number, createRoleDto: CreateRoleDto): Promise<RoleEntity> {
-    const roleByName = await this.roleRepository.getRoleByName(createRoleDto.name);
+    const role = await this.roleRepository.getById(roleId);
+    if (!role) {
+      throw new HttpException(
+        `${I18nContext.current().t("errors.roles.roleDoesNotExist")}`,
+        HttpStatus.NOT_FOUND
+      );
+    }
 
-    if (roleByName.id === roleId) {
+    const rolesByName = createRoleDto.name
+      ? await this.roleRepository.getRolesByName(createRoleDto?.name)
+      : null;
+    if (
+      rolesByName?.length &&
+      (rolesByName.length > 1 || rolesByName[0]?.id !== +roleId)
+    ) {
       throw new HttpException(
         `${I18nContext.current().t("errors.roles.roleAlreadyExist")}`,
         HttpStatus.NOT_FOUND
       );
     }
-
-    const role = await this.roleRepository.getById(roleId);
-    if (!role) {
-      throw new HttpException(
-        `${I18nContext.current().t("errors.roles.roleDoesNotExist")}`,
-        HttpStatus.BAD_REQUEST
-      );
-    }
-
-    // const rolesByName = createRoleDto.name
-    //   ? await this.roleRepository.getRolesByName(createRoleDto?.name)
-    //   : null;
-    // if (
-    //   (rolesByName?.length && rolesByName.length > 1) ||
-    //   role.id !== roleId
-    // ) {
-    //   throw new HttpException(
-    //     `${I18nContext.current().t("errors.roles.roleAlreadyExist")}`,
-    //     HttpStatus.NOT_FOUND
-    //   );
-    // }
 
     if (role.type === UserRoles.superadmin) {
       throw new HttpException(

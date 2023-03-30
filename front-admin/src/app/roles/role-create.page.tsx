@@ -17,7 +17,7 @@ import { AppDispatch } from "../../store";
 // ====================== Interfaces & DTO's ==================
 import { CreateRoleDto } from "./types/create-role.dto";
 import { useSelector } from "react-redux";
-import { getErrorSelector } from "./store/roles.selector";
+import { getErrorSelector, getPendingSelector } from "./store/roles.selector";
 import { clearErrors, clearRole } from "./store/roles.slice";
 
 const MainGrid = styled(Grid)`
@@ -32,11 +32,13 @@ const RoleViewPage: FC<string> = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const [isClicked, setIsClicked] = useState<boolean>(false);
-  const fetchErrors = useSelector(getErrorSelector);
+  const fetchingErrors = useSelector(getErrorSelector);
+  const fetchingPending = useSelector(getPendingSelector);
 
   const handleCreate = (data: CreateRoleDto) => {
+    console.log(fetchingPending.chosenRole);
     if (data.permissions !== null) {
-      setIsClicked(true)
+      setIsClicked(true);
       dispatch(fetchRoleCreate(data));
       dispatch(clearRole());
       dispatch(clearErrors());
@@ -55,7 +57,8 @@ const RoleViewPage: FC<string> = () => {
         handleCreate={handleCreate}
         handleBack={handleBack}
         isClicked={isClicked}
-        fetchErrors={fetchErrors.chosenRole}
+        fetchErrors={fetchingErrors.chosenRole}
+        fetchingPending={fetchingPending.chosenRole}
       />
     </MainGrid>
   );
