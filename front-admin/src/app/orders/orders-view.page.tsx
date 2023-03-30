@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { FC, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -24,18 +25,20 @@ const MainGrid = styled(Grid)`
 
 const OrderItemsViewPage: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
+
   const { orderId } = useParams();
+
   const pending = useSelector(getPendingSelector);
   const orderItems = useSelector(OrderItemsSelector);
 
   useEffect(() => {
     if (orderId) dispatch(fetchOrderItems(orderId));
-  }, [dispatch, orderId]);
+  }, [orderId]);
 
   return (
     <MainGrid>
-      {(pending.orders || pending.orderItems) && (
-        <CircularProgress sx={{ alignSelf: "center" }} />
+      {(pending?.orders || pending?.orderItems) && (
+        <CircularProgress sx={{ alignSelf: "center" }} data-testid="pending-stub" />
       )}
       {orderItems && <OrderItemsViewTable orderItems={orderItems} />}
     </MainGrid>

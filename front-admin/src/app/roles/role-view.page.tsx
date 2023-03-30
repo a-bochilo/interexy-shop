@@ -6,7 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 // ============================ MUI ============================
 import styled from "@emotion/styled";
-import { Grid } from "@mui/material";
+import { CircularProgress, Grid } from "@mui/material";
 
 // ======================== Components =========================
 import RoleForm from "../../components/roles-form.component";
@@ -36,9 +36,11 @@ const MainGrid = styled(Grid)`
   min-height: 100%;
 `;
 
-const RoleViewPage: FC<string> = () => {
+const RoleViewPage: FC = () => {
   const navigate = useNavigate();
+
   const dispatch = useDispatch<AppDispatch>();
+
   const role = useSelector(ChosenRoleSelector);
   const pending = useSelector(getPendingSelector);
   const errors = useSelector(getErrorSelector);
@@ -75,6 +77,9 @@ const RoleViewPage: FC<string> = () => {
 
   return (
     <MainGrid>
+      {(pending.roles || pending.chosenRole) && (
+        <CircularProgress sx={{ alignSelf: "center" }} data-testid="pending-stub" />
+      )}
       {role && (
         <RoleForm
           role={role}

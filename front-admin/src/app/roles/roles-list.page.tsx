@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // ========================== react ==========================
 import { FC, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -35,8 +36,10 @@ const RolesListPage: FC = () => {
 
   return (
     <MainGrid>
-      {pending.roles && <CircularProgress sx={{ alignSelf: "center" }} />}
-      {!!roles.length && !pending.roles && <RolesTable roles={roles} />}
+      {pending?.roles && (
+        <CircularProgress data-testid="pending-stub" sx={{ alignSelf: "center" }} />
+      )}
+      {!!roles?.length && !pending?.roles && <RolesTable roles={roles} />}
     </MainGrid>
   );
 };

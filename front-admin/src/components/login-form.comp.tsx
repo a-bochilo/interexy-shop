@@ -42,7 +42,6 @@ const LoginForm = ({
 
   return (
     <Paper
-      data-testid="login-form"
       sx={{
         maxWidth: 400,
         minHeight: 340,
@@ -106,7 +105,7 @@ const LoginForm = ({
           type="submit"
           disabled={!isValid}
           variant="contained"
-          data-testId="loginButton"
+          data-testid="loginButton"
         >
           Login
         </Button>

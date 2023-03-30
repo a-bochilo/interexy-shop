@@ -104,6 +104,7 @@ const OrderItemsViewTable = ({ orderItems }: { orderItems: OrderItemDto[] }) => 
         BACK TO ORDERS
       </Button>
       <TableVirtuoso
+        data-testid="order-items-table"
         data={orderItems}
         components={VirtuosoTableComponents}
         fixedHeaderContent={fixedHeaderContent}
