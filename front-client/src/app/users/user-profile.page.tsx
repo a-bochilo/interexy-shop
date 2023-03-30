@@ -36,7 +36,7 @@ const UserEditPage: FC = () => {
   const [disabled, setDisabled] = useState(true);
   const userInfo = useSelector(userInfoSelector);
   const user = useSelector(userSelector);
-  const usersLoading = useSelector(userLoadingSelector);
+  const pending = useSelector(userLoadingSelector);
   const { userId } = useParams<string>();
   const getUser = usersActions.getUser;
 
@@ -55,7 +55,7 @@ const UserEditPage: FC = () => {
   const handleSave = (data: any) => {
     // if (!userId) return;
     dispatch(updateUserDetails(data));
-    console.log(data)
+    console.log(data);
   };
 
   const handleBack = () => {
@@ -70,14 +70,14 @@ const UserEditPage: FC = () => {
           user={user}
           userInfo={userInfo}
           disabled={disabled}
-          pending={usersLoading}
+          pending={pending}
           setDisabled={setDisabled}
           buttonOnclick={buttonOnclick}
           handleSave={handleSave}
           handleBack={handleBack}
         />
       ) : (
-        <CircularProgress />
+        <CircularProgress data-testid="test-progress" />
       )}
     </MainGrid>
   );

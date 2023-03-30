@@ -17,13 +17,9 @@ import {
   userInfoSelector,
   usersSelector,
   usersLoadingSelector,
+  usersFetchErrorsSelector,
 } from "./store/users.selectors";
-import {
-  deleteUser,
-  getUserInfo,
-  getUsers,
-  updateUserInfo,
-} from "./store/users.actions";
+import { deleteUser, getUserInfo, updateUserInfo } from "./store/users.actions";
 
 const MainGrid = styled(Grid)`
   justify-content: center;
@@ -38,14 +34,12 @@ const UserEditPage: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const [disabled, setDisabled] = useState(true);
+  const [isClicked, setIsClicked] = useState<boolean>(false);
   const userList = useSelector(usersSelector);
   const userInfo = useSelector(userInfoSelector);
-  const usersLoading = useSelector(usersLoadingSelector);
+  const pending = useSelector(usersLoadingSelector);
+  const fetchingErrors = useSelector(usersFetchErrorsSelector);
   const { userId } = useParams<string>();
-
-  useEffect(() => {
-    dispatch(getUsers());
-  }, []);
 
   useEffect(() => {
     if (!userId) return;
@@ -53,6 +47,7 @@ const UserEditPage: FC = () => {
   }, [userId]);
 
   const buttonOnclick = () => {
+    setIsClicked(true);
     setDisabled(!disabled);
   };
 
@@ -84,16 +79,18 @@ const UserEditPage: FC = () => {
           userInfo={userInfo}
           selectedUser={selectedUser}
           disabled={disabled}
-          pending={usersLoading}
+          pending={pending}
+          isClicked={isClicked}
           setDisabled={setDisabled}
           buttonOnclick={buttonOnclick}
           handleSave={handleSave}
+          fetchingErrors={fetchingErrors}
           handleDelete={handleDelete}
           handleBack={handleBack}
           handleAsignRole={handleAsignRole}
         />
       ) : (
-        <CircularProgress />
+        <CircularProgress data-testid="test-progress" />
       )}
     </MainGrid>
   );

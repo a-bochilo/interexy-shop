@@ -13,17 +13,8 @@ import UserAssignRoleFormComp from "../../components/user-assign-role-form.comp"
 
 // ========================== store ==========================
 import { AppDispatch } from "../../store";
-import {
-  userInfoSelector,
-  usersSelector,
-  usersLoadingSelector,
-} from "./store/users.selectors";
-import {
-  assignRole,
-  getUserInfo,
-  getUsers,
-  updateUserInfo,
-} from "./store/users.actions";
+import { usersSelector, usersLoadingSelector } from "./store/users.selectors";
+import { assignRole, getUsers } from "./store/users.actions";
 import { fetchRoles } from "../roles/store/roles.actions";
 import { RolesSelector } from "../roles/store/roles.selector";
 
@@ -45,9 +36,10 @@ const UserAssignRolePage: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const [disabled, setDisabled] = useState(true);
+  const [isClicked, setIsClicked] = useState<boolean>(false);
   const userList = useSelector(usersSelector);
   const userRoles = useSelector(RolesSelector);
-  const usersLoading = useSelector(usersLoadingSelector);
+  const pending = useSelector(usersLoadingSelector);
   const { userId } = useParams<string>();
 
   useEffect(() => {
@@ -59,6 +51,7 @@ const UserAssignRolePage: FC = () => {
   }, []);
 
   const buttonOnclick = () => {
+    setIsClicked(true);
     setDisabled(!disabled);
   };
 
@@ -71,11 +64,10 @@ const UserAssignRolePage: FC = () => {
     navigate(-1);
   };
 
-  const selectedUser = userList.find((user) => user.id === userId);
-  const selectedUserRole = userRoles.find(
-    (role) => role.id === selectedUser?.roleId
+  const selectedUser = userList?.find((user) => user.id === userId);
+  const selectedUserRole = userRoles?.find(
+    (role) => role.id === selectedUser?.role_id
   );
-  console.log(`selectedUserRole`, selectedUserRole);
 
   return (
     <MainGrid>
@@ -85,15 +77,16 @@ const UserAssignRolePage: FC = () => {
           userRoles={userRoles}
           userId={userId}
           disabled={disabled}
+          isClicked={isClicked}
           selectedUserRole={selectedUserRole}
-          pending={usersLoading}
+          pending={pending}
           setDisabled={setDisabled}
           buttonOnclick={buttonOnclick}
           handleSave={handleSave}
           handleBack={handleBack}
         />
       ) : (
-        <CircularProgress />
+        <CircularProgress data-testid="test-progress" />
       )}
     </MainGrid>
   );
