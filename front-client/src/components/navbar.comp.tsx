@@ -148,6 +148,7 @@ const PageNavBarComp = () => {
             onClick={handleDrawerOpen}
             edge="start"
             sx={{ mr: 2, ...(open && { display: "none" }) }}
+            data-testid="drawer-open-button-test"
           >
             <MenuIcon />
           </IconButton>
@@ -200,7 +201,7 @@ const PageNavBarComp = () => {
                     navigate={navigate}
                   />
 
-                  <Tooltip title="Open settings">
+                  <Tooltip title="Open settings" data-testid="open-settings-button-test">
                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                       <VerifiedUserIcon
                         fontSize="large"
@@ -226,12 +227,14 @@ const PageNavBarComp = () => {
                     }}
                     open={Boolean(anchorElUser)}
                     onClose={handleCloseUserMenu}
+                    data-testid="hidden-menu-test"
                   >
                     {enumSettings.map((item) => (
                       <MenuItem
                         value={item}
                         key={item}
                         onClick={() => handleCloseUserMenu(item)}
+                        data-testid={`hidden-menu-${item}`}
                       >
                         <Typography textAlign="center">
                           {settingsTranslations[item]}
@@ -245,6 +248,7 @@ const PageNavBarComp = () => {
                   variant="contained"
                   color="success"
                   onClick={() => navigate("/auth/signIn")}
+                  data-testid="sign-in-btn-test"
                 >
                   {settingsTranslations.signIn}
                 </Button>
@@ -265,10 +269,11 @@ const PageNavBarComp = () => {
         variant="persistent"
         anchor="left"
         open={open}
+        data-testid="drawer-test"
       >
         <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "ltr" ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+          <IconButton onClick={handleDrawerClose} data-testid="drawer-close-button-test">
+            <ChevronLeftIcon />
           </IconButton>
         </DrawerHeader>
         <Divider />

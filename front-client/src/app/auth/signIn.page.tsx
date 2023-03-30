@@ -1,5 +1,6 @@
 // ========================== react ==========================
 import { FC } from "react";
+import { FC } from "react";
 
 // ========================== components ==========================
 import SignInForm from "../../components/signIn-form.component";
@@ -16,8 +17,14 @@ import { useTranslation } from "react-i18next";
 import { IAuthTranslate } from "./types/auth-translate.interface";
 import { AuthErrorSelector } from "./store/auth.selector";
 import { clearErrors } from "./store/auth.slice";
+import { useTranslation } from "react-i18next";
+import { IAuthTranslate } from "./types/auth-translate.interface";
+import { AuthErrorSelector } from "./store/auth.selector";
+import { clearErrors } from "./store/auth.slice";
 
 interface IFormInput {
+  email: string;
+  password: string;
   email: string;
   password: string;
 }
@@ -37,6 +44,13 @@ export const handleResponse = (response: any, navigate: (path: string) => void) 
 };
 
 const SignInPage: FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
+
+  const navigate = useNavigate();
+
+  const { t } = useTranslation();
+
+  const fecthErrors = useSelector(AuthErrorSelector);
   const dispatch = useDispatch<AppDispatch>();
 
   const navigate = useNavigate();

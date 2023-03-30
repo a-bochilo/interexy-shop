@@ -21,7 +21,7 @@ const SignUpForm = ({
   fetchingPending,
   authWithTranslate,
 }: {
-  handleSignUp: (s: IFormInput) => void;
+  handleSignUp: (s: ISignUpTemplate) => void;
   fetchingErrors: string | null;
   fetchingPending: boolean;
   authWithTranslate: IAuthTranslate;
