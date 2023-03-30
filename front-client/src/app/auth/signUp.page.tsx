@@ -15,6 +15,7 @@ import { clearErrors } from "./store/auth.slice";
 import { useTranslation } from "react-i18next";
 import { IAuthTranslate } from "./types/auth-translate.interface";
 import { IFormInput } from "./types/form-input.interface";
+import { ISignUpTemplate } from "./types/signUp.interface";
 
 export const buildUserForDB = (data: IFormInput) => {
   return {
