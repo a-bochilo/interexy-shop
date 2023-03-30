@@ -1,7 +1,7 @@
 // ========================== types ==========================
 import { UserRoles } from "./user-roles.type";
 
-export interface UserUpdateDto {
+export interface UserInfoUpdateDto {
   id: string;
   email: string;
   phone: string;
@@ -9,8 +9,8 @@ export interface UserUpdateDto {
   isActive: boolean;
   created: number;
   updated: number;
-  role_type: UserRoles;
-  role_id: number;
+  roleType: UserRoles;
+  roleId: number;
   details: {
     firstname: string;
     lastname: string;

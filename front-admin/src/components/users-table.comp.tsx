@@ -29,15 +29,7 @@ const UsersTable = ({ users }: { users: UserDto[] }) => {
   };
 
   const getColumns = (user: UserDto): ColumnData[] => {
-    const keys = [
-      "id",
-      "created",
-      "updated",
-      "phone",
-      "email",
-      "roleType",
-      "isActive",
-    ] as (keyof UserDto)[];
+    const keys = Object.keys(user) as (keyof UserDto)[];
     const columns = keys.map((key) => {
       return {
         width: 120,
@@ -84,7 +76,7 @@ const UsersTable = ({ users }: { users: UserDto[] }) => {
               backgroundColor: "background.paper",
             }}
           >
-          {column.label}
+            {column.label}
           </TableCell>
         ))}
       </TableRow>
@@ -96,11 +88,20 @@ const UsersTable = ({ users }: { users: UserDto[] }) => {
   const rowContent = (_index: number, row: UserDto) => {
     return users.length > 0 ? (
       <>
-        {getColumns(users[0]).map((column) => (
-          <TableCell key={column.dataKey} align="center">
-            {`${row[column.dataKey]}`}
-          </TableCell>
-        ))}
+        {getColumns(users[0]).map((column) => {
+          let date: string | null = null;
+          if (
+            (column.dataKey === "created" || column.dataKey === "updated") &&
+            typeof row[column.dataKey] !== "string"
+          ) {
+            date = new Date(row[column.dataKey]).toLocaleString();
+          }
+          return (
+            <TableCell key={column.dataKey} align="center">
+              {date ? `${date}` : `${row[column.dataKey]}`}
+            </TableCell>
+          );
+        })}
       </>
     ) : (
       ""
@@ -114,6 +115,7 @@ const UsersTable = ({ users }: { users: UserDto[] }) => {
         components={VirtuosoTableComponents}
         fixedHeaderContent={fixedHeaderContent}
         itemContent={rowContent}
+        initialItemCount={1}
       />
     </Paper>
   );
