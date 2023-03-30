@@ -1,4 +1,3 @@
-/* eslint-disable testing-library/no-unnecessary-act */
 /* eslint-disable testing-library/no-node-access */
 /* eslint-disable testing-library/no-container */
 // eslint-disable-next-line testing-library/no-unnecessary-act
