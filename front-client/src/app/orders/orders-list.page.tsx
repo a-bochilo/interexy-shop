@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 // =========================== Store ===========================
 import { AppDispatch } from "../../store";
-import { fetchOrders } from "./store/orders.actions";
+import { fetchOrderItems, fetchOrders } from "./store/orders.actions";
 
 // ======================== Components =========================
 import OrdersList from "../../components/orders-list.component";
@@ -30,11 +30,24 @@ const OrdersListPage: FC = () => {
 
   const orders = useSelector(OrdersSelector);
   const order = useSelector(OrderItemsSelector);
+
   const { t } = useTranslation();
+
+  const ordersTranslate: IOrdersTranslate = t("orders", {
+    returnObjects: true,
+  });
+
+  const ordersWithColumnsTranslate: IOrdersColumnsTranslate = t("orders.columns", {
+    returnObjects: true,
+  });
+
+  const handleGetOrderItem = (id: string) => {
+    dispatch(fetchOrderItems(id));
+  };
 
   useEffect(() => {
     dispatch(fetchOrders());
-  }, [dispatch, id]);
+  }, []);
 
   return (
     <MainGrid>
@@ -48,7 +61,7 @@ const OrdersListPage: FC = () => {
           }}
           elevation={0}
         >
-          <h2>My orders</h2>
+          <h2>{ordersTranslate.myOrders}</h2>
         </Paper>
       </Stack>
       <Paper
@@ -58,7 +71,16 @@ const OrdersListPage: FC = () => {
         }}
         elevation={orders.length > 0 ? 5 : 0}
       >
-        {orders.length > 0 ? <OrdersList orders={orders} /> : <h2>YOU HAVE NO ORDERS</h2>}
+        {orders.length > 0 ? (
+          <OrdersList
+            orders={orders}
+            order={order}
+            ordersWithColumnsTranslate={ordersWithColumnsTranslate}
+            handleGetOrderItem={handleGetOrderItem}
+          />
+        ) : (
+          <h2 data-testid="empty-stub">{ordersTranslate.emptyOrders}</h2>
+        )}
       </Paper>
     </MainGrid>
   );

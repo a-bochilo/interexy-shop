@@ -55,4 +55,27 @@ describe("Sign In component", () => {
     );
     expect(screen.getByText("Error! Test error!")).toBeInTheDocument();
   });
+
+  it("should have a submit button is enable", async () => {
+    render(
+      <SignInForm
+        handleSignIn={handleSignIn}
+        fecthErrors={null}
+        handleRedirectToSignUp={handleRedirectToSignUp}
+        authWithTranslate={authWithTranslate}
+      />
+    );
+    const emailInput = screen.getByTestId("email-stub");
+    const passwordInput = screen.getByTestId("password-stub");
+
+    fireEvent.change(emailInput, {
+      target: { value: "test@test.com" },
+    });
+
+    fireEvent.change(passwordInput, {
+      target: { value: "123123" },
+    });
+
+    expect(screen.getByTestId("signin-button")).toBeDisabled();
+  });
 });

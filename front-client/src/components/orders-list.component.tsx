@@ -19,8 +19,17 @@ import { OrderItemDto } from "../app/orders/types/order-item.dto";
 
 const correctDate = (created: string) => new Date(created).toLocaleString();
 
-function Row(props: { orders: OrderDto }) {
-  const { orders } = props;
+const Row = ({
+  orders,
+  order,
+  ordersWithColumnsTranslate,
+  handleGetOrderItem,
+}: {
+  orders: OrderDto;
+  order: OrderItemDto[];
+  ordersWithColumnsTranslate: IOrdersColumnsTranslate;
+  handleGetOrderItem: (s: string) => void;
+}) => {
   const [open, setOpen] = useState(false);
 
   const handleClick = (toggle: boolean, id: string) => {
