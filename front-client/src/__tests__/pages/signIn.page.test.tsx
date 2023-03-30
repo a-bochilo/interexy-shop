@@ -8,12 +8,12 @@ import { MemoryRouter } from "react-router-dom";
 import { render } from "@testing-library/react";
 
 // =========================== Mocks ===================================
+import { initialState, mockedData } from "../mocks/auth.data.mock";
 
 // =========================== Component ===============================
+import SignInPage, { handleResponse } from "../../app/auth/signIn.page";
 
 // =========================== Enums ===================================
-import SignInPage, { handleResponse } from "../../app/auth/signIn.page";
-import { initialState, mockedData } from "../mocks/auth.data.mock";
 import { UserRoles } from "../../app/users/types/user-roles.enum";
 
 // =========================== Mock i18n ==============================

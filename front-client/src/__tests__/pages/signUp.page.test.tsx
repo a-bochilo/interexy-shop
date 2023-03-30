@@ -6,12 +6,12 @@ import configureStore from "redux-mock-store";
 import { Provider } from "react-redux";
 
 // =========================== React-testing ===========================
-import { render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
 // =========================== Mocks ===================================
 import { initialState } from "../mocks/auth.data.mock";
+
 // =========================== Component ===============================
 import SignUpPage, { buildUserForDB, checkTokenStatus } from "../../app/auth/signUp.page";
-import { MemoryRouter } from "react-router";
 
 // =========================== Mock Axios ==============================
 jest.mock("axios", () => ({
