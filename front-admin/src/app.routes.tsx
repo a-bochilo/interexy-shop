@@ -1,39 +1,65 @@
 import React, { FC, Suspense } from "react";
-// import { Navigate, Routes, Route } from "react-router-dom";
+import { Navigate, Routes, Route } from "react-router-dom";
 
-// // ======= private route ======= //
-// const PrivateRoute: FC<{ element: any }> = ({ element: Element }) => {
-//   return true ? (
-//     <Suspense fallback={<div />}>
-//       <div>
-//         <Element />
-//       </div>
-//     </Suspense>
-//   ) : (
-//     <Navigate to={""} />
-//   );
-// };
+// ========================== components ==========================
+import FallbackComponent from "./components/fallback.component";
+import OrdersPage from "./app/orders";
+import { UserRoles } from "./app/roles/types/user-roles.enum";
+import { decodeToken } from "react-jwt";
 
-// // ======= public route ======= //
-// const PublicRoute: FC<{ element: any }> = ({ element: Element }) => (
-//   <Suspense fallback={<div />}>
-//     <Element />
-//   </Suspense>
-// );
+interface User {
+  roleType: UserRoles;
+}
 
-// // ======= pages ======= //
-// const UsersPage = React.lazy(() => import("app/users"));
+const isAllowed = () => {
+  const token = window.localStorage.getItem("token");
+  if (token) {
+    const user: User | null = decodeToken(token);
+    if (user !== null && user.roleType !== UserRoles.user) return true;
+  }
+  return false;
+};
 
-// const AppRoutes = () => {
-//   return (
-//     <Routes>
-//       {/* PRIVATE */}
-//       <Route path={"/users/*"} element={<PrivateRoute element={UsersPage} />} />
+// ======= private route ======= //
+const PrivateRoute: FC<{ element: any }> = ({ element: Element }) => {
+  return isAllowed() ? (
+    <Suspense fallback={<FallbackComponent />}>
+      <Element />
+    </Suspense>
+  ) : (
+    <Navigate to={"/"} />
+  );
+};
 
-//       {/* DEFAULT */}
-//       <Route path="*" element={<Navigate to="/users" />} />
-//     </Routes>
-//   );
-// };
+// ======= public route ======= //
+const PublicRoute: FC<{ element: any }> = ({ element: Element }) => (
+  <Suspense fallback={<FallbackComponent />}>
+    <Element />
+  </Suspense>
+);
 
-// export default AppRoutes;
+// ======= pages ======= //
+const LoginPage = React.lazy(() => import("./app/login"));
+const ProductsPage = React.lazy(() => import("./app/products"));
+const RolesPage = React.lazy(() => import("./app/roles"));
+const UsersPage = React.lazy(() => import("./app/users"));
+
+const AppRoutes = () => {
+  return (
+    <Routes>
+      {/* PUBLIC */}
+      <Route path={"/"} element={<PublicRoute element={LoginPage} />} />
+
+      {/* PRIVATE */}
+      <Route path={"products/*"} element={<PrivateRoute element={ProductsPage} />} />
+      <Route path={"roles/*"} element={<PrivateRoute element={RolesPage} />} />
+      <Route path={"orders/*"} element={<PrivateRoute element={OrdersPage} />} />
+      <Route path={"/users/*"} element={<PrivateRoute element={UsersPage} />} />
+
+      {/* DEFAULT */}
+      <Route path="*" element={<Navigate to="/" />} />
+    </Routes>
+  );
+};
+
+export default AppRoutes;

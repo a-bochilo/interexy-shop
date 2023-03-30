@@ -18,7 +18,7 @@ export class OrderEntity extends UUIDEntity {
 
     @ManyToOne(() => UserEntity, (user) => user.order)
     @JoinColumn({ name: "user_id" })
-    user: UserEntity;
+    user?: UserEntity;
 
     @OneToMany(() => OrderItemEntity, (item) => item.order)
     items: OrderItemEntity[];

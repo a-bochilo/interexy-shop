@@ -18,7 +18,7 @@ export class UserViewRepository extends Repository<UserViewEntity> {
         );
     }
 
-    async getAll() {
+    async getAllUsers() {
         return await this.find();
     }
 

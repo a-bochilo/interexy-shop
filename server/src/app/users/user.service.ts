@@ -1,21 +1,18 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { I18nContext } from "nestjs-i18n";
 
 // ========================== Entities & DTO's ==========================
-import { CreateUserDto } from "./dtos/create-user.dto";
-import { AssignUserRoleDto } from "./dtos/assign-role-user.dto";
-import { UserEntity } from "./entities/user.entity";
+import { AssignUserRoleDto } from "./dtos/user-assigne-role.dto";
 
 // ========================== Repositories ==============================
 import { UserRepository } from "./repos/user.repository";
 import { UserDetailsRepository } from "./repos/user-details.repository";
 import { UserViewRepository } from "./repos/user-view.repository";
 
-// ========================== Enums =====================================
-import { UserRoles } from "../../shared/types/user-roles.enum";
-
 // ========================== Services & Controllers ====================
-import { UpdateUserDto } from "./dtos/update-user.dto";
+import { UpdateUserDto } from "./dtos/user-update.dto";
 import { RoleRepository } from "../roles/repos/role.repository";
+import { UserRoles } from "../../shared/types/user-roles.enum";
 
 @Injectable()
 export class UserService {
@@ -23,73 +20,145 @@ export class UserService {
     private readonly userDetailsRepository: UserDetailsRepository,
     private readonly userRepository: UserRepository,
     private readonly userViewRepository: UserViewRepository,
-    private readonly roleRepository: RoleRepository,
+    private readonly roleRepository: RoleRepository
   ) {}
 
-  async getAll() {
-    return await this.userViewRepository.getAll();
-  }
-
-  async getUsers(isActive: boolean) {
+  async getAllUsers(isActive: boolean) {
     if (isActive === undefined) {
-      return await this.userViewRepository.getAll();
+      return await this.userViewRepository.getAllUsers();
     }
-    return await this.userRepository.getInActiveUsers(false);
+    return await this.userRepository.getAllUsers(false);
   }
 
   async getDetailsById(userId: string) {
     const user = await this.userRepository.getById(userId);
-    return await this.userDetailsRepository.getDetails(user.details_id);
+    if (!user) {
+      throw new HttpException(
+        `${I18nContext.current().t("errors.user.userDoesNotExist")}`,
+        HttpStatus.NOT_FOUND
+      );
+    }
+    return await this.userDetailsRepository.getDetailsById(user.details_id);
   }
 
   async getById(userId: string) {
-    return await this.userRepository.getById(userId);
+    const user = await this.userRepository.getById(userId);
+    if (!user) {
+      throw new HttpException(
+        `${I18nContext.current().t("errors.user.userDoesNotExist")}`,
+        HttpStatus.NOT_FOUND
+      );
+    }
+    return user;
   }
 
   async assignUserRole(assignUserRoleDto: AssignUserRoleDto, userId: string) {
     const user = await this.userRepository.getById(userId);
-    const newRole = await this.roleRepository.getById(
-      assignUserRoleDto.newRole
-    );
+
+    if (!user) {
+      throw new HttpException(
+        `${I18nContext.current().t("errors.user.userDoesNotExist")}`,
+        HttpStatus.NOT_FOUND
+      );
+    }
+
+    if (user.roleType === UserRoles.superadmin) {
+      throw new HttpException(
+        `${I18nContext.current().t("errors.user.userIsSuperuser")}`,
+        HttpStatus.NOT_FOUND
+      );
+    }
+
+    const newRole = await this.roleRepository.getRoleByName(assignUserRoleDto.newRole);
+
+    if (newRole.type === UserRoles.superadmin) {
+      throw new HttpException(
+        `${I18nContext.current().t("errors.roles.roleSuperuserLimit")}`,
+        HttpStatus.NOT_FOUND
+      );
+    }
+
+    if (!newRole) {
+      throw new HttpException(
+        `${I18nContext.current().t("errors.roles.roleDoesNotExist")}`,
+        HttpStatus.NOT_FOUND
+      );
+    }
+
     user.updated = new Date();
     user.role = newRole;
     user.roleId = newRole.id;
     user.roleType = newRole.type;
-    return await this.userRepository.updateUser(user);
+    return await this.userRepository.assignUserRole(user);
   }
 
   async deleteUserById(userId: string) {
-    return await this.userRepository.deleteUser(userId);
+    const user = await this.userRepository.getById(userId);
+    if (user.roleType === UserRoles.superadmin) {
+      throw new HttpException(
+        `${I18nContext.current().t("errors.user.userIsSuperuser")}`,
+        HttpStatus.NOT_FOUND
+      );
+    }
+
+    if (!user) {
+      throw new HttpException(
+        `${I18nContext.current().t("errors.user.userDoesNotExist")}`,
+        HttpStatus.NOT_FOUND
+      );
+    }
+    return await this.userRepository.deleteUserById(userId);
   }
 
   async updateUserDetails(info: UpdateUserDto, userId: string) {
     const user = await this.userRepository.getById(userId);
-    let details = await this.userDetailsRepository.getDetails(
-      user.details_id as string
-    );
-    const newDetails = await this.userDetailsRepository.save(
+
+    if (user.roleType === UserRoles.superadmin) {
+      throw new HttpException(
+        `${I18nContext.current().t("errors.roles.roleSuperuserLimit")}`,
+        HttpStatus.NOT_FOUND
+      );
+    }
+
+    if (!user) {
+      throw new HttpException(
+        `${I18nContext.current().t("errors.user.userDoesNotExist")}`,
+        HttpStatus.NOT_FOUND
+      );
+    }
+
+    let details = await this.userDetailsRepository.getDetailsById(user.details_id);
+
+    if (!details) {
+      throw new HttpException(
+        `${I18nContext.current().t("errors.details.userDoesNotExist")}`,
+        HttpStatus.NOT_FOUND
+      );
+    }
+
+    const newDetails = await this.userDetailsRepository.setDetails(
       Object.assign(details, info.details)
     );
-  
+
     delete info.details;
     Object.assign(user, info);
 
     user.updated = new Date();
     details = newDetails;
-
-    return await this.userRepository.updateUser({
+    return await this.userRepository.updateUserDetails({
       ...user,
       details,
     });
   }
-  
-  async updateUserOrder(user: UserEntity) {
-    const newUser = await this.userRepository.getById(user.id);
-    Object.assign(newUser, user);
-    return await this.userRepository.updateUser(user);
-  }
 
   async getUserByEmail(email: string) {
-    return await this.userRepository.getUserByEmail(email);
+    const user = await this.userRepository.getUserByEmail(email);
+    if (!user) {
+      throw new HttpException(
+        `${I18nContext.current().t("errors.user.userDoesNotExist")}`,
+        HttpStatus.NOT_FOUND
+      );
+    }
+    return user;
   }
 }

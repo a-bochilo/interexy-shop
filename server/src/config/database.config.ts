@@ -88,7 +88,7 @@ const databaseConfig: PostgresConnectionOptions = {
 
         $npmConfigName1678980320744,
         $npmConfigName1679035791091,
-        
+
         $npmConfigName1679041536118,
         $npmConfigName1679044066865,
     ],

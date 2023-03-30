@@ -19,6 +19,7 @@ describe("CartController", () => {
         updated: date.valueOf(),
         items: [
             {
+                id: "39357c86-29d3-4df0-a1e0-ef0626d0d877",
                 productId: "d5232d45-99e6-40ca-83fc-3ead715c5fdc",
                 quantity: 10,
             },

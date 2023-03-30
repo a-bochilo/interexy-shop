@@ -11,10 +11,12 @@ export const cartWithExtraItemDto: CartSessionDto = {
     updated: date.valueOf(),
     items: [
         {
+            id: "39357c86-29d3-4df0-a1e0-ef0626d0d877",
             productId: "d5232d45-99e6-40ca-83fc-3ead715c5fdc",
             quantity: 10,
         },
         {
+            id: "39357c86-29d3-4df0-a1e0-ef0626d0d877",
             productId: "7407b231-5815-466f-ae00-be88c8927719",
             quantity: 15,
         },
@@ -22,7 +24,7 @@ export const cartWithExtraItemDto: CartSessionDto = {
 };
 
 export const cartItemEntity = {
-    id: "39357c86-29d3-4df0-a1e0-ef0626d0d877",
+    id: "c5d5dd16-c453-4c72-800b-01692c9dcc05",
     created: date,
     updated: date,
     product_id: "d5232d45-99e6-40ca-83fc-3ead715c5fdc",

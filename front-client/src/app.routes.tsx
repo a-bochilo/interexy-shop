@@ -1,39 +1,63 @@
+// ========================== react ==========================
+import { CircularProgress } from "@mui/material";
+import { Box } from "@mui/system";
 import React, { FC, Suspense } from "react";
-// import { Navigate, Routes, Route } from "react-router-dom";
+import { Navigate, Routes, Route } from "react-router-dom";
 
-// // ======= private route ======= //
-// const PrivateRoute: FC<{ element: any }> = ({ element: Element }) => {
-//   return true ? (
-//     <Suspense fallback={<div />}>
-//       <div>
-//         <Element />
-//       </div>
-//     </Suspense>
-//   ) : (
-//     <Navigate to={""} />
-//   );
-// };
+// ========================== components ==========================
+import FallbackComponent from "./components/fallback.component";
+import { decodeToken } from "react-jwt";
 
-// // ======= public route ======= //
-// const PublicRoute: FC<{ element: any }> = ({ element: Element }) => (
-//   <Suspense fallback={<div />}>
-//     <Element />
-//   </Suspense>
-// );
+const isAllowed = () => {
+  const token = window.localStorage.getItem("token");
+  if (token) {
+    const user = decodeToken(token);
+    if (user) return true;
+  }
+  return false;
+};
 
-// // ======= pages ======= //
-// const UsersPage = React.lazy(() => import("app/users"));
+// ======= private route ======= //
+const PrivateRoute: FC<{ element: any }> = ({ element: Element }) => {
+  return isAllowed() ? (
+    <Suspense fallback={<FallbackComponent />}>
+      <Element />
+    </Suspense>
+  ) : (
+    <Navigate to={"/"} />
+  );
+};
 
-// const AppRoutes = () => {
-//   return (
-//     <Routes>
-//       {/* PRIVATE */}
-//       <Route path={"/users/*"} element={<PrivateRoute element={UsersPage} />} />
+// ======= public route ======= //
+const PublicRoute: FC<{ element: any }> = ({ element: Element }) => (
+  <Suspense fallback={<FallbackComponent />}>
+    <Element />
+  </Suspense>
+);
 
-//       {/* DEFAULT */}
-//       <Route path="*" element={<Navigate to="/users" />} />
-//     </Routes>
-//   );
-// };
+// ======= pages ======= //
+const ProductsPage = React.lazy(() => import("./app/products"));
+const CartPage = React.lazy(() => import("./app/cart"));
+const AuthPage = React.lazy(() => import("./app/auth"));
+const OrdersPage = React.lazy(() => import("./app/orders"));
+const UserPage = React.lazy(() => import("./app/users"));
 
-// export default AppRoutes;
+const AppRoutes = () => {
+  return (
+    <Routes>
+      {/* PUBLIC */}
+      <Route path={"products/*"} element={<PublicRoute element={ProductsPage} />} />
+      <Route path={"auth/*"} element={<PublicRoute element={AuthPage} />} />
+
+      {/* PRIVATE */}
+      <Route path={"cart/*"} element={<PrivateRoute element={CartPage} />} />
+      <Route path={"profile/*"} element={<PrivateRoute element={UserPage} />} />
+      <Route path={"orders/*"} element={<PrivateRoute element={OrdersPage} />} />
+
+      {/* DEFAULT */}
+      <Route path="*" element={<Navigate to="/products" />} />
+    </Routes>
+  );
+};
+
+export default AppRoutes;

@@ -15,12 +15,13 @@ import {
 import { RoleService } from "./role.service";
 
 // ========================== DTO's & Types ==========================
-import { CreateRoleDto } from "./dtos/create-role.dto";
+import { CreateRoleDto } from "./dtos/role-create.dto";
 import { RoleEntity } from "./entities/role.entity";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { UserDetailsEntity } from "../users/entities/user-details.entity";
 import { UserPermissions } from "../../shared/types/user-permissions.enum";
 import { AuthPermissionsGuard } from "../security/decorators/auth-permissions-guard.decorator";
+import { DeleteResult } from "typeorm";
 
 
 @ApiTags('Roles controller')
@@ -70,7 +71,7 @@ export class RoleController {
     @UsePipes(new ValidationPipe())
     async getRoleById(
         @Param("id") id: number
-    ) {
+    ): Promise<RoleEntity> {
         return await this.roleService.getRoleById(id);
     }
 
@@ -86,7 +87,7 @@ export class RoleController {
     @UsePipes(new ValidationPipe())
     async deleteRoleById(
         @Param('id') id: number
-    ) {
+    ): Promise<HttpStatus> {
         return await this.roleService.deleteRole(id)
     }
 
@@ -103,7 +104,7 @@ export class RoleController {
     async updateRoleById(
         @Param('id') id: number,
         @Body() createRoleDto: CreateRoleDto
-    ) {
+    ): Promise<RoleEntity> {
         return await this.roleService.updateRole(id, createRoleDto)
     }
 }

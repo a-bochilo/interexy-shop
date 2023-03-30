@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
-import { FindOptionsWhere, Between } from "typeorm";
+import { FindOptionsWhere, Between, FindOperator } from "typeorm";
 import { I18nContext } from "nestjs-i18n";
 
 // ========================== Entities ==========================
@@ -72,9 +72,21 @@ export class ProductsService {
     }
 
     async getProductDetails(productId: string): Promise<ProductDetailsEntity> {
-        const product = await this.productsActiveViewRepository.getProductById(
+        let product: ProductEntity | ProductActiveViewEntity;
+
+        product = await this.productsActiveViewRepository.getProductById(
             productId
         );
+
+        if (!product)
+            product = await this.productsRepository.getProductById(productId);
+
+        if (!product) {
+            throw new HttpException(
+                I18nContext.current().t("errors.products.productDoesNotExist"),
+                HttpStatus.UNPROCESSABLE_ENTITY
+            );
+        }
 
         return await this.productsDetailsRepository.getProductDetailsById(
             product.productsDetailsId
@@ -84,23 +96,22 @@ export class ProductsService {
     async getFiltredProducts(
         filter: ProductsFilterDto
     ): Promise<(ProductEntity | ProductActiveViewEntity)[]> {
-        const productFilter = this.removeEmptyAndExtraFields(
+        const productFilter = this.removeEmptyFields(
             filter
         ) as FindOptionsWhere<ProductEntity>;
 
         productFilter.price =
             productFilter.price ||
-            Between(
+            (Between(
                 filter.minPrice ?? 0,
                 filter.maxPrice ?? Number.MAX_SAFE_INTEGER
-            );
-
+            ) as FindOperator<number>);
         productFilter.quantity =
             productFilter.quantity ||
-            Between(
+            (Between(
                 filter.minQuantity ?? 0,
                 filter.maxQuantity ?? Number.MAX_SAFE_INTEGER
-            );
+            ) as FindOperator<number>);
 
         if (productFilter.isActive === false) {
             return await this.productsRepository.getFiltredProducts(
@@ -133,9 +144,8 @@ export class ProductsService {
                   productUpdateDto?.name
               )
             : null;
-
         if (
-            productsByName &&
+            productsByName?.length &&
             (productsByName.length > 1 || productsByName[0]?.id !== productId)
         ) {
             throw new HttpException(
@@ -196,15 +206,18 @@ export class ProductsService {
         return await this.productsRepository.updateProduct(productFromDB);
     }
 
-    private removeEmptyAndExtraFields(obj: ProductsFilterDto) {
+    private removeEmptyFields(obj: ProductsFilterDto) {
         const dto = ProductsFilterDto.fromDto(obj);
 
         const filterObj = Object.fromEntries(
             Object.entries(dto)
-                .filter(([_, v]) => v !== (null || undefined))
+                .filter(([_, v]) => {
+                    if (v === null) return false;
+                    return v !== (null || undefined || "");
+                })
                 .map(([k, v]) => [
                     k,
-                    v === Object(v) ? this.removeEmptyAndExtraFields(v) : v,
+                    v === Object(v) ? this.removeEmptyFields(v) : v,
                 ])
         );
 

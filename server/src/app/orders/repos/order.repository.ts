@@ -4,8 +4,6 @@ import { Repository } from "typeorm";
 
 // ========================== Entities & DTO's ==========================
 import { OrderEntity } from "../entities/order.entity";
-import { CreateOrderDto } from "../dtos/create-order.dto";
-import { createOrderItemDto } from "../dtos/create-order-item.dto";
 import { UserEntity } from "src/app/users/entities/user.entity";
 
 @Injectable()
@@ -30,11 +28,15 @@ export class OrderRepository extends Repository<OrderEntity> {
         return await this.save(newOrder);
     }
 
-    async getAll() {
+    async saveOrder(order: OrderEntity) {
+        return await this.save(order)
+    }
+
+    async getAllOrders() {
         return await this.find();
     }
 
-    async getById(id: string) {
+    async getOrdersByUserId(id: string) {
         return await this.find({
             where: {
                 user_id: id

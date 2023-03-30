@@ -1,12 +1,4 @@
-import {
-    IsNumber,
-    IsPositive,
-    IsOptional,
-    IsBoolean,
-    IsEnum,
-    IsString,
-    IsUrl,
-} from "class-validator";
+import { IsOptional, IsEnum, IsString, Matches } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
 
 // ========================== Enums ==========================
@@ -33,76 +25,76 @@ export class ProductsFilterDto {
         description: "Product brand",
     })
     @IsOptional()
-    @IsOptional()
+    @IsString()
     brand?: string;
 
     @ApiProperty({
         description: "Product price",
     })
     @IsOptional()
-    @IsNumber()
-    @IsPositive()
-    price?: number;
+    @IsString()
+    @Matches(/^\d*[1-9]\d*$/g)
+    price?: string | number;
 
     @ApiProperty({
         description: "Product status",
     })
     @IsOptional()
-    @IsBoolean()
-    isActive?: boolean;
+    @IsString()
+    @Matches(/true|false/i)
+    isActive?: boolean | string;
 
     @ApiProperty({
         description: "Product quantity",
     })
     @IsOptional()
-    @IsNumber()
-    @IsPositive()
-    quantity?: number;
+    @IsString()
+    @Matches(/^\d*[0-9]\d*$/g)
+    quantity?: string | number;
 
     @ApiProperty({
         description: "Min product price",
     })
     @IsOptional()
-    @IsNumber()
-    @IsPositive()
-    minPrice?: number;
+    @IsString()
+    @Matches(/^\d*[0-9]\d*$/g)
+    minPrice?: string;
 
     @ApiProperty({
         description: "Max product price",
     })
     @IsOptional()
-    @IsNumber()
-    @IsPositive()
-    maxPrice?: number;
+    @IsString()
+    @Matches(/^\d*[1-9]\d*$/g)
+    maxPrice?: string;
 
     @ApiProperty({
         description: "Min product quantity",
     })
     @IsOptional()
-    @IsNumber()
-    @IsPositive()
-    minQuantity?: number;
+    @IsString()
+    @Matches(/^\d*[0-9]\d*$/g)
+    minQuantity?: string;
 
     @ApiProperty({
         description: "Max product quantity",
     })
     @IsOptional()
-    @IsNumber()
-    @IsPositive()
-    maxQuantity?: number;
+    @IsString()
+    @Matches(/^\d*[1-9]\d*$/g)
+    maxQuantity?: string;
 
     public static fromDto(incomingDto: ProductsFilterDto): ProductsFilterDto {
         const dto = new ProductsFilterDto();
-        dto.brand = incomingDto.brand;
-        dto.category = incomingDto.category;
-        dto.isActive = incomingDto.isActive;
-        dto.price = incomingDto.price;
-        // dto.maxPrice = incomingDto.maxPrice;
-        // dto.minPrice = incomingDto.minPrice;
-        dto.quantity = incomingDto.quantity;
-        // dto.maxQuantity = incomingDto.maxQuantity;
-        // dto.minQuantity = incomingDto.minQuantity;
-        dto.name = incomingDto.name;
+
+        incomingDto.brand ? (dto.brand = incomingDto.brand) : null;
+        incomingDto.category ? (dto.category = incomingDto.category) : null;
+        incomingDto.isActive
+            ? (dto.isActive = incomingDto.isActive === "true")
+            : null;
+        incomingDto.price ? (dto.price = +incomingDto.price) : null;
+        incomingDto.quantity ? (dto.quantity = +incomingDto.quantity) : null;
+        incomingDto.name ? (dto.name = incomingDto.name) : null;
 
         return dto;
     }
