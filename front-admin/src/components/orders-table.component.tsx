@@ -103,6 +103,7 @@ const OrdersTable = ({ orders }: { orders: OrderDto[] }) => {
         components={VirtuosoTableComponents}
         fixedHeaderContent={fixedHeaderContent}
         itemContent={rowContent}
+        initialItemCount={1}
       />
     </Paper>
   );

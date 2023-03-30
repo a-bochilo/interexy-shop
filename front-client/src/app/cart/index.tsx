@@ -3,6 +3,7 @@ import { FC, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { debounce } from "lodash";
+import { useTranslation } from "react-i18next";
 
 // =========================== MUI ===========================
 import styled from "@emotion/styled";
@@ -30,10 +31,13 @@ import {
 } from "./store/cart.selectors";
 import { fetchProducts } from "../products/store/products.actions";
 import { productsSelector } from "../products/store/products.selectors";
+import { fetchCreateOrder } from "../orders/store/orders.actions";
+import { getErrorSelector } from "../orders/store/orders.selector";
 
-// =========================== DTO's ===========================
+// =========================== DTO's & Types ===========================
 import { CartItemDto } from "./types/cart.dto";
 import TemporaryTypography from "../../components/temporary-typography.component";
+import { ICartTranslations } from "./types/cart-translation.interface";
 
 const MainGrid = styled(Grid)`
     display: flex;
@@ -60,13 +64,16 @@ const CartPage: FC = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const [isClicked, setIsClicked] = useState<boolean>(false);
+    const { t } = useTranslation();
+    const cartInfoTranslation: ICartTranslations = t("cart", {
+        returnObjects: true,
+    });
 
     const cart = useAppSelector(cartSelector);
     const products = useAppSelector(productsSelector);
     const pending = useAppSelector(cartPendingSelector);
     const cartErrors = useAppSelector(cartErrorsSelector);
-    //change selector to orders
-    const orderErrors = useAppSelector(cartErrorsSelector);
+    const orderErrors = useAppSelector(getErrorSelector);
 
     useEffect(() => {
         dispatch(fetchCart());
@@ -109,9 +116,10 @@ const CartPage: FC = () => {
 
     const handleCreateOrder = debounce(async () => {
         if (!cart?.items.length) return;
-        //! replace with create order logic
-        const { type } = await dispatch(fetchCart());
+
+        const { type } = await dispatch(fetchCreateOrder(cart));
         setIsClicked(true);
+
         if (!type.endsWith("rejected")) dispatch(clearCart());
     }, 300);
 
@@ -138,13 +146,16 @@ const CartPage: FC = () => {
                         mt={2}
                     >
                         {!!cart?.items.length ? (
-                            <>Ordering</>
+                            <>{cartInfoTranslation.ordering}</>
                         ) : (
-                            <>No products in cart</>
+                            <>{cartInfoTranslation.emptyCartStub}</>
                         )}
                     </Typography>
                     {!cart && pending.cart && (
-                        <CircularProgress sx={{ alignSelf: "center" }} />
+                        <CircularProgress
+                            sx={{ alignSelf: "center" }}
+                            data-testid="pending-stub"
+                        />
                     )}
                     {cart &&
                         sortedItems &&
@@ -157,6 +168,7 @@ const CartPage: FC = () => {
                                     <CircularProgress
                                         key={item.productId}
                                         sx={{ alignSelf: "center" }}
+                                        data-testid="pending-stub-item"
                                     />
                                 );
                             return (
@@ -167,13 +179,14 @@ const CartPage: FC = () => {
                                     handleUpdateCartItem={handleUpdateCartItem}
                                     handleDeleteCartItem={handleDeleteCartItem}
                                     handleNavigate={handleNavigate}
+                                    translations={cartInfoTranslation}
                                 />
                             );
                         })}
                 </InsideGrid>
                 <PageAsideComp>
                     <Typography variant="h5" color="success.light">
-                        Order amount: ${total}
+                        {cartInfoTranslation.orderAmount}: ${total}
                     </Typography>
                     <Button
                         variant="contained"
@@ -181,13 +194,14 @@ const CartPage: FC = () => {
                         sx={{ width: "100%" }}
                         onClick={() => handleCreateOrder()}
                         disabled={!cart?.items.length}
+                        data-testid="create-order-btn"
                     >
-                        Confirm order
+                        {cartInfoTranslation.confirmOrder}
                     </Button>
                     {pending.cart ? (
                         <CircularProgress sx={{ alignSelf: "center" }} />
                     ) : null}
-                    {cartErrors.cart || orderErrors.cart ? (
+                    {cartErrors.cart || orderErrors.orders ? (
                         <>
                             <TemporaryTypography
                                 variant="overline"
@@ -203,7 +217,7 @@ const CartPage: FC = () => {
                                 color="error"
                                 duration={30}
                             >
-                                {orderErrors.cart}
+                                {orderErrors.orders}
                             </TemporaryTypography>
                         </>
                     ) : null}
@@ -211,7 +225,7 @@ const CartPage: FC = () => {
                     !pending.cart &&
                     !pending.cart &&
                     !cartErrors.cart &&
-                    !orderErrors.cart ? (
+                    !orderErrors.orders ? (
                         <TemporaryTypography
                             variant="overline"
                             align="center"
@@ -219,7 +233,7 @@ const CartPage: FC = () => {
                             duration={2}
                             timeoutFunction={setIsClicked}
                         >
-                            <DoneIcon />
+                            <DoneIcon data-testid="done-icon-test" />
                         </TemporaryTypography>
                     ) : null}
                 </PageAsideComp>

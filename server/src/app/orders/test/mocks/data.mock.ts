@@ -188,6 +188,7 @@ export const mockedServices = {
     getOrdersByUserId: jest.fn().mockResolvedValue(order),
     createOrder: jest.fn().mockResolvedValue(order),
     createOrderItem: jest.fn().mockResolvedValue(orderItem),
+    getOrderItemByOrderId:jest.fn().mockResolvedValue([orderItem])
 };
 
 export const orderRepositoryFake = {

@@ -1,5 +1,5 @@
 // ========================== react ==========================
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -15,7 +15,10 @@ import { fetchRoleCreate } from "./store/roles.actions";
 import { AppDispatch } from "../../store";
 
 // ====================== Interfaces & DTO's ==================
-import { RolesDto } from "./types/roles.dto";
+import { CreateRoleDto } from "./types/create-role.dto";
+import { useSelector } from "react-redux";
+import { getErrorSelector, getPendingSelector } from "./store/roles.selector";
+import { clearErrors, clearRole } from "./store/roles.slice";
 
 const MainGrid = styled(Grid)`
   display: flex;
@@ -28,19 +31,35 @@ const MainGrid = styled(Grid)`
 const RoleViewPage: FC<string> = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+  const [isClicked, setIsClicked] = useState<boolean>(false);
+  const fetchingErrors = useSelector(getErrorSelector);
+  const fetchingPending = useSelector(getPendingSelector);
 
-  const handleCreate = (data: RolesDto) => {
-    dispatch(fetchRoleCreate(data));
-    navigate("/roles");
+  const handleCreate = (data: CreateRoleDto) => {
+    console.log(fetchingPending.chosenRole);
+    if (data.permissions !== null) {
+      setIsClicked(true);
+      dispatch(fetchRoleCreate(data));
+      dispatch(clearRole());
+      dispatch(clearErrors());
+    }
   };
 
   const handleBack = () => {
-    navigate("/roles");
+    dispatch(clearRole());
+    dispatch(clearErrors());
+    navigate(-1);
   };
 
   return (
     <MainGrid>
-      <CreateRoleForm handleCreate={handleCreate} handleBack={handleBack} />
+      <CreateRoleForm
+        handleCreate={handleCreate}
+        handleBack={handleBack}
+        isClicked={isClicked}
+        fetchErrors={fetchingErrors.chosenRole}
+        fetchingPending={fetchingPending.chosenRole}
+      />
     </MainGrid>
   );
 };

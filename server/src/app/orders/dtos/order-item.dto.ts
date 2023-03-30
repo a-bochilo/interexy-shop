@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsNotEmpty } from "class-validator";
-import { UUIDEntity } from "src/shared/entities/uuid.entity";
+import { UUIDEntity } from "../../../shared/entities/uuid.entity";
 
 export class OrderItemDto extends UUIDEntity {
     @ApiProperty({ example: "Blue shirt", description: 'Product name', required: true})

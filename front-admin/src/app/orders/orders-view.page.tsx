@@ -1,10 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { FC, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 // =========================== MUI ===========================
 import styled from "@emotion/styled";
 import { CircularProgress, Grid } from "@mui/material";
-
 
 // =========================== Components ===========================
 import { useDispatch, useSelector } from "react-redux";
@@ -24,33 +24,23 @@ const MainGrid = styled(Grid)`
 `;
 
 const OrderItemsViewPage: FC = () => {
-    const navigate = useNavigate();
-    const dispatch = useDispatch<AppDispatch>();
-    const { orderId } = useParams();
-    const pending = useSelector(getPendingSelector);
-    const orderItems = useSelector(OrderItemsSelector);
-    
+  const dispatch = useDispatch<AppDispatch>();
 
-    useEffect(() => {
-        if(orderId)
-            dispatch(fetchOrderItems(orderId))
-    }, [dispatch, orderId])
+  const { orderId } = useParams();
 
-    const handleBack = () => {
-        navigate("/roles");
-    }
+  const pending = useSelector(getPendingSelector);
+  const orderItems = useSelector(OrderItemsSelector);
+
+  useEffect(() => {
+    if (orderId) dispatch(fetchOrderItems(orderId));
+  }, [orderId]);
 
   return (
     <MainGrid>
-      {(pending.orders || pending.orderItems) && (
-        <CircularProgress sx={{ alignSelf: "center" }} />
+      {(pending?.orders || pending?.orderItems) && (
+        <CircularProgress sx={{ alignSelf: "center" }} data-testid="pending-stub" />
       )}
-      {orderItems && (
-        <OrderItemsViewTable
-          orderItems={orderItems}
-          handleBack={handleBack}
-        />
-      )}
+      {orderItems && <OrderItemsViewTable orderItems={orderItems} />}
     </MainGrid>
   );
 };

@@ -18,7 +18,6 @@ export const fetchCart = createAsyncThunk<CartDto>(
             >("/cart");
             return data;
         } catch (e: any) {
-            console.error(e);
             return rejectWithValue(e.response?.data?.message as string);
         }
     }
@@ -35,7 +34,6 @@ export const addCartItem = createAsyncThunk<CartDto, CartItemDto>(
             >("/cart", item);
             return data;
         } catch (e: any) {
-            console.error(e);
             return rejectWithValue(e.response?.data?.message as string);
         }
     }
@@ -52,7 +50,6 @@ export const updateCartItem = createAsyncThunk<CartDto, CartItemDto>(
             >("/cart", item);
             return data;
         } catch (e: any) {
-            console.error(e);
             return rejectWithValue(e.response?.data?.message as string);
         }
     }
@@ -69,7 +66,6 @@ export const clearCart = createAsyncThunk<CartDto>(
             >("/cart");
             return data;
         } catch (e: any) {
-            console.error(e);
             return rejectWithValue(e.response?.data?.message as string);
         }
     }
@@ -86,7 +82,6 @@ export const deleteCartItem = createAsyncThunk<CartDto, CartItemDto>(
             >(`/cart/${item.id}`);
             return data;
         } catch (e: any) {
-            console.error(e);
             return rejectWithValue(e.response?.data?.message as string);
         }
     }

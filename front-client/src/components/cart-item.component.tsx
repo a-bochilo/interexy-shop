@@ -8,6 +8,7 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { ProductDto } from "../app/products/types/product.dto";
 import { CartItemDto } from "../app/cart/types/cart.dto";
 import { useEffect, useState } from "react";
+import { ICartTranslations } from "../app/cart/types/cart-translation.interface";
 
 const CartItem = ({
     item,
@@ -15,12 +16,14 @@ const CartItem = ({
     handleUpdateCartItem,
     handleDeleteCartItem,
     handleNavigate,
+    translations,
 }: {
     item: CartItemDto;
     product: ProductDto;
     handleUpdateCartItem: (item: CartItemDto) => void;
     handleDeleteCartItem: (item: CartItemDto) => void;
     handleNavigate: (productId: string) => void;
+    translations: ICartTranslations;
 }) => {
     const [quantity, setQuantity] = useState<number>(item.quantity);
 
@@ -58,6 +61,7 @@ const CartItem = ({
                             alt={product.name}
                             image={product.image}
                             onClick={() => handleNavigate(product.id)}
+                            data-testid='img-test'
                         />
                     </Grid>
                     <Grid item xs={4} container direction="column" spacing={2}>
@@ -95,7 +99,7 @@ const CartItem = ({
                                 display={"inline-block"}
                                 mb={2}
                             >
-                                Price per pcs.: ${product.price}
+                                {translations.pricePerPcs}: ${product.price}
                             </Typography>
                         </Grid>
                         <Grid item container justifyContent="space-between">
@@ -105,6 +109,7 @@ const CartItem = ({
                                         cursor: "pointer",
                                     }}
                                     onClick={handleDecrease}
+                                    data-testid="decrease-icon-test"
                                 />
                             </Grid>
                             <Grid item xs={6} justifyContent="center">
@@ -124,6 +129,7 @@ const CartItem = ({
                                     onChange={(e) =>
                                         setQuantity(+e.target.value)
                                     }
+                                    data-testid="quantity-input-test"
                                 />
                             </Grid>
                             <Grid item xs={2} justifyContent="center">
@@ -132,6 +138,7 @@ const CartItem = ({
                                         cursor: "pointer",
                                     }}
                                     onClick={handleIncrease}
+                                    data-testid="increase-icon-test"
                                 />
                             </Grid>
                         </Grid>
@@ -151,7 +158,7 @@ const CartItem = ({
                                 color="text.secondary"
                                 display={"inline-block"}
                             >
-                                Total:
+                                {translations.total}:
                             </Typography>
                         </Grid>
 
@@ -173,6 +180,7 @@ const CartItem = ({
                             color="error"
                             fontSize="large"
                             onClick={() => handleDeleteCartItem(item)}
+                            data-testid="delete-icon-test"
                         />
                     </Grid>
                 </>

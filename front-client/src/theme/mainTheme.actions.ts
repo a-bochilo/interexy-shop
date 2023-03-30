@@ -15,3 +15,4 @@ export const secondaryMain = ({ theme }: ITheme) =>
 export const errorMain = ({ theme }: ITheme) => theme.palette.error.main;
 export const secondaryText = ({ theme }: ITheme) =>
   theme.palette.secondary.text;
+export const successLight = ({ theme }: ITheme) => theme.palette.success.light;

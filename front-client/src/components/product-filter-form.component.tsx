@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { useTranslation } from "react-i18next";
+
 // =========================== Form ===========================
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 
@@ -22,8 +24,15 @@ import TemporaryTypography from "./temporary-typography.component";
 import DoneIcon from "@mui/icons-material/Done";
 
 // =========================== DTO's & Enums ===========================
-import { ProductsCategory } from "../app/products/types/products-category.enum";
 import { ProductFilterDto } from "../app/products/types/product-filter.dto";
+import {
+    CategoriesSelector,
+    ICategoriesSelector,
+} from "../app/products/types/products-category.enum";
+import {
+    FilterKeysType,
+    IFilterKeysTranslation,
+} from "../app/products/types/products-filter.types";
 
 // =========================== Store ===========================
 import { useAppDispatch, useAppSelector } from "../store";
@@ -34,11 +43,22 @@ import {
 import { clearErrors } from "../app/products/store/products.slice";
 import { filterProduct } from "../app/products/store/products.actions";
 
-type FilterKeysType = keyof ProductFilterDto;
-
 const ProductFilterForm = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    const { t } = useTranslation();
+    const filterKeysTranslation: IFilterKeysTranslation = t(
+        "products.productsFilterForm",
+        {
+            returnObjects: true,
+        }
+    );
+    const categoriesTranslation: ICategoriesSelector = t(
+        "products.categories",
+        {
+            returnObjects: true,
+        }
+    );
 
     const [isClicked, setIsClicked] = useState<boolean>(false);
 
@@ -86,7 +106,6 @@ const ProductFilterForm = () => {
 
     const onSubmit: SubmitHandler<ProductFilterDto> = async (data) => {
         const outputData = removeEmptyFields(data);
-        console.log(outputData);
         const isPositive = await handleFilter(outputData);
 
         if (isPositive) navigate("/products");
@@ -115,8 +134,8 @@ const ProductFilterForm = () => {
                     width: "100%",
                     alignSelf: "right",
                 }}
-                label={key
-                    .split(/(?=[A-Z])/)
+                label={(filterKeysTranslation[key] as string)
+                    .split(/(?=[A-Z])|(?=[А-Я])/)
                     .join(" ")
                     .toLowerCase()}
                 id={key}
@@ -136,16 +155,16 @@ const ProductFilterForm = () => {
                     alignSelf: "right",
                 }}
                 id={key}
-                label="Select category"
+                label={filterKeysTranslation.selectCategory}
                 select
                 size="small"
                 defaultValue="all"
                 variant="standard"
                 {...register(key)}
             >
-                {["all", ...Object.values(ProductsCategory)].map((option) => (
+                {[...Object.values(CategoriesSelector)].map((option) => (
                     <MenuItem key={option} value={option}>
-                        {option}
+                        {categoriesTranslation[option]}
                     </MenuItem>
                 ))}
             </TextField>
@@ -168,7 +187,7 @@ const ProductFilterForm = () => {
                 color="primary"
                 pb={1}
             >
-                Filter products
+                {filterKeysTranslation.formTitle}
             </Typography>
 
             <form
@@ -198,16 +217,6 @@ const ProductFilterForm = () => {
                 <Box
                     sx={{
                         display: "flex",
-                        gap: 1,
-                    }}
-                >
-                    {renderController("minQuantity", renderTextField)}
-                    {renderController("maxQuantity", renderTextField)}
-                </Box>
-
-                <Box
-                    sx={{
-                        display: "flex",
                         flexFlow: "column",
                         alignItems: "center",
                         justifyContent: "center",
@@ -224,8 +233,9 @@ const ProductFilterForm = () => {
                         variant="contained"
                         color="primary"
                         disabled={!isValid}
+                        data-testid="filter-btn"
                     >
-                        Filter
+                        {filterKeysTranslation.filterButtonTitle}
                     </Button>
 
                     <Button
@@ -236,8 +246,9 @@ const ProductFilterForm = () => {
                         variant="contained"
                         color="error"
                         onClick={() => reset()}
+                        data-testid="reset-btn"
                     >
-                        Reset
+                        {filterKeysTranslation.resetButtonTitle}
                     </Button>
                 </Box>
 
@@ -250,7 +261,9 @@ const ProductFilterForm = () => {
                         height: 35,
                     }}
                 >
-                    {pending.filter && <CircularProgress />}
+                    {pending.filter && (
+                        <CircularProgress data-testid="pending-stub" />
+                    )}
                     {isClicked && !pending.filter && !fetchingErrors.filter && (
                         <TemporaryTypography
                             variant="overline"
@@ -259,7 +272,7 @@ const ProductFilterForm = () => {
                             duration={2}
                             timeoutFunction={setIsClicked}
                         >
-                            <DoneIcon />
+                            <DoneIcon data-testid="done-icon-test" />
                         </TemporaryTypography>
                     )}
 

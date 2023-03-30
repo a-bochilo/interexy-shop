@@ -1,5 +1,10 @@
 // ========================== react ==========================
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
+import { startCase } from "lodash";
+import { useTranslation } from "react-i18next";
 
 // ========================== mui ==========================
 import { styled, useTheme } from "@mui/material/styles";
@@ -14,33 +19,34 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-import SearchIcon from "@mui/icons-material/Search";
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import Badge from "@mui/material/Badge";
 import {
-  alpha,
   Button,
   Container,
   CssBaseline,
-  InputBase,
   Menu,
   MenuItem,
   Toolbar,
   Tooltip,
   Typography,
 } from "@mui/material";
-import { useDispatch } from "react-redux";
-import { logout } from "../app/auth/store/auth.slice";
-import { useNavigate } from "react-router-dom";
-import { useAppSelector } from "../store";
-import { cartSelector } from "../app/cart/store/cart.selectors";
+
+// ========================== Enums ==========================
+import { ProductsCategory } from "../app/products/types/products-category.enum";
+import { ICategoriesSelector } from "../app/products/types/products-category.enum";
 
 // ========================== store ==========================
+import { logout } from "../app/auth/store/auth.slice";
+import { useAppSelector } from "../store";
 import { AppDispatch } from "../store";
+import { cartSelector } from "../app/cart/store/cart.selectors";
 
-const settings = ["Account", "My orders", "Logout"];
+// ========================== components ==========================
+import SearchComponent from "./search.component";
+import CartIconComponent from "./cart-icon.component";
+import LanguageSwitcher from "./language-switcher.component";
+import { ISettings, SettingsEnum } from "../app/auth/types/settings.enum";
 
 const drawerWidth = 200;
 interface AppBarProps extends MuiAppBarProps {
@@ -73,54 +79,23 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-end",
 }));
 
-const Search = styled("div")(({ theme }) => ({
-  position: "relative",
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginLeft: 0,
-  width: "100%",
-  [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(1),
-    width: "auto",
-  },
-}));
-
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: "100%",
-  position: "absolute",
-  pointerEvents: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
-  "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      width: "12ch",
-      "&:focus": {
-        width: "20ch",
-      },
-    },
-  },
-}));
-
 const PageNavBarComp = () => {
   const cartItemsQuantity = useAppSelector(cartSelector)?.items.length;
 
   const theme = useTheme();
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+  const { t } = useTranslation();
+
+  const enumSettings = Object.values(SettingsEnum).slice(0, 3);
+
+  const settingsTranslations: ISettings = t("headerSettings", {
+    returnObjects: true,
+  });
+
+  const categoriesTranslations: ICategoriesSelector = t("products.categories", {
+    returnObjects: true,
+  });
 
   const [open, setOpen] = useState(false);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
@@ -145,13 +120,13 @@ const PageNavBarComp = () => {
 
   const handleCloseUserMenu = (field: string) => {
     switch (field) {
-      case "Account":
+      case SettingsEnum.account:
         navigate("/profile");
         break;
-      case "My orders":
+      case SettingsEnum.myOrders:
         navigate("/orders/profile");
         break;
-      case "Logout":
+      case SettingsEnum.logout:
         dispatch(logout());
         window.localStorage.removeItem("token");
         navigate("/");
@@ -214,32 +189,16 @@ const PageNavBarComp = () => {
                 gap: 3,
               }}
             >
-              <Search>
-                <SearchIconWrapper>
-                  <SearchIcon />
-                </SearchIconWrapper>
-                <StyledInputBase
-                  placeholder="Search…"
-                  inputProps={{ "aria-label": "search" }}
-                />
-              </Search>
+              <SearchComponent label={t("search")} />
+
+              <LanguageSwitcher />
 
               {isAuth ? (
                 <>
-                  <Tooltip title="Open cart">
-                    <IconButton>
-                      <Badge badgeContent={cartItemsQuantity} color="error">
-                        <ShoppingCartOutlinedIcon
-                          fontSize="large"
-                          sx={{
-                            cursor: "pointer",
-                            color: "white",
-                          }}
-                          onClick={() => navigate("/cart")}
-                        />
-                      </Badge>
-                    </IconButton>
-                  </Tooltip>
+                  <CartIconComponent
+                    itemsQuantity={cartItemsQuantity}
+                    navigate={navigate}
+                  />
 
                   <Tooltip title="Open settings">
                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -268,13 +227,15 @@ const PageNavBarComp = () => {
                     open={Boolean(anchorElUser)}
                     onClose={handleCloseUserMenu}
                   >
-                    {settings.map((setting) => (
+                    {enumSettings.map((item) => (
                       <MenuItem
-                        value={setting}
-                        key={setting}
-                        onClick={() => handleCloseUserMenu(setting)}
+                        value={item}
+                        key={item}
+                        onClick={() => handleCloseUserMenu(item)}
                       >
-                        <Typography textAlign="center">{setting}</Typography>
+                        <Typography textAlign="center">
+                          {settingsTranslations[item]}
+                        </Typography>
                       </MenuItem>
                     ))}
                   </Menu>
@@ -285,14 +246,13 @@ const PageNavBarComp = () => {
                   color="success"
                   onClick={() => navigate("/auth/signIn")}
                 >
-                  Sign in
+                  {settingsTranslations.signIn}
                 </Button>
               )}
             </Box>
           </Container>
         </Toolbar>
       </AppBar>
-
       <Drawer
         sx={{
           width: drawerWidth,
@@ -313,10 +273,29 @@ const PageNavBarComp = () => {
         </DrawerHeader>
         <Divider />
         <List>
-          {["Catalog"].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton onClick={() => navigate("/")}>
-                <ListItemText primary={text} />
+          <ListItem key={"Catalog"} disablePadding>
+            <ListItemButton onClick={() => navigate("/")}>
+              <ListItemText
+                primary={
+                  <Typography sx={{ fontWeight: "bold" }}>
+                    {t("links.catalog")}
+                  </Typography>
+                }
+              />
+            </ListItemButton>
+          </ListItem>
+          {Object.values(ProductsCategory).map((category) => (
+            <ListItem key={category} disablePadding>
+              <ListItemButton
+                onClick={() => {
+                  navigate(`/products?category=${category}`);
+                  navigate(0);
+                }}
+              >
+                <ListItemText
+                  primary={`> ${startCase(categoriesTranslations[category])}`}
+                  sx={{ ml: 3 }}
+                />
               </ListItemButton>
             </ListItem>
           ))}

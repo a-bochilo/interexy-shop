@@ -6,5 +6,5 @@ export interface RolesDto {
     id: number;
     type: UserRoles;
     name: string;
-    permissions: UserPermissions[];
+    permissions: UserPermissions[] | null;
 }

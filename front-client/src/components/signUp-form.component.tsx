@@ -1,5 +1,4 @@
 // ========================== react ==========================
-import { FC } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 
 // ========================== yup ==========================
@@ -13,15 +12,19 @@ import DoneIcon from "@mui/icons-material/Done";
 import { Box, CircularProgress, Paper, Typography } from "@mui/material";
 import { IFormInput } from "../app/auth/types/form-input.interface";
 import TemporaryTypography from "./temporary-typography.component";
+import { IAuthTranslate } from "../app/auth/types/auth-translate.interface";
+import { ISignUpTemplate } from "../app/auth/types/signUp.interface";
 
 const SignUpForm = ({
   handleSignUp,
   fetchingErrors,
   fetchingPending,
+  authWithTranslate,
 }: {
-  handleSignUp: (s: IFormInput) => void;
+  handleSignUp: (s: ISignUpTemplate) => void;
   fetchingErrors: string | null;
   fetchingPending: boolean;
+  authWithTranslate: IAuthTranslate;
 }) => {
   const {
     register,
@@ -29,21 +32,22 @@ const SignUpForm = ({
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<IFormInput>({
-    defaultValues: {
-      firstName: "",
-      lastName: "",
-      middleName: "",
-      email: "",
-      phone: "",
-      password: "",
-      confirmPassword: "",
-    },
     mode: "onChange",
     resolver: yupResolver(formSchema),
   });
 
   const onSubmit: SubmitHandler<IFormInput> = (data: IFormInput) => {
-    handleSignUp(data);
+    const user: ISignUpTemplate = {
+      email: data.email,
+      password: data.password,
+      phone: data?.phone,
+      details: {
+        firstname: data?.firstName || "",
+        middlename: data?.middleName,
+        lastname: data?.lastName || "",
+      },
+    };
+    handleSignUp(user);
   };
 
   return (
@@ -57,7 +61,7 @@ const SignUpForm = ({
       }}
     >
       <Typography variant="h5" fontWeight={"bold"} pb={3}>
-        Sign Up
+        {authWithTranslate.signUp}
       </Typography>
 
       <form
@@ -69,8 +73,9 @@ const SignUpForm = ({
           control={control}
           render={() => (
             <TextField
-              id="outlined-basic"
-              label="first name"
+              aria-label="First Name"
+              id="outlined-firstName"
+              label={authWithTranslate.firstName}
               variant="outlined"
               {...register("firstName")}
               placeholder="Elvis"
@@ -87,8 +92,9 @@ const SignUpForm = ({
           control={control}
           render={() => (
             <TextField
+              aria-label="Middle Name"
               id="outlined-basic"
-              label="middle name"
+              label={authWithTranslate.middleName}
               variant="outlined"
               {...register("middleName")}
               placeholder="Aaron"
@@ -101,8 +107,9 @@ const SignUpForm = ({
           control={control}
           render={() => (
             <TextField
+              aria-label="Last Name"
               id="outlined-basic"
-              label="last name"
+              label={authWithTranslate.lastName}
               variant="outlined"
               {...register("lastName")}
               placeholder="Presley"
@@ -119,8 +126,9 @@ const SignUpForm = ({
           control={control}
           render={() => (
             <TextField
+              aria-label="Email"
               id="outlined-basic"
-              label="email"
+              label={authWithTranslate.email}
               variant="outlined"
               {...register("email")}
               placeholder="example@gmail.com"
@@ -137,8 +145,9 @@ const SignUpForm = ({
           control={control}
           render={() => (
             <TextField
+              aria-label="Phone"
               id="outlined-basic"
-              label="phone"
+              label={authWithTranslate.phone}
               variant="outlined"
               {...register("phone")}
               placeholder="+375 XX XXX XX XX"
@@ -155,8 +164,9 @@ const SignUpForm = ({
           control={control}
           render={() => (
             <TextField
+              aria-label="Password"
               id="outlined-basic"
-              label="password"
+              label={authWithTranslate.password}
               variant="outlined"
               {...register("password")}
               placeholder="password"
@@ -174,12 +184,13 @@ const SignUpForm = ({
           control={control}
           render={() => (
             <TextField
+              aria-label="Confirm password"
               id="outlined-basic"
-              label="confirm password"
+              label={authWithTranslate.confirmPassword}
               variant="outlined"
               {...register("confirmPassword")}
-              placeholder="password"
-              type="password"
+              placeholder="confirmpass"
+              //type="password"
             />
           )}
         />
@@ -220,7 +231,7 @@ const SignUpForm = ({
           )}
 
           <Button type="submit" disabled={!isValid} variant="contained">
-            Sign Up
+            {authWithTranslate.signUp}
           </Button>
         </Box>
       </form>

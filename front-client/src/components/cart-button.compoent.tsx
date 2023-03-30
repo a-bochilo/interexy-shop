@@ -43,6 +43,7 @@ const CartButton = ({
                 variant={isInCart ? "contained" : "outlined"}
                 color="success"
                 onClick={handleOpenCartMenu}
+                data-testid="handleAddToCart-open-test"
             >
                 <ShoppingCartIcon fontSize={size} color="inherit" />
             </Button>
@@ -65,6 +66,7 @@ const CartButton = ({
                 }}
                 open={Boolean(anchorElCart)}
                 onClose={handleCloseCartMenu}
+                data-testid="hidden-menu-test"
             >
                 <Box
                     sx={{
@@ -85,6 +87,7 @@ const CartButton = ({
                                 quantity === 1 ? 1 : quantity - 1
                             )
                         }
+                        data-testid="decrease-icon-test"
                     />
                     <TextField
                         inputProps={{
@@ -100,6 +103,7 @@ const CartButton = ({
                         }}
                         value={quantity}
                         type="number"
+                        data-testid="quantity-input-test"
                         onChange={(e) => setQuantity(+e.target.value)}
                     />
                     <AddIcon
@@ -107,6 +111,7 @@ const CartButton = ({
                             cursor: "pointer",
                             ml: 1,
                         }}
+                        data-testid="increase-icon-test"
                         onClick={() => setQuantity((quantity) => quantity + 1)}
                     />
                 </Box>
@@ -124,9 +129,8 @@ const CartButton = ({
                     size={size}
                     variant={isInCart ? "contained" : "outlined"}
                     color="success"
-                    onClick={() => {
-                        handleAddToCartLocal(quantity);
-                    }}
+                    onClick={() => handleAddToCartLocal(quantity)}
+                    data-testid="add-to-cart-button-test"
                 >
                     <ShoppingCartIcon fontSize={size} color="inherit" />
                 </Button>
