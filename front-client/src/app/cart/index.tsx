@@ -32,6 +32,7 @@ import {
 import { fetchProducts } from "../products/store/products.actions";
 import { productsSelector } from "../products/store/products.selectors";
 import { fetchCreateOrder } from "../orders/store/orders.actions";
+import { getErrorSelector } from "../orders/store/orders.selector";
 
 // =========================== DTO's & Types ===========================
 import { CartItemDto } from "./types/cart.dto";
@@ -72,8 +73,7 @@ const CartPage: FC = () => {
     const products = useAppSelector(productsSelector);
     const pending = useAppSelector(cartPendingSelector);
     const cartErrors = useAppSelector(cartErrorsSelector);
-    //change selector to orders
-    const orderErrors = useAppSelector(cartErrorsSelector);
+    const orderErrors = useAppSelector(getErrorSelector);
 
     useEffect(() => {
         dispatch(fetchCart());
@@ -152,7 +152,10 @@ const CartPage: FC = () => {
                         )}
                     </Typography>
                     {!cart && pending.cart && (
-                        <CircularProgress sx={{ alignSelf: "center" }} />
+                        <CircularProgress
+                            sx={{ alignSelf: "center" }}
+                            data-testid="pending-stub"
+                        />
                     )}
                     {cart &&
                         sortedItems &&
@@ -165,6 +168,7 @@ const CartPage: FC = () => {
                                     <CircularProgress
                                         key={item.productId}
                                         sx={{ alignSelf: "center" }}
+                                        data-testid="pending-stub-item"
                                     />
                                 );
                             return (
@@ -190,13 +194,14 @@ const CartPage: FC = () => {
                         sx={{ width: "100%" }}
                         onClick={() => handleCreateOrder()}
                         disabled={!cart?.items.length}
+                        data-testid="create-order-btn"
                     >
                         {cartInfoTranslation.confirmOrder}
                     </Button>
                     {pending.cart ? (
                         <CircularProgress sx={{ alignSelf: "center" }} />
                     ) : null}
-                    {cartErrors.cart || orderErrors.cart ? (
+                    {cartErrors.cart || orderErrors.orders ? (
                         <>
                             <TemporaryTypography
                                 variant="overline"
@@ -212,7 +217,7 @@ const CartPage: FC = () => {
                                 color="error"
                                 duration={30}
                             >
-                                {orderErrors.cart}
+                                {orderErrors.orders}
                             </TemporaryTypography>
                         </>
                     ) : null}
@@ -220,7 +225,7 @@ const CartPage: FC = () => {
                     !pending.cart &&
                     !pending.cart &&
                     !cartErrors.cart &&
-                    !orderErrors.cart ? (
+                    !orderErrors.orders ? (
                         <TemporaryTypography
                             variant="overline"
                             align="center"
@@ -228,7 +233,7 @@ const CartPage: FC = () => {
                             duration={2}
                             timeoutFunction={setIsClicked}
                         >
-                            <DoneIcon />
+                            <DoneIcon data-testid="done-icon-test" />
                         </TemporaryTypography>
                     ) : null}
                 </PageAsideComp>
