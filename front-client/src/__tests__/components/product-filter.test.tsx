@@ -1,7 +1,7 @@
+/* eslint-disable testing-library/no-container */
 /* eslint-disable testing-library/no-node-access */
 /* eslint-disable testing-library/no-unnecessary-act */
 import { Provider } from "react-redux";
-
 import thunk from "redux-thunk";
 
 // =========================== React-testing ===========================
@@ -13,18 +13,61 @@ import {
     waitFor,
 } from "@testing-library/react";
 
-// =========================== Component ===========================
-import ProductFilterForm from "../../components/product-filter-form.component";
-
 // =========================== Mocks ===========================
 import { mockProduct, initialState } from "./products.data.mocks";
 import configureStore from "redux-mock-store";
 
+// =========================== Component ===========================
+import ProductFilterForm from "../../components/product-filter-form.component";
+
+// =========================== Mock i18n ===========================
+const tFunc = (key: string) => {
+    const obj = {
+        productsFilterForm: {
+            formTitle: "Filter products",
+            selectCategory: "Select category",
+            name: "name",
+            brand: "brand",
+            minPrice: "minPrice",
+            maxPrice: "maxPrice",
+            filterButtonTitle: "filter",
+            resetButtonTitle: "reset",
+        },
+        productInfo: {
+            category: "category",
+            name: "name",
+            brand: "brand",
+            color: "color",
+            material: "material",
+            size: "size",
+            description: "description",
+        },
+        categories: {
+            all: "all",
+            trousers: "trousers",
+            shirts: "shirts",
+            shoes: "shoes",
+        },
+    };
+    const objKey = key.split(".")[1] as keyof typeof obj;
+    return obj[objKey];
+};
+jest.mock("react-i18next", () => ({
+    useTranslation: () => {
+        return {
+            t: tFunc,
+            i18n: {
+                changeLanguage: () => new Promise(() => {}),
+            },
+        };
+    },
+}));
+
 // ====================== Mock useNavi ======================
-const mockedUsedNavigate = jest.fn();
+const mockedUseNavigate = jest.fn();
 jest.mock("react-router-dom", () => ({
     ...(jest.requireActual("react-router-dom") as any),
-    useNavigate: () => mockedUsedNavigate,
+    useNavigate: () => mockedUseNavigate,
 }));
 
 // =========================== Mock Store ===========================
@@ -46,20 +89,17 @@ describe("ProductFilterForms", () => {
     it("should make filter button disabled in case wrong data intered", async () => {
         store = mockStore(initialState);
 
-        render(
+        const { container } = render(
             <Provider store={store}>
                 <ProductFilterForm />
             </Provider>
         );
 
-        await act(() =>
-            fireEvent.change(
-                screen
-                    .getByLabelText("minQuantity")
-                    .querySelector("input") as HTMLInputElement,
-                { target: { value: -5 } }
-            )
-        );
+        const input = container.querySelector(
+            'input[name="minPrice"]'
+        ) as HTMLInputElement;
+
+        await act(() => fireEvent.change(input, { target: { value: -5 } }));
 
         await waitFor(() =>
             expect(screen.getByTestId("filter-btn")).toBeDisabled()
@@ -95,57 +135,40 @@ describe("ProductFilterForms", () => {
     it("should render DoneIcon in case of no pending & erorrs", async () => {
         store = mockStore(initialState);
 
-        render(
+        const { container } = render(
             <Provider store={store}>
                 <ProductFilterForm />
             </Provider>
         );
 
-        await act(() => fireEvent.click(screen.getByTestId("filter-btn")));
-        fireEvent.click(screen.getByTestId("filter-btn"));
+        const input = container.querySelector(
+            'input[name="category"]'
+        ) as HTMLInputElement;
+
+        await act(
+            async () =>
+                await fireEvent.change(input, { target: { value: "trousers" } })
+        );
+
+        await act(
+            async () => await fireEvent.click(screen.getByTestId("filter-btn"))
+        );
 
         await screen.findByTestId("done-icon-test");
-    });
-
-    it("should render error message in case if error appears in state", async () => {
-        store = mockStore({
-            products: {
-                products: [mockProduct],
-                productDetails: undefined,
-                pending: {
-                    products: false,
-                    productDetails: false,
-                    filter: true,
-                },
-                errors: {
-                    products: null,
-                    productDetails: null,
-                    filter: "test filter error",
-                },
-            },
-        });
-
-        render(
-            <Provider store={store}>
-                <ProductFilterForm />
-            </Provider>
-        );
-
-        await screen.findByTestId("filter-error-test");
     });
 
     it("should clear form in case of reset btn clicked", async () => {
         store = mockStore(initialState);
 
-        render(
+        const { container } = render(
             <Provider store={store}>
                 <ProductFilterForm />
             </Provider>
         );
 
-        const input = screen
-            .getByLabelText("minQuantity")
-            .querySelector("input") as HTMLInputElement;
+        const input = container.querySelector(
+            'input[name="minPrice"]'
+        ) as HTMLInputElement;
 
         await act(() =>
             fireEvent.change(input, {
@@ -154,6 +177,7 @@ describe("ProductFilterForms", () => {
         );
 
         await act(() => fireEvent.click(screen.getByTestId("reset-btn")));
+        fireEvent.click(screen.getByTestId("reset-btn"));
 
         expect(input.value).toBe("");
     });

@@ -1,45 +1,34 @@
 /* eslint-disable testing-library/no-node-access */
 /* eslint-disable testing-library/no-unnecessary-act */
 import { Provider } from "react-redux";
-import { render, screen } from "@testing-library/react";
-import axios from "axios";
-
-import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
+
+// =========================== React-testing ===========================
+import { render, screen } from "@testing-library/react";
+
+// =========================== Mocks ===========================
+import configureStore from "redux-mock-store";
 import {
     initialState,
     mockProduct,
     mockProductDetails,
 } from "./products.data.mocks";
+
+// =========================== Component ===========================
 import ProductViewPage from "../../app/products/product-view.page";
 
+// ====================== Mock useNavi ======================
 const mockedUsedNavigate = jest.fn();
-
 jest.mock("react-router-dom", () => ({
     ...(jest.requireActual("react-router-dom") as any),
     useNavigate: () => mockedUsedNavigate,
     useParams: () => ({ productId: "c06cbc27-26ee-4455-8983-33fff83c8be8" }),
 }));
 
-jest.mock("axios", () => ({
-    post: jest.fn(),
-    get: jest.fn(),
-    create: () => {
-        return {
-            interceptors: {
-                request: { eject: jest.fn(), use: jest.fn() },
-                response: { eject: jest.fn(), use: jest.fn() },
-            },
-        };
-    },
-}));
-const mockedAxios = axios as jest.Mocked<typeof axios>;
-mockedAxios.post.mockResolvedValue({ data: [mockProduct] });
-mockedAxios.get.mockResolvedValue({ data: [mockProduct] });
-
+// =========================== Mock Store ===========================
 const mockStore = configureStore([thunk]);
 
-describe("ProductList page", () => {
+describe("ProductView page", () => {
     let store: any;
 
     it("should render component", () => {
