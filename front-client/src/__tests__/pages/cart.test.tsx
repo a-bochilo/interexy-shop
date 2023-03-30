@@ -53,6 +53,7 @@ jest.mock("react-i18next", () => ({
 // =========================== Mock Store ===========================
 const mockStore = configureStore([thunk]);
 
+// =========================== Mock PageNavBar ===========================
 jest.mock("../../components/navbar.comp", () => () => {
     return <div></div>;
 });
