@@ -56,6 +56,7 @@ describe("CartController", () => {
         role_type: UserRoles.user,
         created: date.valueOf(),
         updated: date.valueOf(),
+        isActive: true,
         permissions: [
             UserPermissions.getCart,
             UserPermissions.addCartItem,

@@ -28,7 +28,6 @@ import { UserPermissions } from "../../shared/types/user-permissions.enum";
 // ========================== Services & Controllers ====================
 import { UserService } from "./user.service";
 
-
 @ApiTags("Users controller")
 @Controller("users")
 export class UserController {
@@ -48,10 +47,9 @@ export class UserController {
   async getAllUsers(
     @Query("isActive") isActive: boolean
   ): Promise<UserSessionDto[]> {
-    const usersFromDB =  await this.userService.getAllUsers(isActive);
-    const res =  usersFromDB.map((user) => UserSessionDto.fromEntity(user))
+    const usersFromDB = await this.userService.getAllUsers(isActive);
+    const res = usersFromDB.map((user) => UserSessionDto.fromEntity(user));
     return res;
-
   }
 
   //GET ONE USER BY ID ---------------------------------------USER
@@ -119,7 +117,7 @@ export class UserController {
   @UsePipes(new ValidationPipe())
   async updateDetails(
     @Body() info: UpdateUserDto,
-    @Param("userid") userId: string
+    @Param("userId") userId: string
   ): Promise<UserEntity> {
     return await this.userService.updateUserDetails(info, userId);
   }

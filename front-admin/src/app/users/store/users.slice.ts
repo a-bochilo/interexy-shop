@@ -9,6 +9,7 @@ import { UserUpdateDto } from "../types/user-details-update.type";
 // ========================== store ==========================
 import {
   getUsers,
+  getAllUsers,
   getUserInfo,
   updateUserInfo,
   deleteUser,
@@ -48,6 +49,24 @@ export const usersSlice = createSlice({
         state.pending.users = false;
         state.errors.users = action.payload.message;
       });
+
+    // ============ GET ALL USERS ============ //
+    builder
+      .addCase(getAllUsers.pending, (state) => {
+        state.pending.users = true;
+        state.errors.users = null;
+      })
+      .addCase(getAllUsers.fulfilled, (state, action) => {
+        state.pending.users = false;
+        state.users = action.payload;
+      })
+      .addCase(
+        getAllUsers.rejected,
+        (state, action: any & { payload: any }) => {
+          state.pending.users = false;
+          state.errors.users = action.payload.message;
+        }
+      );
 
     // ============ GET USER INFO ============ //
     builder

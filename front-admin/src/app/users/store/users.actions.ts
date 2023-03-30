@@ -10,9 +10,10 @@ import { UserAssignRoleDto } from "../types/user-assign-role-dto.type";
 
 // ========================== store ==========================
 import $api from "../../../api/api";
+import { UserInfoUpdateDto } from "../types/user-info-update.type";
 
 export const getUsers = createAsyncThunk<UserDto[]>(
-  "GET/users",
+  "users/getUsers",
   async (_, { rejectWithValue }) => {
     try {
       const response = await $api.get("/users");
@@ -23,8 +24,24 @@ export const getUsers = createAsyncThunk<UserDto[]>(
   }
 );
 
+export const getAllUsers = createAsyncThunk<UserDto[], boolean>(
+  "users/getAllUsers",
+  async (isActive: boolean, { rejectWithValue }) => {
+    try {
+      const response = await $api.get<
+        any,
+        AxiosResponse<UserDto[], boolean>,
+        any
+      >("/users?isActive", { params: isActive });
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message as string);
+    }
+  }
+);
+
 export const getUserInfo = createAsyncThunk(
-  "GET/users/:userId",
+  "users/getUserInfo",
   async (userId: string, { rejectWithValue }) => {
     try {
       const response: AxiosResponse<UserDetailsDto> = await $api.get(
@@ -37,20 +54,20 @@ export const getUserInfo = createAsyncThunk(
   }
 );
 
-export const updateUserInfo = createAsyncThunk<UserUpdateDto, UserUpdateDto>(
-  "PUT/users/:userId",
-  async (userData) => {
-    try {
-      const response = await $api.put(`/users/${userData.id}`, userData);
-      return response.data;
-    } catch (error: any) {
-      return error.response?.data?.message as string;
-    }
+export const updateUserInfo = createAsyncThunk<
+  UserUpdateDto,
+  UserInfoUpdateDto
+>("users/updateUserInfo", async (userData) => {
+  try {
+    const response = await $api.put(`/users/${userData.id}`, userData);
+    return response.data;
+  } catch (error: any) {
+    return error.response?.data?.message as string;
   }
-);
+});
 
 export const deleteUser = createAsyncThunk(
-  "DELETE/users/:userId",
+  "users/deleteUser",
   async (userId: string, { rejectWithValue }) => {
     try {
       const response = await $api.delete(`/users/${userId}`);
@@ -64,13 +81,12 @@ export const deleteUser = createAsyncThunk(
 export const assignRole = createAsyncThunk<
   UserAssignRoleDto,
   UserAssignRoleDto
->("POST/users/assignRole/:userId", async (data) => {
+>("users/assignRole", async (data) => {
   try {
     const newRole = {
       newRole: data.name,
     };
     const response = await $api.post(`/users/assignRole/${data.id}`, newRole);
-    console.log(`response.data`, response.data);
     return response.data;
   } catch (error: any) {
     return error.response?.data?.message as string;

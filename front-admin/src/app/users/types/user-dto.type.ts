@@ -5,8 +5,8 @@ export interface UserDto extends UUIDDto {
   phone: string;
   email: string;
   password: string;
-  roleId: number;
-  roleType: UserRoles;
+  role_id: number;
+  role_type: UserRoles;
   isActive: boolean;
   details_id: string;
 }

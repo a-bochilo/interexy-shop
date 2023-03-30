@@ -19,6 +19,7 @@ import { formSchema } from "./user-profile-form.const";
 // ========================== enum ==========================
 import { UserDetailsDto } from "../app/users/types/user-details.type";
 import { UserDto } from "../app/users/types/user-dto.type";
+import { UserState } from "../app/users/types/user-state.type";
 
 interface IUserWithDetails {
   firstname: string;
@@ -33,7 +34,7 @@ interface FormProps {
   user: UserDto;
   userInfo: UserDetailsDto;
   disabled: boolean;
-  pending: boolean;
+  pending: UserState["pending"];
   setDisabled: (e: boolean) => void;
   buttonOnclick: () => void;
   handleSave: (e: Partial<IUserWithDetails>) => void;
@@ -308,7 +309,7 @@ const UserProfileFormComp: FC<FormProps> = ({
               width: "50%",
             }}
           >
-            {pending && <CircularProgress />}
+            {pending && <CircularProgress data-testid="test-progress"/>}
           </Box>
           <Box
             sx={{

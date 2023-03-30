@@ -69,7 +69,15 @@ export class UserService {
       );
     }
 
-    const newRole = await this.roleRepository.getRoleByName(assignUserRoleDto.newRole);
+    const newRole = await this.roleRepository.getRoleByName(
+      assignUserRoleDto.newRole
+    );
+    if (!newRole) {
+      throw new HttpException(
+        `${I18nContext.current().t("errors.roles.roleDoesNotExist")}`,
+        HttpStatus.NOT_FOUND
+      );
+    }
 
     if (newRole.type === UserRoles.superadmin) {
       throw new HttpException(
@@ -112,7 +120,6 @@ export class UserService {
 
   async updateUserDetails(info: UpdateUserDto, userId: string) {
     const user = await this.userRepository.getById(userId);
-
     if (user.roleType === UserRoles.superadmin) {
       throw new HttpException(
         `${I18nContext.current().t("errors.roles.roleSuperuserLimit")}`,
@@ -127,7 +134,9 @@ export class UserService {
       );
     }
 
-    let details = await this.userDetailsRepository.getDetailsById(user.details_id);
+    let details = await this.userDetailsRepository.getDetailsById(
+      user.details_id
+    );
 
     if (!details) {
       throw new HttpException(
