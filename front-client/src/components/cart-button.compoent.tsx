@@ -43,6 +43,7 @@ const CartButton = ({
                 variant={isInCart ? "contained" : "outlined"}
                 color="success"
                 onClick={handleOpenCartMenu}
+                data-testid="handleAddToCart-test"
             >
                 <ShoppingCartIcon fontSize={size} color="inherit" />
             </Button>
@@ -124,9 +125,7 @@ const CartButton = ({
                     size={size}
                     variant={isInCart ? "contained" : "outlined"}
                     color="success"
-                    onClick={() => {
-                        handleAddToCartLocal(quantity);
-                    }}
+                    onClick={() => handleAddToCartLocal(quantity)}
                 >
                     <ShoppingCartIcon fontSize={size} color="inherit" />
                 </Button>

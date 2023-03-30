@@ -65,9 +65,12 @@ const ProductListPage: FC = () => {
     );
 
     return (
-        <MainGrid container spacing={8}>
+        <MainGrid container spacing={8} data-testid="maingrid-test">
             {pending.products && (
-                <CircularProgress sx={{ alignSelf: "center" }} />
+                <CircularProgress
+                    sx={{ alignSelf: "center" }}
+                    data-testid="pending-stub"
+                />
             )}
             {!!filtredProducts.length &&
                 !pending.products &&

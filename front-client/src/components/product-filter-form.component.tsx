@@ -233,6 +233,7 @@ const ProductFilterForm = () => {
                         variant="contained"
                         color="primary"
                         disabled={!isValid}
+                        data-testid="filter-btn"
                     >
                         {filterKeysTranslation.filterButtonTitle}
                     </Button>
@@ -245,6 +246,7 @@ const ProductFilterForm = () => {
                         variant="contained"
                         color="error"
                         onClick={() => reset()}
+                        data-testid="reset-btn"
                     >
                         {filterKeysTranslation.resetButtonTitle}
                     </Button>
@@ -259,7 +261,9 @@ const ProductFilterForm = () => {
                         height: 35,
                     }}
                 >
-                    {pending.filter && <CircularProgress />}
+                    {pending.filter && (
+                        <CircularProgress data-testid="pending-stub" />
+                    )}
                     {isClicked && !pending.filter && !fetchingErrors.filter && (
                         <TemporaryTypography
                             variant="overline"
@@ -268,7 +272,7 @@ const ProductFilterForm = () => {
                             duration={2}
                             timeoutFunction={setIsClicked}
                         >
-                            <DoneIcon />
+                            <DoneIcon data-testid="done-icon-test" />
                         </TemporaryTypography>
                     )}
 
