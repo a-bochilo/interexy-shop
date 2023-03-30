@@ -1,3 +1,9 @@
+// ========================== react ==========================
+import { render } from "@testing-library/react";
+
+// ========================== components ==========================
+import UsersTable from "../../components/users-table.comp";
+
 // ========================== mock ==========================
 import { mockUserWithDetails } from "./user-data-mock";
 
@@ -19,5 +25,8 @@ describe("Users table", () => {
       users: [mockUserWithDetails],
       ...mockHandlers,
     };
+  });
+  it("should render component", () => {
+    render(<UsersTable {...mockProps} />);
   });
 });
