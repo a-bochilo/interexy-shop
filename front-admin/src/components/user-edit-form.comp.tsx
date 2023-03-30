@@ -114,7 +114,7 @@ const UserEditFormComp: FC<FormProps> = ({
       ...user,
       details: info,
     };
-    console.log(`outputData`, outputData);
+    console.log("submit");
     handleSave(outputData);
     setDisabled(!disabled);
   };
@@ -163,6 +163,7 @@ const UserEditFormComp: FC<FormProps> = ({
                   alignSelf: "right",
                 }}
                 disabled
+                aria-label="test-id"
                 defaultValue={selectedUser?.id}
                 size="small"
                 id="outlined-basic"
@@ -199,6 +200,7 @@ const UserEditFormComp: FC<FormProps> = ({
                 }}
                 disabled={disabled}
                 defaultValue={userInfo?.firstname}
+                aria-label="test-first-name"
                 id="outlined-basic"
                 variant="outlined"
                 {...register("firstname")}
@@ -526,6 +528,7 @@ const UserEditFormComp: FC<FormProps> = ({
                 align="center"
                 color="success.main"
                 duration={2}
+                data-testid="temp-done-icon"
               >
                 <DoneIcon />
               </TemporaryTypography>
@@ -568,6 +571,7 @@ const UserEditFormComp: FC<FormProps> = ({
               }}
               onClick={buttonOnclick}
               color="success"
+              data-testid="edit-button"
               variant="contained"
             >
               Edit

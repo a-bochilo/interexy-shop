@@ -13,17 +13,8 @@ import UserAssignRoleFormComp from "../../components/user-assign-role-form.comp"
 
 // ========================== store ==========================
 import { AppDispatch } from "../../store";
-import {
-  userInfoSelector,
-  usersSelector,
-  usersLoadingSelector,
-} from "./store/users.selectors";
-import {
-  assignRole,
-  getUserInfo,
-  getUsers,
-  updateUserInfo,
-} from "./store/users.actions";
+import { usersSelector, usersLoadingSelector } from "./store/users.selectors";
+import { assignRole, getUsers } from "./store/users.actions";
 import { fetchRoles } from "../roles/store/roles.actions";
 import { RolesSelector } from "../roles/store/roles.selector";
 
@@ -73,8 +64,8 @@ const UserAssignRolePage: FC = () => {
     navigate(-1);
   };
 
-  const selectedUser = userList.find((user) => user.id === userId);
-  const selectedUserRole = userRoles.find(
+  const selectedUser = userList?.find((user) => user.id === userId);
+  const selectedUserRole = userRoles?.find(
     (role) => role.id === selectedUser?.role_id
   );
 
@@ -95,7 +86,7 @@ const UserAssignRolePage: FC = () => {
           handleBack={handleBack}
         />
       ) : (
-        <CircularProgress />
+        <CircularProgress data-testid="test-progress" />
       )}
     </MainGrid>
   );

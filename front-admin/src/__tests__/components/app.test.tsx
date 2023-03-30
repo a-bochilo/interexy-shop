@@ -9,10 +9,10 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { ThemeProvider } from "@mui/material";
 
 // ========================== etc ==========================
-import theme from "./theme/mainTheme";
-import AppRoutes from "./app.routes";
-import ErrorBoundaryComp from "./components/error-boundary.comp";
-import store from "./store";
+import theme from "../../theme/mainTheme";
+import AppRoutes from "../../app.routes";
+import ErrorBoundaryComp from "../../components/error-boundary.comp";
+import store from "../../store";
 
 jest.mock('axios', () => ({
   post: jest.fn(),

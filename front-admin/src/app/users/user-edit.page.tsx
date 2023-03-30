@@ -38,7 +38,7 @@ const UserEditPage: FC = () => {
   const userList = useSelector(usersSelector);
   const userInfo = useSelector(userInfoSelector);
   const pending = useSelector(usersLoadingSelector);
-  const fetchingErrors = useSelector(usersFetchErrorsSelector)
+  const fetchingErrors = useSelector(usersFetchErrorsSelector);
   const { userId } = useParams<string>();
 
   useEffect(() => {
@@ -90,7 +90,7 @@ const UserEditPage: FC = () => {
           handleAsignRole={handleAsignRole}
         />
       ) : (
-        <CircularProgress />
+        <CircularProgress data-testid="test-progress" />
       )}
     </MainGrid>
   );

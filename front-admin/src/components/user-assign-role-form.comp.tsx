@@ -191,6 +191,7 @@ const UserAssignRoleFormComp: FC<FormProps> = ({
                 align="center"
                 color="success.main"
                 duration={2}
+                data-testid="done-icon-test"
               >
                 <DoneIcon />
               </TemporaryTypography>
@@ -216,6 +217,7 @@ const UserAssignRoleFormComp: FC<FormProps> = ({
               color="success"
               variant="contained"
               form="userAssignRole"
+              data-testid="save-btn"
             >
               Save
             </Button>

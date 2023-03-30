@@ -123,6 +123,7 @@ const ProductsTable = ({
                 components={VirtuosoTableComponents}
                 fixedHeaderContent={fixedHeaderContent}
                 itemContent={rowContent}
+                
             />
         </Paper>
     );

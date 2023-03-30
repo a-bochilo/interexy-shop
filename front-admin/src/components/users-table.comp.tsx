@@ -115,6 +115,7 @@ const UsersTable = ({ users }: { users: UserDto[] }) => {
         components={VirtuosoTableComponents}
         fixedHeaderContent={fixedHeaderContent}
         itemContent={rowContent}
+        initialItemCount={1}
       />
     </Paper>
   );
