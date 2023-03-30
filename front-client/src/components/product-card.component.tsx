@@ -52,6 +52,7 @@ const ProductCard = ({
                     <Typography
                         variant="h5"
                         onClick={() => handleClickCard(product.id)}
+                        data-testid='card-name-typograhy-test'
                         sx={{
                             cursor: "pointer",
                             "&:hover": {
@@ -87,6 +88,7 @@ const ProductCard = ({
                             isInCart={!!cartItem}
                             cartItemQuantity={cartItemQuantity}
                             error={error}
+                            data-testid="handleAddToCart-test"
                         />
                         <Tooltip title="Learn details">
                             <Button
@@ -94,6 +96,7 @@ const ProductCard = ({
                                 variant="outlined"
                                 color="primary"
                                 onClick={() => handleClickCard(product.id)}
+                                data-testid="handleClickCard-test"
                             >
                                 <LaunchIcon color="primary" />
                             </Button>
