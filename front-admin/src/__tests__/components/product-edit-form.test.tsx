@@ -14,7 +14,7 @@ import {
 import ProductEditForm from "../../components/product-edit-form.component";
 
 // =========================== Mocks ===========================
-import { mockProductWithDetails } from "./products.data.mocks";
+import { mockProductWithDetails } from "../mocks/products.data.mocks";
 
 describe("ProductEditForm", () => {
     let mockProps: any;

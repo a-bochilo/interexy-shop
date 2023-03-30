@@ -1,10 +1,7 @@
-
-
-
 export interface OrderDto {
   id: string;
-  created: number;
-  updated: number;
+  created: string;
+  updated: string;
   total: number;
   user_id: string;
 }

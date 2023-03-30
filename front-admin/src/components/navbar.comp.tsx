@@ -202,24 +202,26 @@ const PageNavBarComp: FC = () => {
                 gap: 3,
               }}
             >
-              <Search>
-                <SearchIconWrapper>
-                  <SearchIcon />
-                </SearchIconWrapper>
-                <StyledInputBase
-                  placeholder="Search…"
-                  inputProps={{ "aria-label": "search" }}
-                />
-              </Search>
               <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <VerifiedUserIcon
-                    fontSize="large"
-                    sx={{
-                      color: isAuth ? "success.light" : "error.main",
-                    }}
-                  />
-                </IconButton>
+                {isAuth ? (
+                  <IconButton onClick={handleOpenUserMenu}>
+                    <VerifiedUserIcon
+                      fontSize="large"
+                      sx={{
+                        color: "success.light",
+                      }}
+                    />
+                  </IconButton>
+                ) : (
+                  <IconButton sx={{ p: 0 }}>
+                    <VerifiedUserIcon
+                      fontSize="large"
+                      sx={{
+                        color: "error.main",
+                      }}
+                    />
+                  </IconButton>
+                )}
               </Tooltip>
               <Menu
                 sx={{ mt: "45px" }}

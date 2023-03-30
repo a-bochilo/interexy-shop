@@ -7,7 +7,7 @@ import { render, screen, fireEvent, act } from "@testing-library/react";
 import ProductAddForm from "../../components/product-add-form.component";
 
 // =========================== Mocks ===========================
-import { mockProductWithDetails } from "./products.data.mocks";
+import { mockProductWithDetails } from "../mocks/products.data.mocks";
 
 describe("ProductEditForm", () => {
     let mockProps: any;
