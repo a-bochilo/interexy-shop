@@ -138,7 +138,7 @@ const OrdersListTable = ({
               key={item.id}
               orders={item}
               order={order}
-              handleGetOrderItem={handleGetOrderItem}
+              handleGetOrderItem={() => handleGetOrderItem(item.id)}
               ordersWithColumnsTranslate={ordersWithColumnsTranslate}
             />
           ))}

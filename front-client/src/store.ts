@@ -6,11 +6,11 @@ import products from "./app/products/store/products.slice";
 import cart from "./app/cart/store/cart.slice";
 import orders from "./app/orders/store/order.slice";
 import { usersSlice } from "./app/users/store/users.slice";
-import { authReducer } from "./app/auth/store/auth.slice";
+import auth from "./app/auth/store/auth.slice";
 
 const store = configureStore({
   reducer: {
-    auth: authReducer,
+    auth,
     products,
     cart,
     orders,

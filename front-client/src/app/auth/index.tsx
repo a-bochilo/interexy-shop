@@ -30,12 +30,6 @@ const ContentGrid = styled(Grid)`
   min-height: 100%;
 `;
 
-const token = window.localStorage.getItem("token");
-  let isAuth = false;
-  if (token) {
-    isAuth = true;
-  }
-
 const AuthPage: FC = () => {
   return (
     <MainGrid> 

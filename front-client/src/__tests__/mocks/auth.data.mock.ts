@@ -40,3 +40,8 @@ export const initialState = {
     },
   },
 };
+
+export const mockedData = {
+  token: "fake token",
+  authFetchingStatus: "loaded",
+};

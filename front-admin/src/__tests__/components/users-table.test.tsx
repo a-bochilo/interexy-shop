@@ -1,7 +1,7 @@
 // ========================== react ==========================
 import { render } from "@testing-library/react";
 
-// ========================== components ==========================
+// ========================== components =========================
 import UsersTable from "../../components/users-table.comp";
 
 // ========================== mock ==========================

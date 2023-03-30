@@ -65,9 +65,7 @@ const CreateRoleForm = ({
     resolver: yupResolver(formSchema),
   });
 
-  const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    handleCreate(data);
-  };
+  const onSubmit: SubmitHandler<IFormInput> = (data: IFormInput) => handleCreate(data);
 
   return (
     <Paper
@@ -143,7 +141,7 @@ const CreateRoleForm = ({
               <Select
                 labelId="demo-simple-select-label"
                 id="type"
-                defaultValue={UserRoles?.user ?? null}
+                defaultValue={UserRoles.user}
                 label="Type"
                 variant="standard"
                 sx={{
@@ -225,10 +223,12 @@ const CreateRoleForm = ({
           </Accordion>
         </FormControl>
 
-        <Box sx={{
-          display: "flex",
-          flexDirection: "column"
-        }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
           {fetchingPending && <CircularProgress data-testid="pending-stub" />}
 
           {fetchErrors && (
@@ -257,7 +257,7 @@ const CreateRoleForm = ({
                   justifyContent: "center",
                 }}
               >
-                <CheckCircleIcon />
+                <CheckCircleIcon data-testid="done-stub"/>
                 <Typography>Role created</Typography>
               </Box>
             </TemporaryTypography>
