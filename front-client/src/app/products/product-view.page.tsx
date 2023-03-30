@@ -86,7 +86,6 @@ const ProductViewPage: FC = () => {
     const cartItemQuantity = !!cartItem ? cartItem.quantity : 1;
 
     const handleAddToCart = debounce(async (quantity: number) => {
-        console.log("CLICK");
         if (!productWithDetails?.id) return;
 
         if (!cart) {

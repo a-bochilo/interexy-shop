@@ -61,6 +61,7 @@ const CartItem = ({
                             alt={product.name}
                             image={product.image}
                             onClick={() => handleNavigate(product.id)}
+                            data-testid='img-test'
                         />
                     </Grid>
                     <Grid item xs={4} container direction="column" spacing={2}>
@@ -108,6 +109,7 @@ const CartItem = ({
                                         cursor: "pointer",
                                     }}
                                     onClick={handleDecrease}
+                                    data-testid="decrease-icon-test"
                                 />
                             </Grid>
                             <Grid item xs={6} justifyContent="center">
@@ -127,6 +129,7 @@ const CartItem = ({
                                     onChange={(e) =>
                                         setQuantity(+e.target.value)
                                     }
+                                    data-testid="quantity-input-test"
                                 />
                             </Grid>
                             <Grid item xs={2} justifyContent="center">
@@ -135,6 +138,7 @@ const CartItem = ({
                                         cursor: "pointer",
                                     }}
                                     onClick={handleIncrease}
+                                    data-testid="increase-icon-test"
                                 />
                             </Grid>
                         </Grid>
@@ -176,6 +180,7 @@ const CartItem = ({
                             color="error"
                             fontSize="large"
                             onClick={() => handleDeleteCartItem(item)}
+                            data-testid="delete-icon-test"
                         />
                     </Grid>
                 </>

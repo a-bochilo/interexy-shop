@@ -11,7 +11,7 @@ import { act, fireEvent, render, screen } from "@testing-library/react";
 
 // =========================== Mocks ===========================
 import configureStore from "redux-mock-store";
-import { initialState, mockProduct } from "./products.data.mocks";
+import { initialState } from "./products.data.mocks";
 
 // =========================== Component ===========================
 import ProductListPage from "../../app/products/product-list.page";
