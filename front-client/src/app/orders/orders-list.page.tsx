@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // ========================== react ==========================
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect } from "react";
 
 // ============================ MUI ============================
 import styled from "@emotion/styled";
@@ -13,7 +14,6 @@ import { fetchOrderItems, fetchOrders } from "./store/orders.actions";
 // ======================== Components =========================
 import OrdersList from "../../components/orders-list.component";
 import { OrderItemsSelector, OrdersSelector } from "./store/orders.selector";
-import { decodeToken } from "react-jwt";
 import { useTranslation } from "react-i18next";
 import { IOrdersColumnsTranslate, IOrdersTranslate } from "./types/orders-translate.enum";
 
@@ -25,16 +25,16 @@ const MainGrid = styled(Grid)`
   min-height: 100%;
 `;
 
-interface User {
-  id: string;
-}
-
 const OrdersListPage: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
+
   const orders = useSelector(OrdersSelector);
   const order = useSelector(OrderItemsSelector);
-  const [id, setId] = useState<string>("");
   const { t } = useTranslation();
+
+  useEffect(() => {
+    dispatch(fetchOrders());
+  }, []);
 
   const ordersWithTranslate: IOrdersTranslate = t("orders", {
     returnObjects: true,
@@ -45,21 +45,9 @@ const OrdersListPage: FC = () => {
   });
 
   const handleGetOrderItem = (id: string) => {
-    dispatch(fetchOrderItems(id))
+    dispatch(fetchOrderItems(id));
   };
 
-  useEffect(() => {
-    const token = window.localStorage.getItem("token");
-    if (token) {
-      const user: User | null = decodeToken(token);
-      if (user !== null) {
-        setId(user.id);
-      }
-    }
-    dispatch(fetchOrders());
-  }, [id]);
-  console.log(orders)
-  console.log(order)
   return (
     <MainGrid>
       <Stack spacing={2}>
@@ -72,7 +60,7 @@ const OrdersListPage: FC = () => {
           }}
           elevation={0}
         >
-          <h2>{ordersWithTranslate.myOrders}</h2>
+          <h2 data-testid="empty-stub">{ordersWithTranslate.myOrders}</h2>
         </Paper>
       </Stack>
       <Paper

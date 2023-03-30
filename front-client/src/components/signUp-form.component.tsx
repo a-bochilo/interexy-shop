@@ -21,7 +21,7 @@ const SignUpForm = ({
   fetchingPending,
   authWithTranslate,
 }: {
-  handleSignUp: (s: ISignUpTemplate) => void;
+  handleSignUp: (s: IFormInput) => void;
   fetchingErrors: string | null;
   fetchingPending: boolean;
   authWithTranslate: IAuthTranslate;
@@ -36,19 +36,7 @@ const SignUpForm = ({
     resolver: yupResolver(formSchema),
   });
 
-  const onSubmit: SubmitHandler<IFormInput> = (data: IFormInput) => {
-    const user: ISignUpTemplate = {
-      email: data.email,
-      password: data.password,
-      phone: data?.phone,
-      details: {
-        firstname: data?.firstName || "",
-        middlename: data?.middleName,
-        lastname: data?.lastName || "",
-      },
-    };
-    handleSignUp(user);
-  };
+  const onSubmit: SubmitHandler<IFormInput> = (data: IFormInput) => handleSignUp(data);
 
   return (
     <Paper
@@ -61,7 +49,7 @@ const SignUpForm = ({
       }}
     >
       <Typography variant="h5" fontWeight={"bold"} pb={3}>
-        {authWithTranslate.signUp}
+        {authWithTranslate?.signUp}
       </Typography>
 
       <form
@@ -207,13 +195,15 @@ const SignUpForm = ({
             width: "100%",
           }}
         >
-          {fetchingPending && <CircularProgress />}
+          {fetchingPending && <CircularProgress data-testid="pending-stub" />}
+
           {fetchingPending && fetchingErrors && (
             <TemporaryTypography
               variant="overline"
               align="center"
               color="success.main"
               duration={2}
+              data-testid="done-stub"
             >
               <DoneIcon />
             </TemporaryTypography>
@@ -225,12 +215,13 @@ const SignUpForm = ({
               align="center"
               color="error"
               duration={30}
+              data-testid="error-stub"
             >
               {fetchingErrors}
             </TemporaryTypography>
           )}
 
-          <Button type="submit" disabled={!isValid} variant="contained">
+          <Button type="submit" disabled={!isValid} variant="contained" data-testid="signUp-stub">
             {authWithTranslate.signUp}
           </Button>
         </Box>

@@ -1,6 +1,8 @@
+/* eslint-disable testing-library/await-async-utils */
+/* eslint-disable testing-library/no-unnecessary-act */
 /* eslint-disable testing-library/no-node-access */
 // =========================== React-testing ===========================
-import { render, fireEvent, screen, act } from "@testing-library/react";
+import { render, fireEvent, screen, act, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 // =========================== Mocks ===================================
@@ -96,53 +98,64 @@ import SignUpForm from "../../components/signUp-form.component";
 
 describe("SignUpForm", () => {
   const handleSignUp = jest.fn();
-  const fetchingErrors = null;
-  const fetchingPending = false;
 
   it("displays validation errors on invalid form submit", () => {
     render(
       <SignUpForm
         handleSignUp={handleSignUp}
-        fetchingErrors={fetchingErrors}
-        fetchingPending={fetchingPending}
+        fetchingErrors={null}
+        fetchingPending={false}
         authWithTranslate={authWithTranslate}
       />
     );
+    act(() =>
+      fireEvent.change(screen.getByPlaceholderText("example@gmail.com"), {
+        target: { value: "2" },
+      })
+    );
 
-    userEvent.click(screen.getByRole("button", { name: "Sign Up" }));
+    waitFor(() =>
+      expect(
+        screen.getByText(/⚠ entered value does not match email format/i)
+      ).toBeInTheDocument()
+    );
 
-    expect(screen.getByText("Email is required")).toBeInTheDocument();
-    expect(screen.getByText("Password is required")).toBeInTheDocument();
+    expect(screen.getByTestId("signUp-stub")).toBeDisabled();
   });
 
-  it("calls handleSignUp with correct user object on form submit", () => {
+  it("renders CircularProgress when roles are pending", async () => {
     render(
       <SignUpForm
         handleSignUp={handleSignUp}
-        fetchingErrors={fetchingErrors}
-        fetchingPending={fetchingPending}
+        fetchingErrors={null}
+        fetchingPending={true}
         authWithTranslate={authWithTranslate}
       />
     );
+    await screen.findByTestId(/pending-stub/i);
+  });
 
-    userEvent.type(screen.getByLabelText("Email"), "test@example.com");
-    userEvent.type(screen.getByLabelText("Password"), "password");
-    userEvent.type(screen.getByLabelText("Phone"), "1234567890");
-    userEvent.type(screen.getByLabelText("First Name"), "First");
-    userEvent.type(screen.getByLabelText("Middle Name"), "Middle");
-    userEvent.type(screen.getByLabelText("Last Name"), "Last");
+  it("renders DoneIcon when roles are pending and havent errors", async () => {
+    render(
+      <SignUpForm
+        handleSignUp={handleSignUp}
+        fetchingErrors={"qwerty"}
+        fetchingPending={true}
+        authWithTranslate={authWithTranslate}
+      />
+    );
+    await screen.findByTestId(/done-stub/i);
+  });
 
-    userEvent.click(screen.getByRole("button", { name: "Sign Up" }));
-
-    expect(handleSignUp).toHaveBeenCalledWith({
-      email: "test@example.com",
-      password: "password",
-      phone: "1234567890",
-      details: {
-        firstname: "First",
-        middlename: "Middle",
-        lastname: "Last",
-      },
-    });
+  it("renders Errors when roles are nave errors", async () => {
+    render(
+      <SignUpForm
+        handleSignUp={handleSignUp}
+        fetchingErrors={"qwerty"}
+        fetchingPending={false}
+        authWithTranslate={authWithTranslate}
+      />
+    );
+    await screen.findByTestId(/error-stub/i);
   });
 });

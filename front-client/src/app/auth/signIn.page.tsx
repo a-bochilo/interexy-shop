@@ -22,6 +22,20 @@ interface IFormInput {
   password: string;
 }
 
+export const handleResponse = (response: any, navigate: (path: string) => void) => {
+  if (response.payload) {
+    const user: any = decodeToken(response.payload);
+    if (user.role_type === "superadmin") {
+      window.location.replace("http://localhost:3000");
+      return false;
+    } else {
+      window.localStorage.setItem("token", response.payload);
+      navigate("/products");
+      return true;
+    }
+  }
+};
+
 const SignInPage: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
 
@@ -33,16 +47,8 @@ const SignInPage: FC = () => {
 
   const handleSignIn = async (data: IFormInput) => {
     const newToken = await dispatch(fetchSignIn(data));
-    if (newToken.payload) {
-      const user: any = decodeToken(newToken.payload);
-      if (user.role_type === "superadmin") {
-        window.location.replace("http://localhost:3000");
-      } else {
-        window.localStorage.setItem("token", newToken.payload);
-        dispatch(fetchCart());
-        navigate("/products");
-      }
-    }
+    handleResponse(newToken, navigate);
+    dispatch(fetchCart());
   };
 
   const handleRedirectToSignUp = () => {

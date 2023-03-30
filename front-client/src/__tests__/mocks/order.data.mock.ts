@@ -28,3 +28,16 @@ export const ordersWithColumnsTranslate: IOrdersColumnsTranslate = {
     product_price: 12,
     product_quantity: 1,
   };
+
+  export const mockOrderItem = {
+    created: "2023-03-24T11:50:52.187Z",
+    id: "1d6da915-9503-4236-b8fc-b3399809641f",
+    order_id: "f825e7b4-be23-41b1-914c-36a8a13ab3c6",
+    product_id: "4225acc2-d109-49ac-9f75-deb0e33cf79b",
+    product_name: "user1223424534345345435",
+    product_price: 12,
+    product_quantity: 5,
+    updated: "2023-03-24T11:50:52.187Z",
+  };
+  
+  export const mockOrderItems = [mockOrderItem];
