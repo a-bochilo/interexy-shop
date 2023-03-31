@@ -1,8 +1,8 @@
 // ========================== react ==========================
 import React, { FC, PropsWithChildren, Suspense } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
-// ========================== MUI ==========================
+// ========================== mui ==========================
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 
@@ -12,9 +12,7 @@ const Suspended: FC<PropsWithChildren & { element: any }> = ({
   return (
     <Suspense
       fallback={
-        <Box sx={{ display: "flex" }}>
-          <CircularProgress />
-        </Box>
+        <Box sx={{ display: "flex" }}>{/* <CircularProgress /> */}</Box>
       }
     >
       <Element />
@@ -32,18 +30,21 @@ const RolesViewPage = React.lazy(
 );
 
 const RoleCreatePage = React.lazy(
-  () => import (/* webpackChunkName: "RolesPage" */ "../roles/role-create.page")
-)
+  () => import(/* webpackChunkName: "RolesPage" */ "../roles/role-create.page")
+);
 
 const RolesRoutes: FC = () => {
   return (
     <Routes>
       <Route path={"/*"} element={<Suspended element={RolesListPage} />} />
-      <Route path={"/:id"} element={<Suspended element={RolesViewPage} />}/>
-      <Route path={"/create"} element={<Suspended element={RoleCreatePage} />}/>
+      <Route path={"/:id"} element={<Suspended element={RolesViewPage} />} />
+      <Route
+        path={"/create"}
+        element={<Suspended element={RoleCreatePage} />}
+      />
 
       {/* DEFAULT */}
-      {/* <Route path="*" element={<Navigate to="/" />} /> */}
+      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
 };

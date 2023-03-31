@@ -30,4 +30,11 @@ export class UserViewRepository extends Repository<UserViewEntity> {
       },
     });
   }
+  async getUserByEmail(email: string) {
+    return await this.findOne({
+      where: {
+        email: email,
+      },
+    });
+  }
 }

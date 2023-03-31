@@ -19,6 +19,7 @@ export const userDto = {
   created: "2023-03-17T09:31:34.416Z",
   email: "test@test.com",
   id: "23a2cacc-62e8-497c-ab35-34b58af133e6",
+  isActive: true,
   phone: "+375 29 000 00 00",
   role_id: 1,
   role_type: "user",
@@ -107,6 +108,7 @@ export const userRepositoryFake = {
   updateUserDetails: jest.fn().mockResolvedValue(userWithDetails),
   deleteUserById: jest.fn().mockResolvedValue({ ...user, isActive: false }),
   getUserByEmail: jest.fn().mockResolvedValue(user),
+  getUsersArrayByEmail: jest.fn().mockResolvedValue([user])
 };
 
 export const roleRepositoryFake = {

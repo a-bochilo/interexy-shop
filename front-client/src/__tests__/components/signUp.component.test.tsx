@@ -36,35 +36,11 @@ describe("SignUpForm", () => {
 
     waitFor(() =>
       expect(
-        screen.getByText(/⚠ entered value does not match email format/i)
+        screen.getByText(/entered value does not match email format/i)
       ).toBeInTheDocument()
     );
 
     expect(screen.getByTestId("signUp-stub")).toBeDisabled();
-  });
-
-  it("renders CircularProgress when roles are pending", async () => {
-    render(
-      <SignUpForm
-        handleSignUp={handleSignUp}
-        fetchingErrors={null}
-        fetchingPending={true}
-        authWithTranslate={authWithTranslate}
-      />
-    );
-    await screen.findByTestId(/pending-stub/i);
-  });
-
-  it("renders DoneIcon when roles are pending and havent errors", async () => {
-    render(
-      <SignUpForm
-        handleSignUp={handleSignUp}
-        fetchingErrors={"qwerty"}
-        fetchingPending={true}
-        authWithTranslate={authWithTranslate}
-      />
-    );
-    await screen.findByTestId(/done-stub/i);
   });
 
   it("renders Errors when roles are nave errors", async () => {

@@ -25,6 +25,7 @@ import {
   IOrdersColumnsTranslate,
   IOrdersTranslate,
 } from "./types/orders-translate.enum";
+import { useNavigate } from "react-router-dom";
 
 // ========================== styles ===========================
 const MainGrid = styled(Grid)`
@@ -37,6 +38,7 @@ const MainGrid = styled(Grid)`
 
 const OrdersListPage: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
 
   const orders = useSelector(OrdersSelector);
   const order = useSelector(OrderItemsSelector);
@@ -56,6 +58,10 @@ const OrdersListPage: FC = () => {
 
   const handleGetOrderItem = (id: string) => {
     dispatch(fetchOrderItems(id));
+  };
+
+  const handleGetProductById = (productId: string) => {
+    navigate(`/products/${productId}`);
   };
 
   useEffect(() => {
@@ -90,6 +96,7 @@ const OrdersListPage: FC = () => {
             order={order}
             ordersWithColumnsTranslate={ordersWithColumnsTranslate}
             handleGetOrderItem={handleGetOrderItem}
+            handleGetProductById={handleGetProductById}
           />
         ) : (
           <h2 data-testid="empty-stub">{ordersTranslate.emptyOrders}</h2>

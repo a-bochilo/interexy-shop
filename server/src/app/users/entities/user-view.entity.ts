@@ -1,9 +1,16 @@
 // ========================== typeorm ====================================
-import { JoinColumn, ManyToOne, ViewColumn, ViewEntity } from "typeorm";
+import {
+  JoinColumn,
+  ManyToOne,
+  OneToOne,
+  ViewColumn,
+  ViewEntity,
+} from "typeorm";
 
 // ========================== entities ===================================
 import { UUIDEntity } from "../../../shared/entities/uuid.entity";
 import { RoleEntity } from "../../roles/entities/role.entity";
+import { UserDetailsEntity } from "./user-details.entity";
 
 // ========================== enums ======================================
 import { UserRoles } from "../../../shared/types/user-roles.enum";
@@ -61,9 +68,17 @@ export class UserViewEntity extends UUIDEntity {
   @JoinColumn({ name: "role_id" })
   role: RoleEntity;
 
-  // @OneToOne(() => UserDetailsEntity)
-  // @JoinColumn({ name: "details_id" })
-  // details: UserDetailsEntity;
+  @ApiProperty({
+    example: "1qwe-21-3",
+    description: "Cart id",
+    required: true,
+  })
+  @ViewColumn({ name: "cart_id" })
+  cart_id: string;
+
+  @OneToOne(() => UserDetailsEntity)
+  @JoinColumn({ name: "details_id" })
+  details: UserDetailsEntity;
 
   // @OneToMany(() => OrderEntity, (order) => order.user)
   // @JoinColumn({ name: "order_id" })

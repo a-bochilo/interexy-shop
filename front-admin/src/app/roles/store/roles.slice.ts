@@ -1,9 +1,10 @@
+// =========================== redux ================================
 import { createSlice } from "@reduxjs/toolkit";
 
-// ====================== Interfaces & DTO's =========================
+// ====================== interfaces & dto's =========================
 import { RolesDto } from "../types/roles.dto";
 
-// =========================== Actions ===============================
+// =========================== actions ===============================
 import {
   fetchCurrentRole,
   fetchRoleCreate,
@@ -11,7 +12,6 @@ import {
   fetchRoleUpdate,
   fetchRoles,
 } from "./roles.actions";
-
 
 type IInitialState = {
   roles: RolesDto[];
@@ -50,7 +50,7 @@ const rolesSlice = createSlice({
 
     clearRole: (state) => {
       state.chosenRole = undefined;
-    }
+    },
   },
   extraReducers: (builder) => {
     // ================== Get all roles ==================
@@ -78,10 +78,13 @@ const rolesSlice = createSlice({
         state.pending.chosenRole = false;
         state.chosenRole = action.payload;
       })
-      .addCase(fetchCurrentRole.rejected, (state, action: any & { payload: any }) => {
-        state.pending.chosenRole = false;
-        state.errors.chosenRole = action.payload;
-      });
+      .addCase(
+        fetchCurrentRole.rejected,
+        (state, action: any & { payload: any }) => {
+          state.pending.chosenRole = false;
+          state.errors.chosenRole = action.payload;
+        }
+      );
 
     // ================== Update role ==================
 
@@ -92,12 +95,15 @@ const rolesSlice = createSlice({
       .addCase(fetchRoleUpdate.fulfilled, (state, action) => {
         state.pending.chosenRole = false;
       })
-      .addCase(fetchRoleUpdate.rejected, (state, action: any & { payload: any }) => {
-        state.pending.chosenRole = false;
-        state.errors.chosenRole = action.payload;
-      });
+      .addCase(
+        fetchRoleUpdate.rejected,
+        (state, action: any & { payload: any }) => {
+          state.pending.chosenRole = false;
+          state.errors.chosenRole = action.payload;
+        }
+      );
 
-// ================== Delete role ==================
+    // ================== Delete role ==================
 
     builder
       .addCase(fetchRoleDelete.pending, (state) => {
@@ -106,12 +112,15 @@ const rolesSlice = createSlice({
       .addCase(fetchRoleDelete.fulfilled, (state, action) => {
         state.pending.chosenRole = false;
       })
-      .addCase(fetchRoleDelete.rejected, (state, action: any & { payload: any }) => {
-        state.pending.chosenRole = false;
-        state.errors.chosenRole = action.payload;
-      });
+      .addCase(
+        fetchRoleDelete.rejected,
+        (state, action: any & { payload: any }) => {
+          state.pending.chosenRole = false;
+          state.errors.chosenRole = action.payload;
+        }
+      );
 
-// ================== Create role ==================
+    // ================== Create role ==================
 
     builder
       .addCase(fetchRoleCreate.pending, (state) => {
@@ -120,10 +129,13 @@ const rolesSlice = createSlice({
       .addCase(fetchRoleCreate.fulfilled, (state, action) => {
         state.pending.chosenRole = false;
       })
-      .addCase(fetchRoleCreate.rejected, (state, action: any & { payload: any }) => {
-        state.pending.chosenRole = false;
-        state.errors.chosenRole = action.payload;
-      })
+      .addCase(
+        fetchRoleCreate.rejected,
+        (state, action: any & { payload: any }) => {
+          state.pending.chosenRole = false;
+          state.errors.chosenRole = action.payload;
+        }
+      )
 
       .addDefaultCase(() => {});
   },

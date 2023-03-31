@@ -13,23 +13,48 @@ import {
 import { Button } from "@mui/material";
 
 // ========================== components & mock ==========================
-import { mockUserProfileProps } from "../mocks/user-data-mock";
+import {
+  mockUserProfileProps,
+  userWithTranslate,
+} from "../mocks/user-data-mock";
 import UserProfileFormComp from "../../components/user-profile-form.comp";
 
 describe("User profile", () => {
   it("should renders", async () => {
-    render(<UserProfileFormComp {...mockUserProfileProps} />);
+    render(
+      <UserProfileFormComp
+        isClicked={false}
+        userWithTranslate={userWithTranslate}
+        fetchingErrors={null}
+        {...mockUserProfileProps}
+      />
+    );
   });
 
   it("should have a submit button", () => {
-    render(<UserProfileFormComp {...mockUserProfileProps} />);
+    render(
+      <UserProfileFormComp
+        isClicked={false}
+        userWithTranslate={userWithTranslate}
+        fetchingErrors={null}
+        {...mockUserProfileProps}
+      />
+    );
 
     expect(screen.getByText("Save")).toBeInTheDocument();
   });
 
   it("should call 'handleBack' when cancel button is clicked", async () => {
     await act(async () =>
-      render(<UserProfileFormComp {...mockUserProfileProps} disabled={false} />)
+      render(
+        <UserProfileFormComp
+          isClicked={false}
+          userWithTranslate={userWithTranslate}
+          fetchingErrors={null}
+          {...mockUserProfileProps}
+          disabled={false}
+        />
+      )
     );
     await act(async () => fireEvent.click(screen.getByText(/Cancel/i)));
 
@@ -46,7 +71,45 @@ describe("User profile", () => {
   });
 
   it("should render CircularProgress when pending", async () => {
-    render(<UserProfileFormComp {...mockUserProfileProps} />);
+    render(
+      <UserProfileFormComp
+        {...mockUserProfileProps}
+        isClicked={false}
+        userWithTranslate={userWithTranslate}
+        fetchingErrors={null}
+        pending={{ user: true, userInfo: true }}
+      />
+    );
     await screen.findByTestId(/test-progress/i);
+  });
+
+  it("should be called with errors and return error-stub", async () => {
+    await act(async () =>
+      render(
+        <UserProfileFormComp
+          {...mockUserProfileProps}
+          isClicked={true}
+          userWithTranslate={userWithTranslate}
+          fetchingErrors={"Test error!"}
+          disabled={false}
+        />
+      )
+    );
+    await screen.findByTestId(/error-stub/i);
+  });
+
+  it("should be called without errors and return done-stub", async () => {
+    await act(async () =>
+      render(
+        <UserProfileFormComp
+          {...mockUserProfileProps}
+          isClicked={true}
+          userWithTranslate={userWithTranslate}
+          fetchingErrors={null}
+          disabled={false}
+        />
+      )
+    );
+    await screen.findByTestId(/done-stub/i);
   });
 });

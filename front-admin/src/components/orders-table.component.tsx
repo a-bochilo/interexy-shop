@@ -1,8 +1,9 @@
+// =========================== react =========================================
 import * as React from "react";
 import { TableVirtuoso, TableComponents } from "react-virtuoso";
 import { useNavigate } from "react-router-dom";
 
-// =========================== MUI ===========================
+// =========================== mui ===========================================
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -11,7 +12,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
-// ====================== Interfaces & DTO's ==================
+// =========================== interfaces & dto's =============================
 import { OrderDto } from "../app/orders/types/order.dto";
 
 interface ColumnData {
@@ -19,6 +20,11 @@ interface ColumnData {
   label: string;
   width: number;
 }
+
+const correctDate = (date: string) => {
+  const newDate = new Date(date);
+  return newDate.toLocaleString();
+};
 
 const OrdersTable = ({ orders }: { orders: OrderDto[] }) => {
   const navigate = useNavigate();
@@ -43,7 +49,10 @@ const OrdersTable = ({ orders }: { orders: OrderDto[] }) => {
       <TableContainer component={Paper} {...props} ref={ref} />
     )),
     Table: (props) => (
-      <Table {...props} sx={{ borderCollapse: "separate", tableLayout: "fixed" }} />
+      <Table
+        {...props}
+        sx={{ borderCollapse: "separate", tableLayout: "fixed" }}
+      />
     ),
     TableHead,
     TableRow: ({ item: _item, ...props }) => (
@@ -86,7 +95,9 @@ const OrdersTable = ({ orders }: { orders: OrderDto[] }) => {
         {getColumns(orders[0]).map((column) => {
           return (
             <TableCell key={column.dataKey} align="center">
-              {`${row[column.dataKey]}`}
+              {column.dataKey === "created" || column.dataKey === "updated"
+                ? `${correctDate(row[column.dataKey])}`
+                : `${row[column.dataKey]}`}
             </TableCell>
           );
         })}

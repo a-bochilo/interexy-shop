@@ -2,11 +2,13 @@
 import React, { FC, PropsWithChildren, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 
-// ========================== MUI ==========================
+// ========================== mui ==========================
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 
-const Suspended: FC<PropsWithChildren & { element: any }> = ({ element: Element }) => {
+const Suspended: FC<PropsWithChildren & { element: any }> = ({
+  element: Element,
+}) => {
   return (
     <Suspense
       fallback={
@@ -33,7 +35,10 @@ const RolesRoutes: FC = () => {
   return (
     <Routes>
       <Route path={"/*"} element={<Suspended element={OrdersListPage} />} />
-      <Route path={"/:orderId"} element={<Suspended element={OrderItemsPage} />} />
+      <Route
+        path={"/:orderId"}
+        element={<Suspended element={OrderItemsPage} />}
+      />
     </Routes>
   );
 };

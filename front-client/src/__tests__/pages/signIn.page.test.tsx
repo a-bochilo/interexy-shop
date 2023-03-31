@@ -5,12 +5,10 @@ import axios from "axios";
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 import configureStore from "redux-mock-store";
+import { render } from "@testing-library/react";
 
 // =========================== router ===================================
 import { MemoryRouter } from "react-router-dom";
-
-// =========================== react-testing ============================
-import { render } from "@testing-library/react";
 
 // =========================== mocks ====================================
 import { initialState, mockedData } from "../mocks/auth.data.mock";
