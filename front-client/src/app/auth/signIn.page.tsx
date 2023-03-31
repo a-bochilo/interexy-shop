@@ -37,7 +37,7 @@ export const handleResponse = (
   if (response.payload) {
     const user: any = decodeToken(response.payload);
     if (user.role_type === "superadmin") {
-      window.location.replace("http://localhost:3000");
+      window.location.replace("http://localhost:8080");
       return false;
     } else {
       window.localStorage.setItem("token", response.payload);

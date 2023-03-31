@@ -1,21 +1,21 @@
 /* eslint-disable testing-library/no-container */
 /* eslint-disable testing-library/no-node-access */
+
+// =========================== react ===========================
 import { Provider } from "react-redux";
 import axios from "axios";
 import thunk from "redux-thunk";
 import { MemoryRouter } from "react-router-dom";
-
-// =========================== React-testing ===========================
 import { render, screen } from "@testing-library/react";
 import configureStore from "redux-mock-store";
 
-// =========================== Mocks ===================================
+// =========================== mocks ===================================
 import { role } from "../mocks/role.data.mock";
 
-// =========================== Component ===============================
+// =========================== component ===============================
 import RoleViewPage from "../../app/roles/role-view.page";
 
-// =========================== Mock useNavi ============================
+// =========================== mock useNavigate ============================
 const mockedUsedNavigate = jest.fn();
 jest.mock("react-router-dom", () => ({
   ...(jest.requireActual("react-router-dom") as any),
@@ -23,7 +23,7 @@ jest.mock("react-router-dom", () => ({
   useParams: () => ({ roleId: "1" }),
 }));
 
-// =========================== Mock Axios ==============================
+// =========================== mock axios ==============================
 jest.mock("axios", () => ({
   post: jest.fn(),
   get: jest.fn(),
@@ -39,8 +39,7 @@ jest.mock("axios", () => ({
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 mockedAxios.get.mockResolvedValue({ data: [role] });
 
-// =========================== Mock Store ==============================
-
+// =========================== mock store ==============================
 const mockStore = configureStore([thunk]);
 
 describe("RolesListPage", () => {

@@ -22,5 +22,4 @@ const start = async () => {
   SwaggerModule.setup("swagger", app, document);
   app.listen(port, () => console.log(`Server started from ${port}`));
 };
-
 start();

@@ -1,4 +1,4 @@
-// =========================== dto's ========================================
+// ========================== types ==========================
 import { ProductDetailsDto } from "../../app/products/types/product-details.dto";
 import { ProductDto } from "../../app/products/types/product.dto";
 
@@ -7,12 +7,14 @@ import { ProductsCategory } from "../../app/products/types/products-category.enu
 
 test.skip("skip", () => {});
 
+// ========================== mock cart item ==========================
 export const mockCartItem = {
   id: "string",
   productId: "c06cbc27-26ee-4455-8983-33fff83c8be8",
   quantity: 1,
 };
 
+// ========================== mock cart ==========================
 export const mockCart = {
   id: "string",
   created: "string",
@@ -20,6 +22,7 @@ export const mockCart = {
   items: [mockCartItem],
 };
 
+// ========================== mock cart info translation ==========================
 export const mockCartInfoTranslation = {
   pricePerPcs: "price per pcs",
   total: "Total",
@@ -28,6 +31,7 @@ export const mockCartInfoTranslation = {
   ordering: "Ordering",
   emptyCartStub: "Cart is empty",
 };
+
 
 export const mockProduct: ProductDto = {
   id: "c06cbc27-26ee-4455-8983-33fff83c8be8",
@@ -42,6 +46,7 @@ export const mockProduct: ProductDto = {
   isActive: true,
 };
 
+// ========================== mock product details ==========================
 export const mockProductDetails: ProductDetailsDto = {
   id: "c06cbc27-26ee-4455-8983-33fff83c8be8",
   color: "color",
@@ -50,6 +55,7 @@ export const mockProductDetails: ProductDetailsDto = {
   description: "description",
 };
 
+// ========================== initial state ==========================
 export const initialState = {
   products: {
     products: [mockProduct],

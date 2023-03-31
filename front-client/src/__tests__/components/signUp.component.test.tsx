@@ -1,7 +1,7 @@
 /* eslint-disable testing-library/await-async-utils */
 /* eslint-disable testing-library/no-unnecessary-act */
 /* eslint-disable testing-library/no-node-access */
-// =========================== react-testing ===========================
+// =========================== react testing library ===========================
 import {
   render,
   fireEvent,

@@ -2,12 +2,21 @@
 /* eslint-disable testing-library/no-node-access */
 /* eslint-disable testing-library/no-container */
 // eslint-disable-next-line testing-library/no-unnecessary-act
-
-// =========================== react-testing ===========================
-import { render, waitFor, screen, act, fireEvent } from "@testing-library/react";
+// =========================== react testing library ===========================
+import {
+  render,
+  waitFor,
+  screen,
+  act,
+  fireEvent,
+} from "@testing-library/react";
 
 // =========================== mocks ===================================
-import { order, orderItem, ordersWithColumnsTranslate } from "../mocks/order.data.mock";
+import {
+  order,
+  orderItem,
+  ordersWithColumnsTranslate,
+} from "../mocks/order.data.mock";
 
 // =========================== component ===============================
 import OrdersListTable from "../../components/orders-list.component";

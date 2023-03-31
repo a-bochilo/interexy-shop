@@ -1,6 +1,5 @@
 /* eslint-disable testing-library/no-unnecessary-act */
-
-// =========================== react-testing ===========================
+// =========================== react testing library ===========================
 import {
   render,
   waitFor,
@@ -9,7 +8,7 @@ import {
   fireEvent,
 } from "@testing-library/react";
 
-// =========================== mocks ===================================
+// =========================== Mocks ===================================
 import { authWithTranslate } from "../mocks/auth.data.mock";
 
 // =========================== component ===============================
@@ -31,9 +30,6 @@ describe("Sign In component", () => {
     );
     await act(async () => fireEvent.click(screen.getByText(/Sign In/i)));
     await waitFor(() => expect(SubmitHandler).toBeDefined());
-
-    await act(async () => fireEvent.click(screen.getByText(/Sign In/i)));
-    await waitFor(() => expect(handleSignIn).toBeDefined());
   });
 
   it("should have a submit button", async () => {
@@ -50,7 +46,7 @@ describe("Sign In component", () => {
     expect(await screen.findByText("Sign In")).toBeInTheDocument();
   });
 
-  it("should be show error", async () => {
+  it("should show an error", async () => {
     render(
       <SignInForm
         handleSignIn={handleSignIn}

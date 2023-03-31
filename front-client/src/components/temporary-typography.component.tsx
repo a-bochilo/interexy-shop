@@ -2,17 +2,17 @@ import styled from "@emotion/styled";
 import { Typography, TypographyProps } from "@mui/material";
 
 interface ITypographyProps extends TypographyProps {
-    duration: number;
-    timeoutFunction?: (b: boolean) => void;
+  duration: number;
+  timeoutFunction?: (b: boolean) => void;
 }
 
 const TemporaryTypography = (props: ITypographyProps) => {
-    const { duration, timeoutFunction, ...typographyProps } = props;
+  const { duration, timeoutFunction, ...typographyProps } = props;
 
-    if (timeoutFunction)
-        setTimeout(() => timeoutFunction(false), duration * 1000);
+  if (timeoutFunction)
+    setTimeout(() => timeoutFunction(false), duration * 1000);
 
-    const CustomTypography = styled(Typography)`
+  const CustomTypography = styled(Typography)`
         animation: dissapear ${duration}s 1 forwards ease-in;
             
         @keyframes dissapear {
@@ -27,7 +27,7 @@ const TemporaryTypography = (props: ITypographyProps) => {
         } 
     `;
 
-    return <CustomTypography {...typographyProps} />;
+  return <CustomTypography {...typographyProps} />;
 };
 
 export default TemporaryTypography;

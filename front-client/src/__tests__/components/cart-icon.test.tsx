@@ -1,25 +1,24 @@
 /* eslint-disable testing-library/no-node-access */
 /* eslint-disable testing-library/no-unnecessary-act */
-
-// =========================== React-testing ===========================
+// =========================== react testing library ===========================
 import { render, act } from "@testing-library/react";
 
-// =========================== Component ===========================
+// =========================== component ===========================
 import CartIconComponent from "../../components/cart-icon.component";
 
 describe("CartButton", () => {
-    let mockProps: any;
+  let mockProps: any;
 
-    beforeEach(async () => {
-        await act(async () => {
-            mockProps = {
-                itemsQuantity: 1,
-                navigate: () => {},
-            };
-        });
+  beforeEach(async () => {
+    await act(async () => {
+      mockProps = {
+        itemsQuantity: 1,
+        navigate: () => {},
+      };
     });
+  });
 
-    it("should render component", () => {
-        render(<CartIconComponent {...mockProps} />);
-    });
+  it("should render component", () => {
+    render(<CartIconComponent {...mockProps} />);
+  });
 });

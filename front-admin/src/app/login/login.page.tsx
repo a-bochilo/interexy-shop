@@ -19,14 +19,12 @@ interface IFormInput {
 }
 
 export const handleResponse = (response: any, navigate: (path: string) => void) => {
-
-  if (response.payload) {
+  if (response.meta.requestStatus !== 'rejected') {
     const user: any = decodeToken(response.payload);
     if (user && user.role_type && user.role_type === UserRoles.user) {
-      window.location.replace("http://localhost:3001");
+      window.location.replace("http://localhost:8000");
     } else {
       window.localStorage.setItem("token", response.payload);
-      console.log(window.localStorage.getItem("token"))
       navigate("/products");
     }
   }

@@ -1,28 +1,28 @@
 {
-    "cart": {
-        "productAlreadyInCart": "Товар уже есть в корзине",
-        "productDoesNotExistInCart": "Товара нет в корзине",
-        "cartIsEmpty": "Корзина пуста"
-    },
-    "user": {
-        "userDoesNotExist": "Такого пользователя не существует",
-        "userIsSuperuser": "Пользователь является суперпользователем",
-        "userAlreadyExist": "Пользователь уже существует"
-    },
-    "products": {
-        "productDoesNotExist": "Такого товара не существует",
-        "productAlreadyExist": "Такой товар уже есть",
-        "productNotEnough": "Количество товара меньше чем запрашивается. Доступное количество"
-    },
-    "roles": {
-        "roleAlreadyExist": "Такая роль уже существует",
-        "roleDoesNotExist": "Такая роль не существует",
-        "roleSuperuserLimit": "Ограничение на создание роли суперпользователя"
-    },
-    "details": {
-        "detailsDoesNotExist": "Такие детали не существуют"
-    },
-    "authorization": {
-        "unAuthorized": "Нет доступа"
-    }
+  "cart": {
+    "productAlreadyInCart": "Товар уже есть в корзине",
+    "productDoesNotExistInCart": "Товара нет в корзине",
+    "cartIsEmpty": "Корзина пуста"
+  },
+  "user": {
+    "userDoesNotExist": "Такого пользователя не существует",
+    "userIsSuperuser": "Пользователь является суперпользователем",
+    "userAlreadyExist": "Пользователь уже существует"
+  },
+  "products": {
+    "productDoesNotExist": "Такого товара не существует",
+    "productAlreadyExist": "Такой товар уже есть",
+    "productNotEnough": "Количество товара меньше чем запрашивается. Доступное количество"
+  },
+  "roles": {
+    "roleAlreadyExist": "Такая роль уже существует",
+    "roleDoesNotExist": "Такая роль не существует",
+    "roleSuperuserLimit": "Ограничение на создание роли суперпользователя"
+  },
+  "details": {
+    "detailsDoesNotExist": "Такие детали не существуют"
+  },
+  "authorization": {
+    "unAuthorized": "Нет доступа"
+  }
 }

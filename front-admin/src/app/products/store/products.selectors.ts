@@ -2,8 +2,8 @@ import { RootState } from "../../../store";
 
 export const productsSelector = (state: RootState) => state.products.products;
 export const productDetailsSelector = (state: RootState) =>
-    state.products.productDetails;
+  state.products.productDetails;
 export const productsPendingSelector = (state: RootState) =>
-    state.products.pending;
+  state.products.pending;
 export const productsErrorsSelector = (state: RootState) =>
-    state.products.errors;
+  state.products.errors;

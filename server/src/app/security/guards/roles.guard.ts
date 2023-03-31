@@ -1,3 +1,4 @@
+// ========================== nest ==========================
 import {
     CanActivate,
     ExecutionContext,
@@ -8,10 +9,10 @@ import {
 import { Reflector } from "@nestjs/core";
 import { I18nContext } from "nestjs-i18n";
 
-// ========================== Services ==========================
+// ========================== services ==========================
 import { SecurityService } from "../security.service";
 
-// ========================== Types ==============================
+// ========================== types ==============================
 import { UserPermissions } from "../../../shared/types/user-permissions.enum";
 import { IRequest } from "../../../shared/types/request.interface";
 

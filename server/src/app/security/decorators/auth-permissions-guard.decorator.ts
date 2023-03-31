@@ -18,4 +18,8 @@ export function AuthPermissionsGuard(permissions: UserPermissions) {
     SetMetadata("permissions", permissions),
     UseGuards(JwtAuthGuard, RolesGuard)
   );
+  return applyDecorators(
+    SetMetadata("permissions", permissions),
+    UseGuards(JwtAuthGuard, RolesGuard)
+  );
 }

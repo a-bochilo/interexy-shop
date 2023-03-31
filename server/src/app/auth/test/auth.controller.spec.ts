@@ -1,13 +1,17 @@
-// ========================== Nest ==========================
+// ========================== nest ==========================
 import { JwtModule, JwtService } from "@nestjs/jwt";
 import { Test } from "@nestjs/testing";
 import { BadRequestException } from "@nestjs/common";
 
-// ========================== rest ==========================
+// ========================== controller & service ==========================
 import { AuthController } from "../auth.controller";
 import { AuthService } from "../auth.service";
+
+// ========================== dto ==========================
 import { CreateUserDto } from "../../users/dtos/user-create.dto";
 import { UserSignInDto } from "../dtos/user-sign-in.dto";
+
+// ========================== security ==========================
 import { SecurityService } from "../../security/security.service";
 import { JwtAuthGuard } from "../../security/guards/jwt-auth.guard";
 import { RolesGuard } from "../../security/guards/roles.guard";
@@ -100,7 +104,7 @@ describe("AuthController", () => {
     })
       .overrideProvider(SecurityService)
       .useValue(securityServiceFake)
-      
+
       .overrideProvider(AuthService)
       .useValue(mockedService)
 

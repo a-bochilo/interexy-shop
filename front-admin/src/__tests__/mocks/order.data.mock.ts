@@ -1,5 +1,6 @@
 test.skip("skip", () => {});
 
+// ========================== mock order item ==========================
 export const mockOrderItem = {
   created: "2023-03-24T11:50:52.187Z",
   id: "1d6da915-9503-4236-b8fc-b3399809641f",
@@ -13,6 +14,7 @@ export const mockOrderItem = {
 
 export const mockOrderItems = [mockOrderItem];
 
+// ========================== mock orders with columns translation ==========================
 export const ordersWithColumnsTranslate = {
   orderNumber: "4214234124",
   orderCreated: "34234",
@@ -22,6 +24,7 @@ export const ordersWithColumnsTranslate = {
   price: "10",
 };
 
+// ========================== mock order ==========================
 export const order = {
   created: 2023,
   id: "f825e7b4-be23-41b1-914c-36a8a13ab3c6",

@@ -1,8 +1,8 @@
 /* eslint-disable testing-library/no-unnecessary-act */
-// =========================== React-testing ===========================
+// =========================== react testing library ===========================
 import { render, waitFor, screen, act, fireEvent } from "@testing-library/react";
 
-// =========================== Component ===============================
+// =========================== component ===============================
 import LoginForm from "../../components/login-form.comp";
 
 describe("Sign In component", () => {
@@ -24,7 +24,7 @@ describe("Sign In component", () => {
     expect(screen.getByTestId("loginButton")).toBeInTheDocument();
   });
 
-  it("should be show error", async () => {
+  it("should show an error", async () => {
     render(<LoginForm handleSave={handleSave} error={true} />);
     expect(screen.getByText("ERROR: FAILED TO SIGNIN")).toBeInTheDocument();
   });

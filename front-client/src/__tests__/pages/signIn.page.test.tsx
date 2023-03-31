@@ -118,7 +118,7 @@ describe("handleResponse", () => {
     };
     decodeToken.mockReturnValue({ role_type: UserRoles.superadmin });
     handleResponse(response, navigate);
-    expect(mockReplace).toHaveBeenCalledWith("http://localhost:3000");
+    expect(mockReplace).toHaveBeenCalledWith("http://localhost:8080");
     expect(handleResponse(response, navigate)).toEqual(false);
   });
 });

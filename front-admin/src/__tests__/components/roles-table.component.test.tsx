@@ -2,18 +2,17 @@
 /* eslint-disable testing-library/no-container */
 // eslint-disable-next-line testing-library/no-unnecessary-act
 
+// =========================== react ===========================
 import { BrowserRouter } from "react-router-dom";
-
-// =========================== React-testing ===========================
 import { render } from "@testing-library/react";
 
-// =========================== Mocks ===================================
+// =========================== mocks ===================================
 import { role } from "../mocks/role.data.mock";
 
-// =========================== Component ===============================
+// =========================== component ===============================
 import RolesTable from "../../components/roles-table.component";
 
-// =========================== Enums ===================================
+// =========================== enums ===================================
 import { UserRoles } from "../../app/roles/types/user-roles.enum";
 
 describe("Roles table", () => {

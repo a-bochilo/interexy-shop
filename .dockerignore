@@ -1,3 +1,7 @@
 */node_modules
 */Dockerfile
 */dist
+*/src/__tests__
+*/test
+*.test
+*.mock

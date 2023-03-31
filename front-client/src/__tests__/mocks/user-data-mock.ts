@@ -7,6 +7,7 @@ import { UserRoles } from "../../app/users/types/user-roles.enum";
 
 test.skip("skip", () => {});
 
+// ========================== mock user ==========================
 export const mockUser: UserDto = {
   id: "6966bd54-fe41-4e92-b15b-4f5fbac9ee1e",
   created: 1679936346070,
@@ -20,6 +21,7 @@ export const mockUser: UserDto = {
   details_id: "02e95ec9-1252-4072-b88e-8fb59a2d7d5a",
 };
 
+// ========================== mock user details ==========================
 export const mockUserDetails: UserDetailsDto = {
   id: "6966bd54-fe41-4e92-b15b-4f5fbac9ee1e",
   created: 1679936346070,
@@ -29,6 +31,7 @@ export const mockUserDetails: UserDetailsDto = {
   middlename: "Aaron",
 };
 
+// ========================== mock user profile props ==========================
 export const mockUserProfileProps = {
   formName: "user profile",
   user: mockUser,
@@ -41,6 +44,7 @@ export const mockUserProfileProps = {
   handleBack: jest.fn(),
 };
 
+// ========================== mock user roles ==========================
 export const mockUserRoles: RolesDto = {
   id: 2,
   type: UserRoles.user,
@@ -48,6 +52,7 @@ export const mockUserRoles: RolesDto = {
   permissions: [UserPermissions.all],
 };
 
+// ========================== mock user assign role props ==========================
 export const mockAssignRoleProps = {
   formName: "user assign role form",
   userId: "6966bd54-fe41-4e92-b15b-4f5fbac9ee1e",
@@ -62,6 +67,7 @@ export const mockAssignRoleProps = {
   handleBack: jest.fn(),
 };
 
+// ========================== mock initial state ==========================
 export const initialState = {
   users: {
     user: [mockUser],
@@ -87,6 +93,7 @@ export const initialState = {
   },
 };
 
+// ========================== mock initial state with user info is null ==========================
 export const initialStateWithUserInfoIsNull = {
   users: {
     user: [mockUser],
@@ -112,6 +119,7 @@ export const initialStateWithUserInfoIsNull = {
   },
 };
 
+// ========================== mock user with details ==========================
 export const mockUserWithDetails = {
   id: "6966bd54-fe41-4e92-b15b-4f5fbac9ee1e",
   firstname: "Peter",

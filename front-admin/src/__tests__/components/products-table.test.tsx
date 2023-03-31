@@ -1,27 +1,27 @@
 /* eslint-disable testing-library/no-unnecessary-act */
-// =========================== React-testing ===========================
+// =========================== react testing library ===========================
 import { render } from "@testing-library/react";
 
-// =========================== Component ===========================
+// =========================== component ===========================
 import ProductsTable from "../../components/products-table.component";
 
-// =========================== Mocks ===========================
+// =========================== mocks ===========================
 import { mockProductWithDetails } from "../mocks/products.data.mocks";
 
 describe("ProductsTable", () => {
-    let mockProps: any;
-    const mockHandlers = {
-        handleClickRow: jest.fn(),
+  let mockProps: any;
+  const mockHandlers = {
+    handleClickRow: jest.fn(),
+  };
+
+  beforeEach(() => {
+    mockProps = {
+      products: [mockProductWithDetails],
+      ...mockHandlers,
     };
+  });
 
-    beforeEach(() => {
-        mockProps = {
-            products: [mockProductWithDetails],
-            ...mockHandlers,
-        };
-    });
-
-    it("should render component", () => {
-        render(<ProductsTable {...mockProps} />);
-    });
+  it("should render component", () => {
+    render(<ProductsTable {...mockProps} />);
+  });
 });

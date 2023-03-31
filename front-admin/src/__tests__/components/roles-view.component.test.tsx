@@ -1,10 +1,10 @@
-// =========================== React-testing ===========================
+// =========================== react testing library ===========================
 import { render, screen } from "@testing-library/react";
 
-// =========================== Mocks ===================================
+// =========================== mocks ===================================
 import { role } from "../mocks/role.data.mock";
 
-// =========================== Component ===============================
+// =========================== component ===============================
 import RoleForm from "../../components/roles-form.component";
 
 describe("Role edit form", () => {
@@ -37,7 +37,7 @@ describe("Role edit form", () => {
     );
   });
 
-  it("should undisable create button in case form in create mode", async () => {
+  it("should not disable create button in case form in create mode", async () => {
     render(
       <RoleForm
         role={role}
@@ -85,7 +85,7 @@ describe("Role edit form", () => {
     );
   });
 
-  it("should be return error message", async () => {
+  it("should return an error message", async () => {
     render(
       <RoleForm
         role={role}

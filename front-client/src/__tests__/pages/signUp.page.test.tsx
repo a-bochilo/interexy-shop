@@ -61,7 +61,7 @@ let mockStore = configureStore([thunk]);
 
 describe("Sign Up page", () => {
   let store: any;
-  it("should be rendered", () => {
+  it("should render", () => {
     store = mockStore(initialState);
     render(
       <Provider store={store}>

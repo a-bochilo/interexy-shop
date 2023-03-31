@@ -72,10 +72,10 @@ const rolesSlice = createSlice({
 
     builder
       .addCase(fetchCurrentRole.pending, (state) => {
-        state.pending.chosenRole = false;
+        state.pending.chosenRole = true;
       })
       .addCase(fetchCurrentRole.fulfilled, (state, action) => {
-        state.pending.chosenRole = true;
+        state.pending.chosenRole = false;
         state.chosenRole = action.payload;
       })
       .addCase(fetchCurrentRole.rejected, (state, action: any & { payload: any }) => {
@@ -101,10 +101,10 @@ const rolesSlice = createSlice({
 
     builder
       .addCase(fetchRoleDelete.pending, (state) => {
-        state.pending.chosenRole = false;
+        state.pending.chosenRole = true;
       })
       .addCase(fetchRoleDelete.fulfilled, (state, action) => {
-        state.pending.chosenRole = true;
+        state.pending.chosenRole = false;
       })
       .addCase(fetchRoleDelete.rejected, (state, action: any & { payload: any }) => {
         state.pending.chosenRole = false;
@@ -115,10 +115,10 @@ const rolesSlice = createSlice({
 
     builder
       .addCase(fetchRoleCreate.pending, (state) => {
-        state.pending.chosenRole = false;
+        state.pending.chosenRole = true;
       })
       .addCase(fetchRoleCreate.fulfilled, (state, action) => {
-        state.pending.chosenRole = true;
+        state.pending.chosenRole = false;
       })
       .addCase(fetchRoleCreate.rejected, (state, action: any & { payload: any }) => {
         state.pending.chosenRole = false;
