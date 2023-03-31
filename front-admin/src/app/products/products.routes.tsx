@@ -6,48 +6,40 @@ import { Navigate, Routes, Route } from "react-router-dom";
 import FallbackComponent from "../../components/fallback.component";
 
 const Suspended: FC<PropsWithChildren & { element: any }> = ({
-    element: Element,
+  element: Element,
 }) => {
-    return (
-        <Suspense fallback={<FallbackComponent />}>
-            <Element />
-        </Suspense>
-    );
+  return (
+    <Suspense fallback={<FallbackComponent />}>
+      <Element />
+    </Suspense>
+  );
 };
 
 // ======= pages ======= //
 const ProductListPage = React.lazy(
-    () =>
-        import(/* webpackChunkName: "ProductListPage" */ "./product-list.page")
+  () => import(/* webpackChunkName: "ProductListPage" */ "./product-list.page")
 );
 const ProductViewPage = React.lazy(
-    () =>
-        import(/* webpackChunkName: "ProductViewPage" */ "./product-view.page")
+  () => import(/* webpackChunkName: "ProductViewPage" */ "./product-view.page")
 );
 const ProductAddPage = React.lazy(
-    () => import(/* webpackChunkName: "ProductAddPage" */ "./product-add.page")
+  () => import(/* webpackChunkName: "ProductAddPage" */ "./product-add.page")
 );
 
 const ProductsRoutes: FC = () => {
-    return (
-        <Routes>
-            <Route
-                path={"/"}
-                element={<Suspended element={ProductListPage} />}
-            />
-            <Route
-                path={"/:productId"}
-                element={<Suspended element={ProductViewPage} />}
-            />
-            <Route
-                path={"/add"}
-                element={<Suspended element={ProductAddPage} />}
-            />
+  return (
+    <Routes>
+      <Route path={"/"} element={<Suspended element={ProductListPage} />} />
+      <Route
+        path={"/:productId"}
+        element={<Suspended element={ProductViewPage} />}
+      />
+      <Route path={"/add"} element={<Suspended element={ProductAddPage} />} />
 
-            {/* DEFAULT */}
-            <Route path="*" element={<Navigate to="/products" />} />
-        </Routes>
-    );
+      {/* DEFAULT */}
+      <Route path="*" element={<Navigate to="/products" />} />
+    </Routes>
+  );
 };
 
 export default ProductsRoutes;

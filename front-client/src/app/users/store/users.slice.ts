@@ -14,16 +14,16 @@ import { UserFromTokenDto } from "../types/user-dto-from-token.type";
 import { getUserInfo, updateUserDetails } from "./users.actions";
 
 const initialState: UserState = {
-  user: null,
-  userInfo: null,
-  pending: {
-    user: false,
-    userInfo: false,
-  },
-  errors: {
     user: null,
     userInfo: null,
-  },
+    pending: {
+        user: false,
+        userInfo: false,
+    },
+    errors: {
+        user: null,
+        userInfo: null,
+    },
 };
 
 export const usersSlice = createSlice({
@@ -69,26 +69,26 @@ export const usersSlice = createSlice({
         }
       );
 
-    //============ UPDATE USER INFO ============
-    builder
-      .addCase(updateUserDetails.pending, (state) => {
-        state.pending.userInfo = true;
-        state.errors.userInfo = null;
-      })
-      .addCase(
-        updateUserDetails.fulfilled,
-        (state, action: PayloadAction<UserUpdateDto>) => {
-          state.user = action.payload;
-        }
-      )
-      .addCase(
-        updateUserDetails.rejected,
-        (state, action: any & { payload: any }) => {
-          state.pending.userInfo = false;
-          state.errors.userInfo = action.payload.message;
-        }
-      );
-  },
+        //============ UPDATE USER INFO ============
+        builder
+            .addCase(updateUserDetails.pending, (state) => {
+                state.pending.userInfo = true;
+                state.errors.userInfo = null;
+            })
+            .addCase(
+                updateUserDetails.fulfilled,
+                (state, action: PayloadAction<UserUpdateDto>) => {
+                    state.user = action.payload;
+                }
+            )
+            .addCase(
+                updateUserDetails.rejected,
+                (state, action: any & { payload: any }) => {
+                    state.pending.userInfo = false;
+                    state.errors.userInfo = action.payload.message;
+                }
+            );
+    },
 });
 
 export const usersActions = usersSlice.actions;

@@ -3,7 +3,8 @@ import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { I18nContext } from "nestjs-i18n";
 
 // ========================== bcrypt ==========================
-import { compare, hashSync } from "bcrypt";
+//! This lib could be turned on in case it neccessary to hash passwords
+// import { compare, hashSync } from "bcrypt";
 
 // ========================== dto ==========================
 import { UserSignInDto } from "./dtos/user-sign-in.dto";
@@ -24,13 +25,13 @@ import { SecurityService } from "../security/security.service";
 
 @Injectable()
 export class AuthService {
-  constructor(
-    private readonly userRepository: UserRepository,
-    private readonly roleRepository: RoleRepository,
-    private readonly userDetailsRepository: UserDetailsRepository,
-    private readonly cartRepository: CartRepository,
-    private readonly securityService: SecurityService
-  ) {}
+    constructor(
+        private readonly userRepository: UserRepository,
+        private readonly roleRepository: RoleRepository,
+        private readonly userDetailsRepository: UserDetailsRepository,
+        private readonly cartRepository: CartRepository,
+        private readonly securityService: SecurityService
+    ) {}
 
   // ========================== signUp ==============================
   async signUp(dto: CreateUserDto): Promise<TokenDto> {
@@ -49,38 +50,41 @@ export class AuthService {
       dto.details
     );
 
-    const hashPassword = await hashSync(dto.password, 5);
-    const newUser = await this.userRepository.createUser({
-      ...dto,
-      password: hashPassword,
-      details,
-      role,
-    });
+        //! Line below could be activited on in case it neccessary to hash passwords
+        // const hashPassword = await hashSync(dto.password, 5);
+        const newUser = await this.userRepository.createUser({
+            ...dto,
+            password: dto.password,
+            details,
+            role,
+        });
 
-    const cart = await this.cartRepository.createCart(newUser);
+        const cart = await this.cartRepository.createCart(newUser);
 
     newUser.cart = cart;
     await this.userRepository.save(newUser);
 
-    const access_token = await this.securityService.generateJwt(newUser);
-    return access_token;
-  }
+        const access_token = await this.securityService.generateJwt(newUser);
+        return access_token;
+    }
 
   // ========================== signIn ==============================
   async signIn(dto: UserSignInDto): Promise<TokenDto> {
     const userFromDB = await this.userRepository.getUserByEmail(dto.email);
 
-    if (!userFromDB) {
-      throw new HttpException(
-        `${I18nContext.current().t("errors.user.userDoesNotExist")}`,
-        HttpStatus.NOT_FOUND
-      );
-    }
+        if (!userFromDB) {
+            throw new HttpException(
+                `${I18nContext.current().t("errors.user.userDoesNotExist")}`,
+                HttpStatus.NOT_FOUND
+            );
+        }
 
-    const role = await this.roleRepository.getById(userFromDB.roleId);
-    userFromDB.role = role;
+        const role = await this.roleRepository.getById(userFromDB.roleId);
+        userFromDB.role = role;
 
-    const isPasswordCorrect = await compare(dto.password, userFromDB.password);
+        //! Line below could be activited on in case it neccessary to hash passwords
+        // const isPasswordCorrect = await compare(dto.password, userFromDB.password);
+        const isPasswordCorrect = dto.password === userFromDB.password;
 
     if (!isPasswordCorrect)
       throw new HttpException(

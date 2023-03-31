@@ -1,11 +1,11 @@
 import { ViewEntity } from "typeorm";
 
-// ========================== Entities ==========================
+// ========================== entities ==========================
 import { ProductEntity } from "./product.entity";
 
 @ViewEntity({
-    name: "products_active_view",
-    expression: `
+  name: "products_active_view",
+  expression: `
             SELECT *
             FROM products
             WHERE is_active=true
