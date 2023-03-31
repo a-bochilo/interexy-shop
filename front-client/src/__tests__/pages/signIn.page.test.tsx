@@ -1,22 +1,27 @@
+// =========================== axios ===================================
 import axios from "axios";
+
+// =========================== store ===================================
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 import configureStore from "redux-mock-store";
+
+// =========================== router ===================================
 import { MemoryRouter } from "react-router-dom";
 
-// =========================== React-testing ===========================
+// =========================== react-testing ============================
 import { render } from "@testing-library/react";
 
-// =========================== Mocks ===================================
+// =========================== mocks ====================================
 import { initialState, mockedData } from "../mocks/auth.data.mock";
 
-// =========================== Component ===============================
+// =========================== component ================================
 import SignInPage, { handleResponse } from "../../app/auth/signIn.page";
 
-// =========================== Enums ===================================
+// =========================== enums ====================================
 import { UserRoles } from "../../app/users/types/user-roles.enum";
 
-// =========================== Mock i18n ==============================
+// =========================== mock i18n ================================
 jest.mock("react-i18next", () => ({
   useTranslation: () => {
     return {
@@ -28,7 +33,7 @@ jest.mock("react-i18next", () => ({
   },
 }));
 
-// =========================== Mock Axios ==============================
+// =========================== mock axios ================================
 jest.mock("axios", () => ({
   post: jest.fn(),
   get: jest.fn(),
@@ -49,7 +54,7 @@ jest.mock("../../app/auth/store/auth.slice", () => ({
   fetchAuth: jest.fn(),
 }));
 
-// =========================== Mock Store ==============================
+// =========================== mock store ================================
 const mockStore = configureStore([thunk]);
 
 describe("Sign In Page", () => {
@@ -67,7 +72,7 @@ describe("Sign In Page", () => {
   });
 });
 
-// =========================== Mock Functions =============================
+// =========================== mock functions ===============================
 const mockReplace = jest.fn();
 const mockSetItem = jest.fn();
 const mockGetItem = jest.fn();
@@ -117,4 +122,3 @@ describe("handleResponse", () => {
     expect(handleResponse(response, navigate)).toEqual(false);
   });
 });
-//49-51,55-56

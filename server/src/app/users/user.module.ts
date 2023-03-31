@@ -1,24 +1,26 @@
-import { Module, forwardRef } from "@nestjs/common";
+// ========================== nest ======================================
+import { Module } from "@nestjs/common";
+
+// ========================== typeorm ===================================
 import { TypeOrmModule } from "@nestjs/typeorm";
 
-// ========================== Entities & DTO's ==========================
+// ========================== entities ==================================
 import { RoleEntity } from "../roles/entities/role.entity";
 import { UserDetailsEntity } from "./entities/user-details.entity";
 import { UserEntity } from "./entities/user.entity";
 import { UserViewEntity } from "./entities/user-view.entity";
 
-// ========================== Repositories ==============================
+// ========================== repositories ==============================
 import { UserRepository } from "./repos/user.repository";
 import { RoleRepository } from "../roles/repos/role.repository";
 import { UserDetailsRepository } from "./repos/user-details.repository";
 import { UserViewRepository } from "./repos/user-view.repository";
-import { CartRepository } from "../cart/repos/cart.repository";
 
-// ========================== Services & Controllers ====================
+// ========================== services & controllers ====================
 import { UserController } from "./user.controller";
 import { UserService } from "./user.service";
 
-// ========================== Modules ===================================
+// ========================== modules ===================================
 import { SecurityModule } from "../security/security.module";
 import { OrderEntity } from "../orders/entities/order.entity";
 

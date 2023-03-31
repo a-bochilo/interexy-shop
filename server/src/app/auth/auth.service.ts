@@ -77,7 +77,7 @@ export class AuthService {
     const isPasswordCorrect = await compare(dto.password, userFromDB.password);
 
     if (!isPasswordCorrect)
-      throw new HttpException(I18nContext.current().t("errors.authorization.wrongPassword"), 
+      throw new HttpException(I18nContext.current().t("errors.authorization.unAuthorized"), 
       HttpStatus.UNPROCESSABLE_ENTITY);
     const access_token = await this.securityService.generateJwt(userFromDB);
     return access_token;

@@ -6,7 +6,9 @@ import { Navigate, Routes, Route } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 
-const Suspended: FC<PropsWithChildren & { element: any }> = ({ element: Element }) => {
+const Suspended: FC<PropsWithChildren & { element: any }> = ({
+  element: Element,
+}) => {
   return (
     <Suspense
       fallback={
@@ -20,8 +22,7 @@ const Suspended: FC<PropsWithChildren & { element: any }> = ({ element: Element 
   );
 };
 
-// ======= pages ======= //
-
+// ========================== pages ===========================
 const SignInPage = React.lazy(
   () => import(/* webpackChunkName: "LoginPage" */ "./signIn.page")
 );

@@ -1,3 +1,4 @@
+// ========================== nest =====================================
 import {
   Body,
   Controller,
@@ -11,21 +12,25 @@ import {
   UsePipes,
   ValidationPipe,
 } from "@nestjs/common";
+
+// ========================== decorators ================================
 import { AuthPermissionsGuard } from "../security/decorators/auth-permissions-guard.decorator";
 import { User } from "./decorators/user.decorator";
+
+// ========================== swagger ===================================
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
-// ========================== Entities & DTO's ==========================
+// ========================== entities & dto's ==========================
 import { UserEntity } from "./entities/user.entity";
 import { AssignUserRoleDto } from "./dtos/user-assigne-role.dto";
 import { UserDetailsEntity } from "./entities/user-details.entity";
 import { UserSessionDto } from "./dtos/user-session.dto";
 import { UpdateUserDto } from "./dtos/user-update.dto";
 
-// ========================== Enums =====================================
+// ========================== enums =====================================
 import { UserPermissions } from "../../shared/types/user-permissions.enum";
 
-// ========================== Services & Controllers ====================
+// ========================== services & controllers ====================
 import { UserService } from "./user.service";
 
 @ApiTags("Users controller")
@@ -33,9 +38,9 @@ import { UserService } from "./user.service";
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  //GET ALL USERS
+  //=============================== get all users ===============================================
   @Get("")
-  //@AuthPermissionsGuard(UserPermissions.getAllUsers)
+  @AuthPermissionsGuard(UserPermissions.getAllUsers)
   @ApiOperation({ summary: "Get all users" })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -52,7 +57,7 @@ export class UserController {
     return res;
   }
 
-  //GET ONE USER BY ID ---------------------------------------USER
+  //=============================== the user can get his profile ==================================
   @Get("/profile")
   @AuthPermissionsGuard(UserPermissions.getUserProfile)
   @ApiOperation({ summary: "Get current user" })
@@ -69,7 +74,7 @@ export class UserController {
     return await this.userService.getDetailsById(user.id);
   }
 
-  //UPDATE DETAILS BY USER ID ---------------------------------------USER
+  //=============================== the user can update his profile ==================================
   @Put("/profile")
   @AuthPermissionsGuard(UserPermissions.updateUserProfile)
   @ApiOperation({ summary: "Update user details (user)" })
@@ -87,7 +92,7 @@ export class UserController {
     return await this.userService.updateUserDetails(info, user.id);
   }
 
-  //GET ONE USER BY ID ----------------------------------------------ADMIN
+  //=============================== admin can get current user profile =================================
   @Get("/:userId")
   @AuthPermissionsGuard(UserPermissions.getUserById)
   @ApiOperation({ summary: "Get user by id (admin)" })
@@ -104,7 +109,7 @@ export class UserController {
     return await this.userService.getDetailsById(userId);
   }
 
-  //UPDATE DETAILS BY USER ID ---------------------------------------ADMIN
+  //=============================== admin can update current user profile =================================
   @Put("/:userId")
   @AuthPermissionsGuard(UserPermissions.updateDetails)
   @ApiOperation({ summary: "Update user details (admin)" })
@@ -122,9 +127,9 @@ export class UserController {
     return await this.userService.updateUserDetails(info, userId);
   }
 
-  //DELETE ONE BY ID ---------------------------------------ADMIN
+  //=============================== admin can delete current user ==========================================
   @Delete("/:userId")
-  //@AuthPermissionsGuard(UserPermissions.deleteUserById)
+  @AuthPermissionsGuard(UserPermissions.deleteUserById)
   @ApiOperation({ summary: "Delete user by id (change isActive) (admin)" })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -137,7 +142,7 @@ export class UserController {
     return await this.userService.deleteUserById(userId);
   }
 
-  //ASSIGN ROLE BY ID ---------------------------------------ADMIN
+  //=============================== admin can assign role for current user ===================================
   @Post("/assignRole/:userId")
   @AuthPermissionsGuard(UserPermissions.assignRoleById)
   @ApiOperation({ summary: "Assign role for user by id (admin)" })

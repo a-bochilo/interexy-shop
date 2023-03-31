@@ -16,7 +16,7 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import { formSchema } from "./user-profile-form.const";
 
-// ========================== enum ==========================
+// ========================== enums & types =================
 import { UserDetailsDto } from "../app/users/types/user-details.type";
 import { UserDto } from "../app/users/types/user-dto.type";
 import { UserState } from "../app/users/types/user-state.type";
@@ -157,8 +157,7 @@ const UserProfileFormComp: FC<FormProps> = ({
             align="left"
             sx={{ minWidth: 90, width: 120 }}
           >
-            M
-            iddle name
+            M iddle name
           </Typography>
           <Controller
             control={control}
@@ -309,7 +308,7 @@ const UserProfileFormComp: FC<FormProps> = ({
               width: "50%",
             }}
           >
-            {pending && <CircularProgress data-testid="test-progress"/>}
+            {pending && <CircularProgress data-testid="test-progress" />}
           </Box>
           <Box
             sx={{

@@ -1,21 +1,23 @@
+// ========================== validator ==================================
 import {
   IsNotEmpty,
   IsEmail,
   IsString,
   IsNumber,
-  IsArray,
   IsEnum,
 } from "class-validator";
 
-// ========================== Enums ==========================
-import { UserPermissions } from "../../../shared/types/user-permissions.enum";
+// ========================== enums ======================================
 import { UserRoles } from "../../../shared/types/user-roles.enum";
 
-// ========================== Entities & DTO's ==========================
+// ========================== entities & dto's ===========================
 import { UserEntity } from "../entities/user.entity";
 import { UUIDDto } from "../../../shared/dtos/uuid.dto";
-import { ApiProperty } from "@nestjs/swagger";
 import { UserViewEntity } from "../entities/user-view.entity";
+
+// ========================== swagger ====================================
+import { ApiProperty } from "@nestjs/swagger";
+
 export class UserSessionDto extends UUIDDto {
   @ApiProperty({
     description: "User email",
@@ -54,15 +56,6 @@ export class UserSessionDto extends UUIDDto {
   @IsNotEmpty()
   @IsString()
   isActive: boolean;
-
-  // @ApiProperty({
-  //     description: "User permissions",
-  //     enum: [UserPermissions],
-  // })
-  // @IsNotEmpty()
-  // @IsArray()
-  // @IsEnum(UserPermissions, { each: true })
-  // permissions: UserPermissions[];
 
   public static fromEntity(entity: UserEntity | UserViewEntity) {
     return {

@@ -1,13 +1,19 @@
 /* eslint-disable testing-library/await-async-utils */
 /* eslint-disable testing-library/no-unnecessary-act */
 /* eslint-disable testing-library/no-node-access */
-// =========================== React-testing ===========================
-import { render, fireEvent, screen, act, waitFor } from "@testing-library/react";
+// =========================== react-testing ===========================
+import {
+  render,
+  fireEvent,
+  screen,
+  act,
+  waitFor,
+} from "@testing-library/react";
 
-// =========================== Mocks ===================================
+// =========================== mocks ===================================
 import { authWithTranslate } from "../mocks/auth.data.mock";
 
-// =========================== Component ===============================
+// =========================== component ===============================
 import SignUpForm from "../../components/signUp-form.component";
 
 describe("SignUpForm", () => {

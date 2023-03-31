@@ -2,21 +2,31 @@
 // ========================== react ==========================
 import { FC, useEffect } from "react";
 
-// ============================ MUI ============================
+// ============================ mui ============================
 import styled from "@emotion/styled";
 import { Grid, Paper, Stack } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
 
-// =========================== Store ===========================
+// =========================== store ===========================
 import { AppDispatch } from "../../store";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchOrderItems, fetchOrders } from "./store/orders.actions";
 
-// ======================== Components =========================
+// ======================== components =========================
 import OrdersList from "../../components/orders-list.component";
-import { OrderItemsSelector, OrdersSelector } from "./store/orders.selector";
-import { useTranslation } from "react-i18next";
-import { IOrdersColumnsTranslate, IOrdersTranslate } from "./types/orders-translate.enum";
 
+// ======================== i18n ===============================
+import { useTranslation } from "react-i18next";
+
+// ======================== selectors ==========================
+import { OrderItemsSelector, OrdersSelector } from "./store/orders.selector";
+
+// ======================== enums ==============================
+import {
+  IOrdersColumnsTranslate,
+  IOrdersTranslate,
+} from "./types/orders-translate.enum";
+
+// ========================== styles ===========================
 const MainGrid = styled(Grid)`
   display: flex;
   flex-direction: column;
@@ -37,9 +47,12 @@ const OrdersListPage: FC = () => {
     returnObjects: true,
   });
 
-  const ordersWithColumnsTranslate: IOrdersColumnsTranslate = t("orders.columns", {
-    returnObjects: true,
-  });
+  const ordersWithColumnsTranslate: IOrdersColumnsTranslate = t(
+    "orders.columns",
+    {
+      returnObjects: true,
+    }
+  );
 
   const handleGetOrderItem = (id: string) => {
     dispatch(fetchOrderItems(id));

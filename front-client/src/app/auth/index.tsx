@@ -1,17 +1,15 @@
-// ======== react ============
+// ========================== react ============================
 import { FC } from "react";
 
-// ========================== mui ==========================
+// ========================== mui ==============================
 import { Grid, styled } from "@mui/material";
 
-// ======== components ============
-
-// ======== routes ============
+// ========================== routes ===========================
 import AuthRoutes from "./auth.routes";
 import PageFooterComp from "../../components/page-footer.comp";
 import PageNavBarComp from "../../components/navbar.comp";
 
-
+// ========================== styles ===========================
 const MainGrid = styled(Grid)`
   display: flex;
   flex-direction: column;
@@ -24,7 +22,7 @@ const MainGrid = styled(Grid)`
 const ContentGrid = styled(Grid)`
   display: flex;
   justify-content: center;
-  align-items: center;  
+  align-items: center;
   flex-grow: 1;
   min-width: 100%;
   min-height: 100%;
@@ -32,8 +30,8 @@ const ContentGrid = styled(Grid)`
 
 const AuthPage: FC = () => {
   return (
-    <MainGrid> 
-      <PageNavBarComp/>
+    <MainGrid>
+      <PageNavBarComp />
       <ContentGrid sx={{ flexDirection: { xs: "column-reverse", md: "row" } }}>
         <AuthRoutes />
       </ContentGrid>

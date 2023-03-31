@@ -3,13 +3,13 @@
 /* eslint-disable testing-library/no-container */
 // eslint-disable-next-line testing-library/no-unnecessary-act
 
-// =========================== React-testing ===========================
+// =========================== react-testing ===========================
 import { render, waitFor, screen, act, fireEvent } from "@testing-library/react";
 
-// =========================== Mocks ===================================
+// =========================== mocks ===================================
 import { order, orderItem, ordersWithColumnsTranslate } from "../mocks/order.data.mock";
 
-// =========================== Component ===============================
+// =========================== component ===============================
 import OrdersListTable from "../../components/orders-list.component";
 
 describe("Order list component with orders", () => {

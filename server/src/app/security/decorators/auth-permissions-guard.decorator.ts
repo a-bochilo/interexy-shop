@@ -1,15 +1,21 @@
+// ========================== nest ===================================
 import { applyDecorators, SetMetadata, UseGuards } from "@nestjs/common";
 
-// ========================== Enums ==========================
+// ========================== enums ==================================
 import { UserPermissions } from "../../../shared/types/user-permissions.enum";
 
-// ========================== Custom guards ==========================
+// ========================== custom guards ==========================
 import { JwtAuthGuard } from "../guards/jwt-auth.guard";
 import { RolesGuard } from "../guards/roles.guard";
 
+/*  
+AuthPermissionsGuard set metadata such as 'permissons' 
+  and calls two guards - JwtAuthGuard and RolesGuard.  
+*/
+
 export function AuthPermissionsGuard(permissions: UserPermissions) {
-    return applyDecorators(
-        SetMetadata("permissions", permissions),
-        UseGuards(JwtAuthGuard, RolesGuard)
-    );
+  return applyDecorators(
+    SetMetadata("permissions", permissions),
+    UseGuards(JwtAuthGuard, RolesGuard)
+  );
 }

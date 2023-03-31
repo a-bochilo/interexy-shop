@@ -15,7 +15,6 @@ import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
@@ -35,9 +34,10 @@ import {
 // ========================== Enums ==========================
 import { ProductsCategory } from "../app/products/types/products-category.enum";
 import { ICategoriesSelector } from "../app/products/types/products-category.enum";
+import { ISettings, SettingsEnum } from "../app/auth/types/settings.enum";
 
 // ========================== store ==========================
-import { logout } from "../app/auth/store/auth.slice";
+import { clearErrors, logout } from "../app/auth/store/auth.slice";
 import { useAppSelector } from "../store";
 import { AppDispatch } from "../store";
 import { cartSelector } from "../app/cart/store/cart.selectors";
@@ -46,7 +46,6 @@ import { cartSelector } from "../app/cart/store/cart.selectors";
 import SearchComponent from "./search.component";
 import CartIconComponent from "./cart-icon.component";
 import LanguageSwitcher from "./language-switcher.component";
-import { ISettings, SettingsEnum } from "../app/auth/types/settings.enum";
 
 const drawerWidth = 200;
 interface AppBarProps extends MuiAppBarProps {
@@ -135,6 +134,11 @@ const PageNavBarComp = () => {
         break;
     }
     setAnchorElUser(null);
+  };
+
+  const handleNavigateToAuthPage = () => {
+    dispatch(clearErrors());
+    navigate("/auth/signIn");
   };
 
   return (
@@ -247,7 +251,7 @@ const PageNavBarComp = () => {
                 <Button
                   variant="contained"
                   color="success"
-                  onClick={() => navigate("/auth/signIn")}
+                  onClick={() => handleNavigateToAuthPage()}
                   data-testid="sign-in-btn-test"
                 >
                   {settingsTranslations.signIn}

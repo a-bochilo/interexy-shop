@@ -1,19 +1,21 @@
+// ============================ nest ====================================
 import { Test, TestingModule } from "@nestjs/testing";
 import { getRepositoryToken } from "@nestjs/typeorm";
 import { HttpException } from "@nestjs/common";
 
-import { UserRoles } from "../../../shared/types/user-roles.enum";
-
-// ============================ Services ===============================
+// ============================ services ================================
 import { UserService } from "../user.service";
 
-// ========================== Repositories ==============================
+// ========================== repositories ==============================
 import { UserRepository } from "../repos/user.repository";
 import { RoleRepository } from "../../roles/repos/role.repository";
 import { UserDetailsRepository } from "../repos/user-details.repository";
 import { UserViewRepository } from "../repos/user-view.repository";
 
-// ============================== Mocks =================================
+// ============================== enums =================================
+import { UserRoles } from "../../../shared/types/user-roles.enum";
+
+// ============================== mocks =================================
 import {
   userRepositoryFake,
   roleRepositoryFake,
@@ -75,7 +77,9 @@ describe("User service", () => {
   describe("method: Get details by id", () => {
     it("should be return specific details", async () => {
       userRepositoryFake.getById = jest.fn().mockResolvedValue(user);
-      userDetailsRepositoryFake.getDetailsById = jest.fn().mockResolvedValue(details);
+      userDetailsRepositoryFake.getDetailsById = jest
+        .fn()
+        .mockResolvedValue(details);
       expect(await service.getDetailsById(user.id)).toEqual(details);
     });
 
@@ -206,7 +210,9 @@ describe("User service", () => {
   describe("method: Update user details by id function", () => {
     it("should be return user with changed detais", async () => {
       userRepositoryFake.getById = jest.fn().mockResolvedValue(user);
-      expect(await service.updateUserDetails(user, user.id)).toEqual(userWithDetails);
+      expect(await service.updateUserDetails(user, user.id)).toEqual(
+        userWithDetails
+      );
     });
 
     it("should be return error: user does not exist", async () => {
@@ -220,7 +226,9 @@ describe("User service", () => {
 
     it("should be return user details", async () => {
       userRepositoryFake.getById = jest.fn().mockResolvedValue(user);
-      userDetailsRepositoryFake.getDetailsById = jest.fn().mockResolvedValue(false);
+      userDetailsRepositoryFake.getDetailsById = jest
+        .fn()
+        .mockResolvedValue(false);
       try {
         await service.updateUserDetails(user, user.id);
       } catch (error) {

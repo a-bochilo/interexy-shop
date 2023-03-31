@@ -1,8 +1,11 @@
+// ========================== nest ======================================
 import { Injectable } from "@nestjs/common";
+
+// ========================== typeorm ===================================
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 
-// ========================== Entities & DTO's ==========================
+// ========================== entities & dto's ==========================
 import { UserEntity } from "../entities/user.entity";
 import { CreateUserDto } from "../dtos/user-create.dto";
 
@@ -71,5 +74,4 @@ export class UserRepository extends Repository<UserEntity> {
   async getUserByEmail(email: string) {
     return await this.findOneBy({ email: email });
   }
-
 }

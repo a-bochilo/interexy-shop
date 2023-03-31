@@ -1,12 +1,18 @@
 /* eslint-disable testing-library/no-unnecessary-act */
 
-// =========================== React-testing ===========================
-import { render, waitFor, screen, act, fireEvent } from "@testing-library/react";
+// =========================== react-testing ===========================
+import {
+  render,
+  waitFor,
+  screen,
+  act,
+  fireEvent,
+} from "@testing-library/react";
 
-// =========================== Mocks ===================================
+// =========================== mocks ===================================
 import { authWithTranslate } from "../mocks/auth.data.mock";
 
-// =========================== Component ===============================
+// =========================== component ===============================
 import SignInForm from "../../components/signIn-form.component";
 
 describe("Sign In component", () => {
