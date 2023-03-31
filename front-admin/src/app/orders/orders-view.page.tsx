@@ -10,7 +10,10 @@ import { CircularProgress, Grid } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store";
 import { fetchOrderItems } from "./store/orders.actions";
-import { getPendingSelector, OrderItemsSelector } from "./store/orders.selector";
+import {
+  getPendingSelector,
+  OrderItemsSelector,
+} from "./store/orders.selector";
 import OrderItemsViewTable from "../../components/order-items-view-form.component";
 
 // =========================== DTO's ===========================
@@ -25,11 +28,16 @@ const MainGrid = styled(Grid)`
 
 const OrderItemsViewPage: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
 
   const { orderId } = useParams();
 
   const pending = useSelector(getPendingSelector);
   const orderItems = useSelector(OrderItemsSelector);
+
+  const handleNavigateToProduct = (productId: string) => {
+    navigate(`/products/${productId}`);
+  };
 
   useEffect(() => {
     if (orderId) dispatch(fetchOrderItems(orderId));
@@ -38,9 +46,17 @@ const OrderItemsViewPage: FC = () => {
   return (
     <MainGrid>
       {(pending?.orders || pending?.orderItems) && (
-        <CircularProgress sx={{ alignSelf: "center" }} data-testid="pending-stub" />
+        <CircularProgress
+          sx={{ alignSelf: "center" }}
+          data-testid="pending-stub"
+        />
       )}
-      {orderItems && <OrderItemsViewTable orderItems={orderItems} />}
+      {orderItems && (
+        <OrderItemsViewTable
+          orderItems={orderItems}
+          handleNavigateToProduct={handleNavigateToProduct}
+        />
+      )}
     </MainGrid>
   );
 };

@@ -21,7 +21,13 @@ interface ColumnData {
   width: number;
 }
 
-const OrderItemsViewTable = ({ orderItems }: { orderItems: OrderItemDto[] }) => {
+const OrderItemsViewTable = ({
+  orderItems,
+  handleNavigateToProduct,
+}: {
+  orderItems: OrderItemDto[];
+  handleNavigateToProduct: (s: string) => void;
+}) => {
   const navigate = useNavigate();
   const capitalizeFirstLetter = (string: string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -44,7 +50,10 @@ const OrderItemsViewTable = ({ orderItems }: { orderItems: OrderItemDto[] }) => 
       <TableContainer component={Paper} {...props} ref={ref} />
     )),
     Table: (props) => (
-      <Table {...props} sx={{ borderCollapse: "separate", tableLayout: "fixed" }} />
+      <Table
+        {...props}
+        sx={{ borderCollapse: "separate", tableLayout: "fixed" }}
+      />
     ),
     TableHead,
     TableRow: ({ item: _item, ...props }) => <TableRow {...props} />,
@@ -79,8 +88,20 @@ const OrderItemsViewTable = ({ orderItems }: { orderItems: OrderItemDto[] }) => 
     return orderItems.length > 0 ? (
       <>
         {getColumns(orderItems[0]).map((column) => {
+          const isProductId = Boolean(column.dataKey === "product_id");
           return (
-            <TableCell key={column.dataKey} align="center">
+            <TableCell
+            sx={{
+              textDecoration: isProductId ? "underline" : null,
+              cursor: isProductId ? "pointer" : null
+            }}
+              key={column.dataKey}
+              align="center"
+              onClick={() =>
+                column.dataKey === "product_id" &&
+                handleNavigateToProduct(row[column.dataKey])
+              }
+            >
               {`${row[column.dataKey]}`}
             </TableCell>
           );

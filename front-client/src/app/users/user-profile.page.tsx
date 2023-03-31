@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // ========================== react ==========================
 import { FC, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,6 +12,9 @@ import { CircularProgress } from "@mui/material";
 // ========================== components ==========================
 import UserProfileFormComp from "../../components/user-profile-form.comp";
 
+// ========================== interfaces ==========================
+import { IUserWithTranslate } from "./types/user-translate.interface";
+
 // ========================== store ==========================
 import { AppDispatch } from "../../store";
 import {
@@ -20,6 +24,10 @@ import {
 } from "./store/users.selectors";
 import { getUserInfo, updateUserDetails } from "./store/users.actions";
 import { usersActions } from "./store/users.slice";
+
+// ========================== i18n ==========================
+import { useTranslation } from "react-i18next";
+
 
 const MainGrid = styled(Grid)`
   justify-content: center;
@@ -39,6 +47,14 @@ const UserEditPage: FC = () => {
   const pending = useSelector(userLoadingSelector);
   const getUser = usersActions.getUser;
 
+  const { t } = useTranslation();
+
+  const userWithTranslate: IUserWithTranslate = t("user", {
+    returnObjects: true,
+  });
+
+  const [isClicked, setIsClicked] = useState(false);
+
   useEffect(() => {
     dispatch(getUserInfo());
   }, []);
@@ -52,6 +68,7 @@ const UserEditPage: FC = () => {
   };
 
   const handleSave = (data: any) => {
+    setIsClicked(true);
     dispatch(updateUserDetails(data));
   };
 
@@ -63,7 +80,7 @@ const UserEditPage: FC = () => {
     <MainGrid>
       {userInfo && user ? (
         <UserProfileFormComp
-          formName={"USER PROFILE"}
+          isClicked={isClicked}
           user={user}
           userInfo={userInfo}
           disabled={disabled}
@@ -72,6 +89,7 @@ const UserEditPage: FC = () => {
           buttonOnclick={buttonOnclick}
           handleSave={handleSave}
           handleBack={handleBack}
+          userWithTranslate={userWithTranslate}
         />
       ) : (
         <CircularProgress data-testid="test-progress" />

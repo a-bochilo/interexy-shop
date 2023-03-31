@@ -67,5 +67,19 @@
     "middleName": "Middle name",
     "lastName": "Last name",
     "phone": "Phone"
+  },
+  "user": {
+    "profile": "My profile",
+    "firstname": "First name",
+    "middlename": "Middle name",
+    "lastname": "Last name",
+    "email": "Email",
+    "phone": "Phone",
+    "succsessMessage": "Information succesfully updated!",
+    "buttons": {
+      "edit": "Edit",
+      "save": "Save",
+      "cancel": "Cancel"
+    }
   }
 }

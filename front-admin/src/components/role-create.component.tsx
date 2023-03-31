@@ -26,7 +26,6 @@ import {
 // ====================== Interfaces & DTO's ==================
 import { UserPermissions } from "../app/roles/types/user-permissions.enum";
 import { UserRoles } from "../app/roles/types/user-roles.enum";
-import { RolesDto } from "../app/roles/types/roles.dto";
 import { formSchema } from "./roles-form.const";
 import { CreateRoleDto } from "../app/roles/types/create-role.dto";
 import TemporaryTypography from "./temporary-typography.component";

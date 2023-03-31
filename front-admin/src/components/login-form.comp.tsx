@@ -9,6 +9,7 @@ import { formSchema } from "./login-form.const";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Box, Paper, Typography } from "@mui/material";
+import TemporaryTypography from "./temporary-typography.component";
 
 interface IFormInput {
   email: string;
@@ -17,10 +18,10 @@ interface IFormInput {
 
 const LoginForm = ({
   handleSave,
-  error,
+  fetchingErrors,
 }: {
   handleSave: (s: IFormInput) => void;
-  error: boolean;
+  fetchingErrors: string | null;
 }) => {
   const {
     register,
@@ -30,7 +31,7 @@ const LoginForm = ({
   } = useForm<IFormInput>({
     defaultValues: {
       email: "superadmin@gmail.com",
-      password: "123123123",
+      password: "$2b$05$9TFe4fXQEaoYJNpdniw.O.IIByJncLurM20TWrGquevJlaGzweTy.",
     },
     mode: "onChange",
     resolver: yupResolver(formSchema),
@@ -101,6 +102,18 @@ const LoginForm = ({
           {errors.password?.message}
         </Typography>
 
+        {fetchingErrors !== null && (
+          <TemporaryTypography
+            variant="overline"
+            align="center"
+            color="error"
+            duration={10}
+            data-testid="error-stub"
+          >
+            {fetchingErrors}
+          </TemporaryTypography>
+        )}
+
         <Button
           type="submit"
           disabled={!isValid}
@@ -109,22 +122,6 @@ const LoginForm = ({
         >
           Login
         </Button>
-
-        {error === true ? (
-          <Box
-            sx={{
-              display: "flex",
-              border: "2px solid red",
-              padding: "5px",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Typography variant="caption" color={"red"}>
-              ERROR: FAILED TO SIGNIN
-            </Typography>
-          </Box>
-        ) : null}
       </form>
     </Paper>
   );

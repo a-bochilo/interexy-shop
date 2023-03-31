@@ -21,8 +21,6 @@ import { IOrdersColumnsTranslate } from "../app/orders/types/orders-translate.en
 import { OrderItemDto } from "../app/orders/types/order-item.dto";
 import { OrderDto } from "../app/orders/types/order.dto";
 
-
-
 const correctDate = (created: string) => new Date(created).toLocaleString();
 
 const Row = ({
@@ -30,11 +28,13 @@ const Row = ({
   order,
   ordersWithColumnsTranslate,
   handleGetOrderItem,
+  handleGetProductById,
 }: {
   orders: OrderDto;
   order: OrderItemDto[];
   ordersWithColumnsTranslate: IOrdersColumnsTranslate;
   handleGetOrderItem: (s: string) => void;
+  handleGetProductById: (s: string) => void;
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -87,7 +87,13 @@ const Row = ({
                 <TableBody>
                   {!!order.length
                     ? order.map((item, index) => (
-                        <TableRow key={index}>
+                        <TableRow
+                          sx={{
+                            cursor: "pointer",
+                          }}
+                          key={index}
+                          onClick={() => handleGetProductById(item.product_id)}
+                        >
                           <TableCell component="th" scope="row">
                             {item.product_name}
                           </TableCell>
@@ -121,11 +127,13 @@ const OrdersListTable = ({
   order,
   ordersWithColumnsTranslate,
   handleGetOrderItem,
+  handleGetProductById,
 }: {
   orders: OrderDto[];
   order: OrderItemDto[];
   ordersWithColumnsTranslate: IOrdersColumnsTranslate;
   handleGetOrderItem: (s: string) => void;
+  handleGetProductById: (s: string) => void;
 }) => {
   return (
     <TableContainer component={Paper}>
@@ -152,6 +160,7 @@ const OrdersListTable = ({
               order={order}
               handleGetOrderItem={() => handleGetOrderItem(item.id)}
               ordersWithColumnsTranslate={ordersWithColumnsTranslate}
+              handleGetProductById={handleGetProductById}
             />
           ))}
         </TableBody>
