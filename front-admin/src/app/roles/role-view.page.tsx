@@ -78,7 +78,7 @@ const RoleViewPage: FC = () => {
 
   return (
     <MainGrid>
-      {(pending.roles || pending.chosenRole) && (
+      {pending.roles && (
         <CircularProgress
           sx={{ alignSelf: "center" }}
           data-testid="pending-stub"

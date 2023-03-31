@@ -22,6 +22,11 @@ interface ColumnData {
   width: number;
 }
 
+const correctDate = (date: string) => {
+  const newDate = new Date(date);
+  return newDate.toLocaleString();
+};
+
 const OrderItemsViewTable = ({
   orderItems,
   handleNavigateToProduct,
@@ -103,7 +108,9 @@ const OrderItemsViewTable = ({
                 handleNavigateToProduct(row[column.dataKey])
               }
             >
-              {`${row[column.dataKey]}`}
+              {column.dataKey === "created" || column.dataKey === "updated"
+                ? `${correctDate(row[column.dataKey])}`
+                : `${row[column.dataKey]}`}
             </TableCell>
           );
         })}

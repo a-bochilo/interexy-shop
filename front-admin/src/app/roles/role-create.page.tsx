@@ -50,7 +50,7 @@ const RoleViewPage: FC<string> = () => {
     dispatch(clearErrors());
     navigate(-1);
   };
-
+ 
   return (
     <MainGrid>
       <CreateRoleForm

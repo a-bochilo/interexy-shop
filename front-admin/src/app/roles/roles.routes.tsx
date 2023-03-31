@@ -1,6 +1,6 @@
 // ========================== react ==========================
 import React, { FC, PropsWithChildren, Suspense } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 // ========================== mui ==========================
 import CircularProgress from "@mui/material/CircularProgress";
@@ -12,9 +12,7 @@ const Suspended: FC<PropsWithChildren & { element: any }> = ({
   return (
     <Suspense
       fallback={
-        <Box sx={{ display: "flex" }}>
-          <CircularProgress />
-        </Box>
+        <Box sx={{ display: "flex" }}>{/* <CircularProgress /> */}</Box>
       }
     >
       <Element />
@@ -46,7 +44,7 @@ const RolesRoutes: FC = () => {
       />
 
       {/* DEFAULT */}
-      {/* <Route path="*" element={<Navigate to="/" />} /> */}
+      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
 };

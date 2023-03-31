@@ -21,6 +21,11 @@ interface ColumnData {
   width: number;
 }
 
+const correctDate = (date: string) => {
+  const newDate = new Date(date);
+  return newDate.toLocaleString();
+};
+
 const RolesTable = ({ roles }: { roles: RolesDto[] }) => {
   const navigate = useNavigate();
 
@@ -45,7 +50,10 @@ const RolesTable = ({ roles }: { roles: RolesDto[] }) => {
       <TableContainer component={Paper} {...props} ref={ref} />
     )),
     Table: (props) => (
-      <Table {...props} sx={{ borderCollapse: "separate", tableLayout: "fixed" }} />
+      <Table
+        {...props}
+        sx={{ borderCollapse: "separate", tableLayout: "fixed" }}
+      />
     ),
     TableHead,
     TableRow: ({ item: _item, ...props }) =>
@@ -94,7 +102,9 @@ const RolesTable = ({ roles }: { roles: RolesDto[] }) => {
           {getColumns(roles[0]).map((column) => {
             return (
               <TableCell key={column.dataKey} align="center">
-                {`${newRow[column.dataKey]}`}
+                {column.dataKey === "created" || column.dataKey === "updated"
+                  ? `${correctDate(newRow[column.dataKey])}`
+                  : `${newRow[column.dataKey]}`}
               </TableCell>
             );
           })}

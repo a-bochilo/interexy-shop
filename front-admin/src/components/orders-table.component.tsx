@@ -21,6 +21,11 @@ interface ColumnData {
   width: number;
 }
 
+const correctDate = (date: string) => {
+  const newDate = new Date(date);
+  return newDate.toLocaleString();
+};
+
 const OrdersTable = ({ orders }: { orders: OrderDto[] }) => {
   const navigate = useNavigate();
   const capitalizeFirstLetter = (string: string) => {
@@ -90,7 +95,9 @@ const OrdersTable = ({ orders }: { orders: OrderDto[] }) => {
         {getColumns(orders[0]).map((column) => {
           return (
             <TableCell key={column.dataKey} align="center">
-              {`${row[column.dataKey]}`}
+              {column.dataKey === "created" || column.dataKey === "updated"
+                ? `${correctDate(row[column.dataKey])}`
+                : `${row[column.dataKey]}`}
             </TableCell>
           );
         })}

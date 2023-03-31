@@ -34,11 +34,12 @@ import { IRoleState } from "../app/roles/types/role-state.interface";
 // =========================== component ======================================
 import TemporaryTypography from "./temporary-typography.component";
 
-
 interface IFormInput {
   id: number;
   type: UserRoles;
   name: string;
+  created: string;
+  updated: string;
   permissions: UserPermissions[];
 }
 
@@ -85,7 +86,10 @@ const RoleForm = ({
   });
 
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    handleSave({ ...data, id: role.id });
+    handleSave({
+      ...data,
+      id: role.id,
+    });
   };
 
   return (

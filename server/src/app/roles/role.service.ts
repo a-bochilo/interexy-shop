@@ -126,6 +126,7 @@ export class RoleService {
     //==== If current role id === id in role in database, and role name is unique => update current role =======
 
     Object.assign(role, createRoleDto);
+    role.updated = new Date();
     return await this.roleRepository.updateRole(role);
   }
 }

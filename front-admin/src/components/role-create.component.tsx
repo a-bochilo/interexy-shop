@@ -233,8 +233,6 @@ const CreateRoleForm = ({
             flexDirection: "column",
           }}
         >
-          {fetchingPending && <CircularProgress data-testid="pending-stub" />}
-
           {fetchErrors && (
             <TemporaryTypography
               variant="overline"
@@ -266,34 +264,34 @@ const CreateRoleForm = ({
               </Box>
             </TemporaryTypography>
           )}
-        </Box>
 
-        <Button
-          sx={{
-            width: "100%",
-          }}
-          data-testid="create-btn"
-          id="createRoleButton"
-          type="submit"
-          variant="contained"
-          color="success"
-          placeholder="createRoleButton"
-          disabled={!isValid}
-        >
-          CREATE
-        </Button>
-        <Button
-          sx={{
-            width: "100%",
-          }}
-          id="backToRolesButton"
-          variant="contained"
-          color="primary"
-          placeholder="backToRolesButton"
-          onClick={handleBack}
-        >
-          BACK TO ROLES
-        </Button>
+          <Button
+            sx={{
+              width: "100%",
+            }}
+            data-testid="create-btn"
+            id="createRoleButton"
+            type="submit"
+            variant="contained"
+            color="success"
+            placeholder="createRoleButton"
+            disabled={!isValid}
+          >
+            CREATE
+          </Button>
+          <Button
+            sx={{
+              width: "100%",
+            }}
+            id="backToRolesButton"
+            variant="contained"
+            color="primary"
+            placeholder="backToRolesButton"
+            onClick={handleBack}
+          >
+            BACK TO ROLES
+          </Button>
+        </Box>
       </form>
     </Paper>
   );
