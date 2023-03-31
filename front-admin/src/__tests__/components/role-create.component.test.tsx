@@ -1,11 +1,11 @@
 /* eslint-disable testing-library/no-unnecessary-act */
 /* eslint-disable testing-library/no-node-access */
-import { BrowserRouter } from "react-router-dom";
 
-// =========================== React-testing ===========================";
+// =========================== react ===========================
+import { BrowserRouter } from "react-router-dom";
 import { fireEvent, render, screen, act } from "@testing-library/react";
 
-// =========================== Component ===============================
+// =========================== component ===============================
 import CreateRoleForm from "../../components/role-create.component";
 
 describe("Role edit form", () => {
@@ -40,7 +40,7 @@ describe("Role edit form", () => {
     expect(button).not.toBeDisabled();
   });
 
-  it("should be return error message", async () => {
+  it("should return an error message", async () => {
     render(
       <CreateRoleForm
         fetchingPending={false}
@@ -67,7 +67,19 @@ describe("Role edit form", () => {
     expect(screen.getByTestId("create-btn")).toBeDisabled();
   });
 
-  it("should be have expand button", async () => {
+  it("renders CircularProgress when roles are pending", async () => {
+    render(
+      <CreateRoleForm
+        fetchingPending={true}
+        fetchErrors={null}
+        isClicked={false}
+        {...mockHandlers}
+      />
+    );
+    await screen.findByTestId(/pending-stub/i);
+  });
+
+  it("should have expand button", async () => {
     render(
       <BrowserRouter>
         <CreateRoleForm
@@ -81,5 +93,17 @@ describe("Role edit form", () => {
     const button = screen.getByTestId("ExpandMoreIcon");
     await act(async () => await fireEvent.click(button));
     expect(screen.getByDisplayValue(/createproduct/i)).toBeInTheDocument();
+  });
+
+  it("renders CheckCircleIcon when roles are created", async () => {
+    render(
+      <CreateRoleForm
+        fetchingPending={false}
+        fetchErrors={null}
+        isClicked={true}
+        {...mockHandlers}
+      />
+    );
+    await screen.findByTestId(/done-stub/i);
   });
 });

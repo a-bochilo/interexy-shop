@@ -1,25 +1,25 @@
-// ========================== Nest ==========================
+// ========================== nest ==========================
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 
-// ========================== Entities & DTO's ==========================
+// ========================== entities ==========================
 import { UserEntity } from "../users/entities/user.entity";
 import { RoleEntity } from "../roles/entities/role.entity";
 import { UserDetailsEntity } from "../users/entities/user-details.entity";
+import { CartEntity } from "../cart/entities/cart.entity";
 
-// ========================== Repositories ==============================
+// ========================== repositories ==============================
 import { UserRepository } from "../users/repos/user.repository";
 import { RoleRepository } from "../roles/repos/role.repository";
 import { UserDetailsRepository } from "../users/repos/user-details.repository";
+import { CartRepository } from "../cart/repos/cart.repository";
 
-// ========================== Services & Controllers ====================
+// ========================== srvices & controllers ====================
 import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
 
-// ========================== Modules ===================================
+// ========================== modules ===================================
 import { SecurityModule } from "../security/security.module";
-import { CartRepository } from "../cart/repos/cart.repository";
-import { CartEntity } from "../cart/entities/cart.entity";
 
 @Module({
   imports: [TypeOrmModule.forFeature([

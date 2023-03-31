@@ -1,5 +1,8 @@
+// ========================== nest ==========================
 import { ApiProperty } from "@nestjs/swagger";
 import { IsEmail, IsString, validate } from "class-validator";
+
+// ========================== enum ==========================
 import { ErrorCodes } from "../../../shared/types/error-codes.enum";
 
 export class UserSignInDto {

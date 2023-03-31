@@ -12,56 +12,56 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
-// =========================== dto ===========================
+// =========================== type ===========================
 import { UserDto } from "../app/users/types/user-dto.type";
 
 interface ColumnData {
-  dataKey: keyof UserDto;
-  label: string;
-  width: number;
+    dataKey: keyof UserDto;
+    label: string;
+    width: number;
 }
 
 const UsersTable = ({ users }: { users: UserDto[] }) => {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  const capitalizeFirstLetter = (string: string) => {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  };
+    const capitalizeFirstLetter = (string: string) => {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    };
 
-  const getColumns = (user: UserDto): ColumnData[] => {
-    const keys = Object.keys(user) as (keyof UserDto)[];
-    const columns = keys.map((key) => {
-      return {
-        width: 120,
-        label: capitalizeFirstLetter(key),
-        dataKey: key,
-      };
-    });
-    return columns;
-  };
+    const getColumns = (user: UserDto): ColumnData[] => {
+        const keys = Object.keys(user) as (keyof UserDto)[];
+        const columns = keys.map((key) => {
+            return {
+                width: 120,
+                label: capitalizeFirstLetter(key),
+                dataKey: key,
+            };
+        });
+        return columns;
+    };
 
-  const VirtuosoTableComponents: TableComponents<UserDto> = {
-    Scroller: React.forwardRef<HTMLDivElement>((props, ref) => (
-      <TableContainer component={Paper} {...props} ref={ref} />
-    )),
-    Table: (props) => (
-      <Table
-        {...props}
-        sx={{ borderCollapse: "separate", tableLayout: "fixed" }}
-      />
-    ),
-    TableHead,
-    TableRow: ({ item: _item, ...props }) => (
-      <TableRow
-        {...props}
-        onClick={() => navigate(`${_item.id}`)}
-        sx={{ cursor: "pointer" }}
-      />
-    ),
-    TableBody: React.forwardRef<HTMLTableSectionElement>((props, ref) => (
-      <TableBody {...props} ref={ref} />
-    )),
-  };
+    const VirtuosoTableComponents: TableComponents<UserDto> = {
+        Scroller: React.forwardRef<HTMLDivElement>((props, ref) => (
+            <TableContainer component={Paper} {...props} ref={ref} />
+        )),
+        Table: (props) => (
+            <Table
+                {...props}
+                sx={{ borderCollapse: "separate", tableLayout: "fixed" }}
+            />
+        ),
+        TableHead,
+        TableRow: ({ item: _item, ...props }) => (
+            <TableRow
+                {...props}
+                onClick={() => navigate(`${_item.id}`)}
+                sx={{ cursor: "pointer" }}
+            />
+        ),
+        TableBody: React.forwardRef<HTMLTableSectionElement>((props, ref) => (
+            <TableBody {...props} ref={ref} />
+        )),
+    };
 
   const fixedHeaderContent = () => {
     return users.length > 0 ? (
@@ -80,9 +80,7 @@ const UsersTable = ({ users }: { users: UserDto[] }) => {
           </TableCell>
         ))}
       </TableRow>
-    ) : (
-      ""
-    );
+    ) : null;
   };
 
   const rowContent = (_index: number, row: UserDto) => {
@@ -103,22 +101,20 @@ const UsersTable = ({ users }: { users: UserDto[] }) => {
           );
         })}
       </>
-    ) : (
-      ""
-    );
+    ) : null;
   };
 
-  return (
-    <Paper style={{ height: "calc(100vh - 64px)", width: "100%" }}>
-      <TableVirtuoso
-        data={users}
-        components={VirtuosoTableComponents}
-        fixedHeaderContent={fixedHeaderContent}
-        itemContent={rowContent}
-        initialItemCount={1}
-      />
-    </Paper>
-  );
+    return (
+        <Paper style={{ height: "calc(100vh - 64px)", width: "100%" }}>
+            <TableVirtuoso
+                data={users}
+                components={VirtuosoTableComponents}
+                fixedHeaderContent={fixedHeaderContent}
+                itemContent={rowContent}
+                initialItemCount={1}
+            />
+        </Paper>
+    );
 };
 
 export default UsersTable;

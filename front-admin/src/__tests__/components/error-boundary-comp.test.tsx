@@ -1,9 +1,12 @@
+// ========================== react testing library ==========================
 import { render, screen } from "@testing-library/react";
-import ErrorBoundary from "../../components/error-boundary.comp";
 import "@testing-library/jest-dom";
 
+// ========================== components ==========================
+import ErrorBoundary from "../../components/error-boundary.comp";
+
 describe("Error Boundary", () => {
-  test("Error Boundary", () => {
+  test("should work correctly", () => {
     const ThrowError = () => {
       throw new Error("Test");
     };

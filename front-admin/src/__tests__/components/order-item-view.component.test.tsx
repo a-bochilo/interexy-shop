@@ -1,13 +1,12 @@
 /* eslint-disable testing-library/no-unnecessary-act */
+// =========================== react ===========================
 import { BrowserRouter } from "react-router-dom";
-
-// =========================== React-testing ===========================
 import { render, screen, fireEvent, act } from "@testing-library/react";
 
-// =========================== Mocks ===================================
+// =========================== mocks ===================================
 import { mockOrderItems } from "../mocks/order.data.mock";
 
-// =========================== Component ===============================
+// =========================== component ===============================
 import OrderItemsViewTable from "../../components/order-items-view-form.component";
 
 describe("Order table", () => {

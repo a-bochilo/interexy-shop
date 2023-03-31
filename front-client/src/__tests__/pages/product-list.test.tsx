@@ -1,40 +1,39 @@
 /* eslint-disable testing-library/no-node-access */
 /* eslint-disable testing-library/no-unnecessary-act */
-import { Provider } from "react-redux";
-import thunk from "redux-thunk";
-
-// =========================== Libs ===========================
+// =========================== lodash ===========================
 import _ from "lodash";
 
-// =========================== React-testing ===========================
+// =========================== react ===========================
+import { Provider } from "react-redux";
+import thunk from "redux-thunk";
 import { act, fireEvent, render, screen } from "@testing-library/react";
-
-// =========================== Mocks ===========================
 import configureStore from "redux-mock-store";
+
+// =========================== mocks ===========================
 import { initialStateWithCart } from "../mocks/products.data.mocks";
 
-// =========================== Component ===========================
+// =========================== component ===========================
 import ProductListPage from "../../app/products/product-list.page";
 
-// =========================== Mock Lodash ===========================
+// =========================== mock lodash ===========================
 jest.unmock("lodash");
 _.debounce = (fn: any, t: any) => fn();
 
-// ====================== Mock useNavi ======================
+// ====================== mock useNavigate ======================
 const mockedUsedNavigate = jest.fn();
 jest.mock("react-router-dom", () => ({
   ...(jest.requireActual("react-router-dom") as any),
   useNavigate: () => mockedUsedNavigate,
 }));
 
-// =========================== Mock Dispatch ===========================
+// =========================== mock dispatch ===========================
 const mockedDispatch = jest.fn();
 jest.mock("react-redux", () => ({
   ...jest.requireActual("react-redux"),
   useDispatch: () => mockedDispatch,
 }));
 
-// =========================== Mock Store ===========================
+// =========================== mock store ===========================
 const mockStore = configureStore([thunk]);
 
 describe("ProductList page", () => {

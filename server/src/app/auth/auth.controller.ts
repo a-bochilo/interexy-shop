@@ -1,4 +1,4 @@
-// ========================== Nest ==========================
+// ========================== nest ==========================
 import {
     Body,
     Controller,
@@ -10,21 +10,19 @@ import {
 } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
-// ========================== Entities & DTO's ==========================
+// ========================== dto & enum ==========================
 import { UserSignInDto } from "./dtos/user-sign-in.dto";
 import { TokenDto } from "../security/dtos/token.dto";
 import { CreateUserDto } from "../users/dtos/user-create.dto";
 import { UserSessionDto } from "../users/dtos/user-session.dto";
+import { UserPermissions } from "../../shared/types/user-permissions.enum";
 
-// ========================== Services ====================
+// ========================== services ====================
 import { AuthService } from "./auth.service";
 import { SecurityService } from "../security/security.service";
 
-// ========================== Security ====================
+// ========================== decorators ====================
 import { AuthPermissionsGuard } from "../security/decorators/auth-permissions-guard.decorator";
-import { UserPermissions } from "../../shared/types/user-permissions.enum";
-
-// ========================== Decorators ====================
 import { User } from "../users/decorators/user.decorator";
 
 @ApiTags("Authentication")

@@ -1,12 +1,17 @@
 /* eslint-disable testing-library/no-unnecessary-act */
+// =========================== react testing library ===========================
+import {
+  render,
+  waitFor,
+  screen,
+  act,
+  fireEvent,
+} from "@testing-library/react";
 
-// =========================== React-testing ===========================
-import { render, waitFor, screen, act, fireEvent } from "@testing-library/react";
-
-// =========================== Mocks ===================================
+// =========================== mocks ===================================
 import { authWithTranslate } from "../mocks/auth.data.mock";
 
-// =========================== Component ===============================
+// =========================== component ===============================
 import SignInForm from "../../components/signIn-form.component";
 
 describe("Sign In component", () => {
@@ -44,7 +49,7 @@ describe("Sign In component", () => {
     expect(await screen.findByText("Sign In")).toBeInTheDocument();
   });
 
-  it("should be show error", async () => {
+  it("should show an error", async () => {
     render(
       <SignInForm
         handleSignIn={handleSignIn}
@@ -54,5 +59,29 @@ describe("Sign In component", () => {
       />
     );
     expect(screen.getByText("Error! Test error!")).toBeInTheDocument();
+    expect(screen.getByTestId("error-stub")).toBeInTheDocument();
+  });
+
+  it("should have a submit button is disabled", async () => {
+    render(
+      <SignInForm
+        handleSignIn={handleSignIn}
+        fecthErrors={null}
+        handleRedirectToSignUp={handleRedirectToSignUp}
+        authWithTranslate={authWithTranslate}
+      />
+    );
+    const emailInput = screen.getByTestId("email-stub");
+    const passwordInput = screen.getByTestId("password-stub");
+
+    fireEvent.change(emailInput, {
+      target: { value: "test@test.com" },
+    });
+
+    fireEvent.change(passwordInput, {
+      target: { value: "123123" },
+    });
+
+    expect(screen.getByTestId("signin-button")).toBeDisabled();
   });
 });

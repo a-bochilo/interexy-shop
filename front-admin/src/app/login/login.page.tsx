@@ -26,7 +26,6 @@ export const handleResponse = (response: any, navigate: (path: string) => void) 
       window.location.replace("http://localhost:3001");
     } else {
       window.localStorage.setItem("token", response.payload);
-      console.log(window.localStorage.getItem("token"))
       navigate("/products");
     }
   }

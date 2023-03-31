@@ -1,14 +1,12 @@
 import * as dotenv from "dotenv";
 dotenv.config();
 
-// ========================== Common ==========================
+// ========================== nest ==========================
 import { Injectable } from "@nestjs/common";
-
-// ========================== JWT ==========================
 import { ExtractJwt, Strategy } from "passport-jwt";
 import { PassportStrategy } from "@nestjs/passport";
 
-// ========================== DTO's ==========================
+// ========================== dto ==========================
 import { UserSessionDto } from "../users/dtos/user-session.dto";
 
 @Injectable()

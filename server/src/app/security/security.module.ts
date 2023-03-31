@@ -1,23 +1,23 @@
 import * as dotenv from "dotenv";
 dotenv.config();
 
-// ========================== Common ==========================
+// ========================== nest ==========================
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-
-// ========================== JWT ==========================
 import { JwtModule } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
+
+// ========================== jwt ==========================
 import { JwtStrategy } from "./jwt.strategy";
 
-// ========================== Services, Controllers ==========================
+// ========================== services & controllers ==========================
 import { SecurityService } from "./security.service";
 
-// ================================= Entities ================================
+// ================================= entities ================================
 import { UserEntity } from "../users/entities/user.entity";
 import { RoleEntity } from "../roles/entities/role.entity";
 
-// ================================== Repos ==================================
+// ================================== repository ==================================
 import { UserRepository } from "../users/repos/user.repository";
 import { RoleRepository } from "../roles/repos/role.repository";
 

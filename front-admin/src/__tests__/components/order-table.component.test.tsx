@@ -1,14 +1,14 @@
 /* eslint-disable testing-library/no-node-access */
 /* eslint-disable testing-library/no-container */
 // eslint-disable-next-line testing-library/no-unnecessary-act
+// =========================== react ===========================
 import { BrowserRouter } from "react-router-dom";
-// =========================== React-testing ===========================
 import { render } from "@testing-library/react";
 
-// =========================== Mocks ===================================
+// =========================== mocks ===================================
 import { order } from "../mocks/order.data.mock";
 
-// =========================== Component ===============================
+// =========================== component ===============================
 import OrdersTable from "../../components/orders-table.component";
 
 describe("Order table", () => {

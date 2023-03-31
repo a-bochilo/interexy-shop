@@ -1,10 +1,10 @@
-// =========================== React-testing ===========================
+// =========================== react testing library ===========================
 import { render, screen } from "@testing-library/react";
 
-// =========================== Mocks ===================================
+// =========================== mocks ===================================
 import { role } from "../mocks/role.data.mock";
 
-// =========================== Component ===============================
+// =========================== component ===============================
 import RoleForm from "../../components/roles-form.component";
 
 describe("Role edit form", () => {
@@ -37,7 +37,7 @@ describe("Role edit form", () => {
     );
   });
 
-  it("should undisable create button in case form in create mode", async () => {
+  it("should not disable create button in case form in create mode", async () => {
     render(
       <RoleForm
         role={role}
@@ -83,38 +83,9 @@ describe("Role edit form", () => {
         handleSave={mockHandlers.handleSave}
       />
     );
-
-    //   it("should call 'setIsEditable' when edit button clicked", async () => {
-    //     await act(async () => render(<ProductEditForm {...mockProps} isEditable={false} />));
-    //     await act(async () => fireEvent.click(screen.getByText(/edit/i)));
-
-    //     await waitFor(() => expect(mockHandlers.setIsEditable).toHaveBeenCalledTimes(1));
-    //   });
-
-    //   it("should call 'handleDelete' when delete button clicked", async () => {
-    //     await act(async () => render(<ProductEditForm {...mockProps} isEditable={false} />));
-    //     await act(async () => fireEvent.click(screen.getByText(/delete/i)));
-
-    //     await waitFor(() => expect(mockHandlers.handleDelete).toHaveBeenCalledTimes(1));
-    //   });
-
-    //   it("disables save button when form is invalid", async () => {
-    //     await act(async () => render(<ProductEditForm {...mockProps} isEditable={true} />));
-    //     const input = screen
-    //       .getByLabelText("quantity")
-    //       .querySelector("input") as HTMLInputElement;
-
-    //     await act(async () =>
-    //       fireEvent.change(input, {
-    //         target: { value: -5 },
-    //       })
-    //     );
-
-    //     await waitFor(() => expect(screen.getByText(/save/i)).toBeDisabled());
-    //   });
   });
 
-  it("should be return error message", async () => {
+  it("should return an error message", async () => {
     render(
       <RoleForm
         role={role}

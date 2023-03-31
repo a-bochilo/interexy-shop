@@ -1,16 +1,10 @@
-import {
-  IsNotEmpty,
-  IsEmail,
-  IsString,
-  IsNumber,
-  Length,
-} from "class-validator";
+// ========================== nest ==========================
+import { IsEmail, IsString, Length } from "class-validator";
 
-// ========================== DTO's ==========================
+// ========================== dto ==========================
 import { UserDetailsDto } from "../../users/dtos/user-details.dto";
 
-// ========================== Entities ==========================
-import { RoleEntity } from "../../roles/entities/role.entity";
+// ========================== entities ==========================
 import { ApiProperty } from "@nestjs/swagger";
 
 export class UserSignUpDto {
@@ -19,7 +13,7 @@ export class UserSignUpDto {
     description: "Email",
     required: true,
   })
-  @IsEmail(undefined, { message: "Uncorrect email" })
+  @IsEmail(undefined, { message: "Incorrect email" })
   readonly email!: string;
 
   @ApiProperty({
@@ -27,11 +21,11 @@ export class UserSignUpDto {
     description: "Password",
     required: true,
   })
-  @Length(6, 16, { message: "Uncorrect length, min 6, max 16" })
+  @Length(6, 16, { message: "Incorrect length, min 6, max 16" })
   readonly password!: string;
 
   @ApiProperty({
-    example: "+375 (29) 111 11 11",
+    example: "+375291111111",
     description: "Phone",
     required: true,
   })

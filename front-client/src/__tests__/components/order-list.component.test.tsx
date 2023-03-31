@@ -1,14 +1,24 @@
+/* eslint-disable testing-library/no-unnecessary-act */
 /* eslint-disable testing-library/no-node-access */
 /* eslint-disable testing-library/no-container */
 // eslint-disable-next-line testing-library/no-unnecessary-act
+// =========================== react testing library ===========================
+import {
+  render,
+  waitFor,
+  screen,
+  act,
+  fireEvent,
+} from "@testing-library/react";
 
-// =========================== React-testing ===========================
-import { render, waitFor, screen, act, fireEvent } from "@testing-library/react";
+// =========================== mocks ===================================
+import {
+  order,
+  orderItem,
+  ordersWithColumnsTranslate,
+} from "../mocks/order.data.mock";
 
-// =========================== Mocks ===================================
-import { order, orderItem, ordersWithColumnsTranslate } from "../mocks/order.data.mock";
-
-// =========================== Component ===============================
+// =========================== component ===============================
 import OrdersListTable from "../../components/orders-list.component";
 
 describe("Order list component with orders", () => {

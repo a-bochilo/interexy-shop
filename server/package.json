@@ -24,7 +24,8 @@
         "typeorm:generate-migration": "npm run typeorm -- -d ./src/config/data-source.ts migration:generate ./migrations/$npm_config_name",
         "typeorm:create-migration": "npm run typeorm -- migration:create ./migrations/$npm_config_name",
         "typeorm:revert-migration": "npm run typeorm -- -d ./src/config/data-source.ts migration:revert",
-        "drop-db": "npm run typeorm schema:drop -- -d ./src/config/data-source.ts"
+        "drop-db": "npm run typeorm schema:drop -- -d ./src/config/data-source.ts",
+        "start-docker-container": "npm run typeorm migration:run -- -d ./src/config/data-source.ts && nest start --watch"
     },
     "dependencies": {
         "@nestjs/common": "^9.0.0",
@@ -36,7 +37,6 @@
         "@nestjs/schedule": "^2.2.0",
         "@nestjs/swagger": "^6.2.1",
         "@nestjs/typeorm": "^9.0.1",
-        "bcrypt": "^5.1.0",
         "class-transformer": "^0.5.1",
         "class-validator": "^0.14.0",
         "cross-env": "^7.0.3",
