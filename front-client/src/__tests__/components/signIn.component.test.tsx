@@ -8,7 +8,7 @@ import {
   fireEvent,
 } from "@testing-library/react";
 
-// =========================== mocks ===================================
+// =========================== Mocks ===================================
 import { authWithTranslate } from "../mocks/auth.data.mock";
 
 // =========================== component ===============================
@@ -30,9 +30,6 @@ describe("Sign In component", () => {
     );
     await act(async () => fireEvent.click(screen.getByText(/Sign In/i)));
     await waitFor(() => expect(SubmitHandler).toBeDefined());
-
-    await act(async () => fireEvent.click(screen.getByText(/Sign In/i)));
-    await waitFor(() => expect(handleSignIn).toBeDefined());
   });
 
   it("should have a submit button", async () => {
@@ -62,7 +59,7 @@ describe("Sign In component", () => {
     expect(screen.getByTestId("error-stub")).toBeInTheDocument();
   });
 
-  it("should have a submit button is disabled", async () => {
+  it("should have a submit button is enable", async () => {
     render(
       <SignInForm
         handleSignIn={handleSignIn}

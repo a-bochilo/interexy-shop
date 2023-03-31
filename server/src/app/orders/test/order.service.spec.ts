@@ -1,16 +1,17 @@
+// ============================ nest ====================================
 import { Test, TestingModule } from "@nestjs/testing";
 import { HttpException } from "@nestjs/common";
 
-// ========================== Services & Controllers ====================
+// ============================ services ================================
 import { OrderService } from "../order.service";
 
-// ========================== Repositories ==============================
+// ========================== repositories ==============================
 import { UserRepository } from "../../users/repos/user.repository";
 import { ProductsRepository } from "../../products/repos/products.repository";
 import { OrderItemRepository } from "../repos/order-item.repository";
 import { OrderRepository } from "../repos/order.repository";
 
-// ============================== Mocks =================================
+// ============================== mocks =================================
 import {
   orderItemRepositoryFake,
   productsRepositoryFake,
@@ -27,9 +28,9 @@ import {
 
 jest.mock("nestjs-i18n", () => ({
   I18nContext: {
-      current: () => ({
-          t: () => "text",
-      }),
+    current: () => ({
+      t: () => "text",
+    }),
   },
 }));
 
@@ -120,13 +121,17 @@ describe("Order service", () => {
 
   describe("method: Create order item", () => {
     it("should be return new order item", async () => {
-      expect(await service.createOrderItem(order, product, 20)).toEqual(orderItem);
+      expect(await service.createOrderItem(order, product, 20)).toEqual(
+        orderItem
+      );
     });
   });
 
   describe("method: Get order items by orderId", () => {
     it("should be return order items", async () => {
-      expect(await service.getOrderItemByOrderId(order.id)).toEqual([orderItem]);
-    })
-  })
+      expect(await service.getOrderItemByOrderId(order.id)).toEqual([
+        orderItem,
+      ]);
+    });
+  });
 });

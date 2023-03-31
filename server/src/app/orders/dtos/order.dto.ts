@@ -1,4 +1,7 @@
+// ========================== dto's ======================================
 import { UUIDDto } from "../../../shared/dtos/uuid.dto";
+
+// ========================== entities ===================================
 import { OrderEntity } from "../entities/order.entity";
 
 export class OrderDto extends UUIDDto {

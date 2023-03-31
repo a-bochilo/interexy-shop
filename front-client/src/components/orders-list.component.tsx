@@ -1,6 +1,8 @@
-import { OrderDto } from "../app/orders/types/order.dto";
-
+// ========================== react ==========================
 import * as React from "react";
+import { useState } from "react";
+
+// ========================== mui ==========================
 import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
@@ -13,9 +15,13 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import { useState } from "react";
+
+// ========================== enums & types =================
 import { IOrdersColumnsTranslate } from "../app/orders/types/orders-translate.enum";
 import { OrderItemDto } from "../app/orders/types/order-item.dto";
+import { OrderDto } from "../app/orders/types/order.dto";
+
+
 
 const correctDate = (created: string) => new Date(created).toLocaleString();
 
@@ -52,7 +58,9 @@ const Row = ({
         <TableCell component="th" scope="row">
           {orders.id.split("-").reverse()[0]}
         </TableCell>
-        <TableCell align="right">{correctDate(orders.created.toString())}</TableCell>
+        <TableCell align="right">
+          {correctDate(orders.created.toString())}
+        </TableCell>
         <TableCell align="right">{orders.total} $</TableCell>
       </TableRow>
       <TableRow>
@@ -83,8 +91,12 @@ const Row = ({
                           <TableCell component="th" scope="row">
                             {item.product_name}
                           </TableCell>
-                          <TableCell align="right">{item.product_quantity}</TableCell>
-                          <TableCell align="right">{item.product_price} $</TableCell>
+                          <TableCell align="right">
+                            {item.product_quantity}
+                          </TableCell>
+                          <TableCell align="right">
+                            {item.product_price} $
+                          </TableCell>
                           <TableCell align="right">
                             {Math.round(
                               item.product_quantity * item.product_price * 100

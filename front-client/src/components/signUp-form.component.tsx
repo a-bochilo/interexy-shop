@@ -1,19 +1,22 @@
 // ========================== react ==========================
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 
-// ========================== yup ==========================
+// ========================== yup ============================
 import { formSchema } from "./signUp-form.const";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-// ========================== mui ==========================
+// ========================== mui ============================
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import DoneIcon from "@mui/icons-material/Done";
 import { Box, CircularProgress, Paper, Typography } from "@mui/material";
+
+// ========================== interfaces =====================
 import { IFormInput } from "../app/auth/types/form-input.interface";
-import TemporaryTypography from "./temporary-typography.component";
 import { IAuthTranslate } from "../app/auth/types/auth-translate.interface";
-import { ISignUpTemplate } from "../app/auth/types/signUp.interface";
+
+// ========================== components ======================
+import TemporaryTypography from "./temporary-typography.component";
 
 const SignUpForm = ({
   handleSignUp,
@@ -36,7 +39,8 @@ const SignUpForm = ({
     resolver: yupResolver(formSchema),
   });
 
-  const onSubmit: SubmitHandler<IFormInput> = (data: IFormInput) => handleSignUp(data);
+  const onSubmit: SubmitHandler<IFormInput> = (data: IFormInput) =>
+    handleSignUp(data);
 
   return (
     <Paper
@@ -178,7 +182,7 @@ const SignUpForm = ({
               variant="outlined"
               {...register("confirmPassword")}
               placeholder="confirmpass"
-              //type="password"
+              type="password"
             />
           )}
         />
@@ -195,21 +199,23 @@ const SignUpForm = ({
             width: "100%",
           }}
         >
-          {fetchingPending !== undefined && (
+          {fetchingPending !== undefined && fetchingPending === true && (
             <CircularProgress data-testid="pending-stub" />
           )}
 
-          {fetchingPending !== undefined && fetchingErrors !== undefined && (
-            <TemporaryTypography
-              variant="overline"
-              align="center"
-              color="success.main"
-              duration={2}
-              data-testid="done-stub"
-            >
-              <DoneIcon />
-            </TemporaryTypography>
-          )}
+          {fetchingPending !== undefined &&
+            fetchingErrors === undefined &&
+            isValid === true && (
+              <TemporaryTypography
+                variant="overline"
+                align="center"
+                color="success.main"
+                duration={2}
+                data-testid="done-stub"
+              >
+                <DoneIcon />
+              </TemporaryTypography>
+            )}
 
           {fetchingErrors !== undefined && (
             <TemporaryTypography

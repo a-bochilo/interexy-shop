@@ -1,17 +1,20 @@
+// ============================ nest ====================================
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+
+// ============================ i18n ====================================
 import { I18nContext } from "nestjs-i18n";
 
-// ========================== Entities & DTO's ==========================
+// ========================== entities & dto's ==========================
 import { AssignUserRoleDto } from "./dtos/user-assigne-role.dto";
+import { UpdateUserDto } from "./dtos/user-update.dto";
 
-// ========================== Repositories ==============================
+// ========================== repositories ==============================
 import { UserRepository } from "./repos/user.repository";
 import { UserDetailsRepository } from "./repos/user-details.repository";
 import { UserViewRepository } from "./repos/user-view.repository";
-
-// ========================== Services & Controllers ====================
-import { UpdateUserDto } from "./dtos/user-update.dto";
 import { RoleRepository } from "../roles/repos/role.repository";
+
+// ========================== enums =====================================
 import { UserRoles } from "../../shared/types/user-roles.enum";
 
 @Injectable()
@@ -53,8 +56,8 @@ export class UserService {
   }
 
   async assignUserRole(assignUserRoleDto: AssignUserRoleDto, userId: string) {
+    //=============== get a user and user role type, and verify its existence in the database ==================
     const user = await this.userRepository.getById(userId);
-
     if (!user) {
       throw new HttpException(
         `${I18nContext.current().t("errors.user.userDoesNotExist")}`,
@@ -69,6 +72,7 @@ export class UserService {
       );
     }
 
+    //=============== get a role by name and role type, and verify its existence in the database ================
     const newRole = await this.roleRepository.getRoleByName(
       assignUserRoleDto.newRole
     );
@@ -93,6 +97,7 @@ export class UserService {
       );
     }
 
+    //=============== if user and role by name already exist => assign role for user ============================
     user.updated = new Date();
     user.role = newRole;
     user.roleId = newRole.id;
@@ -119,6 +124,7 @@ export class UserService {
   }
 
   async updateUserDetails(info: UpdateUserDto, userId: string) {
+    //=============== get a user and user role type, and verify its existence in the database ==================
     const user = await this.userRepository.getById(userId);
     if (user.roleType === UserRoles.superadmin) {
       throw new HttpException(
@@ -134,6 +140,7 @@ export class UserService {
       );
     }
 
+    //=============== get a details and verify its existence in the database ===============================
     let details = await this.userDetailsRepository.getDetailsById(
       user.details_id
     );
@@ -145,10 +152,10 @@ export class UserService {
       );
     }
 
+    //=============== if user and details already exist => update user with details =========================
     const newDetails = await this.userDetailsRepository.setDetails(
       Object.assign(details, info.details)
     );
-
     delete info.details;
     Object.assign(user, info);
 

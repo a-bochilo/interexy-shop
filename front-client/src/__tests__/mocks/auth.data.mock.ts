@@ -1,4 +1,4 @@
-// ========================== type ==========================
+// =========================== interfaces ===================================
 import { IAuthTranslate } from "../../app/auth/types/auth-translate.interface";
 
 test.skip("skip", () => {});

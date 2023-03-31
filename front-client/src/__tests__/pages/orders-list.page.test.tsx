@@ -1,8 +1,12 @@
-// =========================== react ===========================
-import { Provider } from "react-redux";
+// =========================== axios ===================================
 import axios from "axios";
+
+// =========================== store ===================================
+import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
+
+// =========================== react-testing ===========================
 import { render, screen } from "@testing-library/react";
 
 // =========================== mocks ===================================
@@ -23,7 +27,7 @@ jest.mock("react-i18next", () => ({
   },
 }));
 
-// =========================== mock useNavigate ============================
+// =========================== mock useNavi ============================
 const mockedUsedNavigate = jest.fn();
 jest.mock("react-router-dom", () => ({
   ...(jest.requireActual("react-router-dom") as any),
@@ -52,7 +56,7 @@ const mockStore = configureStore([thunk]);
 
 describe("Order view page", () => {
   let store: any;
-  it("should render correctly", async () => {
+  it("should be correct rendered", async () => {
     store = mockStore({
       orders: {
         orders: [order],
@@ -74,7 +78,7 @@ describe("Order view page", () => {
     );
   });
 
-  it("should render correctly without orders and with attention", async () => {
+  it("should be correct rendered without orders and with attention", async () => {
     store = mockStore({
       orders: {
         orders: [],

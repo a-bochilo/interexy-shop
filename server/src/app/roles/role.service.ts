@@ -1,13 +1,19 @@
+// ============================ nest ====================================
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
-import { DeleteResult } from "typeorm";
+
+// ============================ i18n ====================================
 import { I18nContext } from "nestjs-i18n";
+
+// ========================== repositories ==============================
 import { RoleRepository } from "./repos/role.repository";
 
-// ========================== DTO's & Types ==========================
+// ========================== dto's & types ==========================
 import { CreateRoleDto } from "./dtos/role-create.dto";
 
-// ========================== Entities & Repos ==========================
+// ========================== entities ===============================
 import { RoleEntity } from "./entities/role.entity";
+
+// ========================== enums =====================================
 import { UserRoles } from "../../shared/types/user-roles.enum";
 
 @Injectable()
@@ -15,7 +21,9 @@ export class RoleService {
   constructor(private readonly roleRepository: RoleRepository) {}
 
   async createRole(createRoleDto: CreateRoleDto): Promise<RoleEntity> {
-    const existedRole = await this.roleRepository.getRoleByName(createRoleDto.name);
+    const existedRole = await this.roleRepository.getRoleByName(
+      createRoleDto.name
+    );
     if (existedRole) {
       throw new HttpException(
         `${I18nContext.current().t("errors.roles.roleAlreadyExist")}: '${
@@ -38,7 +46,9 @@ export class RoleService {
     const role = await this.roleRepository.getRoleByType(roleType);
     if (!role) {
       throw new HttpException(
-        `${I18nContext.current().t("errors.roles.roleDoesNotExist")}: '${roleType}'`,
+        `${I18nContext.current().t(
+          "errors.roles.roleDoesNotExist"
+        )}: '${roleType}'`,
         HttpStatus.BAD_REQUEST
       );
     }
@@ -80,7 +90,11 @@ export class RoleService {
     }
   }
 
-  async updateRole(roleId: number, createRoleDto: CreateRoleDto): Promise<RoleEntity> {
+  async updateRole(
+    roleId: number,
+    createRoleDto: CreateRoleDto
+  ): Promise<RoleEntity> {
+    //=============== get a role, and verify its existence in the database ================================
     const role = await this.roleRepository.getById(roleId);
     if (!role) {
       throw new HttpException(
@@ -89,6 +103,7 @@ export class RoleService {
       );
     }
 
+    //=============== get a role array by name, and verify its existence in the database ==================
     const rolesByName = createRoleDto.name
       ? await this.roleRepository.getRolesByName(createRoleDto?.name)
       : null;
@@ -108,6 +123,7 @@ export class RoleService {
         HttpStatus.NOT_FOUND
       );
     }
+    //==== If current role id === id in role in database, and role name is unique => update current role =======
 
     Object.assign(role, createRoleDto);
     return await this.roleRepository.updateRole(role);

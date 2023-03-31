@@ -1,3 +1,4 @@
+// ========================== nest =====================================
 import {
   Body,
   Controller,
@@ -8,20 +9,25 @@ import {
   UsePipes,
   ValidationPipe,
 } from "@nestjs/common";
-import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
+// ========================== decorators ================================
 import { AuthPermissionsGuard } from "../security/decorators/auth-permissions-guard.decorator";
 import { User } from "../users/decorators/user.decorator";
+
+// ========================== swagger ===================================
+import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+
+// ========================== enums =====================================
 import { UserPermissions } from "../../shared/types/user-permissions.enum";
 
-// ========================== Entities & DTO's ==========================
+// ========================== entities & dto's ==========================
 import { UserSessionDto } from "../users/dtos/user-session.dto";
 import { OrderEntity } from "./entities/order.entity";
 import { CartSessionDto } from "../cart/dtos/cart-session.dto";
 import { OrderDto } from "./dtos/order.dto";
 import { OrderItemDto } from "./dtos/order-item.dto";
 
-// ========================== Services & Controllers ====================
+// ========================== services & controllers ====================
 import { OrderService } from "./order.service";
 
 @ApiTags("Order controller")
@@ -84,7 +90,9 @@ export class OrderController {
     isArray: true,
   })
   @UsePipes(new ValidationPipe())
-  async getOrdersByUserId(@Param("userId") userId: string): Promise<OrderEntity[]> {
+  async getOrdersByUserId(
+    @Param("userId") userId: string
+  ): Promise<OrderEntity[]> {
     return await this.orderService.getOrdersByUserId(userId);
   }
 

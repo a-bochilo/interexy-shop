@@ -1,17 +1,18 @@
+// ============================ nest ====================================
 import { Test, TestingModule } from "@nestjs/testing";
 import { getRepositoryToken } from "@nestjs/typeorm";
 import { HttpException, HttpStatus } from "@nestjs/common";
 
-// ========================== Services & Controllers ====================
+// ========================== services & controllers ====================
 import { RoleService } from "../role.service";
 
-// ============================== Types =================================
+// ============================== types =================================
 import { UserRoles } from "../../../shared/types/user-roles.enum";
 
-// ========================== Repositories ==============================
+// ========================== repositories ==============================
 import { RoleRepository } from "../repos/role.repository";
 
-// ============================== Mocks =================================
+// ============================== mocks =================================
 import {
   newUserRole,
   roleRepositoryFake,
@@ -114,7 +115,9 @@ describe("Roles services", () => {
   describe("method: Update role", () => {
     it("should be return new role", async () => {
       roleRepositoryFake.getById = jest.fn().mockResolvedValue(role);
-      expect(await service.updateRole(role.id, userRoleDto)).toEqual(newUserRole);
+      expect(await service.updateRole(role.id, userRoleDto)).toEqual(
+        newUserRole
+      );
     });
 
     it("should be return error", async () => {
