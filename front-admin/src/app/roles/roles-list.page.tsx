@@ -14,34 +14,37 @@ import { AppDispatch } from "../../store";
 
 // ======================== Components =========================
 import RolesTable from "../../components/roles-table.component";
-import { clearErrors, clearRole } from "./store/roles.slice";
+import { clearErrors } from "./store/roles.slice";
 
 const MainGrid = styled(Grid)`
-  display: flex;
-  align-items: top;
-  justify-content: space-around;
-  width: 100%;
-  min-height: 100%;
+    display: flex;
+    align-items: top;
+    justify-content: space-around;
+    width: 100%;
+    min-height: 100vh;
 `;
 
 const RolesListPage: FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const roles = useSelector(RolesSelector);
-  const pending = useSelector(getPendingSelector);
+    const dispatch = useDispatch<AppDispatch>();
+    const roles = useSelector(RolesSelector);
+    const pending = useSelector(getPendingSelector);
 
-  useEffect(() => {
-    dispatch(clearErrors());
-    dispatch(fetchRoles());
-  }, []);
+    useEffect(() => {
+        dispatch(clearErrors());
+        dispatch(fetchRoles());
+    }, []);
 
-  return (
-    <MainGrid>
-      {pending?.roles && (
-        <CircularProgress data-testid="pending-stub" sx={{ alignSelf: "center" }} />
-      )}
-      {!!roles?.length && !pending?.roles && <RolesTable roles={roles} />}
-    </MainGrid>
-  );
+    return (
+        <MainGrid>
+            {pending?.roles && (
+                <CircularProgress
+                    data-testid="pending-stub"
+                    sx={{ alignSelf: "center" }}
+                />
+            )}
+            {!!roles?.length && !pending?.roles && <RolesTable roles={roles} />}
+        </MainGrid>
+    );
 };
 
 export default RolesListPage;

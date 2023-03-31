@@ -58,6 +58,7 @@ const ContentGrid = styled(Grid)`
     display: flex;
     flex-grow: 1;
     min-height: 100%;
+    justify-content: flex-end;
 `;
 
 const CartPage: FC = () => {
@@ -125,9 +126,11 @@ const CartPage: FC = () => {
 
     return (
         <MainGrid>
-            <PageNavBarComp/>
+            <PageNavBarComp />
             <ContentGrid
-                sx={{ flexDirection: { xs: "column-reverse", md: "row" } }}
+                sx={{
+                    flexDirection: { xs: "column-reverse", md: "row" },
+                }}
             >
                 <InsideGrid
                     item

@@ -15,7 +15,7 @@ export class $npmConfigName1679035791091 implements MigrationInterface {
         );
         //password 123123123
         await queryRunner.query(
-            `INSERT INTO users (created, updated, email, phone, password, role_id, role_type, is_active, details_id) VALUES (CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6), 'superadmin@gmail.com', '+375 29 000 00 00', '$2b$05$9TFe4fXQEaoYJNpdniw.O.IIByJncLurM20TWrGquevJlaGzweTy.', 1, 'superadmin', true, '02e95ec9-1252-4072-b88e-8fb59a2d7d5a')`
+            `INSERT INTO users (created, updated, email, phone, password, role_id, role_type, is_active, details_id) VALUES (CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6), 'superadmin@gmail.com', '+375 29 000 00 00', '123123123', 1, 'superadmin', true, '02e95ec9-1252-4072-b88e-8fb59a2d7d5a')`
         );
     }
 

@@ -33,6 +33,7 @@ const ContentGrid = styled(Grid)`
     flex-grow: 1;
     min-width: 100%;
     min-height: 100%;
+    justify-content: flex-end;
 `;
 
 const ProductsPage: FC = () => {
