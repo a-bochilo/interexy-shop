@@ -62,15 +62,11 @@ const authSlice = createSlice({
         state.pending.token = true;
         state.token = action.payload;
       })
-      .addCase(
-        fetchSignUp.rejected,
-        (state, action: any & { payload: any }) => {
-          console.log(action.payload);
-          state.pending.token = false;
-          state.token = "";
-          state.errors.token = action.payload;
-        }
-      )
+      .addCase(fetchSignUp.rejected, (state, action: any & { payload: any }) => {
+        state.pending.token = false;
+        state.token = "";
+        state.errors.token = action.payload;
+      })
       .addDefaultCase(() => {});
   },
 });

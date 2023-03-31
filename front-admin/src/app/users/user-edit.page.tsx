@@ -59,6 +59,7 @@ const UserEditPage: FC = () => {
   const handleDelete = () => {
     if (!userId) return;
     dispatch(deleteUser(userId));
+    navigate("/users");
   };
 
   const handleBack = () => {

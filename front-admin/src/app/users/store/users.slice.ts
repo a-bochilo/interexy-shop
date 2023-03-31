@@ -123,9 +123,23 @@ export const usersSlice = createSlice({
         state.pending.users = true;
         state.errors.users = null;
       })
-      .addCase(deleteUser.fulfilled, (state, { payload }) => {
-        state.users.filter((user: UserDto) => user.id !== payload);
-      })
+      .addCase(
+        deleteUser.fulfilled,
+        (state, action: PayloadAction<UserUpdateDto>) => {
+          const users = state.users.filter(
+            (user: UserDto) => user.id !== action.payload.id
+          );
+          const { details, ...user } = action.payload;
+
+          users.push(user);
+          state.users = users;
+          if (!state.userInfo) return;
+          state.userInfo = {
+            ...state.userInfo,
+            ...details,
+          };
+        }
+      )
       .addCase(deleteUser.rejected, (state, action: any & { payload: any }) => {
         state.pending.users = false;
         state.errors.users = action.payload.message;

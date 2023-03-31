@@ -1,26 +1,20 @@
-// =========================== component ===============================
-import ProductsPage from "../../app/products";
-
-// =========================== router ===================================
+// =========================== react ==============================
 import { BrowserRouter } from "react-router-dom";
-
-// =========================== axios ===================================
-import axios from "axios";
-
-// =========================== store ===================================
+import { render } from "@testing-library/react";
 import { Provider } from "react-redux";
+import axios from "axios";
 import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
 
-// =========================== react-testing ===========================
-import { render } from "@testing-library/react";
-
-// =========================== mocks ===================================
+// =========================== mocks ==============================
 import {
   initialStateWithCart,
   mockProductDetails,
 } from "../mocks/products.data.mocks";
 import { mockCart } from "../mocks/cart.data.mocks";
+
+// =========================== components ==============================
+import ProductsPage from "../../app/products";
 
 // =========================== mock axios ==============================
 jest.mock("axios", () => ({
@@ -38,7 +32,7 @@ jest.mock("axios", () => ({
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 mockedAxios.get.mockResolvedValue({ data: mockCart });
 
-// =========================== mock useNavi ============================
+// =========================== mock useNavigate ============================
 const mockedUsedNavigate = jest.fn();
 jest.mock("react-router-dom", () => ({
   ...(jest.requireActual("react-router-dom") as any),

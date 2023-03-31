@@ -1,15 +1,14 @@
 /* eslint-disable testing-library/no-container */
 /* eslint-disable testing-library/no-node-access */
-// =========================== axios ===================================
+
+// =========================== react ===========================
+import { render } from "@testing-library/react";
 import axios from "axios";
 
 // =========================== store ===================================
 import thunk from "redux-thunk";
 import configureStore from "redux-mock-store";
 import { Provider } from "react-redux";
-
-// =========================== react-testing ===========================
-import { render } from "@testing-library/react";
 
 // =========================== mocks ===================================
 import { initialState } from "../mocks/auth.data.mock";
@@ -49,7 +48,7 @@ jest.mock("react-i18next", () => ({
   },
 }));
 
-// =========================== mock useNavi ============================]
+// =========================== mock useNavigate ============================]
 const mockedUsedNavigate = jest.fn();
 jest.mock("react-router-dom", () => ({
   ...(jest.requireActual("react-router-dom") as any),
@@ -83,7 +82,7 @@ Object.defineProperty(window, "localStorage", {
 describe("Methods in signUp page", () => {
   let navigate = jest.fn();
 
-  it("buildUserForDB should be return correct user", () => {
+  it("buildUserForDB should return correct user", () => {
     const data = {
       email: "test@example.com",
       password: "password",
@@ -106,12 +105,12 @@ describe("Methods in signUp page", () => {
     expect(buildUserForDB(data)).toEqual(correctData);
   });
 
-  it("checkTokenStatus should be return set token in localStorage and navigate to /products", () => {
+  it("checkTokenStatus should return set token in localStorage and navigate to /products", () => {
     checkTokenStatus("fullfilled", "fakeToken", navigate);
     expect(navigate).toHaveBeenCalledWith("/products");
   });
 
-  it("checkTokenStatus should be return nothing, becouse token status is rejected", () => {
+  it("checkTokenStatus should return nothing, because token status is rejected", () => {
     checkTokenStatus("rejected", "fakeToken", navigate);
     expect(navigate).not.toHaveBeenCalledWith("/products");
   });

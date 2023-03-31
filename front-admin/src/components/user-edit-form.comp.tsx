@@ -480,7 +480,7 @@ const UserEditFormComp: FC<FormProps> = ({
             align="left"
             sx={{ minWidth: 90, width: 120 }}
           >
-            isActive
+            is Active
           </Typography>
           <Controller
             name="isActive"

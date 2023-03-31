@@ -3,7 +3,7 @@ import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { I18nContext } from "nestjs-i18n";
 
 // ========================== bcrypt ==========================
-//! This lib could be turned on in case it neccessary to hash passwords
+//! This lib could be turned on in case it necessary to hash passwords
 // import { compare, hashSync } from "bcrypt";
 
 // ========================== dto ==========================
@@ -87,8 +87,10 @@ export class AuthService {
         const isPasswordCorrect = dto.password === userFromDB.password;
 
     if (!isPasswordCorrect)
-      throw new HttpException(I18nContext.current().t("errors.authorization.unAuthorized"), 
-      HttpStatus.UNPROCESSABLE_ENTITY);
+      throw new HttpException(
+        I18nContext.current().t("errors.authorization.wrongPassword"),
+        HttpStatus.UNPROCESSABLE_ENTITY
+      );
     const access_token = await this.securityService.generateJwt(userFromDB);
     return access_token;
   }
