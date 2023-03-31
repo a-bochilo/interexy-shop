@@ -2,9 +2,11 @@
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 import configureStore from "redux-mock-store";
-import { MemoryRouter } from "react-router-dom";
 import { render } from "@testing-library/react";
 import axios from "axios";
+
+// =========================== router ===================================
+import { MemoryRouter } from "react-router-dom";
 
 // =========================== mocks ===================================
 import { initialState, mockedData } from "../mocks/auth.data.mock";
@@ -112,7 +114,7 @@ describe("handleResponse", () => {
     };
     decodeToken.mockReturnValue({ role_type: UserRoles.superadmin });
     handleResponse(response, navigate);
-    expect(mockReplace).toHaveBeenCalledWith("http://localhost:3000");
+    expect(mockReplace).toHaveBeenCalledWith("http://localhost:8080");
     expect(handleResponse(response, navigate)).toEqual(false);
   });
 });

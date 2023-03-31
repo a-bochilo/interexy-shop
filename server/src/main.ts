@@ -1,9 +1,10 @@
+// ========================== nest =======================================
 import { NestFactory } from "@nestjs/core";
 
-// ========================== module ==========================
+// ========================== modules ====================================
 import { AppModule } from "./app.module";
 
-// ========================== swagger ==========================
+// ========================== swagger ====================================
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 
 const start = async () => {
@@ -21,5 +22,4 @@ const start = async () => {
   SwaggerModule.setup("swagger", app, document);
   app.listen(port, () => console.log(`Server started from ${port}`));
 };
-
 start();

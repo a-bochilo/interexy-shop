@@ -1,12 +1,13 @@
 export enum UserPermissions {
+  //========================== all ===============================
   all = "all",
 
-  //============================================PRODUCTS============================================
+  //========================== products ==========================
   createProduct = "createProduct",
   updateProduct = "updateProduct",
   deleteProduct = "deleteProduct",
 
-  //==============================================USERS==============================================
+  //========================== users =============================
   getAllUsers = "getAllUsers",
   getUserProfile = "getUserProfile",
   updateUserProfile = "updateUserProfile",
@@ -15,27 +16,27 @@ export enum UserPermissions {
   deleteUserById = "deleteUserById",
   assignRoleById = "assignRoleById",
 
-  //==============================================ROLES==============================================
+  //========================== roles ===============================
   createRole = "createRole",
   getAllRoles = "getAllRoles",
   getRoleById = "getRoleById",
   deleteRoleById = "deleteRoleById",
   updateRoleById = "updateRoleById",
 
-  //==============================================CARTS==============================================
+  //========================== carts ===============================
   getCart = "getCart",
   addCartItem = "addCartItem",
   updateCartItem = "updateCartItem",
   deleteCartItem = "deleteCartItem",
   cleanCart = "cleanCart",
 
-  //==============================================ORDERS==============================================
+  //========================== orders ===============================
   createOrder = "createOrder",
   getProfileOrders = "getProfileOrders",
   getAllOrders = "getAllOrders",
   getOrdersByUserId = "getOrdersByUserId",
   getOrderItemByOrderId = "getOrderItemByOrderId",
 
-  //==============================================Security==============================================
+  //========================== security =============================
   refreshToken = "refreshToken",
 }

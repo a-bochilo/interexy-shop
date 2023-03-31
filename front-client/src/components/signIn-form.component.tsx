@@ -1,16 +1,19 @@
 // ========================== react ==========================
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 
-// ========================== yup ==========================
+// ========================== yup ============================
 import { yupResolver } from "@hookform/resolvers/yup";
 import { formSchema } from "./signIn-form.const";
 
-// ========================== mui ==========================
+// ========================== mui ============================
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Box, Paper, Typography } from "@mui/material";
+
+// ========================== interfaces =====================
 import { IAuthTranslate } from "../app/auth/types/auth-translate.interface";
+
+// ========================== components ======================
 import TemporaryTypography from "./temporary-typography.component";
 
 interface IFormInput {
@@ -39,7 +42,8 @@ const SignInForm = ({
     resolver: yupResolver(formSchema),
   });
 
-  const onSubmit: SubmitHandler<IFormInput> = (data: IFormInput) => handleSignIn(data);
+  const onSubmit: SubmitHandler<IFormInput> = (data: IFormInput) =>
+    handleSignIn(data);
 
   return (
     <Paper

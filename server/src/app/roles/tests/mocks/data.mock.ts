@@ -1,8 +1,11 @@
+// ========================== enums =====================================
 import { UserRoles } from "../../../../shared/types/user-roles.enum";
 import { UserPermissions } from "../../../../shared/types/user-permissions.enum";
+
+// ============================ nest ====================================
 import { HttpStatus } from "@nestjs/common";
 
-const date = new Date()
+const date = new Date();
 
 export const newUserRole = {
   id: 1,

@@ -1,6 +1,8 @@
 // ========================== types ==========================
 import { ProductDetailsDto } from "../../app/products/types/product-details.dto";
 import { ProductDto } from "../../app/products/types/product.dto";
+
+// =========================== enums ========================================
 import { ProductsCategory } from "../../app/products/types/products-category.enum";
 
 test.skip("skip", () => {});

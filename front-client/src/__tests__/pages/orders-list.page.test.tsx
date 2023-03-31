@@ -1,6 +1,5 @@
 // =========================== react ===========================
 import { Provider } from "react-redux";
-import axios from "axios";
 import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
 import { render, screen } from "@testing-library/react";

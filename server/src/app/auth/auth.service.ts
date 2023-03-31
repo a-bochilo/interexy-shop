@@ -3,7 +3,7 @@ import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { I18nContext } from "nestjs-i18n";
 
 // ========================== bcrypt ==========================
-//! This lib could be turned on in case it neccessary to hash passwords
+//! This lib could be turned on in case it necessary to hash passwords
 // import { compare, hashSync } from "bcrypt";
 
 // ========================== dto ==========================
