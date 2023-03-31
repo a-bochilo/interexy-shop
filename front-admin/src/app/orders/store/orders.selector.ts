@@ -1,3 +1,4 @@
+// =============================== store ==================================
 import { RootState } from "../../../store";
 
 export const OrdersSelector = (state: RootState) => state.orders.orders;

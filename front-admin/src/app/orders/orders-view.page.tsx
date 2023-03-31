@@ -1,23 +1,27 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+// =========================== react ===========================
 import { FC, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-// =========================== MUI ===========================
+// =========================== redux ===========================
+import { useDispatch, useSelector } from "react-redux";
+
+// =========================== mui =============================
 import styled from "@emotion/styled";
 import { CircularProgress, Grid } from "@mui/material";
 
-// =========================== Components ===========================
-import { useDispatch, useSelector } from "react-redux";
+// =========================== components ======================
+import OrderItemsViewTable from "../../components/order-items-view-form.component";
+
+// =========================== store ===========================
 import { AppDispatch } from "../../store";
 import { fetchOrderItems } from "./store/orders.actions";
 import {
   getPendingSelector,
   OrderItemsSelector,
 } from "./store/orders.selector";
-import OrderItemsViewTable from "../../components/order-items-view-form.component";
 
-// =========================== DTO's ===========================
-
+// =========================== styles ===========================
 const MainGrid = styled(Grid)`
   display: flex;
   flex-direction: column;

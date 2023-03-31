@@ -7,6 +7,8 @@ import Container from "@mui/material/Container";
 
 // ======== routes ============
 import LoginRoutes from "./login.routes";
+
+// ========================== component ==========================
 import PageNavBarComp from "../../components/navbar.comp";
 
 const LoginPage: FC = () => {

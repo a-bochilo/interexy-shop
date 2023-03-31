@@ -1,16 +1,17 @@
-// ========================== React ===========================
-import React, { FC } from "react";
+// ========================== react ============================
+import { FC } from "react";
 
-// ============================ MUI ============================
+// ============================ mui ============================
 import { Grid, styled } from "@mui/material";
 
-// ======================== Components =========================
+// ======================== components =========================
 import PageFooterComp from "../../components/page-footer.comp";
-
-// ========================== Routes ==========================
 import PageNavBarComp from "../../components/navbar.comp";
+
+// ========================== routes ===========================
 import OrdersRoutes from "./orders.routes";
 
+// ========================== styles ===========================
 const MainGrid = styled(Grid)`
   display: flex;
   flex-direction: column;

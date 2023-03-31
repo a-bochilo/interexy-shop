@@ -32,3 +32,19 @@ export const order = {
   updated: 2023,
   user_id: "2de8fc3d-17fa-4a55-8473-6fe989dcd24e",
 };
+
+// ========================== mock initial state ==========================
+export const initialState = {
+  orders: {
+    orders: [order],
+  orderItems: [mockOrderItem],
+  pending: {
+    orders: false,
+    orderItems: false,
+  },
+  errors: {
+    orders: null,
+    orderItems: null,
+  }
+  },
+};

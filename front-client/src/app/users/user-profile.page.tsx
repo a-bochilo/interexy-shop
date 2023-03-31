@@ -21,6 +21,7 @@ import {
   userInfoSelector,
   userSelector,
   userLoadingSelector,
+  userErrorsSelector,
 } from "./store/users.selectors";
 import { getUserInfo, updateUserDetails } from "./store/users.actions";
 import { usersActions } from "./store/users.slice";
@@ -45,6 +46,7 @@ const UserEditPage: FC = () => {
   const userInfo = useSelector(userInfoSelector);
   const user = useSelector(userSelector);
   const pending = useSelector(userLoadingSelector);
+  const fetchingErrors = useSelector(userErrorsSelector);
   const getUser = usersActions.getUser;
 
   const { t } = useTranslation();
@@ -85,6 +87,7 @@ const UserEditPage: FC = () => {
           userInfo={userInfo}
           disabled={disabled}
           pending={pending}
+          fetchingErrors={fetchingErrors.userInfo}
           setDisabled={setDisabled}
           buttonOnclick={buttonOnclick}
           handleSave={handleSave}

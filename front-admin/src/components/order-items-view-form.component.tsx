@@ -1,7 +1,9 @@
-import * as React from "react";
+// =========================== react =========================================
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import { TableVirtuoso, TableComponents } from "react-virtuoso";
 
-// =========================== MUI ===========================
+// =========================== mui ===========================================
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -11,9 +13,8 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Button } from "@mui/material";
 
-// =========================== Interfaces & DTO's ===========================
+// =========================== interfaces & dto's =============================
 import { OrderItemDto } from "../app/orders/types/order-item.dto";
-import { useNavigate } from "react-router-dom";
 
 interface ColumnData {
   dataKey: keyof OrderItemDto;
@@ -91,10 +92,10 @@ const OrderItemsViewTable = ({
           const isProductId = Boolean(column.dataKey === "product_id");
           return (
             <TableCell
-            sx={{
-              textDecoration: isProductId ? "underline" : null,
-              cursor: isProductId ? "pointer" : null
-            }}
+              sx={{
+                textDecoration: isProductId ? "underline" : null,
+                cursor: isProductId ? "pointer" : null,
+              }}
               key={column.dataKey}
               align="center"
               onClick={() =>

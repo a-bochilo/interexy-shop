@@ -1,5 +1,8 @@
-import $api from "../../../api/api";
+// ========================== redux ==========================
 import { createAsyncThunk } from "@reduxjs/toolkit";
+
+// ========================== api ==========================
+import $api from "../../../api/api";
 
 export interface ISignInTemplate {
   email: string;

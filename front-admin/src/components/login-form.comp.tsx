@@ -1,4 +1,4 @@
-// ========================== react ==========================
+// ========================== react ========================
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 
 // ========================== yup ==========================
@@ -8,7 +8,9 @@ import { formSchema } from "./login-form.const";
 // ========================== mui ==========================
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { Box, Paper, Typography } from "@mui/material";
+import { Paper, Typography } from "@mui/material";
+
+// ======================== components ======================
 import TemporaryTypography from "./temporary-typography.component";
 
 interface IFormInput {

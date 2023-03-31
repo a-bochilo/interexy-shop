@@ -27,12 +27,12 @@ export const getUserInfo = createAsyncThunk(
 //============ UPDATE USER INFO ============
 export const updateUserDetails = createAsyncThunk<UserUpdateDto, UserUpdateDto>(
   "users/updateUserDetails",
-  async (userData) => {
+  async (userData, { rejectWithValue }) => {
     try {
       const response = await $api.put(`/users/profile`, userData);
       return response.data;
     } catch (error: any) {
-      return error.response?.data?.message as string;
+      return rejectWithValue(error.response?.data?.message as string);
     }
   }
 );

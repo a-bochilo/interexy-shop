@@ -65,7 +65,7 @@ export const usersSlice = createSlice({
         getUserInfo.rejected,
         (state, action: any & { payload: any }) => {
           state.pending.userInfo = false;
-          state.errors.userInfo = action.payload.message;
+          state.errors.userInfo = action.payload;
         }
       );
 
@@ -86,7 +86,7 @@ export const usersSlice = createSlice({
         updateUserDetails.rejected,
         (state, action: any & { payload: any }) => {
           state.pending.userInfo = false;
-          state.errors.userInfo = action.payload.message;
+          state.errors.userInfo = action.payload;
         }
       );
   },

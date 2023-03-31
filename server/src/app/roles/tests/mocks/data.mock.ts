@@ -36,6 +36,7 @@ export const roleRepositoryFake = {
   deleteRole: jest.fn().mockResolvedValue(HttpStatus.OK),
   updateRole: jest.fn().mockResolvedValue(newUserRole),
   getRoleByName: jest.fn().mockResolvedValue(false),
+  getRolesByName: jest.fn().mockResolvedValue([newUserRole])
 };
 
 export const mockedServices = {

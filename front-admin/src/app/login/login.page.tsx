@@ -1,19 +1,23 @@
 // ========================== react ==========================
 import { FC } from "react";
+import { decodeToken } from "react-jwt";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 // ========================== components ==========================
 import LoginForm from "../../components/login-form.comp";
 
 // ========================== mui ==========================
 import Box from "@mui/material/Box";
-import { decodeToken } from "react-jwt";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+
+// ========================== store ==========================
 import { AppDispatch } from "../../store";
 import { fetchSignIn } from "./store/auth.actions";
-import { UserRoles } from "../roles/types/user-roles.enum";
-import { useSelector } from "react-redux";
 import { AuthErrorSelector } from "./store/auth.selector";
+
+// ========================== type ==========================
+import { UserRoles } from "../roles/types/user-roles.enum";
 
 interface IFormInput {
   email: string;

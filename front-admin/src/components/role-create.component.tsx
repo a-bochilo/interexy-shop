@@ -1,10 +1,11 @@
-// ========================== react ==========================
+// ========================== react ==========================================
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 
-// ========================== YUP ==========================
+// =========================== yup ===========================================
 import { yupResolver } from "@hookform/resolvers/yup";
+import { formSchema } from "./roles-form.const";
 
-// ========================== MUI ==========================
+// =========================== mui ===========================================
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import {
@@ -23,11 +24,14 @@ import {
   Typography,
 } from "@mui/material";
 
-// ====================== Interfaces & DTO's ==================
+// =========================== enums ==========================================
 import { UserPermissions } from "../app/roles/types/user-permissions.enum";
 import { UserRoles } from "../app/roles/types/user-roles.enum";
-import { formSchema } from "./roles-form.const";
+
+// =========================== interfaces & dto's =============================
 import { CreateRoleDto } from "../app/roles/types/create-role.dto";
+
+// =========================== component ======================================
 import TemporaryTypography from "./temporary-typography.component";
 
 interface IFormInput {
@@ -64,7 +68,8 @@ const CreateRoleForm = ({
     resolver: yupResolver(formSchema),
   });
 
-  const onSubmit: SubmitHandler<IFormInput> = (data: IFormInput) => handleCreate(data);
+  const onSubmit: SubmitHandler<IFormInput> = (data: IFormInput) =>
+    handleCreate(data);
 
   return (
     <Paper
@@ -256,7 +261,7 @@ const CreateRoleForm = ({
                   justifyContent: "center",
                 }}
               >
-                <CheckCircleIcon data-testid="done-stub"/>
+                <CheckCircleIcon data-testid="done-stub" />
                 <Typography>Role created</Typography>
               </Box>
             </TemporaryTypography>

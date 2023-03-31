@@ -39,7 +39,8 @@ interface FormProps {
   disabled: boolean;
   pending: UserState["pending"];
   isClicked: boolean;
-  userWithTranslate: IUserWithTranslate,
+  userWithTranslate: IUserWithTranslate;
+  fetchingErrors: string | null;
   setDisabled: (e: boolean) => void;
   buttonOnclick: () => void;
   handleSave: (e: Partial<IUserWithDetails>) => void;
@@ -53,6 +54,7 @@ const UserProfileFormComp: FC<FormProps> = ({
   disabled,
   pending,
   userWithTranslate,
+  fetchingErrors,
   setDisabled,
   buttonOnclick,
   handleSave,
@@ -165,7 +167,7 @@ const UserProfileFormComp: FC<FormProps> = ({
             align="left"
             sx={{ minWidth: 90, width: 120 }}
           >
-           {userWithTranslate.middlename}
+            {userWithTranslate.middlename}
           </Typography>
           <Controller
             control={control}
@@ -199,7 +201,7 @@ const UserProfileFormComp: FC<FormProps> = ({
             align="left"
             sx={{ minWidth: 90, width: 120 }}
           >
-           {userWithTranslate.lastname}
+            {userWithTranslate.lastname}
           </Typography>
           <Controller
             name="lastname"
@@ -317,10 +319,31 @@ const UserProfileFormComp: FC<FormProps> = ({
               width: "100%",
             }}
           >
+            {fetchingErrors && isClicked && !pending.userInfo && (
+              <TemporaryTypography
+                variant="overline"
+                align="center"
+                color="error.main"
+                duration={5}
+                data-testid="error-stub"
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    gap: "8px",
+                  }}
+                >
+                  <Typography>{fetchingErrors}</Typography>
+                </Box>
+              </TemporaryTypography>
+            )}
+
             {pending.userInfo && (
               <CircularProgress data-testid="test-progress" />
             )}
-            {isClicked && !pending.userInfo && (
+
+            {!fetchingErrors && isClicked && !pending.userInfo && (
               <TemporaryTypography
                 variant="overline"
                 align="center"

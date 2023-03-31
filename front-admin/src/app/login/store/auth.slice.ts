@@ -1,4 +1,7 @@
+// ========================== redux ==========================
 import { createSlice } from "@reduxjs/toolkit";
+
+// ========================== actions ==========================
 import { fetchSignIn } from "./auth.actions";
 
 type IInitialState = {

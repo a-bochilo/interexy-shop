@@ -2,24 +2,25 @@
 import { FC, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-// ============================ MUI ============================
+// ============================ mui ============================
 import styled from "@emotion/styled";
 import { Grid } from "@mui/material";
 
-// ======================== Components =========================
+// ======================== components =========================
 import CreateRoleForm from "../../components/role-create.component";
 
-// =========================== Store ===========================
+// =========================== store ===========================
 import { fetchRoleCreate } from "./store/roles.actions";
 import { AppDispatch } from "../../store";
-
-// ====================== Interfaces & DTO's ==================
-import { CreateRoleDto } from "./types/create-role.dto";
-import { useSelector } from "react-redux";
-import { getErrorSelector, getPendingSelector } from "./store/roles.selector";
 import { clearErrors, clearRole } from "./store/roles.slice";
+import { getErrorSelector, getPendingSelector } from "./store/roles.selector";
 
+// ====================== interfaces & dto's ==================
+import { CreateRoleDto } from "./types/create-role.dto";
+
+// =========================== styles ===========================
 const MainGrid = styled(Grid)`
   display: flex;
   align-items: top;
