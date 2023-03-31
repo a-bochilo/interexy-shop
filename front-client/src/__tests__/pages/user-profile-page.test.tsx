@@ -16,12 +16,14 @@ import axios from "axios";
 import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
 
-// ========================== components ==========================
+// ========================== mock ==========================
 import {
   initialState,
   initialStateWithUserInfoIsNull,
   mockUser,
 } from "../mocks/user-data-mock";
+
+// ========================== components ==========================
 import UserEditPage from "../../app/users/user-profile.page";
 
 // ====================== mock useNavigate & useParams ======================

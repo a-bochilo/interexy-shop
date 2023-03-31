@@ -1,6 +1,6 @@
 /* eslint-disable testing-library/no-node-access */
 /* eslint-disable testing-library/no-unnecessary-act */
-// ========================== react ==========================
+// ========================== react testing library ==========================
 import {
   render,
   screen,
@@ -12,7 +12,7 @@ import {
 // ========================== mui ==========================
 import { Button } from "@mui/material";
 
-// ========================== components, mock ==========================
+// ========================== components & mock ==========================
 import { mockUserProfileProps } from "../mocks/user-data-mock";
 import UserProfileFormComp from "../../components/user-profile-form.comp";
 

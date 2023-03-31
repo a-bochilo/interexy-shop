@@ -16,7 +16,7 @@ import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
 
 // ========================== components ==========================
-import { initialState, mockUser } from "../components/user-data-mock";
+import { initialState, mockUser } from "../mocks/user-data-mock";
 import UserAssignRolePage from "../../app/users/user-assign-role.page";
 
 // ====================== mock useNavigate & useParams ======================
@@ -47,9 +47,10 @@ const mockedAxios = axios as jest.Mocked<typeof axios>;
 mockedAxios.post.mockResolvedValue({ data: [mockUser] });
 mockedAxios.get.mockResolvedValue({ data: [mockUser] });
 
+// ====================== mock store ======================
 const mockStore = configureStore([thunk]);
 
-// ======================== Mock assign role button ========================
+// ======================== mock assign role button ========================
 jest.mock(
   "../../components/user-assign-role-form.comp",
   () =>

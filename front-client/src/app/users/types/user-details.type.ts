@@ -1,3 +1,4 @@
+// ========================== enum ==========================
 import { UUIDDto } from "../../../types/uuid-dto.type";
 
 export interface UserDetailsDto extends UUIDDto {

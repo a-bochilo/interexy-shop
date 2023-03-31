@@ -1,12 +1,17 @@
 /* eslint-disable testing-library/no-unnecessary-act */
+// =========================== react testing library ===========================
+import {
+  render,
+  waitFor,
+  screen,
+  act,
+  fireEvent,
+} from "@testing-library/react";
 
-// =========================== React-testing ===========================
-import { render, waitFor, screen, act, fireEvent } from "@testing-library/react";
-
-// =========================== Mocks ===================================
+// =========================== mocks ===================================
 import { authWithTranslate } from "../mocks/auth.data.mock";
 
-// =========================== Component ===============================
+// =========================== component ===============================
 import SignInForm from "../../components/signIn-form.component";
 
 describe("Sign In component", () => {
@@ -44,7 +49,7 @@ describe("Sign In component", () => {
     expect(await screen.findByText("Sign In")).toBeInTheDocument();
   });
 
-  it("should be show error", async () => {
+  it("should show an error", async () => {
     render(
       <SignInForm
         handleSignIn={handleSignIn}
@@ -57,7 +62,7 @@ describe("Sign In component", () => {
     expect(screen.getByTestId("error-stub")).toBeInTheDocument();
   });
 
-  it("should have a submit button is enable", async () => {
+  it("should have a submit button is disabled", async () => {
     render(
       <SignInForm
         handleSignIn={handleSignIn}

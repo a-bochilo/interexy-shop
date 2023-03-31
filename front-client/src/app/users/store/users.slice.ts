@@ -8,10 +8,10 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { UserState } from "../../users/types/user-state.type";
 import { UserDto } from "../types/user-dto.type";
 import { UserUpdateDto } from "../types/user-details-update.type";
+import { UserFromTokenDto } from "../types/user-dto-from-token.type";
 
 // ========================== store ==========================
 import { getUserInfo, updateUserDetails } from "./users.actions";
-import { UserFromTokenDto } from "../types/user-dto-from-token.type";
 
 const initialState: UserState = {
   user: null,

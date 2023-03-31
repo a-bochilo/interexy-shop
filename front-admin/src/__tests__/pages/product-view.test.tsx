@@ -1,23 +1,23 @@
 /* eslint-disable testing-library/no-node-access */
 /* eslint-disable testing-library/no-unnecessary-act */
+
+// =========================== react ===========================
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
-
-// =========================== React-testing ===========================
 import { render, screen } from "@testing-library/react";
-
-// =========================== Mocks ===========================
 import configureStore from "redux-mock-store";
 
-// =========================== Component ===========================
+// =========================== component ===========================
 import ProductViewPage from "../../app/products/product-view.page";
+
+// =========================== mock ===========================
 import {
   initialState,
   mockProduct,
   mockProductDetails,
 } from "../mocks/products.data.mocks";
 
-// ====================== Mock useNavi ======================
+// ====================== mock useNavigate ======================
 const mockedUsedNavigate = jest.fn();
 jest.mock("react-router-dom", () => ({
   ...(jest.requireActual("react-router-dom") as any),
@@ -25,7 +25,7 @@ jest.mock("react-router-dom", () => ({
   useParams: () => ({ productId: "c06cbc27-26ee-4455-8983-33fff83c8be8" }),
 }));
 
-// =========================== Mock Store ===========================
+// =========================== mock store ===========================
 const mockStore = configureStore([thunk]);
 
 describe("ProductView page", () => {

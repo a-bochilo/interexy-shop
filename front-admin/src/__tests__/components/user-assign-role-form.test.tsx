@@ -9,7 +9,7 @@ import { render, waitFor, screen } from "@testing-library/react";
 import UserAssignRoleFormComp from "../../components/user-assign-role-form.comp";
 
 // ========================== mock ==========================
-import { mockAssignRoleProps } from "./user-data-mock";
+import { mockAssignRoleProps } from "../mocks/user-data-mock";
 
 describe("User assign role form component", () => {
   it("should renders", async () => {

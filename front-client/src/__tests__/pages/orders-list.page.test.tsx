@@ -1,18 +1,17 @@
+// =========================== react ===========================
 import { Provider } from "react-redux";
 import axios from "axios";
 import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
-
-// =========================== React-testing ===========================
 import { render, screen } from "@testing-library/react";
 
-// =========================== Mocks ===================================
+// =========================== mocks ===================================
 import { mockOrderItems, order } from "../mocks/order.data.mock";
 
-// =========================== Component ===============================
+// =========================== component ===============================
 import OrdersListPage from "../../app/orders/orders-list.page";
 
-// =========================== Mock i18n ==============================
+// =========================== mock i18n ==============================
 jest.mock("react-i18next", () => ({
   useTranslation: () => {
     return {
@@ -24,7 +23,7 @@ jest.mock("react-i18next", () => ({
   },
 }));
 
-// =========================== Mock useNavi ============================
+// =========================== mock useNavigate ============================
 const mockedUsedNavigate = jest.fn();
 jest.mock("react-router-dom", () => ({
   ...(jest.requireActual("react-router-dom") as any),
@@ -32,7 +31,7 @@ jest.mock("react-router-dom", () => ({
   useParams: () => ({ orderId: "f825e7b4-be23-41b1-914c-36a8a13ab3c6" }),
 }));
 
-// =========================== Mock Axios ==============================
+// =========================== mock axios ==============================
 jest.mock("axios", () => ({
   post: jest.fn(),
   get: jest.fn(),
@@ -48,12 +47,12 @@ jest.mock("axios", () => ({
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 mockedAxios.get.mockResolvedValue({ data: mockOrderItems });
 
-// =========================== Mock Store ==============================
+// =========================== mock store ==============================
 const mockStore = configureStore([thunk]);
 
 describe("Order view page", () => {
   let store: any;
-  it("should be correct rendered", async () => {
+  it("should render correctly", async () => {
     store = mockStore({
       orders: {
         orders: [order],
@@ -75,7 +74,7 @@ describe("Order view page", () => {
     );
   });
 
-  it("should be correct rendered without orders and with attention", async () => {
+  it("should render correctly without orders and with attention", async () => {
     store = mockStore({
       orders: {
         orders: [],

@@ -1,7 +1,7 @@
 // ========================== react ==========================
 import { FC, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // ========================== mui ==========================
 import styled from "@emotion/styled";
@@ -37,7 +37,6 @@ const UserEditPage: FC = () => {
   const userInfo = useSelector(userInfoSelector);
   const user = useSelector(userSelector);
   const pending = useSelector(userLoadingSelector);
-  const { userId } = useParams<string>();
   const getUser = usersActions.getUser;
 
   useEffect(() => {
@@ -53,7 +52,6 @@ const UserEditPage: FC = () => {
   };
 
   const handleSave = (data: any) => {
-    // if (!userId) return;
     dispatch(updateUserDetails(data));
   };
 

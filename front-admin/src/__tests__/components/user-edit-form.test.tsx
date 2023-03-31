@@ -14,7 +14,7 @@ import { Button } from "@mui/material";
 
 // ========================== components, mock ==========================
 import UserEditFormComp from "../../components/user-edit-form.comp";
-import { mockEditFormProps } from "./user-data-mock";
+import { mockEditFormProps } from "../mocks/user-data-mock";
 
 describe("User edit form", () => {
   it("should renders", async () => {

@@ -8,7 +8,7 @@ import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
 
 // ========================== components ==========================
-import { initialState, mockUser } from "../components/user-data-mock";
+import { initialState, mockUser } from "../mocks/user-data-mock";
 import UserListPage from "../../app/users/user-list.page";
 
 // ========================== mock useNavigate ==========================
@@ -36,6 +36,7 @@ const mockedAxios = axios as jest.Mocked<typeof axios>;
 mockedAxios.post.mockResolvedValue({ data: [mockUser] });
 mockedAxios.get.mockResolvedValue({ data: [mockUser] });
 
+// ====================== mock store ======================
 const mockStore = configureStore([thunk]);
 
 describe("User list page", () => {

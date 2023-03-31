@@ -1,24 +1,23 @@
+// =========================== react ===========================
 import axios from "axios";
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 import configureStore from "redux-mock-store";
 import { MemoryRouter } from "react-router-dom";
-
-// =========================== React-testing ===========================
 import { render } from "@testing-library/react";
 
-// =========================== Mocks ===================================
+// =========================== mocks ===================================
 import { mockedData } from "../mocks/auth.data.mock";
 
-// =========================== Component ===============================
+// =========================== component ===============================
 import { fetchAuth } from "../../app/login/store/auth.slice";
 import { handleResponse } from "../../app/login/login.page";
 import LoginPage from "../../app/login";
 
-// =========================== Enums ===================================
+// =========================== enums ===================================
 import { UserRoles } from "../../app/roles/types/user-roles.enum";
 
-// =========================== Mock Axios ==============================
+// =========================== mock axios ==============================
 jest.mock("axios", () => ({
   post: jest.fn(),
   get: jest.fn(),
@@ -39,7 +38,7 @@ jest.mock("../../app/login/store/auth.slice", () => ({
   fetchAuth: jest.fn(),
 }));
 
-// =========================== Mock Store ==============================
+// =========================== mock store ==============================
 const mockStore = configureStore([thunk]);
 
 describe("LoginPage", () => {
@@ -61,7 +60,7 @@ describe("LoginPage", () => {
   });
 });
 
-// =========================== Mock Functions =============================
+// =========================== mock functions =============================
 const mockReplace = jest.fn();
 const mockSetItem = jest.fn();
 const mockGetItem = jest.fn();

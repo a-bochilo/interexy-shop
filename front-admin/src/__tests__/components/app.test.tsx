@@ -1,7 +1,7 @@
 // ========================== react ==========================
 import React from "react";
 import axios from "axios";
-import { act, render } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 
@@ -14,7 +14,7 @@ import AppRoutes from "../../app.routes";
 import ErrorBoundaryComp from "../../components/error-boundary.comp";
 import store from "../../store";
 
-// ========================== axios mock ==========================
+// ========================== mock axios ==========================
 jest.mock("axios", () => ({
   post: jest.fn(),
   get: jest.fn(),
@@ -33,7 +33,7 @@ const mockedAxios = axios as jest.Mocked<typeof axios>;
 mockedAxios.post.mockResolvedValue({});
 
 describe("App component", () => {
-  it("App renders", () => {
+  it("should renders", () => {
     render(
       <ErrorBoundaryComp>
         <Provider store={store}>

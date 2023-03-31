@@ -167,7 +167,6 @@ describe("CartService", () => {
                     userSessionDto,
                     cartEntity.items[0].id
                 );
-                console.log(returnedCart);
                 expect(returnedCart).toBeDefined();
                 expect(returnedCart.items).toMatchObject([]);
             });

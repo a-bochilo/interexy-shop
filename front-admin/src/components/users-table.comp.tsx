@@ -12,7 +12,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
-// =========================== dto ===========================
+// =========================== type ===========================
 import { UserDto } from "../app/users/types/user-dto.type";
 
 interface ColumnData {
@@ -80,9 +80,7 @@ const UsersTable = ({ users }: { users: UserDto[] }) => {
           </TableCell>
         ))}
       </TableRow>
-    ) : (
-      ""
-    );
+    ) : null;
   };
 
   const rowContent = (_index: number, row: UserDto) => {
@@ -103,9 +101,7 @@ const UsersTable = ({ users }: { users: UserDto[] }) => {
           );
         })}
       </>
-    ) : (
-      ""
-    );
+    ) : null;
   };
 
   return (

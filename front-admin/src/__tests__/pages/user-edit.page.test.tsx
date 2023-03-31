@@ -11,8 +11,6 @@ import {
   waitFor,
 } from "@testing-library/react";
 import axios from "axios";
-
-// ========================== redux ==========================
 import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
 
@@ -21,7 +19,7 @@ import {
   initialState,
   initialStateWithUserInfoIsNull,
   mockUser,
-} from "../components/user-data-mock";
+} from "../mocks/user-data-mock";
 import UserEditPage from "../../app/users/user-edit.page";
 
 // ====================== mock useNavigate & useParams ======================
@@ -52,6 +50,7 @@ const mockedAxios = axios as jest.Mocked<typeof axios>;
 mockedAxios.post.mockResolvedValue({ data: [mockUser] });
 mockedAxios.get.mockResolvedValue({ data: [mockUser] });
 
+// ====================== mock store ======================
 const mockStore = configureStore([thunk]);
 
 // ======================== mock buttons ========================
