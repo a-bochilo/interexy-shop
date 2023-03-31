@@ -9,6 +9,7 @@ import { UserUpdateDto } from "../types/user-details-update.type";
 import $api from "../../../api/api";
 import { UserDetailsDto } from "../types/user-details.type";
 
+// ============ GET USER INFO ============ //
 export const getUserInfo = createAsyncThunk(
   "users/getUserInfo",
   async (_, { rejectWithValue }) => {
@@ -23,6 +24,7 @@ export const getUserInfo = createAsyncThunk(
   }
 );
 
+//============ UPDATE USER INFO ============
 export const updateUserDetails = createAsyncThunk<UserUpdateDto, UserUpdateDto>(
   "users/updateUserDetails",
   async (userData) => {

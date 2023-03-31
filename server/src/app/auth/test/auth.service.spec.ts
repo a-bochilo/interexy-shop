@@ -1,12 +1,12 @@
-import { SecurityService } from "../../security/security.service";
-// ========================== Nest ==========================
-import { Test, TestingModule } from "@nestjs/testing";
+// ========================== nest ==========================
+import { Test } from "@nestjs/testing";
 import { JwtModule, JwtService } from "@nestjs/jwt";
 import { getRepositoryToken } from "@nestjs/typeorm";
 import { BadRequestException } from "@nestjs/common";
 
 // ========================== service ==========================
 import { AuthService } from "../auth.service";
+import { SecurityService } from "../../security/security.service";
 
 // ========================== repository ==========================
 import { UserRepository } from "../../users/repos/user.repository";

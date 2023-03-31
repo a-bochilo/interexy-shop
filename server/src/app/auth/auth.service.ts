@@ -1,4 +1,4 @@
-// ========================== Nest ==========================
+// ========================== nest ==========================
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { I18nContext } from "nestjs-i18n";
 
@@ -6,22 +6,22 @@ import { I18nContext } from "nestjs-i18n";
 //! This lib could be turned on in case it neccessary to hash passwords
 // import { compare, hashSync } from "bcrypt";
 
-// ========================== Entities & DTO's ==========================
+// ========================== dto ==========================
 import { UserSignInDto } from "./dtos/user-sign-in.dto";
 import { TokenDto } from "../security/dtos/token.dto";
 import { CreateUserDto } from "../users/dtos/user-create.dto";
 
-// ========================== Repositories ==============================
+// ========================== repositories ==============================
 import { UserRepository } from "../users/repos/user.repository";
 import { RoleRepository } from "../roles/repos/role.repository";
 import { UserDetailsRepository } from "../users/repos/user-details.repository";
+import { CartRepository } from "../cart/repos/cart.repository";
 
-// ========================== Enums =====================================
+// ========================== enums =====================================
 import { UserRoles } from "../../shared/types/user-roles.enum";
 
-// ========================== Services & Controllers ====================
+// ========================== services ====================
 import { SecurityService } from "../security/security.service";
-import { CartRepository } from "../cart/repos/cart.repository";
 
 @Injectable()
 export class AuthService {
@@ -33,21 +33,22 @@ export class AuthService {
         private readonly securityService: SecurityService
     ) {}
 
-    async signUp(dto: CreateUserDto): Promise<TokenDto> {
-        const userFromDB = await this.userRepository.getUserByEmail(dto.email);
+  // ========================== signUp ==============================
+  async signUp(dto: CreateUserDto): Promise<TokenDto> {
+    const userFromDB = await this.userRepository.getUserByEmail(dto.email);
 
-        if (userFromDB)
-            throw new HttpException(
-                `${I18nContext.current().t(`errors.user.userAlreadyExist`)}: ${
-                    dto.email
-                }`,
-                HttpStatus.BAD_REQUEST
-            );
+    if (userFromDB)
+      throw new HttpException(
+        `${I18nContext.current().t(`errors.user.userAlreadyExist`)}: ${
+          dto.email
+        }`,
+        HttpStatus.BAD_REQUEST
+      );
 
-        const role = await this.roleRepository.getRoleByType(UserRoles.user);
-        const details = await this.userDetailsRepository.createUserDetails(
-            dto.details
-        );
+    const role = await this.roleRepository.getRoleByType(UserRoles.user);
+    const details = await this.userDetailsRepository.createUserDetails(
+      dto.details
+    );
 
         //! Line below could be activited on in case it neccessary to hash passwords
         // const hashPassword = await hashSync(dto.password, 5);
@@ -60,15 +61,16 @@ export class AuthService {
 
         const cart = await this.cartRepository.createCart(newUser);
 
-        newUser.cart = cart;
-        await this.userRepository.save(newUser);
+    newUser.cart = cart;
+    await this.userRepository.save(newUser);
 
         const access_token = await this.securityService.generateJwt(newUser);
         return access_token;
     }
 
-    async signIn(dto: UserSignInDto): Promise<TokenDto> {
-        const userFromDB = await this.userRepository.getUserByEmail(dto.email);
+  // ========================== signIn ==============================
+  async signIn(dto: UserSignInDto): Promise<TokenDto> {
+    const userFromDB = await this.userRepository.getUserByEmail(dto.email);
 
         if (!userFromDB) {
             throw new HttpException(
@@ -84,12 +86,12 @@ export class AuthService {
         // const isPasswordCorrect = await compare(dto.password, userFromDB.password);
         const isPasswordCorrect = dto.password === userFromDB.password;
 
-        if (!isPasswordCorrect)
-            throw new HttpException(
-                "Wrong password",
-                HttpStatus.UNPROCESSABLE_ENTITY
-            );
-        const access_token = await this.securityService.generateJwt(userFromDB);
-        return access_token;
-    }
+    if (!isPasswordCorrect)
+      throw new HttpException(
+        I18nContext.current().t("errors.authorization.wrongPassword"),
+        HttpStatus.UNPROCESSABLE_ENTITY
+      );
+    const access_token = await this.securityService.generateJwt(userFromDB);
+    return access_token;
+  }
 }

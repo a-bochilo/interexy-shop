@@ -21,6 +21,7 @@ import { UserRoles } from "../app/roles/types/user-roles.enum";
 // ========================== components ==========================
 import TemporaryTypography from "./temporary-typography.component";
 
+// ========================== interfaces ==========================
 interface IUserAssignRole {
   id: string;
   name: string;
@@ -92,6 +93,7 @@ const UserAssignRoleFormComp: FC<FormProps> = ({
         onSubmit={handleSubmit(onSubmit)}
         style={{ display: "flex", flexDirection: "column", gap: 10 }}
       >
+        {/*============================ user id field ===================================*/}
         <Box
           sx={{
             display: "flex",
@@ -127,7 +129,7 @@ const UserAssignRoleFormComp: FC<FormProps> = ({
             )}
           />
         </Box>
-
+        {/*============================ role name field ===================================*/}
         <Box
           sx={{
             display: "flex",
@@ -177,6 +179,7 @@ const UserAssignRoleFormComp: FC<FormProps> = ({
             justifyContent: "space-between",
           }}
         >
+          {/*============================ conditions block ===================================*/}
           <Box
             sx={{
               display: "flex",
@@ -197,6 +200,7 @@ const UserAssignRoleFormComp: FC<FormProps> = ({
               </TemporaryTypography>
             )}
           </Box>
+          {/*============================ buttons block ===================================*/}
           <Box
             sx={{
               display: "flex",

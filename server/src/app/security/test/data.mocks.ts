@@ -1,20 +1,23 @@
+// ========================== entity ==========================
 import { RoleEntity } from "../../roles/entities/role.entity";
 import { UserEntity } from "../../users/entities/user.entity";
+
+// ========================== enum ==========================
 import { UserPermissions } from "../../../shared/types/user-permissions.enum";
 import { UserRoles } from "../../../shared/types/user-roles.enum";
 
 const date = new Date();
 
 const basicPermissions = [
-    UserPermissions.getCart,
-    UserPermissions.addCartItem,
-    UserPermissions.updateCartItem,
-    UserPermissions.deleteCartItem,
-    UserPermissions.cleanCart,
-    UserPermissions.createOrder,
-    UserPermissions.getProfileOrders,
-    UserPermissions.getUserProfile,
-    UserPermissions.updateUserProfile,
+  UserPermissions.getCart,
+  UserPermissions.addCartItem,
+  UserPermissions.updateCartItem,
+  UserPermissions.deleteCartItem,
+  UserPermissions.cleanCart,
+  UserPermissions.createOrder,
+  UserPermissions.getProfileOrders,
+  UserPermissions.getUserProfile,
+  UserPermissions.updateUserProfile,
 ];
 
 export const roleEntity = new RoleEntity();
@@ -34,4 +37,4 @@ userEntity.role = roleEntity;
 userEntity.roleId = roleEntity.id;
 userEntity.roleType = roleEntity.type;
 userEntity.isActive = true;
-userEntity.phone = '123-45-67'
+userEntity.phone = "123-45-67";

@@ -10,8 +10,6 @@ import UsersRoutes from "./users.routes";
 import PageNavBarComp from "../../components/navbar.comp";
 import PageFooterComp from "../../components/page-footer.comp";
 
-// ======== routes ============
-
 const MainGrid = styled(Grid)`
   display: flex;
   flex-direction: column;

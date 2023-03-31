@@ -1,166 +1,165 @@
 /* eslint-disable testing-library/no-node-access */
 /* eslint-disable testing-library/no-unnecessary-act */
-import { Provider } from "react-redux";
-import thunk from "redux-thunk";
-
-// =========================== Libs ===========================
+// =========================== lodash ===========================
 import _ from "lodash";
 
-// =========================== React-testing ===========================
+// =========================== react ===========================
+import { Provider } from "react-redux";
+import thunk from "redux-thunk";
 import { act, fireEvent, render, screen } from "@testing-library/react";
-
-// =========================== Mocks ===========================
 import configureStore from "redux-mock-store";
+
+// =========================== mocks ===========================
 import { initialStateWithCart } from "../mocks/products.data.mocks";
 
-// =========================== Component ===========================
+// =========================== component ===========================
 import ProductViewPage from "../../app/products/product-view.page";
 
-// =========================== Mock Lodash ===========================
+// =========================== mock lodash ===========================
 jest.unmock("lodash");
 _.debounce = (fn: any, t: any) => fn();
 
-// ====================== Mock useNavi & useParams ======================
+// ====================== mock useNavigate & useParams ======================
 const mockedUseNavigate = jest.fn();
 let mockedUseParamsResult: any = {
-    productId: "c06cbc27-26ee-4455-8983-33fff83c8be8",
+  productId: "c06cbc27-26ee-4455-8983-33fff83c8be8",
 };
 jest.mock("react-router-dom", () => ({
-    ...(jest.requireActual("react-router-dom") as any),
-    useNavigate: () => mockedUseNavigate,
-    useParams: () => mockedUseParamsResult,
+  ...(jest.requireActual("react-router-dom") as any),
+  useNavigate: () => mockedUseNavigate,
+  useParams: () => mockedUseParamsResult,
 }));
 
-// =========================== Mock i18n ===========================
+// =========================== mock i18n ===========================
 const tFunc = (key: string) => {
-    const obj = {
-        productsFilterForm: {
-            formTitle: "Filter products",
-            selectCategory: "Select category",
-            name: "name",
-            brand: "brand",
-            minPrice: "minPrice",
-            maxPrice: "maxPrice",
-            filterButtonTitle: "filter",
-            resetButtonTitle: "reset",
-        },
-        productInfo: {
-            category: "category",
-            name: "name",
-            brand: "brand",
-            color: "color",
-            material: "material",
-            size: "size",
-            description: "description",
-        },
-        categories: {
-            all: "all",
-            trousers: "trousers",
-            shirts: "shirts",
-            shoes: "shoes",
-        },
-    };
-    const objKey = key.split(".")[1] as keyof typeof obj;
-    return obj[objKey];
+  const obj = {
+    productsFilterForm: {
+      formTitle: "Filter products",
+      selectCategory: "Select category",
+      name: "name",
+      brand: "brand",
+      minPrice: "minPrice",
+      maxPrice: "maxPrice",
+      filterButtonTitle: "filter",
+      resetButtonTitle: "reset",
+    },
+    productInfo: {
+      category: "category",
+      name: "name",
+      brand: "brand",
+      color: "color",
+      material: "material",
+      size: "size",
+      description: "description",
+    },
+    categories: {
+      all: "all",
+      trousers: "trousers",
+      shirts: "shirts",
+      shoes: "shoes",
+    },
+  };
+  const objKey = key.split(".")[1] as keyof typeof obj;
+  return obj[objKey];
 };
 jest.mock("react-i18next", () => ({
-    useTranslation: () => {
-        return {
-            t: tFunc,
-            i18n: {
-                changeLanguage: () => new Promise(() => {}),
-            },
-        };
-    },
+  useTranslation: () => {
+    return {
+      t: tFunc,
+      i18n: {
+        changeLanguage: () => new Promise(() => {}),
+      },
+    };
+  },
 }));
 
-// =========================== Mock Store ===========================
+// =========================== mock store ===========================
 const mockStore = configureStore([thunk]);
 
-// ======================== Mock CartButton ========================
+// ======================== mock cartButton ========================
 jest.mock(
-    "../../components/cart-button.compoent",
-    () =>
-        ({ handleAddToCartLocal }: any) => {
-            return (
-                <div>
-                    <button
-                        data-testid="handleAddToCart-clicker"
-                        onClick={() => handleAddToCartLocal()}
-                    >
-                        Click
-                    </button>
-                </div>
-            );
-        }
+  "../../components/cart-button.compoent",
+  () =>
+    ({ handleAddToCartLocal }: any) => {
+      return (
+        <div>
+          <button
+            data-testid="handleAddToCart-clicker"
+            onClick={() => handleAddToCartLocal()}
+          >
+            Click
+          </button>
+        </div>
+      );
+    }
 );
 
 describe("ProductView page", () => {
-    let store: any;
+  let store: any;
 
-    it("should render component", () => {
-        store = mockStore(initialStateWithCart);
+  it("should render component", () => {
+    store = mockStore(initialStateWithCart);
 
-        render(
-            <Provider store={store}>
-                <ProductViewPage />
-            </Provider>
-        );
+    render(
+      <Provider store={store}>
+        <ProductViewPage />
+      </Provider>
+    );
+  });
+
+  it("should render CircularProgress component in case of products pending", async () => {
+    store = mockStore({
+      ...initialStateWithCart,
+      products: {
+        ...initialStateWithCart.products,
+        pending: {
+          ...initialStateWithCart.products.pending,
+          products: true,
+        },
+      },
     });
 
-    it("should render CircularProgress component in case of products pending", async () => {
-        store = mockStore({
-            ...initialStateWithCart,
-            products: {
-                ...initialStateWithCart.products,
-                pending: {
-                    ...initialStateWithCart.products.pending,
-                    products: true,
-                },
-            },
-        });
+    render(
+      <Provider store={store}>
+        <ProductViewPage />
+      </Provider>
+    );
 
-        render(
-            <Provider store={store}>
-                <ProductViewPage />
-            </Provider>
-        );
+    await screen.findByTestId(/pending-stub/i);
+  });
 
-        await screen.findByTestId(/pending-stub/i);
+  it("should handleBack in case button clicked", async () => {
+    store = mockStore(initialStateWithCart);
+
+    render(
+      <Provider store={store}>
+        <ProductViewPage />
+      </Provider>
+    );
+
+    const btn = screen.getByTestId("btn-back-test");
+    await act(() => fireEvent.click(btn));
+
+    expect(mockedUseNavigate).toBeCalledTimes(1);
+  });
+
+  it("should not render component", async () => {
+    store = mockStore({
+      ...initialStateWithCart,
+      products: {
+        ...initialStateWithCart.products,
+        products: [],
+        productDetails: undefined,
+      },
     });
+    mockedUseParamsResult = {};
 
-    it("should handleBack in case button clicked", async () => {
-        store = mockStore(initialStateWithCart);
+    render(
+      <Provider store={store}>
+        <ProductViewPage />
+      </Provider>
+    );
 
-        render(
-            <Provider store={store}>
-                <ProductViewPage />
-            </Provider>
-        );
-
-        const btn = screen.getByTestId("btn-back-test");
-        await act(() => fireEvent.click(btn));
-
-        expect(mockedUseNavigate).toBeCalledTimes(1);
-    });
-
-    it("should not render component", async () => {
-        store = mockStore({
-            ...initialStateWithCart,
-            products: {
-                ...initialStateWithCart.products,
-                products: [],
-                productDetails: undefined,
-            },
-        });
-        mockedUseParamsResult = {};
-
-        render(
-            <Provider store={store}>
-                <ProductViewPage />
-            </Provider>
-        );
-
-        expect(screen.queryByText("brand")).not.toBeInTheDocument();
-    });
+    expect(screen.queryByText("brand")).not.toBeInTheDocument();
+  });
 });

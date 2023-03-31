@@ -1,13 +1,19 @@
 /* eslint-disable testing-library/await-async-utils */
 /* eslint-disable testing-library/no-unnecessary-act */
 /* eslint-disable testing-library/no-node-access */
-// =========================== React-testing ===========================
-import { render, fireEvent, screen, act, waitFor } from "@testing-library/react";
+// =========================== react testing library ===========================
+import {
+  render,
+  fireEvent,
+  screen,
+  act,
+  waitFor,
+} from "@testing-library/react";
 
-// =========================== Mocks ===================================
+// =========================== mocks ===================================
 import { authWithTranslate } from "../mocks/auth.data.mock";
 
-// =========================== Component ===============================
+// =========================== component ===============================
 import SignUpForm from "../../components/signUp-form.component";
 
 describe("SignUpForm", () => {
@@ -49,7 +55,7 @@ describe("SignUpForm", () => {
     await screen.findByTestId(/pending-stub/i);
   });
 
-  it("renders DoneIcon when roles are pending and havent errors", async () => {
+  it("renders DoneIcon when roles are pending and haven't errors", async () => {
     render(
       <SignUpForm
         handleSignUp={handleSignUp}
@@ -61,7 +67,7 @@ describe("SignUpForm", () => {
     await screen.findByTestId(/done-stub/i);
   });
 
-  it("renders Errors when roles are nave errors", async () => {
+  it("renders Errors when roles have errors", async () => {
     render(
       <SignUpForm
         handleSignUp={handleSignUp}

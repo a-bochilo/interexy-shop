@@ -1,19 +1,19 @@
-// ======== react ============
+// ========================== react ======================
 import React, { FC, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 
-// ========================== mui ==========================
+// ========================== mui =========================
 import { Grid } from "@mui/material";
 import styled from "@emotion/styled";
 import { Button } from "@mui/material";
 
-// ======== components ============
+// ======================= components =====================
 import UsersRoutes from "./users.routes";
 import PageNavBarComp from "../../components/navbar.comp";
 import PageAsideComp from "../../components/aside.comp";
 
-// ========================== store ==========================
+// ========================== store =======================
 import { AppDispatch } from "../../store";
 import { getUsers, getAllUsers } from "./store/users.actions";
 

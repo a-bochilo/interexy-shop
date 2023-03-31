@@ -12,6 +12,7 @@ import { UserAssignRoleDto } from "../types/user-assign-role-dto.type";
 import $api from "../../../api/api";
 import { UserInfoUpdateDto } from "../types/user-info-update.type";
 
+// ============ GET USERS ============ //
 export const getUsers = createAsyncThunk<UserDto[]>(
   "users/getUsers",
   async (_, { rejectWithValue }) => {
@@ -24,6 +25,7 @@ export const getUsers = createAsyncThunk<UserDto[]>(
   }
 );
 
+// ============ GET ALL USERS ============ //
 export const getAllUsers = createAsyncThunk<UserDto[], boolean>(
   "users/getAllUsers",
   async (isActive: boolean, { rejectWithValue }) => {
@@ -40,6 +42,7 @@ export const getAllUsers = createAsyncThunk<UserDto[], boolean>(
   }
 );
 
+// ============ GET USER INFO ============ //
 export const getUserInfo = createAsyncThunk(
   "users/getUserInfo",
   async (userId: string, { rejectWithValue }) => {
@@ -54,6 +57,7 @@ export const getUserInfo = createAsyncThunk(
   }
 );
 
+// ============ UPDATE USER INFO ============ //
 export const updateUserInfo = createAsyncThunk<
   UserUpdateDto,
   UserInfoUpdateDto
@@ -66,6 +70,7 @@ export const updateUserInfo = createAsyncThunk<
   }
 });
 
+// ============ DELETE USER ============ //
 export const deleteUser = createAsyncThunk(
   "users/deleteUser",
   async (userId: string, { rejectWithValue }) => {
@@ -78,6 +83,7 @@ export const deleteUser = createAsyncThunk(
   }
 );
 
+// ============ ASSIGN ROLE ============ //
 export const assignRole = createAsyncThunk<
   UserAssignRoleDto,
   UserAssignRoleDto

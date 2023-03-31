@@ -1,10 +1,7 @@
 /* eslint-disable testing-library/no-node-access */
 /* eslint-disable testing-library/no-unnecessary-act */
-import { Provider } from "react-redux";
 
-import thunk from "redux-thunk";
-
-// =========================== React-testing ===========================
+// =========================== react ===========================
 import {
     render,
     screen,
@@ -12,22 +9,24 @@ import {
     act,
     waitFor,
 } from "@testing-library/react";
-
-// =========================== Component ===========================
-import ProductFilterForm from "../../components/product-filter-form.component";
-
-// =========================== Mocks ===========================
-import { mockProduct, initialState } from "../mocks/products.data.mocks";
+import { Provider } from "react-redux";
+import thunk from "redux-thunk";
 import configureStore from "redux-mock-store";
 
-// ====================== Mock useNavi ======================
+// =========================== component ===========================
+import ProductFilterForm from "../../components/product-filter-form.component";
+
+// =========================== mocks ===========================
+import { mockProduct, initialState } from "../mocks/products.data.mocks";
+
+// ====================== mock useNavigate ======================
 const mockedUsedNavigate = jest.fn();
 jest.mock("react-router-dom", () => ({
     ...(jest.requireActual("react-router-dom") as any),
     useNavigate: () => mockedUsedNavigate,
 }));
 
-// =========================== Mock Store ===========================
+// =========================== mock store ===========================
 const mockStore = configureStore([thunk]);
 
 describe("ProductFilterForms", () => {
