@@ -1,63 +1,63 @@
 version: "3.8"
 services:
-    front-client:
-        depends_on:
-            - server
-        build:
-            context: ./front-client
-        image: front-client:latest
-        ports:
-            - 8000:3000
-        networks:
-            main2:
-        hostname: "front-client.local"
-        container_name: "front-client"
-        command: "npm start"
-    front-admin:
-        depends_on:
-            - server
-        build:
-            context: ./front-admin
-        image: front-admin:latest
-        ports:
-            - 8080:3000
-        networks:
-            main2:
-        hostname: "front-admin.local"
-        container_name: "front-admin"
-        command: "npm start"
-    server:
-        depends_on:
-            - db
-        build:
-            context: ./server
-        image: server:latest
-        ports:
-            - 5000:5000
-        networks:
-            main2:
-        hostname: "server.local"
-        container_name: "server"
-        command: "npm run start-docker-container"
-    db:
-        image: library/postgres:15
-        hostname: "db.local"
-        networks:
-            main2:
-        container_name: db
-        env_file:
-            - ./server/.env
-        ports:
-            - 5432:5432
+  front-client:
+    depends_on:
+      - server
+    build:
+      context: ./front-client
+    image: front-client:latest
+    ports:
+      - 8000:3000
+    networks:
+      main2:
+    hostname: "front-client.local"
+    container_name: "front-client"
+    command: "npm start"
+  front-admin:
+    depends_on:
+      - server
+    build:
+      context: ./front-admin
+    image: front-admin:latest
+    ports:
+      - 8080:3000
+    networks:
+      main2:
+    hostname: "front-admin.local"
+    container_name: "front-admin"
+    command: "npm start"
+  server:
+    depends_on:
+      - db
+    build:
+      context: ./server
+    image: server:latest
+    ports:
+      - 5000:5000
+    networks:
+      main2:
+    hostname: "server.local"
+    container_name: "server"
+    command: "npm run start-docker-container"
+  db:
+    image: library/postgres:15
+    hostname: "db.local"
+    networks:
+      main2:
+    container_name: db
+    env_file:
+      - ./server/.env
+    ports:
+      - 5432:5432
 
-    pgadmin:
-        image: dpage/pgadmin4:latest
-        env_file:
-            - ./server/.env
-        ports:
-            - 3002:80
-        networks:
-            main2:
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    env_file:
+      - ./server/.env
+    ports:
+      - 3002:80
+    networks:
+      main2:
 
 networks:
-    main2:
+  main2:

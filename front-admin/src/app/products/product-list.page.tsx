@@ -1,54 +1,54 @@
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 
-// =========================== MUI ===========================
+// =========================== mui ===========================
 import styled from "@emotion/styled";
 import { CircularProgress, Grid } from "@mui/material";
 
-// =========================== Store ===========================
+// =========================== store ===========================
 import {
-    productsSelector,
-    productsPendingSelector,
+  productsSelector,
+  productsPendingSelector,
 } from "./store/products.selectors";
 import { useAppSelector } from "../../store";
 
-// =========================== Components ===========================
+// =========================== components ===========================
 import ProductsTable from "../../components/products-table.component";
 
+// =========================== styled ===========================
 const MainGrid = styled(Grid)`
-    display: flex;
-    align-items: top;
-    justify-content: space-around;
-    width: 100%;
-    min-height: 100vh;
+  display: flex;
+  align-items: top;
+  justify-content: space-around;
+  width: 100%;
+  min-height: 100vh;
 `;
 
 const ProductListPage: FC = () => {
-    const navigate = useNavigate();
+  // ===== hooks =====
+  const navigate = useNavigate();
 
-    const products = useAppSelector(productsSelector);
-    const pending = useAppSelector(productsPendingSelector);
+  // ===== selectors =====
+  const products = useAppSelector(productsSelector);
+  const pending = useAppSelector(productsPendingSelector);
 
-    const handleClickRow = (productId: string) => {
-        navigate(`${productId}`);
-    };
+  const handleClickRow = (productId: string) => {
+    navigate(`${productId}`);
+  };
 
-    return (
-        <MainGrid>
-            {pending.products && (
-                <CircularProgress
-                    sx={{ alignSelf: "center" }}
-                    data-testid="pending-stub"
-                />
-            )}
-            {!!products.length && !pending.products && (
-                <ProductsTable
-                    products={products}
-                    handleClickRow={handleClickRow}
-                />
-            )}
-        </MainGrid>
-    );
+  return (
+    <MainGrid>
+      {pending.products && (
+        <CircularProgress
+          sx={{ alignSelf: "center" }}
+          data-testid="pending-stub"
+        />
+      )}
+      {!!products.length && !pending.products && (
+        <ProductsTable products={products} handleClickRow={handleClickRow} />
+      )}
+    </MainGrid>
+  );
 };
 
 export default ProductListPage;

@@ -1,9 +1,12 @@
-import { ProductDetailsDto } from "../../dtos/product-details.dto";
-import { ProductWithDetailsDto } from "../../dtos/product-with-details.dto";
-import { ProductDto } from "../../dtos/product.dto";
+// ========================== entities ==========================
 import { ProductActiveViewEntity } from "../../entities/product-active-view.entity";
 import { ProductDetailsEntity } from "../../entities/product-details.entity";
 import { ProductEntity } from "../../entities/product.entity";
+
+// ========================== types & dto's ==========================
+import { ProductDetailsDto } from "../../dtos/product-details.dto";
+import { ProductWithDetailsDto } from "../../dtos/product-with-details.dto";
+import { ProductDto } from "../../dtos/product.dto";
 import { ProductsCategory } from "../../enums/products-category.enum";
 
 const date = new Date();
@@ -33,13 +36,13 @@ productEntity.productDetails = productDetailsEntity;
 
 export const productDto = ProductDto.fromEntity(productEntity);
 export const productDetailsDto =
-    ProductDetailsDto.fromEntity(productDetailsEntity);
+  ProductDetailsDto.fromEntity(productDetailsEntity);
 
 export const productCreateDto =
-    ProductWithDetailsDto.fromProductAndDetailsEntities({
-        product: productEntity,
-        productDetails: productDetailsEntity,
-    });
+  ProductWithDetailsDto.fromProductAndDetailsEntities({
+    product: productEntity,
+    productDetails: productDetailsEntity,
+  });
 export const productWithDetailsDto = productCreateDto;
 
 export const productActiveViewEntity = new ProductActiveViewEntity();

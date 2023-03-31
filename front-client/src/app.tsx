@@ -1,6 +1,3 @@
-// ========================== react ==========================
-import React from "react";
-
 import { BrowserRouter as Router } from "react-router-dom";
 
 // ========================== mui ==========================
@@ -17,17 +14,17 @@ import "./app.css";
 import { Provider } from "react-redux";
 
 function App() {
-    return (
-        <ErrorBoundaryComp>
-            <Provider store={store}>
-                <ThemeProvider theme={theme}>
-                    <Router>
-                        <AppRoutes />
-                    </Router>
-                </ThemeProvider>
-            </Provider>
-        </ErrorBoundaryComp>
-    );
+  return (
+    <ErrorBoundaryComp>
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <Router>
+            <AppRoutes />
+          </Router>
+        </ThemeProvider>
+      </Provider>
+    </ErrorBoundaryComp>
+  );
 }
 
 export default App;

@@ -7,21 +7,16 @@ import { startCase } from "lodash";
 import { useTranslation } from "react-i18next";
 
 // ========================== mui ==========================
-import { styled, useTheme } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
-import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
-import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
+import { styled } from "@mui/material/styles";
 import {
+  Box,
+  Drawer,
+  List,
+  Divider,
+  IconButton,
+  ListItem,
+  ListItemButton,
+  ListItemText,
   Button,
   Container,
   CssBaseline,
@@ -31,8 +26,12 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
+import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 
-// ========================== Enums ==========================
+// ========================== enums ==========================
 import { ProductsCategory } from "../app/products/types/products-category.enum";
 import { ICategoriesSelector } from "../app/products/types/products-category.enum";
 
@@ -48,11 +47,15 @@ import CartIconComponent from "./cart-icon.component";
 import LanguageSwitcher from "./language-switcher.component";
 import { ISettings, SettingsEnum } from "../app/auth/types/settings.enum";
 
+// ========================== initial settings ==========================
 const drawerWidth = 200;
+
+// ========================== local interface ==========================
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
 }
 
+// ========================== styled ==========================
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })<AppBarProps>(({ theme, open }) => ({
@@ -80,32 +83,36 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 const PageNavBarComp = () => {
-  const cartItemsQuantity = useAppSelector(cartSelector)?.items.length;
-
-  const theme = useTheme();
+  // ===== hooks =====
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+
+  // ===== local states =====
+  const [open, setOpen] = useState(false);
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
+    null
+  );
+
+  // ===== i18n =====
   const { t } = useTranslation();
-
-  const enumSettings = Object.values(SettingsEnum).slice(0, 3);
-
   const settingsTranslations: ISettings = t("headerSettings", {
     returnObjects: true,
   });
-
   const categoriesTranslations: ICategoriesSelector = t("products.categories", {
     returnObjects: true,
   });
 
-  const [open, setOpen] = useState(false);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  // ===== selectors =====
+  const cartItemsQuantity = useAppSelector(cartSelector)?.items.length;
 
+  // ===== auth check =====
   const token = window.localStorage.getItem("token");
   let isAuth = false;
   if (token) {
     isAuth = true;
   }
 
+  // ===== handlers =====
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -137,6 +144,8 @@ const PageNavBarComp = () => {
     setAnchorElUser(null);
   };
 
+  const enumSettings = Object.values(SettingsEnum).slice(0, 3);
+
   return (
     <Box component={"nav"} sx={{ display: "flex" }}>
       <CssBaseline />
@@ -153,6 +162,7 @@ const PageNavBarComp = () => {
             <MenuIcon />
           </IconButton>
 
+          {/* toolbar */}
           <Container
             maxWidth="xl"
             sx={{
@@ -201,7 +211,10 @@ const PageNavBarComp = () => {
                     navigate={navigate}
                   />
 
-                  <Tooltip title="Open settings" data-testid="open-settings-button-test">
+                  <Tooltip
+                    title="Open settings"
+                    data-testid="open-settings-button-test"
+                  >
                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                       <VerifiedUserIcon
                         fontSize="large"
@@ -257,6 +270,8 @@ const PageNavBarComp = () => {
           </Container>
         </Toolbar>
       </AppBar>
+
+      {/* side menu */}
       <Drawer
         sx={{
           width: drawerWidth,
@@ -272,11 +287,16 @@ const PageNavBarComp = () => {
         data-testid="drawer-test"
       >
         <DrawerHeader>
-          <IconButton onClick={handleDrawerClose} data-testid="drawer-close-button-test">
+          <IconButton
+            onClick={handleDrawerClose}
+            data-testid="drawer-close-button-test"
+          >
             <ChevronLeftIcon />
           </IconButton>
         </DrawerHeader>
         <Divider />
+
+        {/* links */}
         <List>
           <ListItem key={"Catalog"} disablePadding>
             <ListItemButton onClick={() => navigate("/")}>
