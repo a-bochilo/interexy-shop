@@ -12,7 +12,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
-// =========================== dto ===========================
+// =========================== type ===========================
 import { UserDto } from "../app/users/types/user-dto.type";
 
 interface ColumnData {
@@ -63,47 +63,46 @@ const UsersTable = ({ users }: { users: UserDto[] }) => {
         )),
     };
 
-    const fixedHeaderContent = () => {
-        return users.length > 0 ? (
-            <TableRow>
-                {getColumns(users[0]).map((column) => (
-                    <TableCell
-                        key={column.dataKey}
-                        variant="head"
-                        align="center"
-                        style={{ width: column.width }}
-                        sx={{
-                            backgroundColor: "background.paper",
-                        }}
-                    >
-                        {column.label}
-                    </TableCell>
-                ))}
-            </TableRow>
-        ) : null;
-    };
+  const fixedHeaderContent = () => {
+    return users.length > 0 ? (
+      <TableRow>
+        {getColumns(users[0]).map((column) => (
+          <TableCell
+            key={column.dataKey}
+            variant="head"
+            align="center"
+            style={{ width: column.width }}
+            sx={{
+              backgroundColor: "background.paper",
+            }}
+          >
+            {column.label}
+          </TableCell>
+        ))}
+      </TableRow>
+    ) : null;
+  };
 
-    const rowContent = (_index: number, row: UserDto) => {
-        return users.length > 0 ? (
-            <>
-                {getColumns(users[0]).map((column) => {
-                    let date: string | null = null;
-                    if (
-                        (column.dataKey === "created" ||
-                            column.dataKey === "updated") &&
-                        typeof row[column.dataKey] !== "string"
-                    ) {
-                        date = new Date(row[column.dataKey]).toLocaleString();
-                    }
-                    return (
-                        <TableCell key={column.dataKey} align="center">
-                            {date ? `${date}` : `${row[column.dataKey]}`}
-                        </TableCell>
-                    );
-                })}
-            </>
-        ) : null;
-    };
+  const rowContent = (_index: number, row: UserDto) => {
+    return users.length > 0 ? (
+      <>
+        {getColumns(users[0]).map((column) => {
+          let date: string | null = null;
+          if (
+            (column.dataKey === "created" || column.dataKey === "updated") &&
+            typeof row[column.dataKey] !== "string"
+          ) {
+            date = new Date(row[column.dataKey]).toLocaleString();
+          }
+          return (
+            <TableCell key={column.dataKey} align="center">
+              {date ? `${date}` : `${row[column.dataKey]}`}
+            </TableCell>
+          );
+        })}
+      </>
+    ) : null;
+  };
 
     return (
         <Paper style={{ height: "calc(100vh - 64px)", width: "100%" }}>

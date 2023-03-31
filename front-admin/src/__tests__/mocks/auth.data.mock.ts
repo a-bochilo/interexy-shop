@@ -1,5 +1,6 @@
 test.skip("skip", () => {});
 
+// ========================== mock auth with translation ==========================
 export const authWithTranslate = {
   login: "Login",
   email: "Email",
@@ -13,6 +14,7 @@ export const authWithTranslate = {
   phone: "Phone",
 };
 
+// ========================== mock registration data ==========================
 export const mockRegisterData = {
   firstname: "some",
   middlename: "some",
@@ -23,11 +25,13 @@ export const mockRegisterData = {
   phone: "+375291111231",
 };
 
+// ========================== mock form sign in input ==========================
 export const FormSignInInput = {
   email: "test@test.com",
   password: "123123123",
 };
 
+// ========================== mock initial state ==========================
 export const initialState = {
   auth: {
     token: "",
@@ -40,6 +44,7 @@ export const initialState = {
   },
 };
 
+// ========================== mock data ==========================
 export const mockedData = {
   token: "fake token",
   authFetchingStatus: "loaded",

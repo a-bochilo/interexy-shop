@@ -1,24 +1,20 @@
 /* eslint-disable testing-library/no-container */
 /* eslint-disable testing-library/no-node-access */
+
+// =========================== react ===========================
+import { render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import axios from "axios";
 import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
 
-// =========================== React-testing ===========================
-import { render, screen } from "@testing-library/react";
-// =========================== Mocks ===================================
+// =========================== mocks ===================================
 import { mockOrderItems, order } from "../mocks/order.data.mock";
-// =========================== Component ===============================
+
+// =========================== component ===============================
 import OrderItemsViewPage from "../../app/orders/orders-view.page";
 
-
-
-
-
-
-
-// =========================== Mock useNavi ============================
+// =========================== mock useNavigate ============================
 const mockedUsedNavigate = jest.fn();
 jest.mock("react-router-dom", () => ({
   ...(jest.requireActual("react-router-dom") as any),
@@ -26,7 +22,7 @@ jest.mock("react-router-dom", () => ({
   useParams: () => ({ orderId: "f825e7b4-be23-41b1-914c-36a8a13ab3c6" }),
 }));
 
-// =========================== Mock Axios ==============================
+// =========================== mock axios ==============================
 jest.mock("axios", () => ({
   post: jest.fn(),
   get: jest.fn(),
@@ -42,7 +38,7 @@ jest.mock("axios", () => ({
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 mockedAxios.get.mockResolvedValue({ data: mockOrderItems });
 
-// =========================== Mock Store ==============================
+// =========================== mock store ==============================
 const mockStore = configureStore([thunk]);
 
 describe("Order view page", () => {
@@ -91,5 +87,4 @@ describe("Order view page", () => {
     );
     await screen.findByTestId(/pending-stub/i);
   });
-
 });

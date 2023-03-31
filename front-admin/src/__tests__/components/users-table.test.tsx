@@ -5,13 +5,14 @@ import { render } from "@testing-library/react";
 import UsersTable from "../../components/users-table.comp";
 
 // ========================== mock ==========================
-import { mockUserWithDetails } from "./user-data-mock";
+import { mockUserWithDetails } from "../mocks/user-data-mock";
 
-const mockedUsedNavigate = jest.fn();
+// ========================== mock useNavigate ==========================
+const mockedUseNavigate = jest.fn();
 
 jest.mock("react-router-dom", () => ({
   ...(jest.requireActual("react-router-dom") as any),
-  useNavigate: () => mockedUsedNavigate,
+  useNavigate: () => mockedUseNavigate,
 }));
 
 describe("Users table", () => {

@@ -1,15 +1,16 @@
+// ========================== nest ==========================
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
+import { I18nContext } from "nestjs-i18n";
 
-// ========================== Repos + Entities ==========================
+// ========================== repository & entities ==========================
 import { UserRepository } from "../users/repos/user.repository";
-import { UserEntity } from "../users/entities/user.entity";
 import { RoleRepository } from "../roles/repos/role.repository";
+import { UserEntity } from "../users/entities/user.entity";
 
-// ========================== DTO's ==========================
+// ========================== dto ==========================
 import { UserSessionDto } from "../users/dtos/user-session.dto";
 import { TokenDto } from "./dtos/token.dto";
-import { I18nContext } from "nestjs-i18n";
 
 @Injectable()
 export class SecurityService {

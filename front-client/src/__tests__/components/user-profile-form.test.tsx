@@ -1,6 +1,6 @@
 /* eslint-disable testing-library/no-node-access */
 /* eslint-disable testing-library/no-unnecessary-act */
-// ========================== react ==========================
+// ========================== react testing library ==========================
 import {
   render,
   screen,
@@ -12,7 +12,7 @@ import {
 // ========================== mui ==========================
 import { Button } from "@mui/material";
 
-// ========================== comp, types ==========================
+// ========================== components & mock ==========================
 import { mockUserProfileProps } from "../mocks/user-data-mock";
 import UserProfileFormComp from "../../components/user-profile-form.comp";
 
@@ -29,7 +29,7 @@ describe("User profile", () => {
 
   it("should call 'handleBack' when cancel button is clicked", async () => {
     await act(async () =>
-      render(<UserProfileFormComp {...mockUserProfileProps} disabled={false}/>)
+      render(<UserProfileFormComp {...mockUserProfileProps} disabled={false} />)
     );
     await act(async () => fireEvent.click(screen.getByText(/Cancel/i)));
 
