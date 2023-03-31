@@ -110,7 +110,7 @@ export class ProductsService {
         filter.maxQuantity ?? Number.MAX_SAFE_INTEGER
       ) as FindOperator<number>);
 
-    if (productFilter.isActive === false) {
+    if (productFilter.isActive === false || +filter.maxQuantity <= 0) {
       return await this.productsRepository.getFiltredProducts(productFilter);
     }
 
