@@ -75,24 +75,25 @@ const ProductFilterForm = () => {
     formState: { errors, isValid },
   } = useForm<ProductFilterDto>({
     defaultValues: {
-      category: null,
-      name: null,
-      brand: null,
-      minPrice: null,
-      maxPrice: null,
-      quantity: null,
-      minQuantity: null,
-      maxQuantity: null,
-      isActive: null,
+      category: undefined,
+      name: undefined,
+      brand: undefined,
+      minPrice: undefined,
+      maxPrice: undefined,
+      quantity: undefined,
+      minQuantity: undefined,
+      maxQuantity: undefined,
+      isActive: undefined,
     },
-    mode: "onSubmit",
+    mode: "all",
     resolver: yupResolver(formSchema),
   });
 
   const onSubmit: SubmitHandler<ProductFilterDto> = async (data) => {
     const outputData = removeEmptyFields(data);
     const isPositive = await handleFilter(outputData);
-
+    console.log(data);
+    console.log(outputData);
     if (isPositive) navigate("/products");
   };
 

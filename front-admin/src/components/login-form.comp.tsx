@@ -30,7 +30,7 @@ const LoginForm = ({
   } = useForm<IFormInput>({
     defaultValues: {
       email: "superadmin@gmail.com",
-      password: "123123123",
+      password: "$2b$05$9TFe4fXQEaoYJNpdniw.O.IIByJncLurM20TWrGquevJlaGzweTy.",
     },
     mode: "onChange",
     resolver: yupResolver(formSchema),

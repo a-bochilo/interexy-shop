@@ -238,6 +238,7 @@ const PageNavBarComp: FC = () => {
           anchor="left"
           open={open}
           data-testid="drawer-test"
+          onMouseLeave={() => setOpen(false)}
         >
           <DrawerHeader>
             <IconButton
