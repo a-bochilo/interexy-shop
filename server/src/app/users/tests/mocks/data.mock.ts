@@ -1,3 +1,4 @@
+// ========================== enums =====================================
 import { UserPermissions } from "../../../../shared/types/user-permissions.enum";
 import { UserRoles } from "../../../../shared/types/user-roles.enum";
 

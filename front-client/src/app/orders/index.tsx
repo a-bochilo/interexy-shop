@@ -1,16 +1,14 @@
-// ========================== React ===========================
-import React, { FC } from "react";
-
-// ============================ MUI ============================
+// ============================ mui ============================
 import { Grid, styled } from "@mui/material";
 
-// ======================== Components =========================
+// ======================== components =========================
 import PageFooterComp from "../../components/page-footer.comp";
 
-// ========================== Routes ==========================
+// ========================== routes ===========================
 import PageNavBarComp from "../../components/navbar.comp";
 import OrdersRoutes from "./orders.routes";
 
+// ========================== styles ===========================
 const MainGrid = styled(Grid)`
   display: flex;
   flex-direction: column;
@@ -29,7 +27,7 @@ const ContentGrid = styled(Grid)`
 const OrdersPage = () => {
   return (
     <MainGrid>
-      <PageNavBarComp/>
+      <PageNavBarComp />
       <ContentGrid>
         <OrdersRoutes />
       </ContentGrid>

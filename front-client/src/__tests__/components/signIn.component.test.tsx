@@ -30,9 +30,6 @@ describe("Sign In component", () => {
     );
     await act(async () => fireEvent.click(screen.getByText(/Sign In/i)));
     await waitFor(() => expect(SubmitHandler).toBeDefined());
-
-    await act(async () => fireEvent.click(screen.getByText(/Sign In/i)));
-    await waitFor(() => expect(handleSignIn).toBeDefined());
   });
 
   it("should have a submit button", async () => {

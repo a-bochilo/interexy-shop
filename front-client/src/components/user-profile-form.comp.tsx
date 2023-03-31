@@ -16,7 +16,7 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import { formSchema } from "./user-profile-form.const";
 
-// ========================== enum ==========================
+// ========================== enums & types =================
 import { UserDetailsDto } from "../app/users/types/user-details.type";
 import { UserDto } from "../app/users/types/user-dto.type";
 import { UserState } from "../app/users/types/user-state.type";

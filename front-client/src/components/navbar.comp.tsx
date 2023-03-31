@@ -34,9 +34,10 @@ import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 // ========================== enums ==========================
 import { ProductsCategory } from "../app/products/types/products-category.enum";
 import { ICategoriesSelector } from "../app/products/types/products-category.enum";
+import { ISettings, SettingsEnum } from "../app/auth/types/settings.enum";
 
 // ========================== store ==========================
-import { logout } from "../app/auth/store/auth.slice";
+import { clearErrors, logout } from "../app/auth/store/auth.slice";
 import { useAppSelector } from "../store";
 import { AppDispatch } from "../store";
 import { cartSelector } from "../app/cart/store/cart.selectors";
@@ -45,7 +46,6 @@ import { cartSelector } from "../app/cart/store/cart.selectors";
 import SearchComponent from "./search.component";
 import CartIconComponent from "./cart-icon.component";
 import LanguageSwitcher from "./language-switcher.component";
-import { ISettings, SettingsEnum } from "../app/auth/types/settings.enum";
 
 // ========================== initial settings ==========================
 const drawerWidth = 200;

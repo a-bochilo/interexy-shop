@@ -1,7 +1,7 @@
 import "dotenv/config";
 import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
 
-// ========================== Entities ==========================
+// ========================== entities ==========================
 import { UserEntity } from "../app/users/entities/user.entity";
 import { UserViewEntity } from "../app/users/entities/user-view.entity";
 import { RoleEntity } from "../app/roles/entities/role.entity";
@@ -14,7 +14,7 @@ import { UserDetailsEntity } from "../app/users/entities/user-details.entity";
 import { OrderEntity } from "../app/orders/entities/order.entity";
 import { OrderItemEntity } from "../app/orders/entities/order-item.entity";
 
-// ========================== Migrations ==========================
+// ========================== migrations ==========================
 import { $npmConfigName1678357923542 } from "../../migrations/1678357923542-$npm_config_name";
 import { $npmConfigName1678362416266 } from "../../migrations/1678362416266-$npm_config_name";
 import { $npmConfigName1678370951605 } from "../../migrations/1678370951605-$npm_config_name";
