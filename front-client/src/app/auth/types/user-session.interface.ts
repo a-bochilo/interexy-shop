@@ -1,3 +1,4 @@
+// ========================== enums ===========================
 import { UserRoles } from "../../users/types/user-roles.enum";
 
 export interface IUserSession {

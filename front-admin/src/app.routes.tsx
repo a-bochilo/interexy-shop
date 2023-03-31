@@ -3,10 +3,6 @@ import React, { FC, Suspense } from "react";
 import { Navigate, Routes, Route } from "react-router-dom";
 import { decodeToken } from "react-jwt";
 
-import { decodeToken } from "react-jwt";
-
-import { decodeToken } from "react-jwt";
-
 // ========================== components ==========================
 import FallbackComponent from "./components/fallback.component";
 import OrdersPage from "./app/orders";

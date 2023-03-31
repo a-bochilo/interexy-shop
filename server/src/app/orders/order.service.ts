@@ -1,19 +1,21 @@
+// ============================ nest ====================================
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+
+// ============================ i18n ====================================
 import { I18nContext } from "nestjs-i18n";
 
-// ========================== Entities & DTO's ==========================
+// ========================== entities & dto's ==========================
 import { OrderDto } from "./dtos/order.dto";
 import { CartSessionDto } from "../cart/dtos/cart-session.dto";
 import { OrderItemEntity } from "./entities/order-item.entity";
 import { ProductEntity } from "../products/entities/product.entity";
 import { OrderEntity } from "./entities/order.entity";
 
-// ========================== Repositories ==============================
+// ========================== repositories ==============================
 import { OrderRepository } from "./repos/order.repository";
 import { ProductsRepository } from "../products/repos/products.repository";
 import { UserRepository } from "../users/repos/user.repository";
 import { OrderItemRepository } from "./repos/order-item.repository";
-import { order } from "./test/mocks/data.mock";
 
 @Injectable()
 export class OrderService {
@@ -67,14 +69,25 @@ export class OrderService {
         HttpStatus.BAD_REQUEST
       );
     }
-
+    /*
+     * If there is a cart, then go through the array of products in the cart,
+     *   go to the database and get a list of products from the database corresponding
+     *   to the list in the cart.
+     */
     const productIds = cart.items.map((item) => item.productId);
-    const prodEntities = await this.productRepository.getProductsArrayByIds(productIds);
+    const prodEntities = await this.productRepository.getProductsArrayByIds(
+      productIds
+    );
 
     prodEntities.map((product, i) => {
-      const res = product.quantity - cart.items[i].quantity;
+      /*
+       * Get the difference in the quantity of the ordered goods and
+       *  the available and write it down in a variable 'priceSubstractionResult'
+       */
 
-      if (res < 0) {
+      const priceSubstractionResult = product.quantity - cart.items[i].quantity;
+
+      if (priceSubstractionResult < 0) {
         throw new HttpException(
           `'${product.name}'. ${I18nContext.current().t(
             "errors.products.productNotEnough"
@@ -90,11 +103,19 @@ export class OrderService {
       throw new HttpException(`User ${userId} not found`, HttpStatus.NOT_FOUND);
     }
 
+    /*
+     * If 'priceSubstractionResult' > 0 => user can create order
+     */
+
     const order = await this.orderRepository.createOrder(user);
 
     const orderItems = await Promise.all(
       prodEntities.map(async (product, i) => {
-        return await this.createOrderItem(order, product, cart.items[i].quantity);
+        return await this.createOrderItem(
+          order,
+          product,
+          cart.items[i].quantity
+        );
       })
     );
 

@@ -1,16 +1,22 @@
+// ============================ nest ====================================
 import { Test, TestingModule } from "@nestjs/testing";
 
-// ========================== Services & Controllers ====================
+// ========================== services & controllers ====================
 import { OrderController } from "../order.controller";
 import { OrderService } from "../order.service";
 
-// ============================== Guards ================================
+// ============================== guards ================================
 import { JwtAuthGuard } from "../../security/guards/jwt-auth.guard";
 import { RolesGuard } from "../../security/guards/roles.guard";
 
-// ============================== Mocks =================================
-import { cartDto, mockedServices, order, orderItem, user } from "./mocks/data.mock";
-
+// ============================== mocks =================================
+import {
+  cartDto,
+  mockedServices,
+  order,
+  orderItem,
+  user,
+} from "./mocks/data.mock";
 
 describe("Order controller", () => {
   let controller: OrderController;
@@ -60,7 +66,9 @@ describe("Order controller", () => {
 
   describe("endpoint: Get order item by order id", () => {
     it("should be return all order items", async () => {
-      expect(await controller.getOrderItemByOrderId(order.id)).toEqual([orderItem]);
+      expect(await controller.getOrderItemByOrderId(order.id)).toEqual([
+        orderItem,
+      ]);
     });
   });
 });

@@ -1,6 +1,8 @@
 // ========================== types ==========================
 import { ProductDetailsDto } from "../../app/products/types/product-details.dto";
 import { ProductDto } from "../../app/products/types/product.dto";
+
+// =========================== enums ========================================
 import { ProductsCategory } from "../../app/products/types/products-category.enum";
 
 test.skip("skip", () => {});
@@ -30,7 +32,7 @@ export const mockCartInfoTranslation = {
   emptyCartStub: "Cart is empty",
 };
 
-// ========================== mock product ==========================
+
 export const mockProduct: ProductDto = {
   id: "c06cbc27-26ee-4455-8983-33fff83c8be8",
   created: 1679936346070,

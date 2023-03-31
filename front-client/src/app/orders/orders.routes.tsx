@@ -2,7 +2,7 @@
 import React, { FC, PropsWithChildren, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 
-// ========================== MUI ==========================
+// ========================== mui ==========================
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 
@@ -22,7 +22,7 @@ const Suspended: FC<PropsWithChildren & { element: any }> = ({
   );
 };
 
-// ======= pages ======= //
+// ========================== pages ===========================
 const OrdersListPage = React.lazy(
   () => import(/* webpackChunkName: "RolesPage" */ "../orders/orders-list.page")
 );
@@ -31,7 +31,7 @@ const RolesRoutes: FC = () => {
   return (
     <Routes>
       <Route path={"/*"} element={<Suspended element={OrdersListPage} />} />
-      
+
       {/* DEFAULT */}
       {/* <Route path="*" element={<Navigate to="/" />} /> */}
     </Routes>

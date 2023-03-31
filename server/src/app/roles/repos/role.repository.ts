@@ -1,18 +1,27 @@
+// ========================== nest ======================================
 import { Injectable } from "@nestjs/common";
+
+// ========================== typeorm ===================================
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 
-// ========================== DTO's & Types ==========================
-import { CreateRoleDto } from "../dtos/role-create.dto";
-
-// ========================== Entities ==========================
-import { RoleEntity } from "../entities/role.entity";
+// ========================== enums =====================================
 import { UserRoles } from "../../../shared/types/user-roles.enum";
+
+// ========================== entities & dto's ==========================
+import { RoleEntity } from "../entities/role.entity";
+import { CreateRoleDto } from "../dtos/role-create.dto";
 
 @Injectable()
 export class RoleRepository extends Repository<RoleEntity> {
-  constructor(@InjectRepository(RoleEntity) RoleRepository: Repository<RoleEntity>) {
-    super(RoleRepository.target, RoleRepository.manager, RoleRepository.queryRunner);
+  constructor(
+    @InjectRepository(RoleEntity) RoleRepository: Repository<RoleEntity>
+  ) {
+    super(
+      RoleRepository.target,
+      RoleRepository.manager,
+      RoleRepository.queryRunner
+    );
   }
 
   async createRole(createRoleDto: CreateRoleDto): Promise<RoleEntity> {

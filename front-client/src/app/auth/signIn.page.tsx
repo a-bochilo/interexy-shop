@@ -1,32 +1,43 @@
-// ========================== react ==========================
+// ========================== react ===============================
 import { FC } from "react";
+import { useNavigate } from "react-router-dom";
+
+// ========================== react-jwt ===========================
+import { decodeToken } from "react-jwt";
 
 // ========================== components ==========================
 import SignInForm from "../../components/signIn-form.component";
 
-// ========================== mui ==========================
+// ========================== mui ==================================
 import { Grid } from "@mui/material";
+
+// ========================== store ================================
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store";
-import { decodeToken } from "react-jwt";
 import { fetchSignIn } from "./store/auth.actions";
-import { useNavigate } from "react-router-dom";
 import { fetchCart } from "../cart/store/cart.actions";
-import { useTranslation } from "react-i18next";
-import { IAuthTranslate } from "./types/auth-translate.interface";
 import { AuthErrorSelector } from "./store/auth.selector";
 import { clearErrors } from "./store/auth.slice";
+
+// ========================== i18n =================================
+import { useTranslation } from "react-i18next";
+
+// ========================== interface ============================
+import { IAuthTranslate } from "./types/auth-translate.interface";
 
 interface IFormInput {
   email: string;
   password: string;
 }
 
-export const handleResponse = (response: any, navigate: (path: string) => void) => {
+export const handleResponse = (
+  response: any,
+  navigate: (path: string) => void
+) => {
   if (response.payload) {
     const user: any = decodeToken(response.payload);
     if (user.role_type === "superadmin") {
-      window.location.replace("http://localhost:3000");
+      window.location.replace("http://localhost:8080");
       return false;
     } else {
       window.localStorage.setItem("token", response.payload);

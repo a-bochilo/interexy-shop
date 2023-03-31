@@ -55,7 +55,7 @@ describe("SignUpForm", () => {
     await screen.findByTestId(/pending-stub/i);
   });
 
-  it("renders DoneIcon when roles are pending and haven't errors", async () => {
+  it("renders DoneIcon when roles are pending and havent errors", async () => {
     render(
       <SignUpForm
         handleSignUp={handleSignUp}
@@ -67,7 +67,7 @@ describe("SignUpForm", () => {
     await screen.findByTestId(/done-stub/i);
   });
 
-  it("renders Errors when roles have errors", async () => {
+  it("renders Errors when roles are nave errors", async () => {
     render(
       <SignUpForm
         handleSignUp={handleSignUp}

@@ -1,4 +1,5 @@
-import { Column, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+// ============================ typeorm =================================
+import { Column, PrimaryGeneratedColumn } from "typeorm";
 
 export abstract class IDEntity {
   @PrimaryGeneratedColumn({ name: "id", type: "bigint" })

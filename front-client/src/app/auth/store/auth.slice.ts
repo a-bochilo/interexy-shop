@@ -1,4 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+// ========================== redux =============================
 import { createSlice } from "@reduxjs/toolkit";
+
+// ========================== actions ===========================
 import { fetchSignIn, fetchSignUp } from "./auth.actions";
 
 type IInitialState = {
@@ -41,11 +45,14 @@ const authSlice = createSlice({
         state.pending.token = true;
         state.token = action.payload;
       })
-      .addCase(fetchSignIn.rejected, (state, action: any & { payload: any }) => {
-        state.pending.token = false;
-        state.token = "";
-        state.errors.token = action.payload;
-      });
+      .addCase(
+        fetchSignIn.rejected,
+        (state, action: any & { payload: any }) => {
+          state.pending.token = false;
+          state.token = "";
+          state.errors.token = action.payload;
+        }
+      );
 
     builder
       .addCase(fetchSignUp.pending, (state) => {
@@ -55,15 +62,19 @@ const authSlice = createSlice({
         state.pending.token = true;
         state.token = action.payload;
       })
-      .addCase(fetchSignUp.rejected, (state, action: any & { payload: any }) => {
-        state.pending.token = false;
-        state.token = "";
-        state.errors.token = action.payload;
-      })
+      .addCase(
+        fetchSignUp.rejected,
+        (state, action: any & { payload: any }) => {
+          console.log(action.payload);
+          state.pending.token = false;
+          state.token = "";
+          state.errors.token = action.payload;
+        }
+      )
       .addDefaultCase(() => {});
   },
 });
 const { actions, reducer } = authSlice;
 export default reducer;
 export const { logout, clearErrors } = authSlice.actions;
-export {fetchSignIn}
+export { fetchSignIn };

@@ -1,5 +1,10 @@
+// ========================== api =============================
 import $api from "../../../api/api";
+
+// ========================== redux ===========================
 import { createAsyncThunk } from "@reduxjs/toolkit";
+
+// ========================== interfaces ======================
 import { ISignInTemplate } from "../types/signIn.interface";
 import { ISignUpTemplate } from "../types/signUp.interface";
 
@@ -26,15 +31,3 @@ export const fetchSignUp = createAsyncThunk(
     }
   }
 );
-
-// export const fetchRefreshToken = createAsyncThunk(
-//   "auth/fetchRefreshToken",
-//   async (_, { rejectWithValue }) => {
-//     try {
-//       const response = await $api.get("/auth/refresh-token");
-//       return response.data;
-//     } catch (error: any) {
-//       return rejectWithValue(error?.response?.data?.message as string);
-//     }
-//   }
-// );
