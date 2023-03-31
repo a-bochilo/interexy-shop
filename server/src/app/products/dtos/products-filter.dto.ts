@@ -35,7 +35,7 @@ export class ProductsFilterDto {
   })
   @IsOptional()
   @IsString()
-  @Matches(/^\d*[1-9]\d*$/g)
+  @Matches(/^\d*[0-9]\d*$/g)
   price?: string | number;
 
   @ApiProperty({
@@ -67,7 +67,7 @@ export class ProductsFilterDto {
   })
   @IsOptional()
   @IsString()
-  @Matches(/^\d*[1-9]\d*$/g)
+  @Matches(/^\d*[0-9]\d*$/g)
   maxPrice?: string;
 
   @ApiProperty({
@@ -83,7 +83,7 @@ export class ProductsFilterDto {
   })
   @IsOptional()
   @IsString()
-  @Matches(/^\d*[1-9]\d*$/g)
+  @Matches(/^\d*[0-9]\d*$/g)
   maxQuantity?: string;
 
   public static fromDto(incomingDto: ProductsFilterDto): ProductsFilterDto {

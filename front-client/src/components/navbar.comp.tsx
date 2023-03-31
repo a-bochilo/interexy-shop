@@ -284,6 +284,7 @@ const PageNavBarComp = () => {
         variant="persistent"
         anchor="left"
         open={open}
+        onMouseLeave={() => setOpen(false)}
         data-testid="drawer-test"
       >
         <DrawerHeader>

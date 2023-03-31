@@ -12,17 +12,6 @@ export const formSchema = yup
 
     brand: yup.string().nullable(),
 
-    quantity: yup
-      .number()
-      .integer("⚠ This field accepts only integer numbers")
-      .min(0, "⚠ Min value is 0")
-      .default(undefined)
-      .nullable()
-      .transform((_, val) => {
-        if (val === null) return null;
-        return +val === Number(val) ? +val : null;
-      }),
-
     minQuantity: yup
       .number()
       .integer("⚠ This field accepts only integer numbers")
@@ -30,7 +19,7 @@ export const formSchema = yup
       .default(undefined)
       .nullable()
       .transform((_, val) => {
-        if (val === null) return null;
+        if (val === (null || "")) return null;
         return +val === Number(val) ? +val : null;
       }),
 
@@ -38,10 +27,10 @@ export const formSchema = yup
       .number()
       .integer("⚠ This field accepts only integer numbers")
       .min(0, "⚠ Min value is 0")
-      .default(null)
+      .default(undefined)
       .nullable()
       .transform((_, val) => {
-        if (val === null) return null;
+        if (val === (null || "")) return null;
         return +val === Number(val) ? +val : null;
       }),
 
@@ -50,10 +39,10 @@ export const formSchema = yup
       .integer("⚠ This field accepts only integer numbers")
       .min(0, "⚠ Min value is 0")
       .default(undefined)
-      .nullable()
+      .nullable(true)
       .transform((_, val) => {
-        if (val === null) return null;
-        return +val === Number(val) ? +val : null;
+        if (val === (null || "")) return null;
+        return +val === Number(val) ? +val : val;
       }),
 
     maxPrice: yup
@@ -63,7 +52,7 @@ export const formSchema = yup
       .default(undefined)
       .nullable()
       .transform((_, val) => {
-        if (val === null) return null;
+        if (val === (null || "")) return null;
         return +val === Number(val) ? +val : null;
       }),
 
