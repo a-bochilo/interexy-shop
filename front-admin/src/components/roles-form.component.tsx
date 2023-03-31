@@ -1,15 +1,15 @@
-// ========================== react ==========================
+// =========================== react =======================================
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 
-// ========================== yup ==========================
+// =========================== yup =========================================
 import { yupResolver } from "@hookform/resolvers/yup";
+import { formSchema } from "./roles-form.const";
 
-// ============================ MUI ============================
+// =========================== mui =========================================
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-
 import {
   Accordion,
   AccordionDetails,
@@ -23,13 +23,17 @@ import {
   Typography,
 } from "@mui/material";
 
-// ====================== Interfaces & DTO's ==================
+// =========================== enums =========================================
 import { UserPermissions } from "../app/roles/types/user-permissions.enum";
 import { UserRoles } from "../app/roles/types/user-roles.enum";
+
+// =========================== interfaces & dto's ============================
 import { RolesDto } from "../app/roles/types/roles.dto";
-import { formSchema } from "./roles-form.const";
 import { IRoleState } from "../app/roles/types/role-state.interface";
+
+// =========================== component ======================================
 import TemporaryTypography from "./temporary-typography.component";
+
 
 interface IFormInput {
   id: number;

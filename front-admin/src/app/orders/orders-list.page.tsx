@@ -1,19 +1,23 @@
-// ========================== react ==========================
+/* eslint-disable react-hooks/exhaustive-deps */
+// ========================== react ============================
 import { FC, useEffect } from "react";
 
-// ============================ MUI ============================
-import styled from "@emotion/styled";
-import { CircularProgress, Grid } from "@mui/material";
+// ========================== redux ============================
 import { useDispatch, useSelector } from "react-redux";
 
-// =========================== Store ===========================
+// ============================ mui ============================
+import styled from "@emotion/styled";
+import { CircularProgress, Grid } from "@mui/material";
+
+// =========================== store ===========================
 import { AppDispatch } from "../../store";
 import { OrdersSelector, getPendingSelector } from "./store/orders.selector";
 import { fetchOrders } from "./store/orders.actions";
 
-// ======================== Components =========================
+// ======================== components =========================
 import OrdersTable from "../../components/orders-table.component";
 
+// =========================== styles ===========================
 const MainGrid = styled(Grid)`
   display: flex;
   align-items: top;

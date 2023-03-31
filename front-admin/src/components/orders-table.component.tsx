@@ -1,8 +1,9 @@
+// =========================== react =========================================
 import * as React from "react";
 import { TableVirtuoso, TableComponents } from "react-virtuoso";
 import { useNavigate } from "react-router-dom";
 
-// =========================== MUI ===========================
+// =========================== mui ===========================================
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -11,7 +12,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
-// ====================== Interfaces & DTO's ==================
+// =========================== interfaces & dto's =============================
 import { OrderDto } from "../app/orders/types/order.dto";
 
 interface ColumnData {
@@ -43,7 +44,10 @@ const OrdersTable = ({ orders }: { orders: OrderDto[] }) => {
       <TableContainer component={Paper} {...props} ref={ref} />
     )),
     Table: (props) => (
-      <Table {...props} sx={{ borderCollapse: "separate", tableLayout: "fixed" }} />
+      <Table
+        {...props}
+        sx={{ borderCollapse: "separate", tableLayout: "fixed" }}
+      />
     ),
     TableHead,
     TableRow: ({ item: _item, ...props }) => (

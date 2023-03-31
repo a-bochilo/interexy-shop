@@ -134,3 +134,18 @@ export const mockUserWithDetails = {
   role_type: UserRoles,
   isActive: true,
 };
+
+export const userWithTranslate = {
+  profile: "My profile",
+  firstname: "First name",
+  middlename: "Middle name",
+  lastname: "Last name",
+  email: "Email",
+  phone: "Phone",
+  succsessMessage: "Information succesfully updated!",
+  buttons: {
+    edit: "Edit",
+    save: "Save",
+    cancel: "Cancel",
+  },
+};

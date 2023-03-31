@@ -4,14 +4,14 @@ import { FC, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
-// ============================ MUI ============================
+// ============================ mui  ============================
 import styled from "@emotion/styled";
 import { CircularProgress, Grid } from "@mui/material";
 
-// ======================== Components =========================
+// ======================== components =========================
 import RoleForm from "../../components/roles-form.component";
 
-// =========================== Store ===========================
+// =========================== store ===========================
 import {
   ChosenRoleSelector,
   getErrorSelector,
@@ -25,9 +25,10 @@ import {
 } from "./store/roles.actions";
 import { AppDispatch } from "../../store";
 
-// ====================== Interfaces & DTO's ===================
+// ====================== interfaces & dto's ===================
 import { RolesDto } from "./types/roles.dto";
 
+// =========================== styles ===========================
 const MainGrid = styled(Grid)`
   display: flex;
   align-items: top;
@@ -78,7 +79,10 @@ const RoleViewPage: FC = () => {
   return (
     <MainGrid>
       {(pending.roles || pending.chosenRole) && (
-        <CircularProgress sx={{ alignSelf: "center" }} data-testid="pending-stub" />
+        <CircularProgress
+          sx={{ alignSelf: "center" }}
+          data-testid="pending-stub"
+        />
       )}
       {role && (
         <RoleForm

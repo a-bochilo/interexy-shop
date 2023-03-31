@@ -49,3 +49,18 @@ export const mockedData = {
   token: "fake token",
   authFetchingStatus: "loaded",
 };
+
+// ========================== mock responce ==========================
+export const mockResponse = {
+  meta: {
+    arg: {
+      email: "superadmin@gmail.com",
+      password: "$2b$05$9TFe4fXQEaoYJNpdniw.O.IIByJncLurM20TWrGquevJlaGzweTy.",
+    },
+    requestId: "16tKACsmUGE_6V02XpcuU",
+    requestStatus: "fulfilled",
+  },
+  payload:
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNlYTlmZTFlLWY0OGEtNGE0Yy1iYWVhLWIxMTA0MWMzNWQ4NyIsImVtYWlsIjoic3VwZXJhZG1pbkBnbWFpbC5jb20iLCJwaG9uZSI6IiszNzUgMjkgMDAwIDAwIDAwIiwiY3JlYXRlZCI6MTY3OTY1MTMyNzcxOSwidXBkYXRlZCI6MTY3OTY1MTMyNzcxOSwicm9sZV9pZCI6MSwicm9sZV90eXBlIjoic3VwZXJhZG1pbiIsImlzQWN0aXZlIjp0cnVlLCJpYXQiOjE2ODAyNzQyODIsImV4cCI6MTY4MDI3Nzg4Mn0.SZ8VCutUg2K--FtY0At5BT4Y9cuYo6uvr8fA9OO3SrU",
+  type: "auth/fetchSignIn/fulfilled",
+};

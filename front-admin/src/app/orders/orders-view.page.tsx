@@ -1,20 +1,27 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+// =========================== react ===========================
 import { FC, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-// =========================== MUI ===========================
+// =========================== redux ===========================
+import { useDispatch, useSelector } from "react-redux";
+
+// =========================== mui =============================
 import styled from "@emotion/styled";
 import { CircularProgress, Grid } from "@mui/material";
 
-// =========================== Components ===========================
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch } from "../../store";
-import { fetchOrderItems } from "./store/orders.actions";
-import { getPendingSelector, OrderItemsSelector } from "./store/orders.selector";
+// =========================== components ======================
 import OrderItemsViewTable from "../../components/order-items-view-form.component";
 
-// =========================== DTO's ===========================
+// =========================== store ===========================
+import { AppDispatch } from "../../store";
+import { fetchOrderItems } from "./store/orders.actions";
+import {
+  getPendingSelector,
+  OrderItemsSelector,
+} from "./store/orders.selector";
 
+// =========================== styles ===========================
 const MainGrid = styled(Grid)`
   display: flex;
   flex-direction: column;
@@ -25,11 +32,16 @@ const MainGrid = styled(Grid)`
 
 const OrderItemsViewPage: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
 
   const { orderId } = useParams();
 
   const pending = useSelector(getPendingSelector);
   const orderItems = useSelector(OrderItemsSelector);
+
+  const handleNavigateToProduct = (productId: string) => {
+    navigate(`/products/${productId}`);
+  };
 
   useEffect(() => {
     if (orderId) dispatch(fetchOrderItems(orderId));
@@ -38,9 +50,17 @@ const OrderItemsViewPage: FC = () => {
   return (
     <MainGrid>
       {(pending?.orders || pending?.orderItems) && (
-        <CircularProgress sx={{ alignSelf: "center" }} data-testid="pending-stub" />
+        <CircularProgress
+          sx={{ alignSelf: "center" }}
+          data-testid="pending-stub"
+        />
       )}
-      {orderItems && <OrderItemsViewTable orderItems={orderItems} />}
+      {orderItems && (
+        <OrderItemsViewTable
+          orderItems={orderItems}
+          handleNavigateToProduct={handleNavigateToProduct}
+        />
+      )}
     </MainGrid>
   );
 };

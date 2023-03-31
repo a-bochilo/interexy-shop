@@ -1,4 +1,4 @@
-// ========================== types ==========================
+// =========================== dto's ========================================
 import { OrderItemDto } from "../../app/orders/types/order-item.dto";
 import { OrderDto } from "../../app/orders/types/order.dto";
 

@@ -67,5 +67,19 @@
     "middleName": "Отчество",
     "lastName": "Фамилия",
     "phone": "Телефон"
+  },
+  "user": {
+    "profile": "Мой профиль",
+    "firstname": "Имя",
+    "middlename": "Отчество",
+    "lastname": "Фамилия",
+    "email": "Почта",
+    "phone": "Телефон",
+    "succsessMessage": "Информация успешно обновлена!",
+    "buttons": {
+      "edit": "Редактировать",
+      "save": "Сохранить",
+      "cancel": "Назад"
+    }
   }
 }

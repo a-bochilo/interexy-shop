@@ -9,7 +9,7 @@ describe("Sign In component", () => {
   const handleSave = jest.fn();
 
   it("should be rendered", async () => {
-    render(<LoginForm handleSave={handleSave} error={false} />);
+    render(<LoginForm handleSave={handleSave} fetchingErrors={null} />);
     await act(async () => fireEvent.click(screen.getByTestId("loginButton")));
     await waitFor(() => expect(handleSave).toBeDefined());
 
@@ -18,14 +18,14 @@ describe("Sign In component", () => {
   });
 
   it("should have a submit button", async () => {
-    render(<LoginForm handleSave={handleSave} error={false} />);
+    render(<LoginForm handleSave={handleSave} fetchingErrors={null}  />);
 
     await act(async () => fireEvent.click(screen.getByTestId("loginButton")));
     expect(screen.getByTestId("loginButton")).toBeInTheDocument();
   });
 
   it("should show an error", async () => {
-    render(<LoginForm handleSave={handleSave} error={true} />);
-    expect(screen.getByText("ERROR: FAILED TO SIGNIN")).toBeInTheDocument();
+    render(<LoginForm handleSave={handleSave} fetchingErrors={"Error"}  />);
+    expect(screen.getByTestId(/error-stub/i)).toBeInTheDocument();
   });
 });

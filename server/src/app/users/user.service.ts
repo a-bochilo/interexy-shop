@@ -124,12 +124,25 @@ export class UserService {
   }
 
   async updateUserDetails(info: UpdateUserDto, userId: string) {
+    //=============== get a user array by email and verify its existence in the database ==================
+    const usersByEmail = info.email
+      ? await this.userRepository.getUsersArrayByEmail(info?.email)
+      : null;
+    if (
+      usersByEmail?.length &&
+      (usersByEmail.length > 1 || usersByEmail[0]?.id !== userId)
+    ) {
+      throw new HttpException(
+        `${I18nContext.current().t("errors.user.userAlreadyExist")}`,
+        HttpStatus.BAD_REQUEST
+      );
+    }
     //=============== get a user and user role type, and verify its existence in the database ==================
     const user = await this.userRepository.getById(userId);
     if (user.roleType === UserRoles.superadmin) {
       throw new HttpException(
         `${I18nContext.current().t("errors.roles.roleSuperuserLimit")}`,
-        HttpStatus.NOT_FOUND
+        HttpStatus.BAD_REQUEST
       );
     }
 

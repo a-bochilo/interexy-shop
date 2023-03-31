@@ -74,4 +74,8 @@ export class UserRepository extends Repository<UserEntity> {
   async getUserByEmail(email: string) {
     return await this.findOneBy({ email: email });
   }
+
+  async getUsersArrayByEmail(email: string) {
+    return await this.find({ where: { email: email } });
+  }
 }

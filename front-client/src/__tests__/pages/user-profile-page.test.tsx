@@ -23,6 +23,7 @@ import {
   mockUser,
 } from "../mocks/user-data-mock";
 
+
 // ========================== components ==========================
 import UserEditPage from "../../app/users/user-profile.page";
 
@@ -35,6 +36,18 @@ jest.mock("react-router-dom", () => ({
   ...(jest.requireActual("react-router-dom") as any),
   useNavigate: () => mockedUseNavigate,
   useParams: () => mockedUseParamsResult,
+}));
+
+// =========================== mock i18n ================================
+jest.mock("react-i18next", () => ({
+  useTranslation: () => {
+    return {
+      t: (str: string) => str,
+      i18n: {
+        changeLanguage: () => new Promise(() => {}),
+      },
+    };
+  },
 }));
 
 // ====================== mock axios ======================

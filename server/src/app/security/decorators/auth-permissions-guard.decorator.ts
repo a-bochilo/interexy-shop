@@ -4,7 +4,7 @@ import { applyDecorators, SetMetadata, UseGuards } from "@nestjs/common";
 // ========================== enums ==================================
 import { UserPermissions } from "../../../shared/types/user-permissions.enum";
 
-// ========================== guards ==========================
+// ========================== custom guards ==========================
 import { JwtAuthGuard } from "../guards/jwt-auth.guard";
 import { RolesGuard } from "../guards/roles.guard";
 
