@@ -1,4 +1,3 @@
-import { user } from "./../../../../../server/src/app/orders/test/mocks/data.mock";
 // ========================== react ==========================
 import { decodeToken } from "react-jwt";
 
@@ -12,7 +11,6 @@ import { UserUpdateDto } from "../types/user-details-update.type";
 
 // ========================== store ==========================
 import { getUserInfo, updateUserDetails } from "./users.actions";
-import { RootState } from "../../../store";
 import { UserFromTokenDto } from "../types/user-dto-from-token.type";
 
 const initialState: UserState = {

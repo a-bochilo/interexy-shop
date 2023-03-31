@@ -134,7 +134,7 @@ const ProductFilterForm = () => {
                     width: "100%",
                     alignSelf: "right",
                 }}
-                label={(filterKeysTranslation[key] as string)
+                label={filterKeysTranslation[key] !== undefined && (filterKeysTranslation[key] as string)
                     .split(/(?=[A-Z])|(?=[А-Я])/)
                     .join(" ")
                     .toLowerCase()}

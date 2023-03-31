@@ -46,7 +46,7 @@ const ProductsPage: FC = () => {
 
     useEffect(() => {
         if (window.localStorage.getItem("token")) dispatch(fetchCart());
-        if (category) {
+        if (category !== undefined) {
             dispatch(fetchProductsInCategory(category));
             return;
         }

@@ -36,7 +36,6 @@ const RoleViewPage: FC<string> = () => {
   const fetchingPending = useSelector(getPendingSelector);
 
   const handleCreate = (data: CreateRoleDto) => {
-    console.log(fetchingPending.chosenRole);
     if (data.permissions !== null) {
       setIsClicked(true);
       dispatch(fetchRoleCreate(data));

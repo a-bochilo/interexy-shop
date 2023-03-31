@@ -13,7 +13,7 @@ import {
 import { Button } from "@mui/material";
 
 // ========================== components, mock ==========================
-import { mockUserProfileProps } from "./user-data-mock";
+import { mockUserProfileProps } from "../mocks/user-data-mock";
 import UserProfileFormComp from "../../components/user-profile-form.comp";
 
 describe("User profile", () => {
