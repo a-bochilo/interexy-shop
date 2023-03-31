@@ -55,7 +55,6 @@ const UserEditPage: FC = () => {
   const handleSave = (data: any) => {
     // if (!userId) return;
     dispatch(updateUserDetails(data));
-    console.log(data);
   };
 
   const handleBack = () => {

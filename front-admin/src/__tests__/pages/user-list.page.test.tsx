@@ -11,13 +11,15 @@ import thunk from "redux-thunk";
 import { initialState, mockUser } from "../components/user-data-mock";
 import UserListPage from "../../app/users/user-list.page";
 
-const mockedUsedNavigate = jest.fn();
+// ========================== mock useNavigate ==========================
+const mockedUseNavigate = jest.fn();
 
 jest.mock("react-router-dom", () => ({
   ...(jest.requireActual("react-router-dom") as any),
-  useNavigate: () => mockedUsedNavigate,
+  useNavigate: () => mockedUseNavigate,
 }));
 
+// ========================== mock axios ==========================
 jest.mock("axios", () => ({
   post: jest.fn(),
   get: jest.fn(),

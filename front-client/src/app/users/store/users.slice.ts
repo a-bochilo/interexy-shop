@@ -37,7 +37,6 @@ export const usersSlice = createSlice({
       const token = window.localStorage.getItem("token");
       if (token) {
         const userFromToken: UserFromTokenDto | null = decodeToken(token);
-        console.log(`userFromToken`, userFromToken);
         const user = {
           id: userFromToken?.id,
           phone: userFromToken?.phone,

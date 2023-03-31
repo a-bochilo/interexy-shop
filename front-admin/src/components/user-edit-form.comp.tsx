@@ -2,6 +2,10 @@
 import { FC } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 
+// ========================== yup ==========================
+import { yupResolver } from "@hookform/resolvers/yup";
+import { formSchema } from "./user-edit-form.const";
+
 // ========================== mui ==========================
 import {
   Box,
@@ -13,10 +17,6 @@ import {
 } from "@mui/material";
 import DoneIcon from "@mui/icons-material/Done";
 
-// ========================== yup ==========================
-import { yupResolver } from "@hookform/resolvers/yup";
-import { formSchema } from "./user-edit-form.const";
-
 // ========================== enum ==========================
 import { UserRoles } from "../app/roles/types/user-roles.enum";
 import { UserDetailsDto } from "../app/users/types/user-details.type";
@@ -27,6 +27,7 @@ import { UserStatus } from "../app/users/enum/user-status.enum";
 // ========================== components ==========================
 import TemporaryTypography from "./temporary-typography.component";
 
+// ========================== interfaces ==========================
 export interface IUserWithDetails {
   id: string;
   firstname: string;
@@ -103,7 +104,6 @@ const UserEditFormComp: FC<FormProps> = ({
     const notNullFields = removeEmptyFields(data);
     const { firstname, lastname, middlename, ...user } = notNullFields;
     const info = removeEmptyFields({ firstname, lastname, middlename });
-    console.log(user);
     const outputData = {
       id: selectedUser.id,
       email: selectedUser.email,
@@ -114,7 +114,6 @@ const UserEditFormComp: FC<FormProps> = ({
       ...user,
       details: info,
     };
-    console.log("submit");
     handleSave(outputData);
     setDisabled(!disabled);
   };
@@ -138,6 +137,7 @@ const UserEditFormComp: FC<FormProps> = ({
         onSubmit={handleSubmit(onSubmit)}
         style={{ display: "flex", flexDirection: "column", gap: 10 }}
       >
+        {/*============================ id field ===================================*/}
         <Box
           sx={{
             display: "flex",
@@ -173,6 +173,7 @@ const UserEditFormComp: FC<FormProps> = ({
             )}
           />
         </Box>
+        {/*============================ first name field ===================================*/}
         <Box
           sx={{
             display: "flex",
@@ -212,7 +213,7 @@ const UserEditFormComp: FC<FormProps> = ({
             {errors.firstname?.message}
           </Typography>
         </Box>
-
+        {/*============================ middle name field ===================================*/}
         <Box
           sx={{
             display: "flex",
@@ -245,7 +246,7 @@ const UserEditFormComp: FC<FormProps> = ({
             )}
           />
         </Box>
-
+        {/*============================ last name field ===================================*/}
         <Box
           sx={{
             display: "flex",
@@ -282,7 +283,7 @@ const UserEditFormComp: FC<FormProps> = ({
             {errors.lastname?.message}
           </Typography>
         </Box>
-
+        {/*============================ email field ===================================*/}
         <Box
           sx={{
             display: "flex",
@@ -319,7 +320,7 @@ const UserEditFormComp: FC<FormProps> = ({
             {errors.email?.message}
           </Typography>
         </Box>
-
+        {/*============================ phone field ===================================*/}
         <Box
           sx={{
             display: "flex",
@@ -355,7 +356,7 @@ const UserEditFormComp: FC<FormProps> = ({
             {errors.phone?.message}
           </Typography>
         </Box>
-
+        {/*============================ created field ===================================*/}
         <Box
           sx={{
             display: "flex",
@@ -388,7 +389,7 @@ const UserEditFormComp: FC<FormProps> = ({
             )}
           />
         </Box>
-
+        {/*============================ updated field ===================================*/}
         <Box
           sx={{
             display: "flex",
@@ -421,7 +422,7 @@ const UserEditFormComp: FC<FormProps> = ({
             )}
           />
         </Box>
-
+        {/*============================ role type field ===================================*/}
         <Box
           sx={{
             display: "flex",
@@ -465,7 +466,7 @@ const UserEditFormComp: FC<FormProps> = ({
             {errors.role_type?.message}
           </Typography>
         </Box>
-
+        {/*============================ isActive field ===================================*/}
         <Box
           sx={{
             display: "flex",
@@ -479,7 +480,7 @@ const UserEditFormComp: FC<FormProps> = ({
             align="left"
             sx={{ minWidth: 90, width: 120 }}
           >
-            is Active
+            isActive
           </Typography>
           <Controller
             name="isActive"
@@ -514,6 +515,7 @@ const UserEditFormComp: FC<FormProps> = ({
             justifyContent: "space-between",
           }}
         >
+          {/*============================ conditions block ===================================*/}
           <Box
             sx={{
               display: "flex",
@@ -544,6 +546,8 @@ const UserEditFormComp: FC<FormProps> = ({
               </TemporaryTypography>
             )}
           </Box>
+
+          {/*============================ buttons block ===================================*/}
           <Box
             sx={{
               display: "flex",

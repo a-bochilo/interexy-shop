@@ -12,7 +12,7 @@ import {
 // ========================== mui ==========================
 import { Button } from "@mui/material";
 
-// ========================== comp, types ==========================
+// ========================== components, mock ==========================
 import UserEditFormComp from "../../components/user-edit-form.comp";
 import { mockEditFormProps } from "./user-data-mock";
 
@@ -38,7 +38,7 @@ describe("User edit form", () => {
     );
   });
 
-  it("disables save button when form is invalid", async () => {
+  it("calls handleClick when edit button is clicked", async () => {
     await act(async () =>
       render(<UserEditFormComp {...mockEditFormProps} disabled={true} />)
     );
@@ -46,20 +46,6 @@ describe("User edit form", () => {
     const handleClick = jest.fn();
     const editButton = screen.getByTestId("edit-button");
     fireEvent.click(editButton);
-    // expect(handleClick).toHaveBeenCalledTimes(1);
-
-    //console.log(editButton)
-    // const input = screen
-    //   .getByLabelText("test-first-name")
-    //   .querySelector("input") as HTMLInputElement;
-
-    // await act(async () =>
-    //   fireEvent.change(input, {
-    //     target: { value: 1 },
-    //   })
-    // );
-
-    // await waitFor(() => expect(screen.getByText(/Save/i)).toBeDisabled());
   });
 
   it("calls onClick prop when clicked", () => {

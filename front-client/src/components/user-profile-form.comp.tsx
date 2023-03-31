@@ -21,6 +21,7 @@ import { UserDetailsDto } from "../app/users/types/user-details.type";
 import { UserDto } from "../app/users/types/user-dto.type";
 import { UserState } from "../app/users/types/user-state.type";
 
+// ========================== interfaces ==========================
 interface IUserWithDetails {
   firstname: string;
   lastname: string;
@@ -105,6 +106,7 @@ const UserProfileFormComp: FC<FormProps> = ({
         onSubmit={handleSubmit(onSubmit)}
         style={{ display: "flex", flexDirection: "column", gap: 10 }}
       >
+        {/*=========================== first name field ============================*/}
         <Box
           sx={{
             display: "flex",
@@ -144,6 +146,7 @@ const UserProfileFormComp: FC<FormProps> = ({
           </Typography>
         </Box>
 
+        {/*=========================== middle name field ============================*/}
         <Box
           sx={{
             display: "flex",
@@ -157,8 +160,7 @@ const UserProfileFormComp: FC<FormProps> = ({
             align="left"
             sx={{ minWidth: 90, width: 120 }}
           >
-            M
-            iddle name
+            middle name
           </Typography>
           <Controller
             control={control}
@@ -178,7 +180,7 @@ const UserProfileFormComp: FC<FormProps> = ({
             )}
           />
         </Box>
-
+        {/*=========================== last name field ============================*/}
         <Box
           sx={{
             display: "flex",
@@ -216,7 +218,7 @@ const UserProfileFormComp: FC<FormProps> = ({
             {errors.lastname?.message}
           </Typography>
         </Box>
-
+        {/*=========================== email field ============================*/}
         <Box
           sx={{
             display: "flex",
@@ -254,7 +256,7 @@ const UserProfileFormComp: FC<FormProps> = ({
             {errors.email?.message}
           </Typography>
         </Box>
-
+        {/*=========================== email field ============================*/}
         <Box
           sx={{
             display: "flex",
@@ -301,6 +303,7 @@ const UserProfileFormComp: FC<FormProps> = ({
             justifyContent: "space-between",
           }}
         >
+          {/*=========================== conditions block ============================*/}
           <Box
             sx={{
               display: "flex",
@@ -309,8 +312,9 @@ const UserProfileFormComp: FC<FormProps> = ({
               width: "50%",
             }}
           >
-            {pending && <CircularProgress data-testid="test-progress"/>}
+            {pending && <CircularProgress data-testid="test-progress" />}
           </Box>
+          {/*=========================== buttons block ============================*/}
           <Box
             sx={{
               display: "flex",

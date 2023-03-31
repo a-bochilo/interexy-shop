@@ -24,13 +24,18 @@ import {
 } from "../components/user-data-mock";
 import UserEditPage from "../../app/users/user-profile.page";
 
-const mockedUsedNavigate = jest.fn();
-
+// ====================== mock useNavigate & useParams ======================
+const mockedUseNavigate = jest.fn();
+let mockedUseParamsResult: any = {
+  userId: "6966bd54-fe41-4e92-b15b-4f5fbac9ee1e",
+};
 jest.mock("react-router-dom", () => ({
   ...(jest.requireActual("react-router-dom") as any),
-  useNavigate: () => mockedUsedNavigate,
+  useNavigate: () => mockedUseNavigate,
+  useParams: () => mockedUseParamsResult,
 }));
 
+// ====================== mock axios ======================
 jest.mock("axios", () => ({
   post: jest.fn(),
   get: jest.fn(),
@@ -49,18 +54,7 @@ mockedAxios.get.mockResolvedValue({ data: [mockUser] });
 
 const mockStore = configureStore([thunk]);
 
-// ====================== Mock useNavigate & useParams ======================
-const mockedUseNavigate = jest.fn();
-let mockedUseParamsResult: any = {
-  userId: "6966bd54-fe41-4e92-b15b-4f5fbac9ee1e",
-};
-jest.mock("react-router-dom", () => ({
-  ...(jest.requireActual("react-router-dom") as any),
-  useNavigate: () => mockedUseNavigate,
-  useParams: () => mockedUseParamsResult,
-}));
-
-// ======================== Mock Buttons ========================
+// ======================== mock button ========================
 jest.mock(
   "../../components/user-profile-form.comp",
   () =>

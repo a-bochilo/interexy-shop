@@ -8,7 +8,7 @@ import { render, waitFor, screen } from "@testing-library/react";
 // ========================== components ==========================
 import UserAssignRoleFormComp from "../../components/user-assign-role-form.comp";
 
-// ========================== types ==========================
+// ========================== mock ==========================
 import { mockAssignRoleProps } from "./user-data-mock";
 
 describe("User assign role form component", () => {
