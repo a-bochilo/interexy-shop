@@ -1,7 +1,14 @@
+// ========================== react ==========================
 import React from "react";
 import ReactDOM from "react-dom/client";
+
+// ========================== styles =========================
 import "./index.css";
+
+// ========================== components =====================
 import App from "./app";
+
+// ========================== reportWebVitals ================
 import reportWebVitals from "./reportWebVitals";
 
 const root = ReactDOM.createRoot(

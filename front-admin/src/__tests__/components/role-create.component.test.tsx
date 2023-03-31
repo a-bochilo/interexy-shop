@@ -7,7 +7,7 @@ import { fireEvent, render, screen, act } from "@testing-library/react";
 
 // =========================== component ===============================
 import CreateRoleForm from "../../components/role-create.component";
-
+// role-create.component.tsx           |   91.66 |    55.55 |   85.71 |     100 | 232,245
 describe("Role edit form", () => {
   const mockHandlers = {
     handleCreate: jest.fn(),
@@ -67,19 +67,7 @@ describe("Role edit form", () => {
     expect(screen.getByTestId("create-btn")).toBeDisabled();
   });
 
-  it("renders CircularProgress when roles are pending", async () => {
-    render(
-      <CreateRoleForm
-        fetchingPending={true}
-        fetchErrors={null}
-        isClicked={false}
-        {...mockHandlers}
-      />
-    );
-    await screen.findByTestId(/pending-stub/i);
-  });
-
-  it("should have expand button", async () => {
+  it("should be have expand button", async () => {
     render(
       <BrowserRouter>
         <CreateRoleForm

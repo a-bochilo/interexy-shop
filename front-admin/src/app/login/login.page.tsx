@@ -1,16 +1,22 @@
 // ========================== react ==========================
-import { FC, useState } from "react";
+import { FC } from "react";
+import { decodeToken } from "react-jwt";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 // ========================== components ==========================
 import LoginForm from "../../components/login-form.comp";
 
 // ========================== mui ==========================
 import Box from "@mui/material/Box";
-import { decodeToken } from "react-jwt";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+
+// ========================== store ==========================
 import { AppDispatch } from "../../store";
-import { fetchAuth } from "./store/auth.actions";
+import { fetchSignIn } from "./store/auth.actions";
+import { AuthErrorSelector } from "./store/auth.selector";
+
+// ========================== type ==========================
 import { UserRoles } from "../roles/types/user-roles.enum";
 
 interface IFormInput {
@@ -18,8 +24,11 @@ interface IFormInput {
   password: string;
 }
 
-export const handleResponse = (response: any, navigate: (path: string) => void) => {
-  if (response.meta.requestStatus !== 'rejected') {
+export const handleResponse = (
+  response: any,
+  navigate: (path: string) => void
+) => {
+  if (response.meta.requestStatus !== "rejected") {
     const user: any = decodeToken(response.payload);
     if (user && user.role_type && user.role_type === UserRoles.user) {
       window.location.replace("http://localhost:8000");
@@ -33,46 +42,20 @@ export const handleResponse = (response: any, navigate: (path: string) => void) 
 const LoginPage: FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const [error, setError] = useState(false);
+  const fetchingErrors = useSelector(AuthErrorSelector);
 
   const handleSave = async (data: IFormInput) => {
-    const newToken = await dispatch(fetchAuth(data));
-    handleResponse(newToken, navigate);
-    setError(false);
+    const response = await dispatch(fetchSignIn(data));
+    handleResponse(response, navigate);
   };
 
   return (
     <Box>
-      <LoginForm handleSave={handleSave} error={error} />
+      <LoginForm
+        handleSave={handleSave}
+        fetchingErrors={fetchingErrors.token}
+      />
     </Box>
   );
 };
 export default LoginPage;
-
-// const LoginPage: FC = () => {
-//   const navigate = useNavigate();
-//   const dispatch = useDispatch<AppDispatch>();
-//   const [error, setError] = useState(false);
-
-//   const handleSave = async (data: IFormInput) => {
-//     const newToken = await dispatch(fetchAuth(data));
-//     if (newToken.payload) {
-//       const user: any = decodeToken(newToken.payload);
-//       if (user.role_type === "user") {
-//         window.location.replace("http://localhost:3001");
-//         setError(false);
-//       } else {
-//         window.localStorage.setItem("token", newToken.payload);
-//         navigate("/products");
-//         setError(false);
-//       }
-//     }
-//   };
-//   return (
-//     <Box>
-//       <LoginForm handleSave={handleSave} error={error} />
-//     </Box>
-//   );
-// };
-
-// export default LoginPage;

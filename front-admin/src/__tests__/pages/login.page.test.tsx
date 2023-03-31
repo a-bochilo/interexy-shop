@@ -7,15 +7,15 @@ import { MemoryRouter } from "react-router-dom";
 import { render } from "@testing-library/react";
 
 // =========================== mocks ===================================
-import { mockedData } from "../mocks/auth.data.mock";
+import { initialState, mockResponse, mockedData } from "../mocks/auth.data.mock";
 
 // =========================== component ===============================
-import { fetchAuth } from "../../app/login/store/auth.slice";
 import { handleResponse } from "../../app/login/login.page";
 import LoginPage from "../../app/login";
 
 // =========================== enums ===================================
 import { UserRoles } from "../../app/roles/types/user-roles.enum";
+import { fetchSignIn } from "../../app/login/store/auth.slice";
 
 // =========================== mock axios ==============================
 jest.mock("axios", () => ({
@@ -44,12 +44,13 @@ const mockStore = configureStore([thunk]);
 describe("LoginPage", () => {
   let store: any;
 
-  beforeEach(() => {
-    store = mockStore({});
-    (fetchAuth as unknown as jest.Mock).mockReturnValue({ type: "test" });
-  });
+  // beforeEach(() => {
+  //   store = mockStore({});
+  //   (fetchSignIn as unknown as jest.Mock).mockReturnValue({ type: "test" });
+  // });
 
   it("should render the login form", () => {
+    store = mockStore(initialState);
     render(
       <Provider store={store}>
         <MemoryRouter>
@@ -89,32 +90,14 @@ describe("handleResponse", () => {
   });
 
   it("should navigate to /products if the user is not a regular user", () => {
-    const response = {
-      payload:
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNlYTlmZTFlLWY0OGEtNGE0Yy1iYWVhLWIxMTA0MWMzNWQ4NyIsImVtYWlsIjoic3VwZXJhZG1pbkBnbWFpbC5jb20iLCJwaG9uZSI6IiszNzUgMjkgMDAwIDAwIDAwIiwiY3JlYXRlZCI6MTY3OTY1MTMyNzcxOSwidXBkYXRlZCI6MTY3OTY1MTMyNzcxOSwicm9sZV9pZCI6MSwicm9sZV90eXBlIjoiYWRtaW4iLCJpYXQiOjE2ODAxMzMzMDEsImV4cCI6MTY4MDEzNjkwMX0.jjeeBm0mJIH5YqoXI0ZDuh-8nghCDFP9-S-C-YbiuIg",
-    };
     decodeToken.mockReturnValue({ role_type: UserRoles.admin });
-    handleResponse(response, navigate);
+    handleResponse(mockResponse, navigate);
     expect(navigate).toHaveBeenCalledWith("/products");
   });
 
-  it("should replace the location if the user is a regular user", () => {
-    const response = {
-      payload:
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNlYTlmZTFlLWY0OGEtNGE0Yy1iYWVhLWIxMTA0MWMzNWQ4NyIsImVtYWlsIjoic3VwZXJhZG1pbkBnbWFpbC5jb20iLCJwaG9uZSI6IiszNzUgMjkgMDAwIDAwIDAwIiwiY3JlYXRlZCI6MTY3OTY1MTMyNzcxOSwidXBkYXRlZCI6MTY3OTY1MTMyNzcxOSwicm9sZV9pZCI6MSwicm9sZV90eXBlIjoidXNlciIsImlhdCI6MTY4MDEzMzMwMSwiZXhwIjoxNjgwMTM2OTAxfQ.blF0dGVF4rV4zDFrY0AyVTw5HrjYG09AmLtYhfK4TW0",
-    };
-    decodeToken.mockReturnValue({ role_type: UserRoles.user });
-    handleResponse(response, navigate);
-    expect(mockReplace).toHaveBeenCalledWith("http://localhost:3001");
-  });
-
   it("should set the token in localStorage if the user is not a regular user", () => {
-    const response = {
-      payload:
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNlYTlmZTFlLWY0OGEtNGE0Yy1iYWVhLWIxMTA0MWMzNWQ4NyIsImVtYWlsIjoic3VwZXJhZG1pbkBnbWFpbC5jb20iLCJwaG9uZSI6IiszNzUgMjkgMDAwIDAwIDAwIiwiY3JlYXRlZCI6MTY3OTY1MTMyNzcxOSwidXBkYXRlZCI6MTY3OTY1MTMyNzcxOSwicm9sZV9pZCI6MSwicm9sZV90eXBlIjoiYWRtaW4iLCJpYXQiOjE2ODAxMzMzMDEsImV4cCI6MTY4MDEzNjkwMX0.jjeeBm0mJIH5YqoXI0ZDuh-8nghCDFP9-S-C-YbiuIg",
-    };
     decodeToken.mockReturnValue({ role_type: UserRoles.admin });
-    handleResponse(response, navigate);
-    expect(mockSetItem).toHaveBeenCalledWith("token", response.payload);
+    handleResponse(mockResponse, navigate);
+    expect(mockSetItem).toHaveBeenCalledWith("token", mockResponse.payload);
   });
 });

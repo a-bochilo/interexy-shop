@@ -13,9 +13,11 @@ import { UserRepository } from "../../users/repos/user.repository";
 import { RoleRepository } from "../../roles/repos/role.repository";
 import { UserDetailsRepository } from "../../users/repos/user-details.repository";
 import { CartRepository } from "../../cart/repos/cart.repository";
+import { UserViewRepository } from "../../users/repos/user-view.repository";
 import { TokenDto } from "../../security/dtos/token.dto";
 import { CreateUserDto } from "../../users/dtos/user-create.dto";
 import { UserSignInDto } from "../dtos/user-sign-in.dto";
+
 
 jest.mock("nestjs-i18n", () => ({
   I18nContext: {
@@ -59,6 +61,10 @@ describe("AuthService methods", () => {
     userId: 1,
     user: user,
     items: { cart_id: 1, product_id: "1", quantity: 2 },
+  };
+
+  const mockUserViewRepository = {
+    getUserByEmail: jest.fn().mockResolvedValue(user),
   };
 
   const mockUserRepository = {
@@ -140,6 +146,10 @@ describe("AuthService methods", () => {
           provide: getRepositoryToken(CartRepository),
           useValue: mockCartRepository,
         },
+        {
+          provide: getRepositoryToken(UserViewRepository),
+          useValue: mockUserViewRepository,
+        },
       ],
     })
       .overrideProvider(AuthService)
@@ -182,11 +192,13 @@ describe("AuthService methods", () => {
         permissions: "all",
       });
 
-      mockUserDetailsRepository.createUserDetails = jest.fn().mockResolvedValue({
-        firstname: "Elvis",
-        lastname: "Presley",
-        middlename: "Aaron",
-      });
+      mockUserDetailsRepository.createUserDetails = jest
+        .fn()
+        .mockResolvedValue({
+          firstname: "Elvis",
+          lastname: "Presley",
+          middlename: "Aaron",
+        });
 
       mockCartRepository.createCart = jest.fn().mockResolvedValue({
         userId: 1,
@@ -245,11 +257,13 @@ describe("AuthService methods", () => {
         permissions: "all",
       });
 
-      mockUserDetailsRepository.createUserDetails = jest.fn().mockResolvedValue({
-        firstname: "Elvis",
-        lastname: "Presley",
-        middlename: "Aaron",
-      });
+      mockUserDetailsRepository.createUserDetails = jest
+        .fn()
+        .mockResolvedValue({
+          firstname: "Elvis",
+          lastname: "Presley",
+          middlename: "Aaron",
+        });
 
       mockCartRepository.createCart = jest.fn().mockResolvedValue({
         userId: 1,

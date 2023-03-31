@@ -1,6 +1,3 @@
-
-
-
 export interface OrderDto {
   id: string;
   created: number;

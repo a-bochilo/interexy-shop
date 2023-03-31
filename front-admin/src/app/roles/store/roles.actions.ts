@@ -1,11 +1,15 @@
-import $api from "../../../api/api";
+// ====================== redux ======================================
 import { createAsyncThunk } from "@reduxjs/toolkit";
+
+// ====================== axios ======================================
 import { AxiosResponse } from "axios";
 
-// ====================== Interfaces & DTO's =========================
+// ====================== api ========================================
+import $api from "../../../api/api";
+
+// ====================== interfaces & dto's =========================
 import { RolesDto } from "../types/roles.dto";
 import { CreateRoleDto } from "../types/create-role.dto";
-
 
 export const fetchRoles = createAsyncThunk(
   "roles/fetchRoles",

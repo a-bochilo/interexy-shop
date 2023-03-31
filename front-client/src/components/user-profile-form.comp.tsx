@@ -11,6 +11,7 @@ import {
   TextField,
   Button,
 } from "@mui/material";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 // ========================== yup ==========================
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -20,6 +21,8 @@ import { formSchema } from "./user-profile-form.const";
 import { UserDetailsDto } from "../app/users/types/user-details.type";
 import { UserDto } from "../app/users/types/user-dto.type";
 import { UserState } from "../app/users/types/user-state.type";
+import TemporaryTypography from "./temporary-typography.component";
+import { IUserWithTranslate } from "../app/users/types/user-translate.interface";
 
 // ========================== interfaces ==========================
 interface IUserWithDetails {
@@ -31,11 +34,13 @@ interface IUserWithDetails {
 }
 
 interface FormProps {
-  formName: string;
   user: UserDto;
   userInfo: UserDetailsDto;
   disabled: boolean;
   pending: UserState["pending"];
+  isClicked: boolean;
+  userWithTranslate: IUserWithTranslate;
+  fetchingErrors: string | null;
   setDisabled: (e: boolean) => void;
   buttonOnclick: () => void;
   handleSave: (e: Partial<IUserWithDetails>) => void;
@@ -43,11 +48,13 @@ interface FormProps {
 }
 
 const UserProfileFormComp: FC<FormProps> = ({
-  formName,
+  isClicked,
   user,
   userInfo,
   disabled,
   pending,
+  userWithTranslate,
+  fetchingErrors,
   setDisabled,
   buttonOnclick,
   handleSave,
@@ -98,7 +105,7 @@ const UserProfileFormComp: FC<FormProps> = ({
       }}
     >
       <Typography variant="h6" fontWeight={"bold"} pb={1}>
-        {formName}
+        {userWithTranslate.profile}
       </Typography>
 
       <form
@@ -120,7 +127,7 @@ const UserProfileFormComp: FC<FormProps> = ({
             align="left"
             sx={{ minWidth: 90, width: 120 }}
           >
-            first name
+            {userWithTranslate.firstname}
           </Typography>
 
           <Controller
@@ -160,7 +167,7 @@ const UserProfileFormComp: FC<FormProps> = ({
             align="left"
             sx={{ minWidth: 90, width: 120 }}
           >
-            middle name
+            {userWithTranslate.middlename}
           </Typography>
           <Controller
             control={control}
@@ -194,7 +201,7 @@ const UserProfileFormComp: FC<FormProps> = ({
             align="left"
             sx={{ minWidth: 90, width: 120 }}
           >
-            last name
+            {userWithTranslate.lastname}
           </Typography>
           <Controller
             name="lastname"
@@ -232,7 +239,7 @@ const UserProfileFormComp: FC<FormProps> = ({
             align="left"
             sx={{ minWidth: 90, width: 120 }}
           >
-            email
+            {userWithTranslate.email}
           </Typography>
           <Controller
             name="email"
@@ -256,7 +263,7 @@ const UserProfileFormComp: FC<FormProps> = ({
             {errors.email?.message}
           </Typography>
         </Box>
-        {/*=========================== email field ============================*/}
+        {/*=========================== phone field ============================*/}
         <Box
           sx={{
             display: "flex",
@@ -270,7 +277,7 @@ const UserProfileFormComp: FC<FormProps> = ({
             align="left"
             sx={{ minWidth: 90, width: 120 }}
           >
-            phone
+            {userWithTranslate.phone}
           </Typography>
           <Controller
             name="phone"
@@ -298,7 +305,7 @@ const UserProfileFormComp: FC<FormProps> = ({
         <Box
           sx={{
             display: "flex",
-            flexDirection: { xs: "column", md: "row" },
+            flexDirection: { xs: "column", md: "column" },
             alignItems: "center",
             justifyContent: "space-between",
           }}
@@ -309,10 +316,53 @@ const UserProfileFormComp: FC<FormProps> = ({
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              width: "50%",
+              width: "100%",
             }}
           >
-            {pending && <CircularProgress data-testid="test-progress" />}
+            {fetchingErrors && isClicked && !pending.userInfo && (
+              <TemporaryTypography
+                variant="overline"
+                align="center"
+                color="error.main"
+                duration={5}
+                data-testid="error-stub"
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    gap: "8px",
+                  }}
+                >
+                  <Typography>{fetchingErrors}</Typography>
+                </Box>
+              </TemporaryTypography>
+            )}
+
+            {pending.userInfo && (
+              <CircularProgress data-testid="test-progress" />
+            )}
+
+            {!fetchingErrors && isClicked && !pending.userInfo && (
+              <TemporaryTypography
+                variant="overline"
+                align="center"
+                color="success.main"
+                duration={5}
+                data-testid="done-stub"
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    gap: "8px",
+                  }}
+                >
+                  <CheckCircleIcon />
+                  <Typography>{userWithTranslate.succsessMessage}</Typography>
+                </Box>
+              </TemporaryTypography>
+            )}
           </Box>
           {/*=========================== buttons block ============================*/}
           <Box
@@ -322,7 +372,8 @@ const UserProfileFormComp: FC<FormProps> = ({
               alignItems: "center",
               justifyContent: "center",
               width: "100%",
-              gap: 2,
+              marginTop: "8px",
+              gap: 8,
             }}
           >
             <Button
@@ -334,7 +385,7 @@ const UserProfileFormComp: FC<FormProps> = ({
               color="success"
               variant="contained"
             >
-              Edit
+              {userWithTranslate.buttons.edit}
             </Button>
 
             <Button
@@ -348,7 +399,7 @@ const UserProfileFormComp: FC<FormProps> = ({
               variant="contained"
               form="userEdit"
             >
-              Save
+              {userWithTranslate.buttons.save}
             </Button>
 
             <Button
@@ -360,7 +411,7 @@ const UserProfileFormComp: FC<FormProps> = ({
               color="error"
               variant="contained"
             >
-              Cancel
+              {userWithTranslate.buttons.cancel}
             </Button>
           </Box>
         </Box>
