@@ -11,6 +11,7 @@ const PageAsideComp = (props: {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        minWidth: { xs: "100%", md: 300 },
         width: { xs: "100%", md: 300 },
         minHeight: { xs: null, md: "100%" },
         flexGrow: { xs: null, md: 1 },

@@ -9,6 +9,7 @@ export class $npmConfigName1678544710047 implements MigrationInterface {
             SELECT *
             FROM products
             WHERE is_active=true
+            AND quantity>0
         `);
   }
 

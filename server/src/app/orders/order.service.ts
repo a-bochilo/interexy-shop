@@ -85,9 +85,10 @@ export class OrderService {
        *  the available and write it down in a variable 'priceSubstractionResult'
        */
 
-      const priceSubstractionResult = product.quantity - cart.items[i].quantity;
+      const quantitySubstractionResult =
+        product.quantity - cart.items[i].quantity;
 
-      if (priceSubstractionResult < 0) {
+      if (quantitySubstractionResult < 0) {
         throw new HttpException(
           `'${product.name}'. ${I18nContext.current().t(
             "errors.products.productNotEnough"
@@ -127,6 +128,18 @@ export class OrderService {
     );
 
     const newOrder = await this.orderRepository.saveOrder(order);
-    return await OrderDto.fromEntity(newOrder);
+
+    prodEntities.map(async (product, i) => {
+      const quantitySubstractionResult =
+        product.quantity - cart.items[i].quantity;
+
+      product.quantity = quantitySubstractionResult;
+      await this.productRepository.updateProduct({
+        ...product,
+        quantity: quantitySubstractionResult,
+      });
+    });
+
+    return OrderDto.fromEntity(newOrder);
   }
 }

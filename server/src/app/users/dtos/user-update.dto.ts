@@ -38,4 +38,5 @@ export class UpdateUserDto {
   readonly role?: RoleEntity;
   readonly roleId?: number;
   readonly details_id?: string;
+  isActive?: "true" | "false" | boolean;
 }

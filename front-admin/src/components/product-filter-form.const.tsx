@@ -19,7 +19,7 @@ export const formSchema = yup
       .default(undefined)
       .nullable()
       .transform((_, val) => {
-        if (val === null) return null;
+        if (val === (null || "")) return null;
         return +val === Number(val) ? +val : null;
       }),
 
@@ -30,7 +30,7 @@ export const formSchema = yup
       .default(undefined)
       .nullable()
       .transform((_, val) => {
-        if (val === null) return null;
+        if (val === (null || "")) return null;
         return +val === Number(val) ? +val : null;
       }),
 
@@ -38,10 +38,10 @@ export const formSchema = yup
       .number()
       .integer("⚠ This field accepts only integer numbers")
       .min(0, "⚠ Min value is 0")
-      .default(null)
+      .default(undefined)
       .nullable()
       .transform((_, val) => {
-        if (val === null) return null;
+        if (val === (null || "")) return null;
         return +val === Number(val) ? +val : null;
       }),
 
@@ -52,7 +52,7 @@ export const formSchema = yup
       .default(undefined)
       .nullable()
       .transform((_, val) => {
-        if (val === null) return null;
+        if (val === (null || "")) return null;
         return +val === Number(val) ? +val : null;
       }),
 
@@ -63,7 +63,7 @@ export const formSchema = yup
       .default(undefined)
       .nullable()
       .transform((_, val) => {
-        if (val === null) return null;
+        if (val === (null || "")) return null;
         return +val === Number(val) ? +val : null;
       }),
 

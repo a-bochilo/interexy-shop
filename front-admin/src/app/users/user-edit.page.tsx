@@ -19,7 +19,12 @@ import {
   usersLoadingSelector,
   usersFetchErrorsSelector,
 } from "./store/users.selectors";
-import { deleteUser, getUserInfo, updateUserInfo } from "./store/users.actions";
+import {
+  deleteUser,
+  getUserInfo,
+  getUsers,
+  updateUserInfo,
+} from "./store/users.actions";
 
 const MainGrid = styled(Grid)`
   justify-content: center;
@@ -54,6 +59,7 @@ const UserEditPage: FC = () => {
   const handleSave = (data: any) => {
     if (!userId) return;
     dispatch(updateUserInfo(data));
+    // dispatch(getUsers());
   };
 
   const handleDelete = () => {

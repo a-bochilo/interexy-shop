@@ -76,17 +76,13 @@ const ProductFilterForm = () => {
     formState: { errors, isValid },
   } = useForm<ProductFilterDto>({
     defaultValues: {
-      category: null,
-      name: null,
-      brand: null,
-      minPrice: null,
-      maxPrice: null,
-      quantity: null,
-      minQuantity: null,
-      maxQuantity: null,
-      isActive: null,
+      category: undefined,
+      name: undefined,
+      brand: undefined,
+      minPrice: undefined,
+      maxPrice: undefined,
     },
-    mode: "onSubmit",
+    mode: "all",
     resolver: yupResolver(formSchema),
   });
 

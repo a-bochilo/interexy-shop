@@ -165,6 +165,9 @@ export class UserService {
       );
     }
 
+    // if (info.isActive === "true") info.isActive = Boolean(info.isActive);
+    const isActiveToggler = info.isActive === "true" ? true : false;
+
     //=============== if user and details already exist => update user with details =========================
     const newDetails = await this.userDetailsRepository.setDetails(
       Object.assign(details, info.details)
@@ -177,6 +180,7 @@ export class UserService {
     return await this.userRepository.updateUserDetails({
       ...user,
       details,
+      isActive: isActiveToggler,
     });
   }
 
