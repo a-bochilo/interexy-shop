@@ -6,16 +6,20 @@ import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import {
   Box,
   MenuItem,
-  CircularProgress,
   Paper,
   Typography,
   TextField,
   Button,
 } from "@mui/material";
+import DoneIcon from "@mui/icons-material/Done";
 
 // ========================== enum ==========================
-import { UserDto } from "../app/users/types/user-dto.type";
 import { RolesDto } from "../app/roles/types/roles.dto";
+import { UserState } from "../app/users/types/user-state.type";
+import { UserRoles } from "../app/roles/types/user-roles.enum";
+
+// ========================== components ==========================
+import TemporaryTypography from "./temporary-typography.component";
 
 interface IUserAssignRole {
   id: string;
@@ -25,20 +29,24 @@ interface IUserAssignRole {
 interface FormProps {
   formName: string;
   userId: string;
+  isClicked: boolean;
   selectedUserRole: RolesDto;
   userRoles: RolesDto[];
   disabled: boolean;
-  pending: boolean;
+  pending: UserState["pending"];
   setDisabled: (e: boolean) => void;
   buttonOnclick: () => void;
   handleSave: (e: IUserAssignRole) => void;
   handleBack: () => void;
 }
 
+const enumsRoleTypes = Object.keys(UserRoles).slice(1);
+
 const UserAssignRoleFormComp: FC<FormProps> = ({
   formName,
   userRoles,
   userId,
+  isClicked,
   selectedUserRole,
   disabled,
   pending,
@@ -151,13 +159,11 @@ const UserAssignRoleFormComp: FC<FormProps> = ({
                 variant="outlined"
                 {...register("name")}
               >
-                {userRoles
-                  .filter((role) => role.name !== "superadmin")
-                  .map((role) => (
-                    <MenuItem key={role.id} value={role.name}>
-                      {role.name}
-                    </MenuItem>
-                  ))}
+                {enumsRoleTypes.map((role) => (
+                  <MenuItem key={role} value={role}>
+                    {role}
+                  </MenuItem>
+                ))}
               </TextField>
             )}
           />
@@ -179,7 +185,17 @@ const UserAssignRoleFormComp: FC<FormProps> = ({
               width: "50%",
             }}
           >
-            {pending && <CircularProgress />}
+            {isClicked && !pending.users && (
+              <TemporaryTypography
+                variant="overline"
+                align="center"
+                color="success.main"
+                duration={2}
+                data-testid="done-icon-test"
+              >
+                <DoneIcon />
+              </TemporaryTypography>
+            )}
           </Box>
           <Box
             sx={{
@@ -201,6 +217,7 @@ const UserAssignRoleFormComp: FC<FormProps> = ({
               color="success"
               variant="contained"
               form="userAssignRole"
+              data-testid="save-btn"
             >
               Save
             </Button>

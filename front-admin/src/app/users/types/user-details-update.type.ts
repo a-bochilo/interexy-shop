@@ -9,8 +9,8 @@ export interface UserUpdateDto {
   isActive: boolean;
   created: number;
   updated: number;
-  roleType: UserRoles;
-  roleId: number;
+  role_type: UserRoles;
+  role_id: number;
   details: {
     firstname: string;
     lastname: string;

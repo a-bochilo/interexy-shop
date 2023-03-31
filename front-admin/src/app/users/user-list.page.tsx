@@ -1,7 +1,6 @@
 // ========================== react ==========================
-import { FC, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { FC } from "react";
+import { useSelector } from "react-redux";
 
 // ========================== mui ==========================
 import styled from "@emotion/styled";
@@ -11,9 +10,7 @@ import { Grid } from "@mui/material";
 import UsersTable from "../../components/users-table.comp";
 
 // ========================== store ==========================
-import { AppDispatch } from "../../store";
 import { usersSelector } from "./store/users.selectors";
-import { getUsers } from "./store/users.actions";
 
 const MainGrid = styled(Grid)`
   display: flex;
@@ -24,12 +21,7 @@ const MainGrid = styled(Grid)`
 `;
 
 const UserListPage: FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
   const userList = useSelector(usersSelector);
-
-  useEffect(() => {
-    dispatch(getUsers());
-  }, []);
 
   return (
     <MainGrid sx={{ display: "flex" }}>

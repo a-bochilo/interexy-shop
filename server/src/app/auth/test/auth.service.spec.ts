@@ -17,6 +17,14 @@ import { TokenDto } from "../../security/dtos/token.dto";
 import { CreateUserDto } from "../../users/dtos/user-create.dto";
 import { UserSignInDto } from "../dtos/user-sign-in.dto";
 
+jest.mock("nestjs-i18n", () => ({
+  I18nContext: {
+    current: () => ({
+      t: () => "text",
+    }),
+  },
+}));
+
 describe("AuthService methods", () => {
   let authService: AuthService;
 
@@ -174,13 +182,11 @@ describe("AuthService methods", () => {
         permissions: "all",
       });
 
-      mockUserDetailsRepository.createUserDetails = jest
-        .fn()
-        .mockResolvedValue({
-          firstname: "Elvis",
-          lastname: "Presley",
-          middlename: "Aaron",
-        });
+      mockUserDetailsRepository.createUserDetails = jest.fn().mockResolvedValue({
+        firstname: "Elvis",
+        lastname: "Presley",
+        middlename: "Aaron",
+      });
 
       mockCartRepository.createCart = jest.fn().mockResolvedValue({
         userId: 1,
@@ -239,13 +245,11 @@ describe("AuthService methods", () => {
         permissions: "all",
       });
 
-      mockUserDetailsRepository.createUserDetails = jest
-        .fn()
-        .mockResolvedValue({
-          firstname: "Elvis",
-          lastname: "Presley",
-          middlename: "Aaron",
-        });
+      mockUserDetailsRepository.createUserDetails = jest.fn().mockResolvedValue({
+        firstname: "Elvis",
+        lastname: "Presley",
+        middlename: "Aaron",
+      });
 
       mockCartRepository.createCart = jest.fn().mockResolvedValue({
         userId: 1,
@@ -282,7 +286,7 @@ describe("AuthService methods", () => {
         password: "password",
       });
     });
-    
+
     it("get an error if the password is wrong", async () => {
       const newUserSignInDto: UserSignInDto | any = {
         email: "test@gmail.com",

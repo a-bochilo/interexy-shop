@@ -1,76 +1,205 @@
-import { fireEvent, render, screen, act, waitFor } from "@testing-library/react";
-import { ThemeProvider } from "@emotion/react";
+/* eslint-disable testing-library/no-node-access */
+/* eslint-disable testing-library/no-unnecessary-act */
 import { Provider } from "react-redux";
-import store from "../../store";
-import theme from "../../theme/mainTheme";
-import { BrowserRouter } from "react-router-dom";
-import PageNavBarComp from "../../components/navbar.comp";
+import thunk from "redux-thunk";
+
+// =========================== Libs ===========================
+import _ from "lodash";
 
 // =========================== React-testing ===========================
-// =========================== Mocks ===================================
-// =========================== Component ===============================
-// =========================== Mock useNavi ============================
-// =========================== Mock Store ==============================
+import {
+    act,
+    fireEvent,
+    render,
+    screen,
+    waitFor,
+} from "@testing-library/react";
 
-jest.mock("axios", () => ({
-  post: jest.fn(),
-  get: jest.fn(),
-  create: () => {
-    return {
-      interceptors: {
-        request: { eject: jest.fn(), use: jest.fn() },
-        response: { eject: jest.fn(), use: jest.fn() },
-      },
-    };
-  },
+// =========================== Mocks ===========================
+import configureStore from "redux-mock-store";
+import { initialStateWithCart } from "../mocks/products.data.mocks";
+
+// =========================== Component ===========================
+import PageNavBarComp from "../../components/navbar.comp";
+import { initialState } from "../mocks/cart.data.mocks";
+
+// =========================== Mock Lodash ===========================
+jest.unmock("lodash");
+_.debounce = (fn: any, t: any) => fn();
+_.startCase = (str: string) => str;
+
+// ====================== Mock useNavi & useParams ======================
+const mockedUseNavigate = jest.fn();
+let mockedUseParamsResult: any = {
+    productId: "c06cbc27-26ee-4455-8983-33fff83c8be8",
+};
+jest.mock("react-router-dom", () => ({
+    ...(jest.requireActual("react-router-dom") as any),
+    useNavigate: () => mockedUseNavigate,
+    useParams: () => mockedUseParamsResult,
 }));
 
+// =========================== Mock i18n ===========================
+const tFunc = (key: string) => {
+    const obj = {
+        categories: {
+            all: "all",
+            trousers: "trousers",
+            shirts: "shirts",
+            shoes: "shoes",
+        },
+        headerSettings: {
+            account: "Account",
+            myOrders: "My orders",
+            logout: "Logout",
+            signIn: "Sign In",
+        },
+    };
+    const objKey =
+        (key.split(".")[1] as keyof typeof obj) ?? (key as keyof typeof obj);
+    return obj[objKey];
+};
 jest.mock("react-i18next", () => ({
-  useTranslation: () => {
-    return {
-      t: (str: string) => str,
-      i18n: {
-        changeLanguage: () => new Promise(() => {}),
-      },
-    };
-  },
+    useTranslation: () => {
+        return {
+            t: tFunc,
+            i18n: {
+                changeLanguage: () => new Promise(() => {}),
+            },
+        };
+    },
 }));
 
-describe("PageAsideComp", () => {
-  it("should be render is correctly", () => {
-    render(
-      <Provider store={store}>
-        <ThemeProvider theme={theme}>
-          <BrowserRouter>
-            <PageNavBarComp />
-          </BrowserRouter>
-        </ThemeProvider>
-      </Provider>
-    );
-  });
+// =========================== Mock Store ===========================
+const mockStore = configureStore([thunk]);
 
-  it("button 'open drawer' should be in the document", async () => {
-    const handleDrawerOpen = jest.fn().mockResolvedValue(1);
-    render(
-      <Provider store={store}>
-        <ThemeProvider theme={theme}>
-          <BrowserRouter>
-            <PageNavBarComp />
-          </BrowserRouter>
-        </ThemeProvider>
-      </Provider>
-    );
+// =========================== Mock SearchComponent ===========================
+jest.mock("../../components/search.component", () => () => {
+    return <div></div>;
+});
 
-    await act(async () =>
-      fireEvent.click(
-        screen.getByRole("button", {
-          name: /open drawer/i,
-        })
-      )
-    );
+// =========================== Mock localStorage ===========================
+const mockSetItem = jest.fn();
+const mockGetItem = jest.fn();
 
-    const button = await screen.findByLabelText("open drawer");
-    await waitFor(() => expect(handleDrawerOpen).toBeDefined());
-    expect(button).toBeInTheDocument();
-  });
+Object.defineProperty(window, "localStorage", {
+    value: {
+        ...window.localStorage,
+        setItem: mockSetItem,
+        getItem: mockGetItem,
+    },
+    writable: true,
+});
+
+describe("PageNavBarComp page", () => {
+    let store: any;
+
+    beforeEach(() => {
+        mockSetItem.mockClear();
+        mockGetItem.mockReturnValue("string");
+    });
+
+    it("should render component", () => {
+        store = mockStore(initialState);
+
+        render(
+            <Provider store={store}>
+                <PageNavBarComp />
+            </Provider>
+        );
+    });
+
+    it("should open drawer in case drawer open-button clicked", async () => {
+        store = mockStore(initialState);
+
+        render(
+            <Provider store={store}>
+                <PageNavBarComp />
+            </Provider>
+        );
+
+        await act(() =>
+            fireEvent.click(screen.getByTestId("drawer-open-button-test"))
+        );
+
+        await waitFor(() =>
+            expect(
+                getComputedStyle(screen.getByTestId("drawer-test")).width
+            ).toBe("200px")
+        );
+    });
+
+    it("should open hidden menu in case user logo clicked", async () => {
+        store = mockStore(initialState);
+
+        render(
+            <Provider store={store}>
+                <PageNavBarComp />
+            </Provider>
+        );
+
+        await act(() =>
+            fireEvent.click(screen.getByTestId("open-settings-button-test"))
+        );
+
+        await screen.findByTestId("hidden-menu-test");
+    });
+
+    it("should call navigate to /profile in case account link in user menu clicked", async () => {
+        store = mockStore(initialState);
+
+        render(
+            <Provider store={store}>
+                <PageNavBarComp />
+            </Provider>
+        );
+
+        await act(() =>
+            fireEvent.click(screen.getByTestId("open-settings-button-test"))
+        );
+
+        await act(() =>
+            fireEvent.click(screen.getByTestId("hidden-menu-account"))
+        );
+
+        await waitFor(() =>
+            expect(mockedUseNavigate).toHaveBeenCalledWith("/profile")
+        );
+    });
+
+    it("should call navigate to /orders/profile in case orders link in user menu clicked", async () => {
+        store = mockStore(initialState);
+
+        render(
+            <Provider store={store}>
+                <PageNavBarComp />
+            </Provider>
+        );
+
+        await act(() =>
+            fireEvent.click(screen.getByTestId("open-settings-button-test"))
+        );
+
+        await act(() =>
+            fireEvent.click(screen.getByTestId("hidden-menu-myOrders"))
+        );
+
+        await waitFor(() =>
+            expect(mockedUseNavigate).toHaveBeenCalledWith("/orders/profile")
+        );
+    });
+
+    it("should render signIn in case there is no token in localStorage", async () => {
+        store = mockStore(initialState);
+
+        mockGetItem.mockReturnValue(null);
+
+        render(
+            <Provider store={store}>
+                <PageNavBarComp />
+            </Provider>
+        );
+
+        await screen.findByTestId("sign-in-btn-test");
+    });
 });

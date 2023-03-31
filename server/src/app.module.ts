@@ -19,7 +19,6 @@ import { AuthModule } from "./app/auth/auth.module";
 @Module({
     imports: [
         ConfigModule.forRoot({
-            // envFilePath: ".development.env",
             isGlobal: true,
         }),
         TypeOrmModule.forRoot(databaseConfig),

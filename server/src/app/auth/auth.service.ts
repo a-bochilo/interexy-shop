@@ -1,5 +1,6 @@
 // ========================== Nest ==========================
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { I18nContext } from "nestjs-i18n";
 
 // ========================== bcrypt ==========================
 //! This lib could be turned on in case it neccessary to hash passwords
@@ -21,7 +22,6 @@ import { UserRoles } from "../../shared/types/user-roles.enum";
 // ========================== Services & Controllers ====================
 import { SecurityService } from "../security/security.service";
 import { CartRepository } from "../cart/repos/cart.repository";
-import { I18nContext } from "nestjs-i18n";
 
 @Injectable()
 export class AuthService {

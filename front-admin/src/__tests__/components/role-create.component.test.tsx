@@ -7,7 +7,7 @@ import { fireEvent, render, screen, act } from "@testing-library/react";
 
 // =========================== Component ===============================
 import CreateRoleForm from "../../components/role-create.component";
-
+// role-create.component.tsx           |   91.66 |    55.55 |   85.71 |     100 | 232,245
 describe("Role edit form", () => {
   const mockHandlers = {
     handleCreate: jest.fn(),
@@ -67,6 +67,18 @@ describe("Role edit form", () => {
     expect(screen.getByTestId("create-btn")).toBeDisabled();
   });
 
+  it("renders CircularProgress when roles are pending", async () => {
+    render(
+      <CreateRoleForm
+        fetchingPending={true}
+        fetchErrors={null}
+        isClicked={false}
+        {...mockHandlers}
+      />
+    );
+    await screen.findByTestId(/pending-stub/i);
+  });
+
   it("should be have expand button", async () => {
     render(
       <BrowserRouter>
@@ -81,5 +93,17 @@ describe("Role edit form", () => {
     const button = screen.getByTestId("ExpandMoreIcon");
     await act(async () => await fireEvent.click(button));
     expect(screen.getByDisplayValue(/createproduct/i)).toBeInTheDocument();
+  });
+
+  it("renders CheckCircleIcon when roles are created", async () => {
+    render(
+      <CreateRoleForm
+        fetchingPending={false}
+        fetchErrors={null}
+        isClicked={true}
+        {...mockHandlers}
+      />
+    );
+    await screen.findByTestId(/done-stub/i);
   });
 });
