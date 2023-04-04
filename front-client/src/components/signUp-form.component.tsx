@@ -61,7 +61,7 @@ const SignUpForm = ({
         style={{ display: "flex", flexDirection: "column", gap: 5 }}
       >
         <Controller
-          name="firstName"
+          name="firstname"
           control={control}
           render={() => (
             <TextField
@@ -69,18 +69,18 @@ const SignUpForm = ({
               id="outlined-firstName"
               label={authWithTranslate.firstName}
               variant="outlined"
-              {...register("firstName")}
+              {...register("firstname")}
               placeholder="Elvis"
             />
           )}
         />
 
         <Typography variant="caption" color={"red"}>
-          {errors.firstName?.message}
+          {errors.firstname?.message}
         </Typography>
 
         <Controller
-          name="middleName"
+          name="middlename"
           control={control}
           render={() => (
             <TextField
@@ -88,14 +88,14 @@ const SignUpForm = ({
               id="outlined-basic"
               label={authWithTranslate.middleName}
               variant="outlined"
-              {...register("middleName")}
+              {...register("middlename")}
               placeholder="Aaron"
             />
           )}
         />
 
         <Controller
-          name="lastName"
+          name="lastname"
           control={control}
           render={() => (
             <TextField
@@ -103,14 +103,14 @@ const SignUpForm = ({
               id="outlined-basic"
               label={authWithTranslate.lastName}
               variant="outlined"
-              {...register("lastName")}
+              {...register("lastname")}
               placeholder="Presley"
             />
           )}
         />
 
         <Typography variant="caption" color={"red"}>
-          {errors.lastName?.message}
+          {errors.lastname?.message}
         </Typography>
 
         <Controller

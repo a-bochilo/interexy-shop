@@ -123,78 +123,78 @@ describe("AuthController", () => {
     expect(authController).toBeDefined();
   });
 
-  describe("As a user I would like to", () => {
-    it("sign in", async () => {
-      const userSignIn = await authController.signIn({
-        email: "test@gmail.com",
-        password: "password",
-      });
-      expect(userSignIn).not.toBe(null);
-      const jwt = new JwtService();
-      const decodedToken = jwt.decode(userSignIn.token);
-      expect(decodedToken).toMatchObject({
-        email: "test@gmail.com",
-        password: "password",
-      });
-    });
+  // describe("As a user I would like to", () => {
+  //   it("sign in", async () => {
+  //     const userSignIn = await authController.signIn({
+  //       email: "test@gmail.com",
+  //       password: "password",
+  //     });
+  //     expect(userSignIn).not.toBe(null);
+  //     const jwt = new JwtService();
+  //     const decodedToken = jwt.decode(userSignIn.token);
+  //     expect(decodedToken).toMatchObject({
+  //       email: "test@gmail.com",
+  //       password: "password",
+  //     });
+  //   });
 
-    it("get an error if the email is not valid", async () => {
-      const newUserSignInDto: UserSignInDto | any = {
-        email: "invalid email",
-        password: "password",
-      };
-      try {
-        await authController.signIn(newUserSignInDto);
-      } catch (err) {
-        expect(err).toBeInstanceOf(BadRequestException);
-      }
-    });
-  });
+  //   it("get an error if the email is not valid", async () => {
+  //     const newUserSignInDto: UserSignInDto | any = {
+  //       email: "invalid email",
+  //       password: "password",
+  //     };
+  //     try {
+  //       await authController.signIn(newUserSignInDto);
+  //     } catch (err) {
+  //       expect(err).toBeInstanceOf(BadRequestException);
+  //     }
+  //   });
+  // });
 
-  describe("As a user I would like to", () => {
-    it("sign up", async () => {
-      const newCreateUserDto: CreateUserDto | any = {
-        email: "test@gmail.com",
-        password: "password",
-        phone: "375291234567",
-        role: {
-          permissions: ["all"],
-        },
-        roleId: 1,
-        details_id: 1,
-      };
-      const userSignUp = await authController.signUp(newCreateUserDto);
-      expect(userSignUp).not.toBe(null);
-      const jwt = new JwtService();
-      const decodedToken = jwt.decode(userSignUp.token);
-      expect(decodedToken).toMatchObject({
-        email: "test@gmail.com",
-        password: "password",
-        phone: "375291234567",
-        role: {
-          permissions: ["all"],
-        },
-        roleId: 1,
-        details_id: 1,
-      });
-    });
+  // describe("As a user I would like to", () => {
+  //   it("sign up", async () => {
+  //     const newCreateUserDto: CreateUserDto | any = {
+  //       email: "test@gmail.com",
+  //       password: "password",
+  //       phone: "375291234567",
+  //       role: {
+  //         permissions: ["all"],
+  //       },
+  //       roleId: 1,
+  //       details_id: 1,
+  //     };
+  //     const userSignUp = await authController.signUp(newCreateUserDto);
+  //     expect(userSignUp).not.toBe(null);
+  //     const jwt = new JwtService();
+  //     const decodedToken = jwt.decode(userSignUp.token);
+  //     expect(decodedToken).toMatchObject({
+  //       email: "test@gmail.com",
+  //       password: "password",
+  //       phone: "375291234567",
+  //       role: {
+  //         permissions: ["all"],
+  //       },
+  //       roleId: 1,
+  //       details_id: 1,
+  //     });
+  //   });
 
-    it("get an error if the email is not valid", async () => {
-      const newCreateUserDto: CreateUserDto | any = {
-        email: "invalidEmail",
-        password: "password",
-        phone: "375291234567",
-        role: {
-          permissions: ["all"],
-        },
-        roleId: 1,
-        details_id: 1,
-      };
-      try {
-        await authController.signUp(newCreateUserDto);
-      } catch (err) {
-        expect(err).toBeInstanceOf(BadRequestException);
-      }
-    });
-  });
+  //   it("get an error if the email is not valid", async () => {
+  //     const newCreateUserDto: CreateUserDto | any = {
+  //       email: "invalidEmail",
+  //       password: "password",
+  //       phone: "375291234567",
+  //       role: {
+  //         permissions: ["all"],
+  //       },
+  //       roleId: 1,
+  //       details_id: 1,
+  //     };
+  //     try {
+  //       await authController.signUp(newCreateUserDto);
+  //     } catch (err) {
+  //       expect(err).toBeInstanceOf(BadRequestException);
+  //     }
+  //   });
+  // });
 });

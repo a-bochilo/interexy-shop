@@ -23,6 +23,8 @@ import { UserRoles } from "../../shared/types/user-roles.enum";
 // ========================== services ====================
 import { SecurityService } from "../security/security.service";
 import { UserViewRepository } from "../users/repos/user-view.repository";
+import { UserWithDetailsDto } from "../users/dtos/user-with-details.dto";
+import { UpdateUserDto } from "../users/dtos/user-update.dto";
 
 @Injectable()
 export class AuthService {
@@ -32,13 +34,12 @@ export class AuthService {
     private readonly userDetailsRepository: UserDetailsRepository,
     private readonly cartRepository: CartRepository,
     private readonly securityService: SecurityService,
-    private readonly userViewRepository: UserViewRepository,
+    private readonly userViewRepository: UserViewRepository
   ) {}
 
   // ========================== signUp ==============================
-  async signUp(dto: CreateUserDto): Promise<TokenDto> {
+  async signUp(dto: UserWithDetailsDto): Promise<TokenDto> {
     const userFromDB = await this.userRepository.getUserByEmail(dto.email);
-
     if (userFromDB)
       throw new HttpException(
         `${I18nContext.current().t(`errors.user.userAlreadyExist`)}: ${
@@ -46,20 +47,27 @@ export class AuthService {
         }`,
         HttpStatus.BAD_REQUEST
       );
-
     const role = await this.roleRepository.getRoleByType(UserRoles.user);
-    const details = await this.userDetailsRepository.createUserDetails(
-      dto.details
+
+    const details = {
+      firstname: dto.firstname,
+      middlename: dto.middlename,
+      lastname: dto.lastname,
+    };
+    const detailsEntity = await this.userDetailsRepository.createUserDetails(
+      details
     );
 
     //! Line below could be activited on in case it neccessary to hash passwords
-    // const hashPassword = await hashSync(dto.password, 5);
-    const newUser = await this.userRepository.createUser({
-      ...dto,
+    // const hashPassword = await hashSync(dto.password, 6);
+    const userForDB: CreateUserDto = {
       password: dto.password,
-      details,
-      role,
-    });
+      email: dto.email,
+      phone: dto.phone,
+      details: detailsEntity,
+      role: role,
+    };
+    const newUser = await this.userRepository.createUser(userForDB);
 
     const cart = await this.cartRepository.createCart(newUser);
 

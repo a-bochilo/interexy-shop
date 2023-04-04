@@ -18,7 +18,7 @@ import { RoleRepository } from "../roles/repos/role.repository";
 import { UserRoles } from "../../shared/types/user-roles.enum";
 
 @Injectable()
-export class UserService {
+export class UsersService {
   constructor(
     private readonly userDetailsRepository: UserDetailsRepository,
     private readonly userRepository: UserRepository,

@@ -3,6 +3,7 @@ import { IsNotEmpty, IsString } from "class-validator";
 
 // ========================== swagger ====================================
 import { ApiProperty } from "@nestjs/swagger";
+import { UserDetailsEntity } from "../entities/user-details.entity";
 
 export class UserDetailsDto {
   @ApiProperty({
@@ -12,7 +13,7 @@ export class UserDetailsDto {
   })
   @IsNotEmpty()
   @IsString()
-  readonly firstname!: string;
+  firstname!: string;
 
   @ApiProperty({
     example: "Smith",
@@ -21,7 +22,7 @@ export class UserDetailsDto {
   })
   @IsNotEmpty()
   @IsString()
-  readonly lastname!: string;
+  lastname!: string;
 
   @ApiProperty({
     example: "Fitzgerald",
@@ -29,5 +30,13 @@ export class UserDetailsDto {
     required: false,
   })
   @IsString()
-  readonly middlename?: string;
+  middlename?: string;
+
+  static fromEntity(details: UserDetailsEntity): UserDetailsDto {
+    const dto = new UserDetailsDto();
+    dto.firstname = details.firstname;
+    dto.lastname = details.lastname;
+    dto.middlename = details.middlename;
+    return dto;
+  }
 }

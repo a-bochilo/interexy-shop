@@ -4,7 +4,7 @@ import { getRepositoryToken } from "@nestjs/typeorm";
 import { HttpException } from "@nestjs/common";
 
 // ============================ services ================================
-import { UserService } from "../user.service";
+import { UsersService } from "../user.service";
 
 // ========================== repositories ==============================
 import { UserRepository } from "../repos/user.repository";
@@ -37,12 +37,12 @@ jest.mock("nestjs-i18n", () => ({
 }));
 
 describe("User service", () => {
-  let service: UserService;
+  let service: UsersService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        UserService,
+        UsersService,
         {
           provide: getRepositoryToken(UserRepository),
           useValue: userRepositoryFake,
@@ -61,7 +61,7 @@ describe("User service", () => {
         },
       ],
     }).compile();
-    service = module.get<UserService>(UserService);
+    service = module.get<UsersService>(UsersService);
   });
 
   it("should be defined", () => {

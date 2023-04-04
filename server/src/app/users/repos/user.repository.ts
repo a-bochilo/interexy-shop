@@ -22,9 +22,6 @@ export class UserRepository extends Repository<UserEntity> {
   }
 
   async createUser(dto: CreateUserDto) {
-    const user = new UserEntity();
-    Object.assign(user, dto);
-
     const newUser = await this.create({
       created: new Date(),
       updated: new Date(),

@@ -17,8 +17,8 @@ import { UserDetailsRepository } from "./repos/user-details.repository";
 import { UserViewRepository } from "./repos/user-view.repository";
 
 // ========================== services & controllers ====================
-import { UserController } from "./user.controller";
-import { UserService } from "./user.service";
+import { UsersController } from "./user.controller";
+import { UsersService } from "./user.service";
 
 // ========================== modules ===================================
 import { SecurityModule } from "../security/security.module";
@@ -35,14 +35,14 @@ import { OrderEntity } from "../orders/entities/order.entity";
         ]),
         SecurityModule,
     ],
-    controllers: [UserController],
+    controllers: [UsersController],
     providers: [
         RoleRepository,
-        UserService,
+        UsersService,
         UserRepository,
         UserDetailsRepository,
         UserViewRepository,
     ],
-    exports: [UserService],
+    exports: [UsersService],
 })
 export class UserModule {}

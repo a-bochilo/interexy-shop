@@ -20,20 +20,20 @@ import { useTranslation } from "react-i18next";
 
 // ========================== interface ============================
 import { IAuthTranslate } from "./types/auth-translate.interface";
-import { IFormInput } from "./types/form-input.interface";
+import { ISignUpTemplate } from "./types/signUp.interface";
 
-export const buildUserForDB = (data: IFormInput) => {
-  return {
-    email: data.email,
-    password: data.password,
-    phone: data?.phone,
-    details: {
-      firstname: data.firstName,
-      middlename: data?.middleName,
-      lastname: data.lastName,
-    },
-  };
-};
+// export const buildUserForDB = (data: IFormInput) => {
+//   return {
+//     email: data.email,
+//     password: data.password,
+//     phone: data?.phone,
+//     details: {
+//       firstname: data.firstName,
+//       middlename: data?.middleName,
+//       lastname: data.lastName,
+//     },
+//   };
+// };
 
 export const checkTokenStatus = (
   requestStatus: string,
@@ -57,10 +57,10 @@ const SignUpPage: FC = () => {
   const fetchingErrors = useSelector(AuthErrorSelector);
   const fetchingPending = useSelector(AuthPendingSelector);
 
-  const handleSignUp = async (data: IFormInput) => {
+  const handleSignUp = async (data: ISignUpTemplate) => {
     dispatch(clearErrors());
 
-    const newToken = await dispatch(fetchSignUp(buildUserForDB(data)));
+    const newToken = await dispatch(fetchSignUp(data));
     checkTokenStatus(newToken.meta.requestStatus, newToken.payload, navigate);
   };
 

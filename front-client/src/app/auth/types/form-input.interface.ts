@@ -1,7 +1,7 @@
 export interface IFormInput {
-    firstName: string;
-    lastName: string;
-    middleName: string;
+    firstname: string;
+    lastname: string;
+    middlename: string;
     email: string;
     phone: string;
     password: string;
