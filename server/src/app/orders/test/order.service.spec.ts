@@ -3,7 +3,7 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { HttpException } from "@nestjs/common";
 
 // ============================ services ================================
-import { OrderService } from "../order.service";
+import { OrdersService } from "../order.service";
 
 // ========================== repositories ==============================
 import { UserRepository } from "../../users/repos/user.repository";
@@ -35,12 +35,12 @@ jest.mock("nestjs-i18n", () => ({
 }));
 
 describe("Order service", () => {
-  let service: OrderService;
+  let service: OrdersService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        OrderService,
+        OrdersService,
         {
           provide: OrderRepository,
           useValue: orderRepositoryFake,
@@ -59,7 +59,7 @@ describe("Order service", () => {
         },
       ],
     }).compile();
-    service = module.get<OrderService>(OrderService);
+    service = module.get<OrdersService>(OrdersService);
   });
 
   it("should be defined", () => {

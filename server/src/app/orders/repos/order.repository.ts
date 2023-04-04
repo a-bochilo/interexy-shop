@@ -26,12 +26,13 @@ export class OrderRepository extends Repository<OrderEntity> {
   }
 
   async createOrder(user: UserEntity): Promise<OrderEntity> {
-    const newOrder = new OrderEntity();
-    newOrder.created = new Date();
-    newOrder.updated = new Date();
-    newOrder.total = 0;
-    newOrder.user = user;
-    newOrder.items = [];
+    const newOrder = this.create({
+      created: new Date(),
+      updated: new Date(),
+      total: 0,
+      user: user,
+      items: [],
+    });
     return await this.save(newOrder);
   }
 

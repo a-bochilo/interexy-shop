@@ -53,7 +53,7 @@ export class RoleRepository extends Repository<RoleEntity> {
     return await this.delete({ id: id });
   }
 
-  async updateRole(role: CreateRoleDto) {
+  async updateRole(role: RoleEntity) {
     return await this.save(role);
   }
 

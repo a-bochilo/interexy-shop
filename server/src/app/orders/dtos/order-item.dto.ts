@@ -5,20 +5,21 @@ import { ApiProperty } from "@nestjs/swagger";
 import { IsNotEmpty } from "class-validator";
 
 // ========================== entities ===================================
-import { UUIDEntity } from "../../../shared/entities/uuid.entity";
+import { OrderItemEntity } from "../entities/order-item.entity";
+import { UUIDDto } from "src/shared/dtos/uuid.dto";
 
-export class OrderItemDto extends UUIDEntity {
+export class OrderItemDto extends UUIDDto {
   @ApiProperty({
     example: "Blue shirt",
     description: "Product name",
     required: true,
   })
   @IsNotEmpty()
-  readonly product_name: string;
+  product_name: string;
 
   @ApiProperty({ example: "12", description: "Product price", required: true })
   @IsNotEmpty()
-  readonly product_price: number;
+  product_price: number;
 
   @ApiProperty({
     example: "1",
@@ -26,9 +27,22 @@ export class OrderItemDto extends UUIDEntity {
     required: true,
   })
   @IsNotEmpty()
-  readonly product_quantity: number;
+  product_quantity: number;
 
-  readonly product_id: string;
+  product_id: string;
 
-  readonly order_id: string;
+  order_id: string;
+
+  static fromEntity(orderItem: OrderItemEntity): OrderItemDto {
+    const dto = new OrderItemDto();
+    dto.id = orderItem.id;
+    dto.product_name = orderItem.product_name;
+    dto.product_price = orderItem.product_price;
+    dto.product_quantity = orderItem.product_price;
+    dto.product_id = orderItem.product_id;
+    dto.order_id = orderItem.order_id;
+    dto.created = orderItem.created.valueOf();
+    dto.updated = orderItem.updated.valueOf();
+    return dto;
+  }
 }

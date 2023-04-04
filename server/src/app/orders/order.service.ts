@@ -18,7 +18,7 @@ import { UserRepository } from "../users/repos/user.repository";
 import { OrderItemRepository } from "./repos/order-item.repository";
 
 @Injectable()
-export class OrderService {
+export class OrdersService {
   constructor(
     private readonly orderRepository: OrderRepository,
     private readonly productRepository: ProductsRepository,

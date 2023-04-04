@@ -27,6 +27,7 @@ import { RoleEntity } from "./entities/role.entity";
 
 // ========================== enums =====================================
 import { UserPermissions } from "../../shared/types/user-permissions.enum";
+import { RoleDto } from "./dtos/role.dto";
 
 @ApiTags("Roles controller")
 @Controller("roles")
@@ -43,8 +44,9 @@ export class RoleController {
     isArray: false,
   })
   @UsePipes(new ValidationPipe())
-  async createRole(@Body() createRoleDto: CreateRoleDto): Promise<RoleEntity> {
-    return await this.roleService.createRole(createRoleDto);
+  async createRole(@Body() createRoleDto: CreateRoleDto): Promise<RoleDto> {
+    const role = await this.roleService.createRole(createRoleDto);
+    return await RoleDto.fromEntity(role);
   }
 
   @Get()
@@ -57,8 +59,9 @@ export class RoleController {
     isArray: true,
   })
   @UsePipes(new ValidationPipe())
-  async getAllRoles(): Promise<RoleEntity[]> {
-    return await this.roleService.getAll();
+  async getAllRoles(): Promise<RoleDto[]> {
+    const roles = await this.roleService.getAll();
+    return await roles.map((item) => RoleDto.fromEntity(item));
   }
 
   @Get("/:id")
@@ -71,8 +74,9 @@ export class RoleController {
     isArray: false,
   })
   @UsePipes(new ValidationPipe())
-  async getRoleById(@Param("id") id: number): Promise<RoleEntity> {
-    return await this.roleService.getRoleById(id);
+  async getRoleById(@Param("id") id: number): Promise<RoleDto> {
+    const role = await this.roleService.getRoleById(id);
+    return await RoleDto.fromEntity(role);
   }
 
   @Delete("/:id")
@@ -85,8 +89,9 @@ export class RoleController {
     isArray: false,
   })
   @UsePipes(new ValidationPipe())
-  async deleteRoleById(@Param("id") id: number): Promise<HttpStatus> {
-    return await this.roleService.deleteRole(id);
+  async deleteRoleById(@Param("id") id: number): Promise<RoleDto> {
+    const role = await this.roleService.deleteRole(id);
+    return await RoleDto.fromEntity(role);
   }
 
   @Put("/:id")
@@ -102,7 +107,8 @@ export class RoleController {
   async updateRoleById(
     @Param("id") id: number,
     @Body() createRoleDto: CreateRoleDto
-  ): Promise<RoleEntity> {
-    return await this.roleService.updateRole(id, createRoleDto);
+  ): Promise<RoleDto> {
+    const role = await this.roleService.updateRole(id, createRoleDto);
+    return await RoleDto.fromEntity(role);
   }
 }

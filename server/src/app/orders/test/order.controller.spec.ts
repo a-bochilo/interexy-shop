@@ -2,8 +2,8 @@
 import { Test, TestingModule } from "@nestjs/testing";
 
 // ========================== services & controllers ====================
-import { OrderController } from "../order.controller";
-import { OrderService } from "../order.service";
+import { OrdersController } from "../order.controller";
+import { OrdersService } from "../order.service";
 
 // ============================== guards ================================
 import { JwtAuthGuard } from "../../security/guards/jwt-auth.guard";
@@ -19,14 +19,14 @@ import {
 } from "./mocks/data.mock";
 
 describe("Order controller", () => {
-  let controller: OrderController;
+  let controller: OrdersController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [OrderController],
-      providers: [OrderService],
+      controllers: [OrdersController],
+      providers: [OrdersService],
     })
-      .overrideProvider(OrderService)
+      .overrideProvider(OrdersService)
       .useValue(mockedServices)
 
       .overrideGuard(RolesGuard)
@@ -36,7 +36,7 @@ describe("Order controller", () => {
       .useValue(true)
 
       .compile();
-    controller = module.get<OrderController>(OrderController);
+    controller = module.get<OrdersController>(OrdersController);
   });
 
   it("should be defined", async () => {
