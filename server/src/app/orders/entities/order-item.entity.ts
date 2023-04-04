@@ -1,5 +1,12 @@
 // ========================== typeorm ====================================
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from "typeorm";
+import {
+  Column,
+  Entity,
+  Index,
+  JoinColumn,
+  ManyToOne,
+  OneToOne,
+} from "typeorm";
 
 // ========================== Entities ==========================
 import { UUIDEntity } from "../../../shared/entities/uuid.entity";
@@ -11,7 +18,6 @@ import { ApiProperty } from "@nestjs/swagger";
 
 @Entity({ name: "order_items" })
 export class OrderItemEntity extends UUIDEntity {
-    
   @ApiProperty({
     example: "Blue shirts",
     description: "Product name",
@@ -41,6 +47,7 @@ export class OrderItemEntity extends UUIDEntity {
     example: "123",
     description: "product_id",
   })
+  @Index()
   @Column({ name: "product_id" })
   product_id: string;
 
@@ -48,6 +55,7 @@ export class OrderItemEntity extends UUIDEntity {
   @JoinColumn({ name: "product_id" })
   product: ProductEntity;
 
+  @Index()
   @Column()
   order_id: string;
 

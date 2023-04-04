@@ -10,6 +10,7 @@ export class CartItemEntity extends UUIDEntity {
   @Column({ name: "cart_id" })
   cart_id!: string;
 
+  @Index()
   @Column({ name: "product_id" })
   product_id!: string;
 

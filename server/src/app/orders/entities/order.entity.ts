@@ -2,7 +2,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 
 // ========================== typeorm ====================================
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from "typeorm";
+import { Column, Entity, Index, JoinColumn, ManyToOne, OneToMany } from "typeorm";
 
 // ========================== entities ===================================
 import { UserEntity } from "../../users/entities/user.entity";
@@ -20,6 +20,7 @@ export class OrderEntity extends UUIDEntity {
   @Column({ name: "total" })
   total: number;
 
+  @Index()
   @Column({ name: "user_id", default: null })
   user_id: string;
 

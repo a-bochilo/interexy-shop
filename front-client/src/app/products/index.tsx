@@ -26,7 +26,6 @@ import { fetchCart } from "../cart/store/cart.actions";
 const MainGrid = styled(Grid)`
   display: flex;
   flex-direction: column;
-  flex: 1 1 0;
   padding-top: 64px;
   min-height: 100vh;
   justify-content: space-between;
@@ -34,7 +33,6 @@ const MainGrid = styled(Grid)`
 
 const ContentGrid = styled(Grid)`
   display: flex;
-  flex-grow: 1;
   min-width: 100%;
   min-height: 100%;
   justify-content: flex-end;

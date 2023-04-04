@@ -38,7 +38,6 @@ const LanguageSwitcher = () => {
       exclusive
       onChange={handleLanguageChange}
       aria-label="Platform"
-      // color="success"
       size="small"
     >
       <ToggleButton value="en">En</ToggleButton>

@@ -19,10 +19,12 @@ export class CartRepository {
   }
 
   async createCart(user: UserEntity): Promise<CartEntity> {
-    const newCart = new CartEntity();
-    newCart.created = new Date();
-    newCart.user = user;
-    newCart.items = [];
+    const newCart = this.cartRepository.create({
+      created: new Date(),
+      user,
+      items: [],
+    });
+
     return await this.saveCart(newCart);
   }
 

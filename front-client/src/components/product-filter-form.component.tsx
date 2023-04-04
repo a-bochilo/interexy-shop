@@ -255,7 +255,7 @@ const ProductFilterForm = () => {
             alignItems: "center",
             justifyContent: "center",
             width: "100%",
-            height: 35,
+            minHeight: 35,
           }}
         >
           {pending.filter && <CircularProgress data-testid="pending-stub" />}

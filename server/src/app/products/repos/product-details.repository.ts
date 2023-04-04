@@ -16,11 +16,11 @@ export class ProductsDetailsRepository {
   async createProductDetails(
     productDetails: ProductDetailsDto | ProductDetailsEntity
   ): Promise<ProductDetailsEntity> {
-    const newProductsDetails = new ProductDetailsEntity();
-
-    Object.assign(newProductsDetails, productDetails);
-    newProductsDetails.created = new Date();
-    newProductsDetails.updated = new Date();
+    const newProductsDetails = this.productDetailsRepository.create({
+      ...productDetails,
+      created: new Date(),
+      updated: new Date(),
+    });
 
     return await this.productDetailsRepository.save(newProductsDetails);
   }

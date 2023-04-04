@@ -79,6 +79,7 @@ const CartButton = ({
             alignItems: "center",
             pb: 1,
             p: 2,
+            width: 150,
           }}
         >
           <RemoveIcon
@@ -98,7 +99,6 @@ const CartButton = ({
                 padding: 1,
                 textAlign: "center",
                 fontSize: size,
-                width: size === "small" ? 30 : 60,
               },
               inputprops: {
                 min: 1,
