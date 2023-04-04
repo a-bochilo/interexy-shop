@@ -16,9 +16,11 @@ export class ProductEntity extends UUIDEntity {
   @Column({ name: "name" })
   name!: string;
 
+  @Index()
   @Column({ name: "brand" })
   brand!: string;
 
+  @Index()
   @Column({ name: "price" })
   price!: number;
 
@@ -28,6 +30,7 @@ export class ProductEntity extends UUIDEntity {
   @Column({ name: "is_active" })
   isActive!: boolean;
 
+  @Index()
   @Column({ name: "quantity" })
   quantity!: number;
 

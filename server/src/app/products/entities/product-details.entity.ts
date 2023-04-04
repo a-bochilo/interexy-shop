@@ -1,4 +1,4 @@
-import { Column, Entity } from "typeorm";
+import { Column, Entity, Index } from "typeorm";
 
 // ========================== entities ==========================
 import { UUIDEntity } from "../../../shared/entities/uuid.entity";
@@ -8,9 +8,11 @@ export class ProductDetailsEntity extends UUIDEntity {
   @Column({ name: "color" })
   color!: string;
 
+  @Index()
   @Column({ name: "material" })
   material!: string;
 
+  @Index()
   @Column({ name: "size" })
   size!: string;
 
