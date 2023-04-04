@@ -24,12 +24,12 @@ export class ProductsRepository {
     productDto: ProductDto,
     details: ProductDetailsEntity
   ): Promise<ProductEntity> {
-    const newProduct = new ProductEntity();
-
-    Object.assign(newProduct, productDto);
-    newProduct.productDetails = details;
-    newProduct.created = new Date();
-    newProduct.updated = new Date();
+    const newProduct = this.productsRepository.create({
+      ...productDto,
+      productDetails: details,
+      created: new Date(),
+      updated: new Date(),
+    });
 
     return await this.productsRepository.save(newProduct);
   }
