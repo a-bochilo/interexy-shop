@@ -120,7 +120,8 @@ export class UsersService {
         HttpStatus.NOT_FOUND
       );
     }
-    return await this.userRepository.deleteUserById(userId);
+    await this.userRepository.deleteUserById(userId);
+    return { ...user, isActive: false };
   }
 
   async updateUserDetails(info: UpdateUserDto, userId: string) {

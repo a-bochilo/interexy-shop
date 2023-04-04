@@ -1,5 +1,5 @@
 // ========================== typeorm ===================================
-import { Column, Entity, OneToMany } from "typeorm";
+import { Column, Entity, Index, OneToMany } from "typeorm";
 
 // ========================== entities ==================================
 import { IDEntity } from "../../../shared/entities/id.entity";
@@ -15,6 +15,7 @@ import { ApiProperty } from "@nestjs/swagger";
 @Entity({ name: "user_roles" })
 export class RoleEntity extends IDEntity {
   @ApiProperty({ example: "admin", description: "Role type", required: true })
+  @Index()
   @Column({ name: "type", enum: UserRoles })
   type: UserRoles;
 
@@ -23,6 +24,7 @@ export class RoleEntity extends IDEntity {
     description: "Role name",
     required: true,
   })
+  @Index()
   @Column({ name: "name" })
   name: string;
 

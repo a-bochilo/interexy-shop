@@ -185,7 +185,6 @@ describe("User service", () => {
       userRepositoryFake.getById = jest
         .fn()
         .mockResolvedValue({ ...user, roleType: UserRoles.superadmin });
-      // roleRepositoryFake.getRoleByName = jest.fn().mockResolvedValue(false);
       try {
         await service.assignUserRole(dto, user.id);
       } catch (error) {

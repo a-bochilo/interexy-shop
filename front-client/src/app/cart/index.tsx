@@ -43,7 +43,6 @@ import { ICartTranslations } from "./types/cart-translation.interface";
 const MainGrid = styled(Grid)`
   display: flex;
   flex-direction: column;
-  flex: 1 1 0;
   padding-top: 64px;
   min-height: 100vh;
   justify-content: space-between;
@@ -52,13 +51,11 @@ const MainGrid = styled(Grid)`
 const InsideGrid = styled(Grid)`
   flex-flow: column;
   justify-content: space-around;
-  min-height: 100%;
 `;
 
 const ContentGrid = styled(Grid)`
   display: flex;
   flex-grow: 1;
-  min-height: 100%;
   justify-content: flex-end;
 `;
 

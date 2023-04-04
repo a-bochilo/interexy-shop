@@ -4,9 +4,9 @@ import { ApiProperty } from "@nestjs/swagger";
 // ========================== validator ==================================
 import { IsNotEmpty } from "class-validator";
 
-// ========================== entities ===================================
+// ========================== entities & dto's ===================================
 import { OrderItemEntity } from "../entities/order-item.entity";
-import { UUIDDto } from "src/shared/dtos/uuid.dto";
+import { UUIDDto } from "../../../shared/dtos/uuid.dto";
 
 export class OrderItemDto extends UUIDDto {
   @ApiProperty({

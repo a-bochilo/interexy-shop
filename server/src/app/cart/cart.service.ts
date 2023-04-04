@@ -149,13 +149,13 @@ export class CartService {
       );
     }
 
-    const item = new CartItemEntity();
-    item.created = new Date();
-    item.quantity = cartItemDto.quantity;
-    item.cart = cart;
-    item.quantity = cartItemDto.quantity;
-    item.product_id = product.id;
+    const newItem = {
+      created: new Date(),
+      quantity: cartItemDto.quantity,
+      cart,
+      product_id: product.id,
+    };
 
-    return await this.cartItemRepository.saveCartItem(item);
+    return await this.cartItemRepository.createCartItem(newItem);
   }
 }

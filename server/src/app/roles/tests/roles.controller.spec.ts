@@ -38,35 +38,35 @@ describe("Roles controller", () => {
     expect(controller).toBeDefined();
   });
 
-  // describe("endpoint: Create new role", () => {
-  //   it("should be return new role", async () => {
-  //     expect(await controller.createRole(userRoleDto)).toEqual(newUserRole);
-  //   });
-  // });
+  describe("endpoint: Create new role", () => {
+    it("should be return new role", async () => {
+      expect(await controller.createRole(userRoleDto)).toEqual(newUserRole);
+    });
+  });
 
-  // describe("endpoint: Get all roles", () => {
-  //   it("should be return roles array", async () => {
-  //     expect(await controller.getAllRoles()).toEqual([newUserRole]);
-  //   });
-  // });
+  describe("endpoint: Get all roles", () => {
+    it("should be return roles array", async () => {
+      expect(await controller.getAllRoles()).toEqual([newUserRole]);
+    });
+  });
 
-  // describe("endpoint: Get role by id function", () => {
-  //   it("should be return specific role", async () => {
-  //     expect(await controller.getRoleById(newUserRole.id)).toEqual(newUserRole);
-  //   });
-  // });
+  describe("endpoint: Get role by id function", () => {
+    it("should be return specific role", async () => {
+      expect(await controller.getRoleById(newUserRole.id)).toEqual(newUserRole);
+    });
+  });
 
-  // describe("endpoint: Update role function", () => {
-  //   it("should be return new role", async () => {
-  //     expect(
-  //       await controller.updateRoleById(newUserRole.id, userRoleDto)
-  //     ).toEqual(newUserRole);
-  //   });
-  // });
+  describe("endpoint: Update role function", () => {
+    it("should be return new role", async () => {
+      expect(
+        await controller.updateRoleById(newUserRole.id, userRoleDto)
+      ).toEqual(newUserRole);
+    });
+  });
 
-  // describe("endpoint: Delete role function", () => {
-  //   it("should be return http status 200", async () => {
-  //     expect(await controller.deleteRoleById(1)).toEqual(HttpStatus.OK);
-  //   });
-  // });
+  describe("endpoint: Delete role function", () => {
+    it("should be return http status 200", async () => {
+      expect(await controller.deleteRoleById(1)).toEqual(HttpStatus.OK);
+    });
+  });
 });

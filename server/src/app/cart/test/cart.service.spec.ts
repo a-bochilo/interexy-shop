@@ -39,6 +39,7 @@ describe("CartService", () => {
 
   const mockedCartItemRepo = {
     saveCartItem: jest.fn().mockResolvedValue(cartItemEntity2),
+    createCartItem: jest.fn().mockResolvedValue(cartItemEntity2),
     deleteCartItem: jest.fn().mockResolvedValue({}),
     deleteCartItems: jest.fn().mockResolvedValue({}),
   };

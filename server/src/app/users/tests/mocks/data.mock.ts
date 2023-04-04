@@ -4,15 +4,13 @@ import { UserRoles } from "../../../../shared/types/user-roles.enum";
 
 export const user = {
   id: "23a2cacc-62e8-497c-ab35-34b58af133e6",
-  created: "2023-03-17T09:31:34.416Z",
-  updated: "2023-03-17T09:31:34.416Z",
-  isActive: true,
   email: "test@test.com",
   phone: "+375 29 000 00 00",
-  password: "123123123",
-  roleId: 1,
-  roleType: "user",
-  details_id: "1",
+  created: "2023-03-17T09:31:34.416Z",
+  updated: "2023-03-17T09:31:34.416Z",
+  role_id: undefined,
+  role_type: undefined,
+  isActive: true,
 };
 
 export const userDto = {
@@ -54,9 +52,6 @@ export const dto = {
 };
 
 export const details = {
-  id: "1",
-  created: "2023-03-17T09:31:34.416Z",
-  updated: "2023-03-17T09:31:34.416Z",
   firstname: "testUser",
   lastname: "testUser",
   middlename: "testUser",
@@ -108,7 +103,7 @@ export const userRepositoryFake = {
   updateUserDetails: jest.fn().mockResolvedValue(userWithDetails),
   deleteUserById: jest.fn().mockResolvedValue({ ...user, isActive: false }),
   getUserByEmail: jest.fn().mockResolvedValue(user),
-  getUsersArrayByEmail: jest.fn().mockResolvedValue([user])
+  getUsersArrayByEmail: jest.fn().mockResolvedValue([user]),
 };
 
 export const roleRepositoryFake = {
@@ -128,7 +123,7 @@ export const userViewRepositoryFake = {
 
 export const userDetailsRepositoryFake = {
   createUserDetails: jest.fn().mockResolvedValue(details),
-  deleteDetails: jest.fn().mockResolvedValue(details.id),
+  deleteDetails: jest.fn().mockResolvedValue("1234321"),
   getDetailsById: jest.fn().mockResolvedValue(user.id),
   setDetails: jest.fn().mockResolvedValue(details),
 };

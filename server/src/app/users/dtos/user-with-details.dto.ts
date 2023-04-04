@@ -1,14 +1,11 @@
-// ========================== enums ======================================
-import { UserRoles } from "../../../shared/types/user-roles.enum";
-
 // ========================== entities & dto's ===========================
 import { UserEntity } from "../entities/user.entity";
-
-// ========================== swagger ====================================
-import { ApiProperty, IntersectionType } from "@nestjs/swagger";
 import { UserDetailsDto } from "./user-details.dto";
 import { UserDetailsEntity } from "../entities/user-details.entity";
 import { UserSessionDto } from "./user-session.dto";
+
+// ========================== swagger ====================================
+import { ApiProperty, IntersectionType } from "@nestjs/swagger";
 
 export class UserWithDetailsDto extends IntersectionType(
   UserSessionDto,

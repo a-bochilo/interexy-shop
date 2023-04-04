@@ -2,6 +2,7 @@
 import {
   Column,
   Entity,
+  Index,
   JoinColumn,
   ManyToOne,
   OneToMany,
@@ -32,6 +33,7 @@ export class UserEntity extends UUIDEntity {
     description: "Email",
     required: true,
   })
+  @Index()
   @Column({ name: "email" })
   email!: string;
 
@@ -56,6 +58,7 @@ export class UserEntity extends UUIDEntity {
   roleId: number;
 
   @ApiProperty({ example: "user", description: "Role type", required: true })
+  @Index()
   @Column({ name: "role_type" })
   roleType: UserRoles;
 

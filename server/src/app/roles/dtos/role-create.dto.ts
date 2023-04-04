@@ -9,7 +9,7 @@ import { UserRoles } from "../../../shared/types/user-roles.enum";
 import { ApiProperty } from "@nestjs/swagger";
 
 // ========================== dto's ======================================
-import { IDDto } from "src/shared/dtos/id.dto";
+import { IDDto } from "../../../shared/dtos/id.dto";
 
 export class CreateRoleDto extends IDDto {
   @ApiProperty({

@@ -27,7 +27,8 @@ const theme: Theme = createTheme({
       light: "#4caf50",
     },
     info: {
-      main: "#ffffff",
+      main: "#fff",
+      light: "#ffffff",
     },
     warning: {
       main: "#FDE68A",
@@ -71,6 +72,11 @@ const theme: Theme = createTheme({
         .rdp {
           --rdp-accent-color: #ff3232;
           
+        }
+        input {
+          width: min-content;
+          padding: 0;
+          margin: 0;
         }
         input[type=number]::-webkit-inner-spin-button, 
         input[type=number]::-webkit-outer-spin-button { 
