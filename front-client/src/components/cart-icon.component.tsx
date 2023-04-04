@@ -16,7 +16,7 @@ const CartIconComponent = ({
             fontSize="large"
             sx={{
               cursor: "pointer",
-              color: "white",
+              color: "info.light",
             }}
             onClick={() => navigate("/cart")}
           />

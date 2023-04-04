@@ -37,7 +37,7 @@ import { ICategoriesSelector } from "../app/products/types/products-category.enu
 import { ISettings, SettingsEnum } from "../app/auth/types/settings.enum";
 
 // ========================== store ==========================
-import { clearErrors, logout } from "../app/auth/store/auth.slice";
+import { logout } from "../app/auth/store/auth.slice";
 import { useAppSelector } from "../store";
 import { AppDispatch } from "../store";
 import { cartSelector } from "../app/cart/store/cart.selectors";
@@ -167,11 +167,6 @@ const PageNavBarComp = () => {
             maxWidth="xl"
             sx={{
               display: "flex",
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
               alignItems: "center",
               justifyContent: "space-between",
             }}
@@ -183,9 +178,8 @@ const PageNavBarComp = () => {
               href="/"
               sx={{
                 mr: 2,
-                display: { md: "flex" },
                 fontFamily: "monospace",
-                fontWeight: 700,
+                fontWeight: "bold",
                 letterSpacing: ".3rem",
                 color: "inherit",
                 textDecoration: "none",
