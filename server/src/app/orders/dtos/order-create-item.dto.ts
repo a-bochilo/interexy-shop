@@ -3,8 +3,9 @@ import { ApiProperty } from "@nestjs/swagger";
 
 // ========================== validator ==================================
 import { IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { UUIDDto } from "src/shared/dtos/uuid.dto";
 
-export class createOrderItemDto {
+export class createOrderItemDto extends UUIDDto {
   @ApiProperty({
     example: "12",
     description: "Quantity",

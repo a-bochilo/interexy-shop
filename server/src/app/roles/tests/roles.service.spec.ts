@@ -58,13 +58,13 @@ describe("Roles services", () => {
   describe("method: Create role", () => {
     it("should be return new role", async () => {
       roleRepositoryFake.getRoleByName = jest.fn().mockResolvedValue(false);
-      expect(await service.createRole(userRoleDto)).toEqual(newUserRole);
+      expect(await service.createRole(newUserRole)).toEqual(newUserRole);
     });
 
     it("should be return error: Role does not exist", async () => {
       roleRepositoryFake.getRoleByName = jest.fn().mockResolvedValue(true);
       try {
-        await service.createRole(userRoleDto);
+        await service.createRole(newUserRole);
       } catch (error) {
         expect(error).toBeInstanceOf(HttpException);
       }

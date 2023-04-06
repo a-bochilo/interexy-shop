@@ -2,12 +2,15 @@
 import { Test, TestingModule } from "@nestjs/testing";
 
 // ========================== services & controllers ====================
-import { UserController } from "../user.controller";
-import { UserService } from "../user.service";
+import { UsersController } from "../user.controller";
+import { UsersService } from "../user.service";
 
 // ============================== guards ================================
 import { RolesGuard } from "../../security/guards/roles.guard";
 import { JwtAuthGuard } from "../../security/guards/jwt-auth.guard";
+//  ● User controller › endpoint: Get user profile by id › should be return specific user details
+// ● User controller › endpoint: Update user profile › should be return user with changed detais
+// ● User controller › endpoint: Delete user by id › should be return user with changed field isActive=false
 
 // ============================== mocks =================================
 import {
@@ -21,14 +24,14 @@ import {
 } from "./mocks/data.mock";
 
 describe("User controller", () => {
-  let controller: UserController;
+  let controller: UsersController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [UserController],
-      providers: [UserService],
+      controllers: [UsersController],
+      providers: [UsersService],
     })
-      .overrideProvider(UserService)
+      .overrideProvider(UsersService)
       .useValue(mockedServices)
 
       .overrideGuard(RolesGuard)
@@ -39,7 +42,7 @@ describe("User controller", () => {
 
       .compile();
 
-    controller = module.get<UserController>(UserController);
+    controller = module.get<UsersController>(UsersController);
   });
 
   it("should be defined", () => {
@@ -77,6 +80,7 @@ describe("User controller", () => {
 
   describe("endpoint: Delete user by id", () => {
     it("should be return user with changed field isActive=false", async () => {
+      console.log(await controller.deleteUserById(user.id));
       expect(await controller.deleteUserById(user.id)).toEqual({
         ...user,
         isActive: false,

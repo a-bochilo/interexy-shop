@@ -28,12 +28,12 @@ import { OrderDto } from "./dtos/order.dto";
 import { OrderItemDto } from "./dtos/order-item.dto";
 
 // ========================== services & controllers ====================
-import { OrderService } from "./order.service";
+import { OrdersService } from "./order.service";
 
-@ApiTags("Order controller")
+@ApiTags("Orders controller")
 @Controller("orders")
-export class OrderController {
-  constructor(private readonly orderService: OrderService) {}
+export class OrdersController {
+  constructor(private readonly orderService: OrdersService) {}
 
   @Post()
   @AuthPermissionsGuard(UserPermissions.createOrder)
@@ -62,8 +62,9 @@ export class OrderController {
     isArray: true,
   })
   @UsePipes(new ValidationPipe())
-  async getProfileOrders(@User() user: UserSessionDto): Promise<OrderEntity[]> {
-    return await this.orderService.getOrdersByUserId(user.id);
+  async getProfileOrders(@User() user: UserSessionDto): Promise<OrderDto[]> {
+    const orders = await this.orderService.getOrdersByUserId(user.id);
+    return await orders.map((orders) => OrderDto.fromEntity(orders));
   }
 
   @Get()
@@ -76,8 +77,9 @@ export class OrderController {
     isArray: true,
   })
   @UsePipes(new ValidationPipe())
-  async getAllOrders(): Promise<OrderEntity[]> {
-    return await this.orderService.getAllOrders();
+  async getAllOrders(): Promise<OrderDto[]> {
+    const orders = await this.orderService.getAllOrders();
+    return await orders.map((orders) => OrderDto.fromEntity(orders));
   }
 
   @Get(":userId")
@@ -92,8 +94,9 @@ export class OrderController {
   @UsePipes(new ValidationPipe())
   async getOrdersByUserId(
     @Param("userId") userId: string
-  ): Promise<OrderEntity[]> {
-    return await this.orderService.getOrdersByUserId(userId);
+  ): Promise<OrderDto[]> {
+    const orders = await this.orderService.getOrdersByUserId(userId);
+    return await orders.map((orders) => OrderDto.fromEntity(orders));
   }
 
   @Get("items/:orderId")
@@ -109,6 +112,7 @@ export class OrderController {
   async getOrderItemByOrderId(
     @Param("orderId") orderId: string
   ): Promise<OrderItemDto[]> {
-    return await this.orderService.getOrderItemByOrderId(orderId);
+    const ordersItems = await this.orderService.getOrderItemByOrderId(orderId);
+    return await ordersItems.map((orders) => OrderItemDto.fromEntity(orders));
   }
 }

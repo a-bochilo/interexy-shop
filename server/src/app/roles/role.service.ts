@@ -70,7 +70,7 @@ export class RoleService {
     return role;
   }
 
-  async deleteRole(id: number): Promise<HttpStatus> {
+  async deleteRole(id: number): Promise<RoleEntity> {
     const role = await this.roleRepository.getById(id);
 
     if (role.type === UserRoles.superadmin) {
@@ -81,7 +81,7 @@ export class RoleService {
     }
 
     if (await this.roleRepository.deleteRole(id)) {
-      return HttpStatus.OK;
+      return role;
     } else {
       throw new HttpException(
         `${I18nContext.current().t("errors.roles.roleDoesNotExist")}: '${id}'`,
@@ -123,7 +123,7 @@ export class RoleService {
         HttpStatus.NOT_FOUND
       );
     }
-    //==== If current role id === id in role in database, and role name is unique => update current role =======
+    //==== If current role id === id in role in database and role name is unique => update current role =======
 
     Object.assign(role, createRoleDto);
     role.updated = new Date();

@@ -56,6 +56,7 @@ export class UserSessionDto extends UUIDDto {
   @IsNotEmpty()
   @IsString()
   isActive: boolean;
+  password?: string;
 
   public static fromEntity(entity: UserEntity | UserViewEntity) {
     return {

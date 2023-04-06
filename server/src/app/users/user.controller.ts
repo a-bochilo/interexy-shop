@@ -26,17 +26,18 @@ import { AssignUserRoleDto } from "./dtos/user-assigne-role.dto";
 import { UserDetailsEntity } from "./entities/user-details.entity";
 import { UserSessionDto } from "./dtos/user-session.dto";
 import { UpdateUserDto } from "./dtos/user-update.dto";
+import { UserDetailsDto } from "./dtos/user-details.dto";
 
 // ========================== enums =====================================
 import { UserPermissions } from "../../shared/types/user-permissions.enum";
 
 // ========================== services & controllers ====================
-import { UserService } from "./user.service";
+import { UsersService } from "./user.service";
 
 @ApiTags("Users controller")
 @Controller("users")
-export class UserController {
-  constructor(private readonly userService: UserService) {}
+export class UsersController {
+  constructor(private readonly userService: UsersService) {}
 
   //=============================== get all users ===============================================
   @Get("")
@@ -53,8 +54,7 @@ export class UserController {
     @Query("isActive") isActive: boolean
   ): Promise<UserSessionDto[]> {
     const usersFromDB = await this.userService.getAllUsers(isActive);
-    const res = usersFromDB.map((user) => UserSessionDto.fromEntity(user));
-    return res;
+    return await usersFromDB.map((user) => UserSessionDto.fromEntity(user));
   }
 
   //=============================== the user can get his profile ==================================
@@ -68,10 +68,9 @@ export class UserController {
     isArray: false,
   })
   @UsePipes(new ValidationPipe())
-  async getUserProfile(
-    @User() user: UserSessionDto
-  ): Promise<UserDetailsEntity> {
-    return await this.userService.getDetailsById(user.id);
+  async getUserProfile(@User() user: UserSessionDto): Promise<UserDetailsDto> {
+    const detailsFromDB = await this.userService.getDetailsById(user.id);
+    return await UserDetailsDto.fromEntity(detailsFromDB);
   }
 
   //=============================== the user can update his profile ==================================
@@ -88,8 +87,9 @@ export class UserController {
   async updateUserProfile(
     @Body() info: UpdateUserDto,
     @User() user: UserSessionDto
-  ): Promise<UserEntity> {
-    return await this.userService.updateUserDetails(info, user.id);
+  ): Promise<UserSessionDto> {
+    const userFromDB = await this.userService.updateUserDetails(info, user.id);
+    return await UserSessionDto.fromEntity(userFromDB);
   }
 
   //=============================== admin can get current user profile =================================
@@ -103,10 +103,9 @@ export class UserController {
     isArray: false,
   })
   @UsePipes(new ValidationPipe())
-  async getUserById(
-    @Param("userId") userId: string
-  ): Promise<UserDetailsEntity> {
-    return await this.userService.getDetailsById(userId);
+  async getUserById(@Param("userId") userId: string): Promise<UserDetailsDto> {
+    const detailsFromDB = await this.userService.getDetailsById(userId);
+    return await UserDetailsDto.fromEntity(detailsFromDB);
   }
 
   //=============================== admin can update current user profile =================================
@@ -123,8 +122,9 @@ export class UserController {
   async updateDetails(
     @Body() info: UpdateUserDto,
     @Param("userId") userId: string
-  ): Promise<UserEntity> {
-    return await this.userService.updateUserDetails(info, userId);
+  ): Promise<UserSessionDto> {
+    const userFromDB = await this.userService.updateUserDetails(info, userId);
+    return await UserSessionDto.fromEntity(userFromDB);
   }
 
   //=============================== admin can delete current user ==========================================
@@ -134,12 +134,15 @@ export class UserController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: "HttpStatus:200:OK",
-    type: UserEntity,
+    type: UserSessionDto,
     isArray: false,
   })
   @UsePipes(new ValidationPipe())
-  async deleteUserById(@Param("userId") userId: string): Promise<UserEntity> {
-    return await this.userService.deleteUserById(userId);
+  async deleteUserById(
+    @Param("userId") userId: string
+  ): Promise<UserSessionDto> {
+    const userFromDB = await this.userService.deleteUserById(userId);
+    return await UserSessionDto.fromEntity(userFromDB);
   }
 
   //=============================== admin can assign role for current user ===================================
@@ -149,14 +152,18 @@ export class UserController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: "HttpStatus:200:OK",
-    type: UserEntity,
+    type: UserSessionDto,
     isArray: false,
   })
   @UsePipes(new ValidationPipe())
   async assignRoleById(
     @Body() assignUserRoleDto: AssignUserRoleDto,
     @Param("userId") userId: string
-  ): Promise<UserEntity> {
-    return await this.userService.assignUserRole(assignUserRoleDto, userId);
+  ): Promise<UserSessionDto> {
+    const userFromDB = await this.userService.assignUserRole(
+      assignUserRoleDto,
+      userId
+    );
+    return await UserSessionDto.fromEntity(userFromDB);
   }
 }

@@ -20,8 +20,8 @@ import { OrderRepository } from "./repos/order.repository";
 import { ProductsRepository } from "../products/repos/products.repository";
 
 // ========================== services & controllers ====================
-import { OrderService } from "./order.service";
-import { OrderController } from "./order.controller";
+import { OrdersService } from "./order.service";
+import { OrdersController } from "./order.controller";
 
 // ========================== modules ===================================
 import { SecurityModule } from "../security/security.module";
@@ -44,14 +44,14 @@ import { OrderItemRepository } from "./repos/order-item.repository";
     ]),
     SecurityModule,
   ],
-  controllers: [OrderController],
+  controllers: [OrdersController],
   providers: [
     UserRepository,
     ProductsRepository,
     OrderRepository,
     OrderItemRepository,
-    OrderService,
+    OrdersService,
   ],
-  exports: [OrderService],
+  exports: [OrdersService],
 })
 export class OrderModule {}

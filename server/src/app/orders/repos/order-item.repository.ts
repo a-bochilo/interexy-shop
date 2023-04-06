@@ -26,7 +26,7 @@ export class OrderItemRepository extends Repository<OrderItemEntity> {
     return await this.save(orderItem);
   }
 
-  async getOrdersById(orderId: string): Promise<OrderItemDto[]> {
+  async getOrdersById(orderId: string): Promise<OrderItemEntity[]> {
     return await this.find({ where: { order_id: orderId } });
   }
 }

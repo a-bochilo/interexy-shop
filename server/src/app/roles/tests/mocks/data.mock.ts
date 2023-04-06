@@ -9,21 +9,27 @@ const date = new Date();
 
 export const newUserRole = {
   id: 1,
-  created: date,
-  updated: date,
-  type: "user",
+  created: 2023,
+  updated: 2023,
+  type: UserRoles.user,
   name: "user",
-  permissions: ["all"],
+  permissions: [UserPermissions.all],
 };
 
 export const userRoleDto = {
+  id: 1,
+  created: 2023,
+  updated: 2023,
   name: "user",
   type: UserRoles.user,
   permissions: [UserPermissions.all],
 };
 
 export const superadminRoleDto = {
-  name: "user",
+  id: 1,
+  created: 2023,
+  updated: 2023,
+  name: "superadmin",
   type: UserRoles.superadmin,
   permissions: [UserPermissions.all],
 };
@@ -36,7 +42,7 @@ export const roleRepositoryFake = {
   deleteRole: jest.fn().mockResolvedValue(HttpStatus.OK),
   updateRole: jest.fn().mockResolvedValue(newUserRole),
   getRoleByName: jest.fn().mockResolvedValue(false),
-  getRolesByName: jest.fn().mockResolvedValue([newUserRole])
+  getRolesByName: jest.fn().mockResolvedValue([newUserRole]),
 };
 
 export const mockedServices = {
